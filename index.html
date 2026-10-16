@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciador de Relatórios de Obras GRE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              dark: '#0b111e',
+              panel: '#111b2d',
+              card: '#16233b',
+              cardBorder: '#23385d',
+              accent: '#3b82f6',
+              amber: '#f59e0b',
+              whatsapp: '#25D366',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Custom scrollbar for better aesthetics */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b111e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23385d;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b82f6;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.85);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
+
+  <!-- Toast Notification -->
+  <div id="copyToast" class="fixed top-5 right-5 z-50 flex items-center gap-3 bg-emerald-600 text-white px-5 py-3 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform -translate-y-2">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+    </svg>
+    <span class="text-sm font-semibold">Texto copiado para o WhatsApp com sucesso!</span>
+  </div>
+
+  <header class="border-b border-brand-cardBorder/80 bg-brand-panel/90 backdrop-blur-md sticky top-0 z-40 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-brand-dark font-extrabold text-xl shadow-lg shadow-amber-500/20">
+          🏗️
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+            Relatório de Obras GRE
+            <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30">SEDUC-PI</span>
+          </h1>
+          <p class="text-xs text-slate-400">Edição com persistência e gerador WhatsApp</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-brand-dark/80 border border-brand-cardBorder text-xs text-slate-300">
+          <span id="saveBadgeDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="saveBadgeText" class="text-emerald-400 font-medium">Salvo automaticamente</span>
+        </div>
+        <button id="quickCopyBtn" onclick="copyWhatsAppText()" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/25 active:scale-95 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+          </svg>
+          <span id="quickCopyText">Copiar para WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+    
+    <!-- Left Column: Interactive Cards & Search -->
+    <section class="lg:col-span-7 flex flex-col gap-5">
+      
+      <!-- Filter and Search Bar -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <!-- GRE Filter Tabs -->
+        <div class="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+          <button onclick="setFilter('TODAS')" id="filter-TODAS" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-accent text-white shadow-md transition-all">
+            Todas (<span id="count-TODAS">0</span>)
+          </button>
+          <button onclick="setFilter('8ª GRE')" id="filter-8ª GRE" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder transition-all">
+            8ª GRE (Oeiras) (<span id="count-8">0</span>)
+          </button>
+          <button onclick="setFilter('15ª GRE')" id="filter-15ª GRE" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder transition-all">
+            15ª GRE (Corrente) (<span id="count-15">0</span>)
+          </button>
+        </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full sm:w-64">
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Buscar escola ou município..." 
+            oninput="handleSearch(this.value)"
+            class="w-full bg-brand-dark/90 border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent transition-colors"
+          />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-2.5 top-2 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <div id="cardsList" class="flex flex-col gap-4">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <section class="lg:col-span-5 flex flex-col gap-4 sticky top-20 self-start">
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl flex flex-col overflow-hidden shadow-2xl">
+        <div class="bg-brand-card/90 px-4 py-3 border-b border-brand-cardBorder flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
+            <span class="text-xs font-bold text-slate-200 tracking-wide uppercase">Mensagem formatada para WhatsApp</span>
+          </div>
+          <button onclick="copyWhatsAppText()" class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 text-xs font-semibold transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+              <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+            </svg>
+            <span id="previewCopyLabel">Copiar</span>
+          </button>
+        </div>
+
+        <div class="p-4 bg-[#0a101d] max-h-[70vh] overflow-y-auto">
+          <pre id="whatsAppOutput" class="font-mono text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre-wrap select-all selection:bg-emerald-600/40 selection:text-white"></pre>
+        </div>
+
+        <div class="px-4 py-3 border-t border-brand-cardBorder/60 bg-brand-dark/60 text-[11px] text-slate-400 flex items-center justify-between">
+          <span class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span id="saveStatusIndicator" class="text-emerald-400 font-medium">Dados protegidos no navegador</span>
+          </span>
+          <button onclick="openResetModal()" class="text-slate-400 hover:text-amber-400 underline transition-colors">
+            Restaurar originais
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reset Confirmation Modal -->
+  <div id="resetModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-sm w-full p-5 shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold">
+          ⚠️
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">Restaurar dados padrão?</h3>
+          <p class="text-xs text-slate-400 mt-1">Todas as alterações de datas e status serão revertidas para os valores originais da planilha.</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-brand-cardBorder">
+        <button onclick="closeResetModal()" class="px-3.5 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white transition-colors">
+          Cancelar
+        </button>
+        <button onclick="confirmReset()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white transition-colors shadow-md shadow-rose-900/30">
+          Sim, restaurar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initial dataset loaded strictly from the user's PDF sheet (GRUPO OBRAS ct.pdf)
+    const INITIAL_DATA = [
+      {
+        id: "oeiras-1",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI ORLANDO CARVALHO",
+        municipio: "OEIRAS",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "13/09/2026"
+      },
+      {
+        id: "oeiras-2",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI ARMANDO BURLAMAQUI",
+        municipio: "OEIRAS",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "A INICIAR",
+        situacao: "A INICIAR",
+        termino: "15/09/2026"
+      },
+      {
+        id: "oeiras-3",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI FARMACÊUTICO JOÃO CARVALHO",
+        municipio: "OEIRAS",
+        construtora: "MONTE CLARO CONSTRUÇÕES LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "08/10/2026"
+      },
+      {
+        id: "oeiras-4",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI SÃO JOÃO BATISTA",
+        municipio: "SÃO JOÃO DA VARJOTA",
+        construtora: "MONTE CLARO CONSTRUÇÕES LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "24/09/2026"
+      },
+      {
+        id: "oeiras-5",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CEJA NOGUEIRA TAPETY",
+        municipio: "OEIRAS",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "26/10/2026"
+      },
+      {
+        id: "oeiras-6",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI JOÃO DE SOUSA MOURA",
+        municipio: "SANTO INÁCIO DO PIAUÍ",
+        construtora: "MONTE CLARO CONSTRUÇÕES LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "29/09/2026"
+      },
+      {
+        id: "oeiras-7",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "SEDE GRE",
+        municipio: "OEIRAS",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "10/08/2026"
+      },
+      {
+        id: "oeiras-8",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "CETI ORLANDO CARVALHO (CT 050/2024)",
+        municipio: "OEIRAS",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "10/08/2026"
+      },
+      {
+        id: "corrente-1",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI PROF LOURENÇO FILHO",
+        municipio: "SANTA FILOMENA",
+        construtora: "ASSERTIVA",
+        status: "A INICIAR",
+        situacao: "A INICIAR",
+        termino: "14/10/2026"
+      },
+      {
+        id: "corrente-2",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI PETRÔNIO PORTELA",
+        municipio: "MONTE ALEGRE DO PIAUÍ",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "14/10/2026"
+      },
+      {
+        id: "corrente-3",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI FAUSTO LUSTOSA",
+        municipio: "GILBUÉS",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "15/10/2026"
+      },
+      {
+        id: "corrente-4",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI LUSTOSA SOBRINHO",
+        municipio: "GILBUÉS",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "16/10/2026"
+      },
+      {
+        id: "corrente-5",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI JOAQUIM ANTÔNIO LUSTOSA",
+        municipio: "CORRENTE",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "09/10/2026"
+      },
+      {
+        id: "corrente-6",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CEJA JOAQUIM DIAS PARENTE",
+        municipio: "BARREIRAS DO PIAUÍ",
+        construtora: "DESENVOLVA EMPREENDIMENTOS",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "13/10/2026"
+      },
+      {
+        id: "corrente-7",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CEJA SENADOR CHAGAS RODRIGUES",
+        municipio: "MONTE ALEGRE DO PIAUÍ",
+        construtora: "ASSERTIVA",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "27/09/2026"
+      },
+      {
+        id: "corrente-8",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI HUGO NAPOLEÃO",
+        municipio: "MONTE ALEGRE DO PIAUÍ",
+        construtora: "ASSERTIVA",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "27/09/2026"
+      },
+      {
+        id: "corrente-9",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "CETI ANTONIO MASCARENHAS",
+        municipio: "RIACHO FRIO",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "PARADA",
+        termino: "22/11/2026"
+      }
+    ];
+
+    const STORAGE_KEY = 'seduc_obras_gre_ct_data_v2';
+
+    // Loads persisted user modifications or initializes default dataset
+    function loadPersistedData() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const savedMap = new Map(parsed.map(item => [item.id, item]));
+            return INITIAL_DATA.map(initItem => {
+              const userItem = savedMap.get(initItem.id);
+              return userItem ? { ...initItem, ...userItem } : initItem;
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('LocalStorage indisponível:', e);
+      }
+      return JSON.parse(JSON.stringify(INITIAL_DATA));
+    }
+
+    // Persists state to localStorage
+    function persistData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(worksData));
+        showSavedIndicator();
+      } catch (e) {
+        console.warn('Erro ao gravar no localStorage:', e);
+      }
+    }
+
+    let worksData = loadPersistedData();
+    let activeFilter = 'TODAS';
+    let searchQuery = '';
+
+    function showSavedIndicator() {
+      const dot = document.getElementById('saveBadgeDot');
+      const text = document.getElementById('saveBadgeText');
+      const footer = document.getElementById('saveStatusIndicator');
+      if (text) text.textContent = 'Salvo automaticamente';
+      if (footer) footer.textContent = 'Dados protegidos no navegador';
+    }
+
+    // Convert DD/MM/AAAA to YYYY-MM-DD
+    function dmaToYmd(dma) {
+      if (!dma || dma === 'A DEFINIR') return '';
+      const parts = dma.split('/');
+      if (parts.length === 3) {
+        const d = parts[0].padStart(2, '0');
+        const m = parts[1].padStart(2, '0');
+        const y = parts[2];
+        return `${y}-${m}-${d}`;
+      }
+      return '';
+    }
+
+    // Convert YYYY-MM-DD to DD/MM/AAAA
+    function ymdToDma(ymd) {
+      if (!ymd) return 'A DEFINIR';
+      const parts = ymd.split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return 'A DEFINIR';
+    }
+
+    function onDateSelected(id, ymdValue) {
+      const formatted = ymdToDma(ymdValue);
+      updateField(id, 'termino', formatted);
+      renderCards();
+    }
+
+    function setDateIndefinida(id) {
+      updateField(id, 'termino', 'A DEFINIR');
+      renderCards();
+    }
+
+    function updateField(id, field, value) {
+      const item = worksData.find(w => w.id === id);
+      if (item) {
+        item[field] = value.toUpperCase().trim();
+        persistData();
+        updateWhatsAppOutput();
+      }
+    }
+
+    function generateWhatsAppMessage() {
+      const gres = [
+        { key: "8ª GRE", header: "*8ª GRE – OEIRAS*" },
+        { key: "15ª GRE", header: "*15ª GRE – CORRENTE*" }
+      ];
+
+      let blocks = [];
+
+      gres.forEach(g => {
+        const schools = worksData.filter(w => w.greKey === g.key);
+        if (schools.length > 0) {
+          let section = `${g.header}\n\n`;
+          const schoolEntries = schools.map(s => {
+            return `ESCOLA: ${s.escola}\n` +
+                   `MUNICÍPIO: ${s.municipio}\n` +
+                   `CONSTRUTORA: ${s.construtora}\n` +
+                   `🔹 STATUS: ${s.status}\n` +
+                   `SITUAÇÃO: ${s.situacao}\n` +
+                   `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
+          });
+          section += schoolEntries.join('\n\n');
+          blocks.push(section);
+        }
+      });
+
+      return blocks.join('\n\n---\n\n');
+    }
+
+    function updateWhatsAppOutput() {
+      const out = document.getElementById('whatsAppOutput');
+      if (out) {
+        out.textContent = generateWhatsAppMessage();
+      }
+    }
+
+    function getStatusBadge(status) {
+      if (status === 'EM EXECUÇÃO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM EXECUÇÃO</span>`;
+      } else if (status === 'A INICIAR') {
+        return `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold">A INICIAR</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">${status}</span>`;
+    }
+
+    function getSituacaoBadge(sit) {
+      if (sit === 'PARADA') {
+        return `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold">PARADA</span>`;
+      } else if (sit === 'RITMO LENTO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-[10px] font-bold">RITMO LENTO</span>`;
+      } else if (sit === 'EM ANDAMENTO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM ANDAMENTO</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${sit}</span>`;
+    }
+
+    function renderCards() {
+      const list = document.getElementById('cardsList');
+      if (!list) return;
+
+      const filtered = worksData.filter(item => {
+        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter);
+        const matchesSearch = !searchQuery || 
+          item.escola.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          item.municipio.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.construtora.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesGre && matchesSearch;
+      });
+
+      // Update counters
+      document.getElementById('count-TODAS').textContent = worksData.length;
+      document.getElementById('count-8').textContent = worksData.filter(w => w.greKey === '8ª GRE').length;
+      document.getElementById('count-15').textContent = worksData.filter(w => w.greKey === '15ª GRE').length;
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center text-slate-400 text-sm">
+            Nenhuma obra encontrada para o filtro atual.
+          </div>
+        `;
+        updateWhatsAppOutput();
+        return;
+      }
+
+      list.innerHTML = filtered.map(item => {
+        const ymd = dmaToYmd(item.termino);
+        const isDefinido = item.termino !== 'A DEFINIR';
+
+        return `
+          <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-lg transition-all hover:border-slate-500/50">
+            
+            <!-- Header do Card -->
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400/90">${item.gre}</span>
+                <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
+                <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+                  <span class="text-slate-300 font-medium">📍 ${item.municipio}</span>
+                  <span class="text-slate-600">•</span>
+                  <span class="text-slate-400">Construtora: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
+                </p>
+              </div>
+              <div class="flex flex-col items-end gap-1.5 shrink-0">
+                ${getStatusBadge(item.status)}
+                ${getSituacaoBadge(item.situacao)}
+              </div>
+            </div>
+
+            <!-- Controles Interativos -->
+            <div class="pt-3 border-t border-brand-cardBorder/60 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+              
+              <!-- Seletor de Status -->
+              <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Status da Obra</label>
+                <select 
+                  onchange="updateField('${item.id}', 'status', this.value); renderCards();"
+                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
+                >
+                  <option value="EM EXECUÇÃO" ${item.status === 'EM EXECUÇÃO' ? 'selected' : ''}>EM EXECUÇÃO</option>
+                  <option value="A INICIAR" ${item.status === 'A INICIAR' ? 'selected' : ''}>A INICIAR</option>
+                  <option value="CONCLUÍDO" ${item.status === 'CONCLUÍDO' ? 'selected' : ''}>CONCLUÍDO</option>
+                </select>
+              </div>
+
+              <!-- Seletor de Situação -->
+              <div>
+                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Situação Diária</label>
+                <select 
+                  onchange="updateField('${item.id}', 'situacao', this.value); renderCards();"
+                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
+                >
+                  <option value="PARADA" ${item.situacao === 'PARADA' ? 'selected' : ''}>PARADA</option>
+                  <option value="RITMO LENTO" ${item.situacao === 'RITMO LENTO' ? 'selected' : ''}>RITMO LENTO</option>
+                  <option value="EM ANDAMENTO" ${item.situacao === 'EM ANDAMENTO' ? 'selected' : ''}>EM ANDAMENTO</option>
+                  <option value="A INICIAR" ${item.situacao === 'A INICIAR' ? 'selected' : ''}>A INICIAR</option>
+                </select>
+              </div>
+
+              <!-- Seletor de Data Interativo (Calendário) -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-[10px] uppercase font-bold text-amber-400">📅 Término / Previsão</label>
+                  <button 
+                    onclick="setDateIndefinida('${item.id}')"
+                    class="text-[10px] text-slate-400 hover:text-amber-400 underline transition-colors"
+                    title="Definir data como A DEFINIR"
+                  >
+                    Indefinir
+                  </button>
+                </div>
+                <div class="flex items-center gap-2 bg-brand-dark border border-amber-500/40 rounded-xl px-2 py-1 focus-within:border-amber-400">
+                  <span class="text-xs font-mono font-bold text-amber-300 min-w-[76px]">
+                    ${item.termino}
+                  </span>
+                  <input 
+                    type="date" 
+                    value="${ymd}"
+                    onchange="onDateSelected('${item.id}', this.value)"
+                    class="bg-transparent text-xs text-white border-0 outline-none w-full cursor-pointer"
+                    title="Clique para escolher no calendário"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      }).join('');
+
+      updateWhatsAppOutput();
+    }
+
+    function setFilter(greKey) {
+      activeFilter = greKey;
+      document.querySelectorAll('.filter-tab').forEach(btn => {
+        btn.classList.remove('bg-brand-accent', 'text-white', 'shadow-md');
+        btn.classList.add('bg-brand-card', 'text-slate-300', 'border', 'border-brand-cardBorder');
+      });
+
+      const activeBtn = document.getElementById(`filter-${greKey}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-brand-accent', 'text-white', 'shadow-md');
+        activeBtn.classList.remove('bg-brand-card', 'text-slate-300');
+      }
+
+      renderCards();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      renderCards();
+    }
+
+    // Copy formatted WhatsApp message
+    function copyWhatsAppText() {
+      const text = generateWhatsAppMessage();
+      
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        document.execCommand('copy');
+        showToast();
+      } catch (err) {
+        console.warn('Falha na cópia via execCommand:', err);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    function showToast() {
+      const toast = document.getElementById('copyToast');
+      const quickBtn = document.getElementById('quickCopyText');
+      const previewLabel = document.getElementById('previewCopyLabel');
+
+      if (toast) {
+        toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+      }
+
+      if (quickBtn) quickBtn.textContent = "✓ Copiado!";
+      if (previewLabel) previewLabel.textContent = "✓ Copiado!";
+
+      setTimeout(() => {
+        if (toast) {
+          toast.classList.remove('opacity-100', 'translate-y-0');
+          toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+        }
+        if (quickBtn) quickBtn.textContent = "Copiar para WhatsApp";
+        if (previewLabel) previewLabel.textContent = "Copiar";
+      }, 2500);
+    }
+
+    // Modal helpers (without alert or confirm)
+    function openResetModal() {
+      const modal = document.getElementById('resetModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeResetModal() {
+      const modal = document.getElementById('resetModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function confirmReset() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        console.warn(e);
+      }
+      worksData = JSON.parse(JSON.stringify(INITIAL_DATA));
+      closeResetModal();
+      renderCards();
+    }
+
+    window.onload = function() {
+      renderCards();
+      showSavedIndicator();
+    };
+  </script>
+</body>
+</html>
