@@ -1056,13 +1056,18 @@
               return;
             }
 
-            // Identificar se a linha 0 tem o cabeçalho e achar a coluna GRE
+            // Identificar se a linha 0 tem o cabeçalho e achar a coluna GRE e Status
             const headerRow = rawRows[0] || [];
             let colGreIndex = -1;
+            let colContractsStatusIndex = -1;
+
             headerRow.forEach((val, idx) => {
               const norm = normalizeHeaderName(val);
               if (norm === 'gre') {
                 colGreIndex = idx;
+              }
+              if (norm === 'status' || norm === 'status obra' || norm === 'status da obra') {
+                colContractsStatusIndex = idx;
               }
             });
             if (colGreIndex === -1) {
@@ -1094,23 +1099,31 @@
               if (isContracts) {
                 // ==========================================
                 // MAPEAMENTO EXATO: OBRAS DE CONTRATOS
-                // H (7): Escola
+                // H (7): Escola (Nome Entidade)
                 // I (8): Município
-                // O (14): Empresa
+                // O (14): Empresa (Construtora)
                 // Q (16): Término / Previsão
-                // R (17): Status
+                // R (17): Status da Obra (Em Execução, A Iniciar, Concluída, Cancelada, Aguardando Saldo, etc.)
                 // S (18): Situação (Status Diários)
                 // ==========================================
                 escola = getCell(r, 7);
                 municipio = getCell(r, 8);
                 construtora = getCell(r, 14);
                 termino = formatRawDateToDma(getCell(r, 16));
+                
+                // Puxa estritamente da Coluna R (índice 17 da planilha)
                 status = getCell(r, 17);
+                if (!status && colContractsStatusIndex !== -1) {
+                  status = getCell(r, colContractsStatusIndex);
+                }
+
                 situacao = getCell(r, 18);
 
                 // Detecta se é a linha de cabeçalho
                 const normEscola = normalizeHeaderName(escola);
                 if (normEscola.includes('entidade') || normEscola.includes('escola') || normEscola === 'h') return;
+                const normStatus = normalizeHeaderName(status);
+                if (normStatus === 'status' || normStatus === 'r') return;
 
               } else {
                 // ==========================================
@@ -1157,7 +1170,10 @@
                 }
               }
 
-              const greKey = normalizeGreKey(rawGre) || '8ª GRE';
+              // Se vier vazio na coluna R, marca como NÃO INFORMADO para não forçar erroneamente
+              const resolvedStatus = status 
+                ? status.toUpperCase().trim() 
+                : (isContracts ? 'NÃO INFORMADO' : 'EM EXECUÇÃO');
 
               parsed.push({
                 id: `${prefix}-${rowIdx}-${Date.now().toString(36)}`,
@@ -1166,7 +1182,7 @@
                 escola: escola.toUpperCase().trim(),
                 municipio: (municipio || 'MUNICÍPIO').toUpperCase().trim(),
                 construtora: (construtora || 'A DEFINIR').toUpperCase().trim(),
-                status: (status || 'EM EXECUÇÃO').toUpperCase().trim(),
+                status: resolvedStatus,
                 situacao: (situacao || 'EM ANDAMENTO').toUpperCase().trim(),
                 termino: (termino || 'A DEFINIR').toUpperCase().trim(),
                 objeto: objeto ? objeto.trim() : '',
