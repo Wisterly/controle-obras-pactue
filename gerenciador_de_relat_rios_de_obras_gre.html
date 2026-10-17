@@ -1470,6 +1470,50 @@
     // =========================================================================
     const INITIAL_CONTRACTS_DATA = [
       {
+        id: "ct-parnaiba-abobora",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        escola: "012399 - ESCOLA ABÓBORA",
+        municipio: "ILHA GRANDE / PARNAÍBA",
+        construtora: "CONSTRUTORA NORTE PIAUÍ",
+        status: "EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "30/11/2026"
+      },
+      {
+        id: "ct-parnaiba-1",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        escola: "012345 - CETI MARIA MELO",
+        municipio: "BATALHA",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "31/10/2026"
+      },
+      {
+        id: "ct-parnaiba-2",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        escola: "012480 - CETI CLÓVIS SALGADO",
+        municipio: "PARNAÍBA",
+        construtora: "F E L CONSTRUTORA LTDA",
+        status: "EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "15/12/2026"
+      },
+      {
+        id: "ct-parnaiba-3",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        escola: "012555 - UNIDADE ESCOLAR SÃO SEBASTIÃO",
+        municipio: "PARNAÍBA",
+        construtora: "CONSTRUTORA IMPACTO",
+        status: "A INICIAR",
+        situacao: "A INICIAR",
+        termino: "28/02/2027"
+      },
+      {
         id: "ct-oeiras-1",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
@@ -2092,6 +2136,11 @@
                 item.status = normalizeWorkStatus(item.status);
               }
               return item;
+            }).filter(item => {
+              if (key === 'seduc_projetos_items_data') {
+                return !String(item.id || '').includes('abobora');
+              }
+              return true;
             });
           }
         }
@@ -2335,6 +2384,21 @@
         }
       });
 
+      // 3. Extrai do acervo de fotos cadastradas
+      fotosData.forEach(f => {
+        if (greKey === 'TODAS' || normalizeGreKey(f.greKey) === normGre) {
+          const rawName = (f.escola || '').trim().toUpperCase();
+          const cleanName = extractCleanSchoolName(rawName);
+          if (cleanName && !map.has(cleanName)) {
+            map.set(cleanName, {
+              nome: cleanName,
+              municipio: (f.municipio || 'MUNICÍPIO').toUpperCase(),
+              greKey: f.greKey || greKey
+            });
+          }
+        }
+      });
+
       return Array.from(map.values()).sort((a, b) => a.nome.localeCompare(b.nome));
     }
 
@@ -2346,7 +2410,11 @@
         const matchGre = (greKey === 'TODAS') || (normalizeGreKey(p.greKey) === normGre);
         const matchSchool = extractCleanSchoolName(p.escola).toUpperCase() === cleanSchool;
         const matchDisc = !discipline || discipline === 'TODAS' || p.disciplina === discipline;
-        return matchGre && matchSchool && matchDisc;
+        // Filtro estrito: apenas documentos que NÃO sejam formato de imagem
+        const isImage = (p.url && /\.(png|jpe?g|webp|gif|svg)$/i.test(p.url)) || 
+                        (p.formato && /image/i.test(p.formato)) ||
+                        (p.titulo && /\.(png|jpe?g|webp|gif|svg)$/i.test(p.titulo));
+        return matchGre && matchSchool && matchDisc && !isImage;
       }).length;
     }
 
@@ -2502,11 +2570,19 @@
                 </span>
               </div>
             </div>
-            <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-bold ${
-              isSelected ? 'bg-purple-500 text-white' : 'bg-brand-card text-purple-300 border border-brand-cardBorder'
-            }">
-              ${count} PDF${count !== 1 ? 's' : ''}
-            </span>
+            ${count > 0 ? `
+              <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-bold ${
+                isSelected ? 'bg-purple-500 text-white' : 'bg-brand-card text-purple-300 border border-brand-cardBorder'
+              }">
+                ${count} PDF${count !== 1 ? 's' : ''}
+              </span>
+            ` : `
+              <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-bold ${
+                isSelected ? 'bg-black/30 text-purple-200' : 'bg-slate-800/80 text-slate-400 border border-slate-700/60'
+              }">
+                Sem projeto
+              </span>
+            `}
           </button>
         `;
       }).join('');
@@ -2753,8 +2829,11 @@
         container.innerHTML = `
           <div class="col-span-full bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
             <span class="text-3xl">📐</span>
-            <h4 class="text-base font-bold text-white">Nenhum documento PDF encontrado para esta escola</h4>
-            <p class="text-xs text-slate-400 max-w-md">Não há pranchas cadastradas para a disciplina selecionada nesta escola. Você pode adicionar um novo projeto em PDF ou consultar outra escola/disciplina.</p>
+            <div class="flex flex-col gap-1 items-center">
+              <h4 class="text-base font-extrabold text-white">Sem documentos existentes</h4>
+              <p class="text-xs text-amber-400 font-semibold">Sem projeto para ${cleanActiveSchool || 'esta escola'}</p>
+            </div>
+            <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui nenhum documento técnico em PDF de projetos. Arquivos de fotos ou imagens são direcionados automaticamente para a aba de Fotos.</p>
             <button onclick="openAddProjetoModal()" class="mt-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md">
               ➕ Adicionar Primeiro Documento PDF
             </button>
@@ -3158,48 +3237,20 @@
     }
 
     function getSchoolsForGre(greKey) {
-      const map = new Map();
-      const normGre = normalizeGreKey(greKey);
-
-      // 1. Extrai das obras (Contratos e PACTUE)
-      [...contractsData, ...pactueData].forEach(w => {
-        if (normalizeGreKey(w.greKey) === normGre || normalizeGreKey(w.gre) === normGre) {
-          const name = (w.escola || '').trim().toUpperCase();
-          if (name && !map.has(name)) {
-            map.set(name, {
-              nome: name,
-              municipio: (w.municipio || 'MUNICÍPIO').toUpperCase(),
-              greKey: greKey
-            });
-          }
-        }
-      });
-
-      // 2. Extrai do acervo de fotos cadastradas
-      fotosData.forEach(f => {
-        if (normalizeGreKey(f.greKey) === normGre && f.escola) {
-          const name = f.escola.trim().toUpperCase();
-          if (!map.has(name)) {
-            map.set(name, {
-              nome: name,
-              municipio: (f.municipio || 'MUNICÍPIO').toUpperCase(),
-              greKey: greKey
-            });
-          }
-        }
-      });
-
-      return Array.from(map.values());
+      return getSchoolsForProjetosGre(greKey);
     }
 
     function getSchoolPhotosCount(greKey, schoolName, category) {
       const normGre = normalizeGreKey(greKey);
-      const normSchool = (schoolName || '').trim().toUpperCase();
+      const cleanSchool = extractCleanSchoolName(schoolName).toUpperCase();
       return fotosData.filter(f => {
-        const matchG = normalizeGreKey(f.greKey) === normGre;
-        const matchS = (f.escola || '').trim().toUpperCase() === normSchool;
+        const matchG = (greKey === 'TODAS') || normalizeGreKey(f.greKey) === normGre;
+        const matchS = extractCleanSchoolName(f.escola).toUpperCase() === cleanSchool;
         const matchC = !category || f.pasta === category;
-        return matchG && matchS && matchC;
+        const isPdf = (f.url && f.url.toLowerCase().endsWith('.pdf')) || 
+                      (f.formato && f.formato.toLowerCase() === 'pdf') || 
+                      (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
+        return matchG && matchS && matchC && !isPdf;
       }).length;
     }
 
@@ -3227,6 +3278,14 @@
         const count = getSchoolPhotosCount(fotosActiveGre, s.nome);
         const isSelected = (fotosActiveSchool === s.nome);
 
+        const badgeHtml = count > 0 
+          ? `<span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+              ${count} fotos
+            </span>`
+          : `<span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-bold ${isSelected ? 'bg-black/30 text-white' : 'bg-slate-800/80 text-slate-400 border border-slate-700/60'}">
+              Sem fotos
+            </span>`;
+
         return `
           <button 
             onclick="setFotosActiveSchool('${s.nome.replace(/'/g, "\\'")}')"
@@ -3235,7 +3294,7 @@
                 ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 border-blue-400 ring-2 ring-blue-400 scale-[1.01]' 
                 : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
             }"
-            title="${s.nome} – ${s.municipio} (${count} fotos)"
+            title="${s.nome} – ${s.municipio} (${count > 0 ? count + ' fotos' : 'Sem fotos'})"
           >
             <div class="flex flex-col min-w-0">
               <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-100'}">
@@ -3245,9 +3304,7 @@
                 📍 ${s.municipio}
               </span>
             </div>
-            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
-              ${count} fotos
-            </span>
+            ${badgeHtml}
           </button>
         `;
       }).join('');
@@ -3368,8 +3425,11 @@
         grid.innerHTML = `
           <div class="col-span-full bg-brand-dark/60 border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
             <span class="text-3xl">${catObj.icon}</span>
-            <h4 class="text-base font-bold text-white">Nenhuma foto encontrada em "${catObj.label}"</h4>
-            <p class="text-xs text-slate-400 max-w-md">Esta pasta ainda não possui fotos para a escola <strong>${fotosActiveSchool}</strong>. Clique no botão abaixo para adicionar a primeira imagem ou vincular a pasta do Google Drive.</p>
+            <div class="flex flex-col gap-1 items-center">
+              <h4 class="text-base font-extrabold text-white">Sem fotos existentes</h4>
+              <p class="text-xs text-amber-400 font-semibold">Sem fotos existentes em "${catObj.label}" para ${fotosActiveSchool || 'esta escola'}</p>
+            </div>
+            <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui fotos ou imagens registradas (PNG, JPEG, etc.). Documentos em PDF são direcionados automaticamente para a aba de Projetos.</p>
             <button onclick="openAddFotoModal()" class="mt-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/30 flex items-center gap-2">
               <span>➕</span> Adicionar Primeira Foto
             </button>
@@ -3872,17 +3932,108 @@
       return await parseCsvToWorks(text, prefix);
     }
 
+    function routeFilesBetweenProjetosAndFotos() {
+      let changed = false;
+
+      // 1. Qualquer item em fotosData que seja PDF é migrado para projetosData
+      const validFotos = [];
+      fotosData.forEach(f => {
+        const isPdf = (f.url && f.url.toLowerCase().endsWith('.pdf')) ||
+                      (f.formato && f.formato.toLowerCase() === 'pdf') ||
+                      (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
+        if (isPdf) {
+          projetosData.push({
+            id: f.id.startsWith('proj-') ? f.id : `proj-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+            greKey: f.greKey,
+            escola: f.escola,
+            municipio: f.municipio || 'MUNICÍPIO',
+            titulo: f.titulo || 'Projeto Técnico Escolar PDF',
+            disciplina: 'Arquitetura',
+            status: 'Aprovado',
+            versao: 'R01',
+            data: f.data || '2026',
+            url: f.url
+          });
+          changed = true;
+        } else {
+          validFotos.push(f);
+        }
+      });
+      fotosData = validFotos;
+
+      // 2. Qualquer item em projetosData que seja imagem é migrado para fotosData
+      const validProjetos = [];
+      projetosData.forEach(p => {
+        const isImage = (p.url && /\.(png|jpe?g|webp|gif|svg)$/i.test(p.url)) ||
+                        (p.formato && /image/i.test(p.formato)) ||
+                        (p.titulo && /\.(png|jpe?g|webp|gif|svg)$/i.test(p.titulo));
+        if (isImage) {
+          fotosData.push({
+            id: p.id.startsWith('foto-') ? p.id : `foto-${Date.now()}-${Math.floor(Math.random()*1000)}`,
+            greKey: p.greKey,
+            escola: p.escola,
+            municipio: p.municipio || 'MUNICÍPIO',
+            pasta: 'Obras e Estrutura',
+            url: p.url,
+            titulo: p.titulo || 'Registro Fotográfico',
+            data: p.data || '2026',
+            descricao: p.titulo || ''
+          });
+          changed = true;
+        } else {
+          validProjetos.push(p);
+        }
+      });
+      projetosData = validProjetos;
+
+      if (changed) {
+        saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+        saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      }
+    }
+
+    function refreshAllViewsAfterSync() {
+      routeFilesBetweenProjetosAndFotos();
+      updateModuleBadges();
+      renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+      renderProjetosGreGrid();
+      renderProjetosSchools();
+      renderProjetosDisciplines();
+      renderProjetosList();
+      renderFotosGreGrid();
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
+    }
+
     async function syncActiveModuleSheet() {
+      const syncIcon = document.getElementById('syncIcon');
+      const syncDot = document.getElementById('syncStatusDot');
+      const syncText = document.getElementById('syncStatusText');
+
+      if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
+        if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+        if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
+        refreshAllViewsAfterSync();
+        setTimeout(() => {
+          if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          if (syncText) syncText.textContent = `Online (${timeStr})`;
+          showToastNotification(`✓ Aba ${currentModule} atualizada com as pastas e acervos!`);
+        }, 600);
+        return;
+      }
+
       const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
       const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
       if (!url) {
         openSheetModal();
         return;
       }
-
-      const syncIcon = document.getElementById('syncIcon');
-      const syncDot = document.getElementById('syncStatusDot');
-      const syncText = document.getElementById('syncStatusText');
 
       if (syncIcon) syncIcon.classList.add('animate-spin-sync');
       if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
@@ -3900,10 +4051,7 @@
           if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
           if (syncText) syncText.textContent = `Online (${timeStr})`;
 
-          updateModuleBadges();
-          renderGreSelector();
-          renderStatusFilters();
-          renderCards();
+          refreshAllViewsAfterSync();
 
           showToastNotification(`✓ Aba ${currentModule} sincronizada com sucesso! (${parsed.length} obras)`);
         }
@@ -4009,10 +4157,7 @@
       const syncText = document.getElementById('syncStatusText');
       if (syncText) syncText.textContent = `Online (${timeStr})`;
 
-      updateModuleBadges();
-      renderGreSelector();
-      renderStatusFilters();
-      renderCards();
+      refreshAllViewsAfterSync();
 
       showFeedback(summaryMsgs.join('\n'), hasError ? 'error' : 'success');
       showToastNotification(`✓ Configurações e abas atualizadas!`);
