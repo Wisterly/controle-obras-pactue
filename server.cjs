@@ -239,8 +239,15 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    const headers = { 'Content-Type': contentType };
 
-    res.writeHead(200, { 'Content-Type': contentType });
+    const queryParams = new URL(req.url, 'http://localhost').searchParams;
+    if (queryParams.get('download') === '1' || queryParams.get('dl') === '1') {
+      const downloadName = queryParams.get('filename') || path.basename(filePath);
+      headers['Content-Disposition'] = `attachment; filename="${encodeURIComponent(downloadName)}"`;
+    }
+
+    res.writeHead(200, headers);
     fs.createReadStream(filePath).pipe(res);
   });
 });

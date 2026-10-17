@@ -2641,6 +2641,8 @@
               municipio: municipio,
               pasta: '', // Aguardando seleção de ambiente
               url: 'https://lh3.googleusercontent.com/d/' + img.id + '=w1200',
+              originalUrl: 'https://drive.usercontent.google.com/download?id=' + img.id + '&export=download',
+              originalName: img.name,
               titulo: img.name,
               data: '17/10/2026',
               descricao: 'Foto avulsa do acervo Google Drive (' + item.rawFolder + ')',
@@ -5265,7 +5267,23 @@
       if (caption) caption.textContent = photo.titulo;
       if (indexInd) indexInd.textContent = `Foto ${currentLightboxIndex + 1} de ${currentLightboxPhotos.length}`;
       if (dateInd) dateInd.textContent = `📅 ${photo.data || '2026'}`;
-      if (downloadBtn) downloadBtn.href = photo.url;
+      
+      if (downloadBtn) {
+        // O botão único de baixar foto busca diretamente o arquivo bruto original de alta resolução (10 MB ou mais)
+        let downloadUrl = photo.originalUrl || photo.url;
+        let originalName = photo.originalName || `${photo.escola || 'escola'}_${photo.pasta || 'ambiente'}_original.jpg`;
+        originalName = originalName.replace(/[\/\\?%*:|"<>]/g, '_');
+
+        if (photo.driveFileId) {
+          // Google Drive: link direto de exportação e download do arquivo bruto original completo
+          downloadUrl = `https://drive.usercontent.google.com/download?id=${photo.driveFileId}&export=download`;
+        } else if (downloadUrl.startsWith('/uploads/') || downloadUrl.includes('/uploads/')) {
+          downloadUrl = downloadUrl + (downloadUrl.includes('?') ? '&' : '?') + `download=1&filename=${encodeURIComponent(originalName)}`;
+        }
+
+        downloadBtn.href = downloadUrl;
+        downloadBtn.download = originalName;
+      }
 
       const moveSelect = document.getElementById('lightboxFolderMoveSelect');
       if (moveSelect) {
@@ -5479,7 +5497,7 @@
       }
     }
 
-    function processFotosUploadFiles(files) {
+    async function processFotosUploadFiles(files) {
       const hasArchive = Array.from(files).some(f => /\.(zip|rar|7z)$/i.test(f.name) || (f.type && (f.type.includes('zip') || f.type.includes('rar'))));
       if (hasArchive) {
         openPhotoImportModal();
@@ -5501,42 +5519,81 @@
       let skippedPdfs = 0;
       const fileList = Array.from(files);
 
-      fileList.forEach((file, index) => {
+      showToastNotification(`Otimizando e preparando ${fileList.length} foto(s)...`);
+
+      for (let index = 0; index < fileList.length; index++) {
+        const file = fileList[index];
         // Se for PDF arrastado em fotos, repassa para projetos
         const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
         if (isPdf) {
           skippedPdfs++;
           processProjetosUploadFiles([file]);
-          return;
+          continue;
         }
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const categoryLabel = actualCategory ? `#${actualCategory}` : 'Aguardando seleção';
+        const categoryLabel = actualCategory ? `#${actualCategory}` : 'Aguardando seleção';
+
+        try {
+          // 1. Gera versão leve WebP (~150-250 KB) para a visualização na tela não travar
+          const compressedBlob = await compressImageToWebp(file);
+          const previewUrl = await uploadPhotoToCloud(compressedBlob, `thumb_${file.name}.webp`);
+
+          // 2. Salva o arquivo bruto original completo (10 MB ou mais) para o botão de Baixar
+          const originalUrl = await uploadPhotoToCloud(file, file.name);
+
           const newPhoto = {
             id: `foto-${Date.now()}-${index}`,
             greKey: fotosActiveGre,
             escola: fotosActiveSchool,
             municipio: city,
             pasta: actualCategory,
-            url: e.target.result,
+            url: previewUrl,
+            originalUrl: originalUrl || previewUrl,
+            originalName: file.name,
+            originalSize: file.size,
             titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto ${categoryLabel}`,
             data: dma,
             descricao: `Foto anexada via upload em ${dma}.`
           };
           fotosData.unshift(newPhoto);
           loadedCount++;
-          if (loadedCount + skippedPdfs === fileList.length) {
-            saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
-            updateModuleBadges();
-            fotosActiveCategory = actualCategory;
-            renderFotosCategories();
-            renderFotosGallery();
-            showToastNotification(`✓ ${loadedCount} foto(s) anexada(s) com sucesso em ${categoryLabel}!`);
-          }
-        };
-        reader.readAsDataURL(file);
-      });
+        } catch (err) {
+          console.warn('Erro ao processar foto com compressão, usando fallback direto:', err);
+          await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              const newPhoto = {
+                id: `foto-${Date.now()}-${index}`,
+                greKey: fotosActiveGre,
+                escola: fotosActiveSchool,
+                municipio: city,
+                pasta: actualCategory,
+                url: e.target.result,
+                originalUrl: e.target.result,
+                originalName: file.name,
+                originalSize: file.size,
+                titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto ${categoryLabel}`,
+                data: dma,
+                descricao: `Foto anexada via upload em ${dma}.`
+              };
+              fotosData.unshift(newPhoto);
+              loadedCount++;
+              resolve();
+            };
+            reader.onerror = resolve;
+            reader.readAsDataURL(file);
+          });
+        }
+      }
+
+      if (loadedCount > 0) {
+        saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+        updateModuleBadges();
+        fotosActiveCategory = actualCategory;
+        renderFotosCategories();
+        renderFotosGallery();
+        showToastNotification(`✓ ${loadedCount} foto(s) anexada(s) com sucesso em ${actualCategory ? '#' + actualCategory : 'Aguardando seleção'}!`);
+      }
 
       if (skippedPdfs > 0 && loadedCount === 0) {
         showToastNotification(`📄 ${skippedPdfs} documento(s) em PDF detectado(s) e enviado(s) para a aba de Projetos!`);
@@ -5835,7 +5892,7 @@
       const currSchool = schools.find(s => s.nome === fotosActiveSchool);
       const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
 
-      function createAndSave(photoUrl) {
+      function createAndSave(photoUrl, originalUrl = null, origName = '', origSize = 0) {
         const newFoto = {
           id: `foto-${Date.now()}`,
           greKey: fotosActiveGre,
@@ -5843,6 +5900,9 @@
           municipio: city,
           pasta: cat,
           url: photoUrl,
+          originalUrl: originalUrl || photoUrl,
+          originalName: origName || caption,
+          originalSize: origSize,
           titulo: caption,
           data: dateVal || '2026',
           descricao: caption
@@ -5860,20 +5920,25 @@
 
       if (fileInput && fileInput.files && fileInput.files[0]) {
         const rawFile = fileInput.files[0];
-        showToastNotification('Otimizando e enviando foto...');
+        showToastNotification('Otimizando prévia e enviando foto original...');
         try {
+          // 1. Gera versão leve WebP (~150-250 KB) para a visualização na tela não travar
           const compressedBlob = await compressImageToWebp(rawFile);
-          const cloudUrl = await uploadPhotoToCloud(compressedBlob, rawFile.name);
-          createAndSave(cloudUrl);
+          const previewUrl = await uploadPhotoToCloud(compressedBlob, `thumb_${rawFile.name}.webp`);
+
+          // 2. Salva o arquivo bruto original completo (10 MB ou mais) para o botão de Baixar
+          const originalUrl = await uploadPhotoToCloud(rawFile, rawFile.name);
+
+          createAndSave(previewUrl, originalUrl, rawFile.name, rawFile.size);
         } catch (err) {
           const reader = new FileReader();
           reader.onload = function(e) {
-            createAndSave(e.target.result);
+            createAndSave(e.target.result, e.target.result, rawFile.name, rawFile.size);
           };
           reader.readAsDataURL(rawFile);
         }
       } else if (urlInput) {
-        createAndSave(urlInput);
+        createAndSave(urlInput, urlInput, caption, 0);
       } else {
         showToastNotification('Por favor, selecione um arquivo de imagem ou informe a URL da foto.');
       }
@@ -6094,11 +6159,17 @@
 
               for (const k of entries) {
                 const blob = await zip.files[k].async('blob');
-                const baseName = k.split('/').pop().replace(/\.[^/.]+$/, "");
+                const fullName = k.split('/').pop();
+                const baseName = fullName.replace(/\.[^/.]+$/, "");
+                const ext = fullName.includes('.') ? fullName.split('.').pop() : 'jpg';
                 const webpBlob = await compressImageToWebp(blob);
-                const cloudUrl = await uploadPhotoToCloud(webpBlob, `${baseName}.webp`);
+                const previewUrl = await uploadPhotoToCloud(webpBlob, `thumb_${baseName}.webp`);
+                const originalUrl = await uploadPhotoToCloud(blob, `${baseName}.${ext}`);
                 pendingImportPhotos.push({
-                  url: cloudUrl,
+                  url: previewUrl,
+                  originalUrl: originalUrl || previewUrl,
+                  originalName: fullName,
+                  originalSize: blob.size,
                   titulo: baseName || `Foto ZIP`,
                   categoria: detectCategoryFromName(k) || defaultCat
                 });
@@ -6122,11 +6193,17 @@
               for (const entry of rarEntries) {
                 if (entry.name && /\.(jpe?g|png|webp|gif|bmp|heic|svg)$/i.test(entry.name)) {
                   const blob = new Blob([entry.data]);
-                  const baseName = entry.name.split('/').pop().replace(/\.[^/.]+$/, "");
+                  const fullName = entry.name.split('/').pop();
+                  const baseName = fullName.replace(/\.[^/.]+$/, "");
+                  const ext = fullName.includes('.') ? fullName.split('.').pop() : 'jpg';
                   const webpBlob = await compressImageToWebp(blob);
-                  const cloudUrl = await uploadPhotoToCloud(webpBlob, `${baseName}.webp`);
+                  const previewUrl = await uploadPhotoToCloud(webpBlob, `thumb_${baseName}.webp`);
+                  const originalUrl = await uploadPhotoToCloud(blob, `${baseName}.${ext}`);
                   pendingImportPhotos.push({
-                    url: cloudUrl,
+                    url: previewUrl,
+                    originalUrl: originalUrl || previewUrl,
+                    originalName: fullName,
+                    originalSize: blob.size,
                     titulo: baseName || `Foto RAR`,
                     categoria: detectCategoryFromName(entry.name) || defaultCat
                   });
@@ -6148,9 +6225,13 @@
           try {
             const baseName = file.name.replace(/\.[^/.]+$/, "");
             const webpBlob = await compressImageToWebp(file);
-            const cloudUrl = await uploadPhotoToCloud(webpBlob, `${baseName}.webp`);
+            const previewUrl = await uploadPhotoToCloud(webpBlob, `thumb_${baseName}.webp`);
+            const originalUrl = await uploadPhotoToCloud(file, file.name);
             pendingImportPhotos.push({
-              url: cloudUrl,
+              url: previewUrl,
+              originalUrl: originalUrl || previewUrl,
+              originalName: file.name,
+              originalSize: file.size,
               titulo: baseName || `Foto`,
               categoria: detectCategoryFromName(file.name) || defaultCat
             });
@@ -6433,6 +6514,9 @@
           municipio: city,
           pasta: cat,
           url: p.url,
+          originalUrl: p.originalUrl || p.url,
+          originalName: p.originalName || p.titulo || 'foto_original.jpg',
+          originalSize: p.originalSize || 0,
           titulo: p.titulo || `Foto #${cat}`,
           data: dma,
           descricao: `Foto importada via ZIP/Link em ${dma}.`
