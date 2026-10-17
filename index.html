@@ -110,6 +110,11 @@
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
     }
   </script>
+  <!-- Bibliotecas para descompactação de ZIP e RAR no navegador (local com fallback CDN) -->
+  <script src="jszip.min.js"></script>
+  <script>if (typeof JSZip === 'undefined') { document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"><\/script>'); }</script>
+  <script src="unrarit.umd.js"></script>
+  <script>if (typeof unrarit === 'undefined') { document.write('<script src="https://unpkg.com/unrarit@latest/dist/unrarit.umd.js"><\/script>'); }</script>
   <script src="acervo_drive_data.js"></script>
 </head>
 <body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
@@ -793,7 +798,7 @@
               </span>
             </div>
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 flex-wrap">
               <button 
                 onclick="triggerDirectCameraCapture()"
                 class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
@@ -807,6 +812,13 @@
                 title="Anexar foto(s) do dispositivo para esta pasta"
               >
                 <span class="text-sm">📁</span> <span>Anexar Foto</span>
+              </button>
+              <button 
+                onclick="openPhotoImportModal()"
+                class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-300/40 cursor-pointer"
+                title="Importar fotos via ZIP, RAR ou link do Google Fotos / iCloud com seleção de ambientes"
+              >
+                <span class="text-sm">📥</span> <span>Importar (ZIP / Nuvem)</span>
               </button>
             </div>
           </div>
@@ -884,6 +896,14 @@
                 title="Anexar documentos e fotos do computador ou celular"
               >
                 <span class="text-base">📁</span> <span>Anexar Foto</span>
+              </button>
+              <button 
+                type="button"
+                onclick="event.stopPropagation(); openPhotoImportModal()"
+                class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white text-xs font-black shadow-lg shadow-emerald-700/30 flex items-center gap-2 transition-all active:scale-95 border border-emerald-300/40 cursor-pointer"
+                title="Anexar arquivo ZIP, RAR ou colar link do Google Fotos / iCloud com seleção de ambientes"
+              >
+                <span class="text-base">📥</span> <span>Importar ZIP, RAR ou Link Nuvem</span>
               </button>
             </div>
           </div>
@@ -1651,6 +1671,245 @@
           <span class="text-slate-400">Escala: 1:100 / Formato A1</span>
           <button onclick="triggerPdfDownload()" class="text-purple-400 hover:text-purple-300 underline font-semibold ml-2">
             Clique para baixar o arquivo
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: IMPORTAÇÃO E ANEXO DE FOTOS (ARQUIVOS, ZIP, RAR, LINKS) -->
+  <!-- ============================================================== -->
+  <div id="photoImportModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5">
+    <div class="bg-brand-panel border-2 border-emerald-500/40 rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="bg-brand-card/95 px-4 sm:px-6 py-3.5 border-b border-brand-cardBorder flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-black border border-emerald-500/40 shadow-inner">
+            📥
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+              Importar e Anexar Fotos
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                ZIP • RAR • Nuvem
+              </span>
+            </h3>
+            <p class="text-xs text-slate-300 flex items-center gap-1.5 flex-wrap">
+              <span>Destino:</span>
+              <strong id="importModalSchoolName" class="text-emerald-400">...</strong>
+              <span class="text-slate-500">•</span>
+              <span id="importModalGreName" class="text-slate-300">...</span>
+            </p>
+          </div>
+        </div>
+        <button 
+          onclick="closePhotoImportModal()" 
+          class="text-slate-400 hover:text-white p-2 rounded-xl hover:bg-brand-panel border border-transparent hover:border-brand-cardBorder transition-colors cursor-pointer"
+          title="Fechar"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Corpo com Abas de Entrada e Área de Ambientes -->
+      <div class="p-4 sm:p-6 overflow-y-auto flex-1 flex flex-col gap-5">
+        
+        <!-- ETAPA 1: SELETOR DE ORIGEM (ARQUIVOS / ZIP / RAR vs LINK NUVEM) -->
+        <div id="importSourceSection" class="flex flex-col gap-4">
+          <!-- Segmented Control das Origens -->
+          <div class="flex items-center p-1 bg-brand-dark/90 rounded-2xl border border-brand-cardBorder shadow-inner">
+            <button 
+              type="button" 
+              id="importTabBtnFiles"
+              onclick="switchImportTab('FILES')" 
+              class="flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all bg-emerald-600 text-white shadow-md shadow-emerald-900/40 cursor-pointer"
+            >
+              <span>📁</span> <span>Arquivos / ZIP / RAR</span>
+            </button>
+            <button 
+              type="button" 
+              id="importTabBtnCloud"
+              onclick="switchImportTab('CLOUD')" 
+              class="flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all text-slate-300 hover:text-white cursor-pointer"
+            >
+              <span>☁️</span> <span>Link Google Fotos / iCloud / Drive</span>
+            </button>
+          </div>
+
+          <!-- Conteúdo Aba 1: Arquivos do Computador/Celular, ZIP ou RAR -->
+          <div id="importFilesTabContent" class="flex flex-col gap-3">
+            <div 
+              id="importDropzone"
+              onclick="document.getElementById('importArchiveFileInput').click()"
+              ondragover="handleImportDragOver(event)"
+              ondragleave="handleImportDragLeave(event)"
+              ondrop="handleImportDrop(event)"
+              class="p-6 sm:p-8 rounded-2xl border-2 border-dashed border-emerald-500/50 hover:border-emerald-400 bg-brand-dark/70 hover:bg-emerald-950/20 flex flex-col items-center justify-center text-center gap-3 transition-all cursor-pointer group shadow-inner"
+            >
+              <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                📦
+              </div>
+              <div class="flex flex-col gap-1 pointer-events-none">
+                <span class="text-sm sm:text-base font-extrabold text-white">
+                  Clique ou arraste fotos, arquivo .ZIP ou .RAR aqui
+                </span>
+                <span class="text-xs text-slate-300">
+                  Suporta arquivos compactados (.zip, .rar) ou fotos avulsas (JPG, PNG, WebP)
+                </span>
+                <span class="text-[11px] text-emerald-400/90 font-medium mt-1">
+                  💡 No celular ou computador: o sistema descompacta e extrai todas as fotos automaticamente
+                </span>
+              </div>
+              <button 
+                type="button"
+                class="mt-1 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all pointer-events-none"
+              >
+                Escolher Arquivos do Dispositivo
+              </button>
+            </div>
+            <input 
+              type="file" 
+              id="importArchiveFileInput" 
+              multiple 
+              accept="image/*,.zip,.rar,.7z,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/octet-stream"
+              class="hidden" 
+              onchange="handleImportFileSelection(event)"
+            >
+          </div>
+
+          <!-- Conteúdo Aba 2: Link da Nuvem (Google Fotos / iCloud / Drive) -->
+          <div id="importCloudTabContent" class="hidden flex-col gap-3.5">
+            <div class="bg-brand-dark/70 border border-brand-cardBorder rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-inner">
+              <label class="text-xs sm:text-sm font-bold text-white flex items-center gap-2">
+                <span>🔗</span> Link de Compartilhamento do Álbum ou Pasta:
+              </label>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input 
+                  type="url" 
+                  id="importCloudUrlInput"
+                  placeholder="Ex: https://photos.app.goo.gl/... ou https://share.icloud.com/photos/..."
+                  class="flex-1 bg-brand-panel border border-brand-cardBorder rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 shadow-sm"
+                  onkeydown="if(event.key === 'Enter') extractPhotosFromCloudLink()"
+                >
+                <button 
+                  type="button"
+                  id="importFetchCloudBtn"
+                  onclick="extractPhotosFromCloudLink()" 
+                  class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-950/40 flex items-center justify-center gap-2 transition-all active:scale-95 cursor-pointer shrink-0"
+                >
+                  <span id="importFetchBtnSpinner" class="hidden animate-spin">🔄</span>
+                  <span id="importFetchBtnIcon">🔍</span>
+                  <span id="importFetchBtnText">Puxar Fotos</span>
+                </button>
+              </div>
+
+              <!-- Badges de Compatibilidade -->
+              <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-slate-300">
+                <span class="px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700 flex items-center gap-1">
+                  <span>📸</span> Google Fotos (Álbum / Link)
+                </span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700 flex items-center gap-1">
+                  <span>🍏</span> Álbum iCloud Photos
+                </span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700 flex items-center gap-1">
+                  <span>📂</span> Google Drive (Pasta ou Arquivo)
+                </span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-800/80 border border-slate-700 flex items-center gap-1">
+                  <span>🌐</span> Links Diretos de Imagens
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Status / Progresso do Processamento -->
+          <div id="importProcessingBar" class="hidden p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-3 text-xs text-emerald-300 animate-pulse">
+            <span class="animate-spin text-base">🔄</span>
+            <span id="importProcessingMessage" class="font-semibold">Processando fotos...</span>
+          </div>
+        </div>
+
+        <!-- ETAPA 2: REVISÃO E SELEÇÃO DE CADA AMBIENTE ("para que eu possa depois fazer a seleção de cada ambiente") -->
+        <div id="importReviewSection" class="hidden flex-col gap-4">
+          
+          <!-- Banner de Estatísticas e Ações Rápidas em Lote -->
+          <div class="bg-gradient-to-r from-emerald-950/50 via-brand-dark to-emerald-950/50 border border-emerald-500/30 rounded-2xl p-3.5 sm:p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-md">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base font-bold">
+                📸
+              </span>
+              <div>
+                <h4 class="text-xs sm:text-sm font-extrabold text-white flex items-center gap-1.5">
+                  <span id="importFoundCountBadge" class="text-emerald-400">0</span> fotos prontas para anexar
+                </h4>
+                <p class="text-[11px] text-slate-300">
+                  Defina o ambiente (categoria) abaixo para cada foto individualmente ou aplique a todas de uma vez:
+                </p>
+              </div>
+            </div>
+
+            <!-- Atribuição em Lote Rápida -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs font-bold text-slate-300 shrink-0">Definir todas como:</span>
+              <select 
+                id="importBulkCategorySelect" 
+                class="bg-brand-panel border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-white outline-none focus:border-emerald-400 shadow-sm"
+              >
+                <!-- Populated via JS com as 12 categorias -->
+              </select>
+              <button 
+                type="button" 
+                onclick="applyBulkCategoryToAllPending()"
+                class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all active:scale-95 shadow cursor-pointer shrink-0"
+              >
+                ⚡ Aplicar a Todas
+              </button>
+            </div>
+          </div>
+
+          <!-- Grade de Prévia e Seleção de Ambientes por Foto -->
+          <div 
+            id="importPhotosGrid" 
+            class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-[46vh] sm:max-h-[50vh] overflow-y-auto p-1"
+          >
+            <!-- Injected via JavaScript -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div class="bg-brand-card/95 px-4 sm:px-6 py-3.5 border-t border-brand-cardBorder flex items-center justify-between gap-3 shrink-0">
+        <button 
+          type="button" 
+          onclick="resetOrClosePhotoImportModal()"
+          class="px-4 py-2 rounded-xl bg-brand-panel hover:bg-slate-800 text-slate-300 hover:text-white border border-brand-cardBorder text-xs sm:text-sm font-semibold transition-all cursor-pointer"
+        >
+          <span id="importCancelBtnLabel">Fechar</span>
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button 
+            type="button" 
+            id="importBackToSourceBtn"
+            onclick="backToImportSource()"
+            class="hidden px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-600 text-xs sm:text-sm font-bold transition-all cursor-pointer"
+          >
+            ← Adicionar Mais
+          </button>
+          <button 
+            type="button" 
+            id="importConfirmSaveBtn"
+            onclick="saveImportedPhotosToSystem()" 
+            class="hidden px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-lg shadow-emerald-950/50 flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+          >
+            <span>✅</span>
+            <span id="importConfirmSaveBtnText">Salvar e Anexar Fotos</span>
           </button>
         </div>
       </div>
@@ -5002,6 +5261,14 @@
 
       const files = e.dataTransfer ? e.dataTransfer.files : [];
       if (!files || files.length === 0) return;
+
+      const hasArchive = Array.from(files).some(f => /\.(zip|rar|7z)$/i.test(f.name) || (f.type && (f.type.includes('zip') || f.type.includes('rar'))));
+      if (hasArchive) {
+        openPhotoImportModal();
+        processImportFiles(files);
+        return;
+      }
+
       processFotosUploadFiles(files);
     }
 
@@ -5152,6 +5419,13 @@
     }
 
     function processFotosUploadFiles(files) {
+      const hasArchive = Array.from(files).some(f => /\.(zip|rar|7z)$/i.test(f.name) || (f.type && (f.type.includes('zip') || f.type.includes('rar'))));
+      if (hasArchive) {
+        openPhotoImportModal();
+        processImportFiles(files);
+        return;
+      }
+
       const targetCategory = (pendingFotoCategory !== undefined && pendingFotoCategory !== null) 
         ? pendingFotoCategory 
         : (fotosActiveCategory || '');
@@ -5460,6 +5734,582 @@
       renderFotosCategories();
       renderFotosGallery();
       showToastNotification('Foto excluída.');
+    }
+
+    // =========================================================================
+    // CENTRAL DE IMPORTAÇÃO E ANEXO DE FOTOS (ZIP, RAR, GOOGLE FOTOS, ICLOUD)
+    // =========================================================================
+    let pendingImportPhotos = [];
+    let currentImportTab = 'FILES';
+
+    function openPhotoImportModal() {
+      const modal = document.getElementById('photoImportModal');
+      const schoolLabel = document.getElementById('importModalSchoolName');
+      const greLabel = document.getElementById('importModalGreName');
+      const bulkSelect = document.getElementById('importBulkCategorySelect');
+
+      if (schoolLabel) schoolLabel.textContent = fotosActiveSchool || 'Selecione uma escola';
+      if (greLabel) greLabel.textContent = fotosActiveGre || '1ª GRE';
+
+      if (bulkSelect) {
+        bulkSelect.innerHTML = FOTOS_DEFAULT_CATEGORIES.map(c => 
+          `<option value="${c.key}">${c.icon} ${c.label}</option>`
+        ).join('');
+        if (fotosActiveCategory && fotosActiveCategory !== 'TODAS') {
+          bulkSelect.value = fotosActiveCategory;
+        }
+      }
+
+      pendingImportPhotos = [];
+      showImportSourceStep();
+      setImportProcessing(false);
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closePhotoImportModal() {
+      const modal = document.getElementById('photoImportModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function resetOrClosePhotoImportModal() {
+      closePhotoImportModal();
+    }
+
+    function switchImportTab(tab) {
+      currentImportTab = tab;
+      const btnFiles = document.getElementById('importTabBtnFiles');
+      const btnCloud = document.getElementById('importTabBtnCloud');
+      const contentFiles = document.getElementById('importFilesTabContent');
+      const contentCloud = document.getElementById('importCloudTabContent');
+
+      if (tab === 'FILES') {
+        if (btnFiles) {
+          btnFiles.className = 'flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all bg-emerald-600 text-white shadow-md shadow-emerald-900/40 cursor-pointer';
+        }
+        if (btnCloud) {
+          btnCloud.className = 'flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all text-slate-300 hover:text-white cursor-pointer';
+        }
+        if (contentFiles) contentFiles.classList.remove('hidden');
+        if (contentCloud) contentCloud.classList.add('hidden');
+      } else {
+        if (btnCloud) {
+          btnCloud.className = 'flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all bg-emerald-600 text-white shadow-md shadow-emerald-900/40 cursor-pointer';
+        }
+        if (btnFiles) {
+          btnFiles.className = 'flex-1 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all text-slate-300 hover:text-white cursor-pointer';
+        }
+        if (contentFiles) contentFiles.classList.add('hidden');
+        if (contentCloud) contentCloud.classList.remove('hidden');
+        const input = document.getElementById('importCloudUrlInput');
+        if (input) setTimeout(() => input.focus(), 100);
+      }
+    }
+
+    function showImportSourceStep() {
+      const sourceSec = document.getElementById('importSourceSection');
+      const reviewSec = document.getElementById('importReviewSection');
+      const backBtn = document.getElementById('importBackToSourceBtn');
+      const saveBtn = document.getElementById('importConfirmSaveBtn');
+      const cancelBtnLabel = document.getElementById('importCancelBtnLabel');
+
+      if (sourceSec) sourceSec.classList.remove('hidden');
+      if (reviewSec) reviewSec.classList.add('hidden');
+      if (backBtn) backBtn.classList.add('hidden');
+      if (saveBtn) saveBtn.classList.add('hidden');
+      if (cancelBtnLabel) cancelBtnLabel.textContent = 'Fechar';
+    }
+
+    function showImportReviewStep() {
+      const sourceSec = document.getElementById('importSourceSection');
+      const reviewSec = document.getElementById('importReviewSection');
+      const backBtn = document.getElementById('importBackToSourceBtn');
+      const saveBtn = document.getElementById('importConfirmSaveBtn');
+      const cancelBtnLabel = document.getElementById('importCancelBtnLabel');
+
+      if (sourceSec) sourceSec.classList.add('hidden');
+      if (reviewSec) reviewSec.classList.remove('hidden');
+      if (backBtn) backBtn.classList.remove('hidden');
+      if (saveBtn) saveBtn.classList.remove('hidden');
+      if (cancelBtnLabel) cancelBtnLabel.textContent = 'Cancelar';
+
+      renderImportPhotosReview();
+    }
+
+    function backToImportSource() {
+      showImportSourceStep();
+    }
+
+    function setImportProcessing(isProcessing, message = '') {
+      const bar = document.getElementById('importProcessingBar');
+      const msg = document.getElementById('importProcessingMessage');
+      const btnSpinner = document.getElementById('importFetchBtnSpinner');
+      const btnIcon = document.getElementById('importFetchBtnIcon');
+
+      if (bar) {
+        if (isProcessing) {
+          bar.classList.remove('hidden');
+          if (msg) msg.textContent = message;
+        } else {
+          bar.classList.add('hidden');
+        }
+      }
+
+      if (btnSpinner) btnSpinner.classList.toggle('hidden', !isProcessing);
+      if (btnIcon) btnIcon.classList.toggle('hidden', isProcessing);
+    }
+
+    function detectCategoryFromName(name) {
+      if (!name) return '';
+      const up = name.toUpperCase();
+      if (up.includes('FACHAD') || up.includes('FRENTE') || up.includes('PORTAL') || up.includes('ACESSO') || up.includes('ENTRADA')) return '01 Fachada';
+      if (up.includes('SUBEST') || up.includes('TRANSF') || up.includes('POSTE') || up.includes('ENERGIA') || up.includes('QUADRO ELETRICO')) return '02 Subestação';
+      if (up.includes('SALA') || up.includes('AULA') || up.includes('BLOCO')) return '03 Sala de Aula';
+      if (up.includes('REFEIT') || up.includes('COZINH') || up.includes('CANTIN') || up.includes('ALIMENT')) return '04 Refeitório';
+      if (up.includes('INFORMATIC') || up.includes('COMPUTAD') || up.includes('TI') || up.includes('LAB INF')) return '05 Laboratório de Informática';
+      if (up.includes('AEE') || up.includes('SAUDE') || up.includes('DIGITAL') || up.includes('MULTIUSO')) return '06 Sala AEE / Saúde Digital';
+      if (up.includes('CIENC') || up.includes('QUIMIC') || up.includes('FISIC') || up.includes('BIOLOG')) return '07 Laboratório de Ciências';
+      if (up.includes('BIBLIO') || up.includes('LIVRO') || up.includes('LEITUR')) return '08 Biblioteca';
+      if (up.includes('QUADRA') || up.includes('POLIESP') || up.includes('GINASIO') || up.includes('CAMPO') || up.includes('ESPORTE')) return '09 Quadra';
+      if (up.includes('BANHEIR') || up.includes('SANIT') || up.includes('VESTIAR') || up.includes('WC')) return '10 Banheiro / Vestiário';
+      if (up.includes('ADMINIST') || up.includes('DIRET') || up.includes('COORD') || up.includes('SECRET') || up.includes('SALA DOS PROF')) return '11 Setor Administrativo';
+      return '';
+    }
+
+    function handleImportFileSelection(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      processImportFiles(files);
+      e.target.value = '';
+    }
+
+    function handleImportDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('importDropzone');
+      if (dz) dz.classList.add('border-emerald-400', 'bg-emerald-950/30', 'scale-[1.01]');
+    }
+
+    function handleImportDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('importDropzone');
+      if (dz) dz.classList.remove('border-emerald-400', 'bg-emerald-950/30', 'scale-[1.01]');
+    }
+
+    function handleImportDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dz = document.getElementById('importDropzone');
+      if (dz) dz.classList.remove('border-emerald-400', 'bg-emerald-950/30', 'scale-[1.01]');
+      const files = e.dataTransfer ? e.dataTransfer.files : [];
+      if (files && files.length > 0) {
+        processImportFiles(files);
+      }
+    }
+
+    async function processImportFiles(files) {
+      const fileList = Array.from(files);
+      if (fileList.length === 0) return;
+
+      setImportProcessing(true, `Analisando ${fileList.length} arquivo(s)...`);
+
+      const defaultCat = (fotosActiveCategory && fotosActiveCategory !== 'TODAS') ? fotosActiveCategory : '01 Fachada';
+      let addedCount = 0;
+
+      for (const file of fileList) {
+        const nameLower = file.name.toLowerCase();
+
+        // 1. Arquivo ZIP
+        if (nameLower.endsWith('.zip') || file.type === 'application/zip' || file.type === 'application/x-zip-compressed') {
+          setImportProcessing(true, `Descompactando arquivo ZIP "${file.name}"...`);
+          try {
+            if (typeof JSZip !== 'undefined') {
+              const zip = await JSZip.loadAsync(file);
+              const entries = Object.keys(zip.files).filter(k => {
+                const entry = zip.files[k];
+                return !entry.dir && /\.(jpe?g|png|webp|gif|bmp|heic|svg)$/i.test(k);
+              });
+
+              for (const k of entries) {
+                const blob = await zip.files[k].async('blob');
+                const dataUrl = await new Promise((res) => {
+                  const r = new FileReader();
+                  r.onload = () => res(r.target.result);
+                  r.readAsDataURL(blob);
+                });
+                const baseName = k.split('/').pop().replace(/\.[^/.]+$/, "");
+                pendingImportPhotos.push({
+                  url: dataUrl,
+                  titulo: baseName || `Foto ZIP`,
+                  categoria: detectCategoryFromName(k) || defaultCat
+                });
+                addedCount++;
+              }
+            }
+          } catch (zipErr) {
+            console.error('Erro ao descompactar ZIP:', zipErr);
+            showToastNotification(`Aviso: Erro ao ler ZIP (${zipErr.message}).`);
+          }
+          continue;
+        }
+
+        // 2. Arquivo RAR
+        if (nameLower.endsWith('.rar') || file.type === 'application/x-rar-compressed') {
+          setImportProcessing(true, `Descompactando arquivo RAR "${file.name}"...`);
+          try {
+            if (typeof unrarit !== 'undefined' && unrarit.extract) {
+              const ab = await file.arrayBuffer();
+              const rarEntries = await unrarit.extract(ab);
+              for (const entry of rarEntries) {
+                if (entry.name && /\.(jpe?g|png|webp|gif|bmp|heic|svg)$/i.test(entry.name)) {
+                  const blob = new Blob([entry.data]);
+                  const dataUrl = await new Promise((res) => {
+                    const r = new FileReader();
+                    r.onload = () => res(r.target.result);
+                    r.readAsDataURL(blob);
+                  });
+                  const baseName = entry.name.split('/').pop().replace(/\.[^/.]+$/, "");
+                  pendingImportPhotos.push({
+                    url: dataUrl,
+                    titulo: baseName || `Foto RAR`,
+                    categoria: detectCategoryFromName(entry.name) || defaultCat
+                  });
+                  addedCount++;
+                }
+              }
+            } else {
+              showToastNotification('Aviso: Biblioteca de leitura RAR indisponível no momento.');
+            }
+          } catch (rarErr) {
+            console.error('Erro ao descompactar RAR:', rarErr);
+            showToastNotification(`Aviso: Erro ao ler RAR (${rarErr.message}).`);
+          }
+          continue;
+        }
+
+        // 3. Imagens individuais (JPG, PNG, WebP, etc.)
+        if (file.type.startsWith('image/') || /\.(jpe?g|png|webp|gif|bmp|heic)$/i.test(file.name)) {
+          try {
+            const dataUrl = await new Promise((res) => {
+              const r = new FileReader();
+              r.onload = () => res(r.target.result);
+              r.readAsDataURL(file);
+            });
+            const baseName = file.name.replace(/\.[^/.]+$/, "");
+            pendingImportPhotos.push({
+              url: dataUrl,
+              titulo: baseName || `Foto`,
+              categoria: detectCategoryFromName(file.name) || defaultCat
+            });
+            addedCount++;
+          } catch (imgErr) {
+            console.error('Erro ao ler imagem:', imgErr);
+          }
+          continue;
+        }
+      }
+
+      setImportProcessing(false);
+
+      if (pendingImportPhotos.length > 0) {
+        showImportReviewStep();
+        showToastNotification(`📸 ${pendingImportPhotos.length} foto(s) carregada(s)! Selecione os ambientes abaixo.`);
+      } else {
+        showToastNotification('Nenhuma foto válida (JPG, PNG, etc.) encontrada no arquivo selecionado.');
+      }
+    }
+
+    async function extractPhotosFromCloudLink() {
+      const input = document.getElementById('importCloudUrlInput');
+      if (!input) return;
+      const rawUrl = input.value.trim();
+      if (!rawUrl) {
+        showToastNotification('Por favor, informe um link de compartilhamento.');
+        input.focus();
+        return;
+      }
+
+      setImportProcessing(true, 'Acessando link compartilhado da nuvem...');
+
+      const defaultCat = (fotosActiveCategory && fotosActiveCategory !== 'TODAS') ? fotosActiveCategory : '01 Fachada';
+
+      // 1. Caso o usuário tenha colado links diretos de imagens
+      const directImageRegex = /https?:\/\/[^\s"',]+\.(jpe?g|png|webp|gif|bmp)/gi;
+      const directMatches = rawUrl.match(directImageRegex);
+      if (directMatches && directMatches.length > 0) {
+        directMatches.forEach((imgUrl) => {
+          pendingImportPhotos.push({
+            url: imgUrl,
+            titulo: `Foto Nuvem ${pendingImportPhotos.length + 1}`,
+            categoria: defaultCat
+          });
+        });
+        setImportProcessing(false);
+        showImportReviewStep();
+        showToastNotification(`✓ ${directMatches.length} foto(s) extraída(s) do link!`);
+        return;
+      }
+
+      // 2. Busca o conteúdo HTML do link compartilhado através do proxy
+      const proxyEndpoints = [
+        `/api/proxy?url=${encodeURIComponent(rawUrl)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(rawUrl)}`,
+        `https://corsproxy.io/?${encodeURIComponent(rawUrl)}`
+      ];
+
+      let htmlContent = '';
+      for (const pUrl of proxyEndpoints) {
+        try {
+          const res = await fetch(pUrl);
+          if (res.ok) {
+            htmlContent = await res.text();
+            if (htmlContent && htmlContent.length > 100) break;
+          }
+        } catch (e) {
+          console.warn('Tentativa proxy falhou:', pUrl, e);
+        }
+      }
+
+      if (!htmlContent) {
+        setImportProcessing(false);
+        showToastNotification('Não foi possível acessar o link informado. Verifique se o link é público.');
+        return;
+      }
+
+      let extractedUrls = [];
+
+      // 2.1 Google Fotos (photos.app.goo.gl ou photos.google.com)
+      if (rawUrl.includes('photos.google.com') || rawUrl.includes('photos.app.goo.gl')) {
+        setImportProcessing(true, 'Extraindo fotos do álbum do Google Fotos...');
+        const gphotosRegex = /https:\/\/lh3\.googleusercontent\.com\/[a-zA-Z0-9_\-]+/g;
+        const matches = htmlContent.match(gphotosRegex) || [];
+        const seen = new Set();
+        matches.forEach(u => {
+          if (u.length > 50 && !u.includes('photo.jpg') && !u.includes('default-user') && !seen.has(u)) {
+            seen.add(u);
+            extractedUrls.push(`${u}=w1200-h900`);
+          }
+        });
+      }
+      // 2.2 iCloud Photos (share.icloud.com)
+      else if (rawUrl.includes('icloud.com')) {
+        setImportProcessing(true, 'Extraindo fotos do álbum do iCloud...');
+        const icloudRegex = /https:\/\/[a-zA-Z0-9_\.\-]+\.icloud-content\.com\/[^\s"'<>\\]+/g;
+        const matches = htmlContent.match(icloudRegex) || [];
+        const ogImageMatch = htmlContent.match(/<meta property="og:image" content="([^"]+)"/i);
+        if (ogImageMatch && ogImageMatch[1]) {
+          extractedUrls.push(ogImageMatch[1]);
+        }
+        matches.forEach(u => {
+          if (!extractedUrls.includes(u)) extractedUrls.push(u);
+        });
+      }
+      // 2.3 Google Drive (drive.google.com)
+      else if (rawUrl.includes('drive.google.com')) {
+        setImportProcessing(true, 'Extraindo arquivos do Google Drive...');
+        const driveIdRegex = /\/d\/([a-zA-Z0-9-_]{20,})|id=([a-zA-Z0-9-_]{20,})/g;
+        let match;
+        const ids = new Set();
+        while ((match = driveIdRegex.exec(htmlContent)) !== null) {
+          const id = match[1] || match[2];
+          if (id) ids.add(id);
+        }
+        ids.forEach(id => {
+          extractedUrls.push(`https://drive.google.com/thumbnail?id=${id}&sz=w1200`);
+        });
+      }
+      // 2.4 Qualquer outra página web com tags <img> ou og:image
+      else {
+        const ogImg = htmlContent.match(/<meta property="og:image" content="([^"]+)"/i);
+        if (ogImg && ogImg[1]) extractedUrls.push(ogImg[1]);
+
+        const imgTagRegex = /<img[^>]+src=["'](https?:\/\/[^"']+)["']/gi;
+        let m;
+        while ((m = imgTagRegex.exec(htmlContent)) !== null) {
+          const src = m[1];
+          if (/\.(jpe?g|png|webp|gif)/i.test(src) && !extractedUrls.includes(src)) {
+            extractedUrls.push(src);
+          }
+        }
+      }
+
+      setImportProcessing(false);
+
+      if (extractedUrls.length > 0) {
+        extractedUrls.forEach((u) => {
+          pendingImportPhotos.push({
+            url: u,
+            titulo: `Foto Nuvem ${pendingImportPhotos.length + 1}`,
+            categoria: defaultCat
+          });
+        });
+        showImportReviewStep();
+        showToastNotification(`✓ ${extractedUrls.length} foto(s) encontrada(s) no link compartilhado!`);
+      } else {
+        showToastNotification('Nenhuma imagem encontrada no link. Certifique-se de que o álbum é público ou envie como arquivo ZIP.');
+      }
+    }
+
+    function renderImportPhotosReview() {
+      const grid = document.getElementById('importPhotosGrid');
+      const countBadge = document.getElementById('importFoundCountBadge');
+      const saveBtnText = document.getElementById('importConfirmSaveBtnText');
+
+      if (countBadge) countBadge.textContent = pendingImportPhotos.length;
+      if (saveBtnText) saveBtnText.textContent = `Salvar e Anexar Fotos (${pendingImportPhotos.length})`;
+
+      if (!grid) return;
+
+      if (pendingImportPhotos.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-8 text-center text-slate-400 text-xs">
+            Nenhuma foto pronta para importar. Volte e selecione arquivos ou insira um link.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = pendingImportPhotos.map((p, idx) => {
+        const catOptions = FOTOS_DEFAULT_CATEGORIES.map(c => 
+          `<option value="${c.key}" ${p.categoria === c.key ? 'selected' : ''}>${c.icon} ${c.label}</option>`
+        ).join('');
+
+        return `
+          <div class="bg-brand-dark/90 border border-brand-cardBorder rounded-2xl p-2.5 flex flex-col gap-2 shadow-md relative group hover:border-emerald-500/50 transition-all">
+            <!-- Miniatura -->
+            <div class="relative w-full h-28 sm:h-32 rounded-xl overflow-hidden bg-black/40 border border-brand-cardBorder/60 flex items-center justify-center">
+              <img 
+                src="${p.url}" 
+                alt="Prévia" 
+                class="w-full h-full object-cover transition-transform group-hover:scale-105"
+                onerror="this.onerror=null; this.src='icone-piaui.png'; this.classList.add('p-4', 'opacity-60');"
+              />
+              <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded-md bg-black/70 backdrop-blur-xs text-[10px] text-white font-mono font-bold">
+                #${idx + 1}
+              </span>
+              <button 
+                type="button" 
+                onclick="removePendingPhoto(${idx})"
+                class="absolute top-1.5 right-1.5 w-6 h-6 rounded-lg bg-red-600/80 hover:bg-red-600 text-white flex items-center justify-center text-xs shadow transition-all cursor-pointer"
+                title="Remover esta foto"
+              >
+                ✕
+              </button>
+            </div>
+
+            <!-- Título editável -->
+            <div class="flex flex-col gap-0.5">
+              <label class="text-[10px] font-bold text-slate-400">Título:</label>
+              <input 
+                type="text" 
+                value="${p.titulo}" 
+                onchange="updatePendingPhotoTitle(${idx}, this.value)"
+                class="bg-brand-panel border border-brand-cardBorder rounded-lg px-2 py-1 text-xs text-white placeholder-slate-500 outline-none focus:border-emerald-400"
+                placeholder="Nome da foto"
+              />
+            </div>
+
+            <!-- Seletor de Ambiente / Categoria (12 ambientes) -->
+            <div class="flex flex-col gap-0.5">
+              <label class="text-[10px] font-bold text-emerald-400">Ambiente:</label>
+              <select 
+                onchange="updatePendingPhotoCategory(${idx}, this.value)"
+                class="bg-brand-panel border border-emerald-500/40 rounded-lg px-2 py-1.5 text-xs text-emerald-300 font-bold outline-none focus:border-emerald-400 shadow-sm"
+              >
+                ${catOptions}
+              </select>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updatePendingPhotoTitle(index, val) {
+      if (pendingImportPhotos[index]) {
+        pendingImportPhotos[index].titulo = val.trim();
+      }
+    }
+
+    function updatePendingPhotoCategory(index, val) {
+      if (pendingImportPhotos[index]) {
+        pendingImportPhotos[index].categoria = val;
+      }
+    }
+
+    function removePendingPhoto(index) {
+      pendingImportPhotos.splice(index, 1);
+      renderImportPhotosReview();
+      if (pendingImportPhotos.length === 0) {
+        showImportSourceStep();
+      }
+    }
+
+    function applyBulkCategoryToAllPending() {
+      const bulkSelect = document.getElementById('importBulkCategorySelect');
+      if (!bulkSelect) return;
+      const newCat = bulkSelect.value;
+      pendingImportPhotos.forEach(p => {
+        p.categoria = newCat;
+      });
+      renderImportPhotosReview();
+      showToastNotification(`✓ Todas as ${pendingImportPhotos.length} fotos foram atribuídas para "${newCat}"!`);
+    }
+
+    function saveImportedPhotosToSystem() {
+      if (pendingImportPhotos.length === 0) {
+        showToastNotification('Nenhuma foto selecionada.');
+        return;
+      }
+
+      const schools = getSchoolsForGre(fotosActiveGre);
+      const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+      const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+      const now = new Date();
+      const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+
+      let firstCat = '';
+
+      pendingImportPhotos.forEach((p, idx) => {
+        const cat = p.categoria || '01 Fachada';
+        if (!firstCat) firstCat = cat;
+
+        const newPhoto = {
+          id: `foto-${Date.now()}-${idx}-${Math.random().toString(36).substr(2, 4)}`,
+          greKey: fotosActiveGre,
+          escola: fotosActiveSchool,
+          municipio: city,
+          pasta: cat,
+          url: p.url,
+          titulo: p.titulo || `Foto #${cat}`,
+          data: dma,
+          descricao: `Foto importada via ZIP/Link em ${dma}.`
+        };
+
+        fotosData.unshift(newPhoto);
+      });
+
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      updateModuleBadges();
+      
+      if (firstCat) {
+        fotosActiveCategory = firstCat;
+      }
+
+      renderFotosCategories();
+      renderFotosGallery();
+      closePhotoImportModal();
+
+      showToastNotification(`🎉 Sucesso! ${pendingImportPhotos.length} foto(s) anexada(s) e organizadas nos ambientes!`);
+      pendingImportPhotos = [];
     }
 
     function openAddEscolaModal() {
