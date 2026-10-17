@@ -1018,12 +1018,22 @@
       if (!rawUrl) return '';
       let url = rawUrl.trim();
 
+      // Suporte para Google Sheets
       if (url.includes('docs.google.com/spreadsheets')) {
+        // Extrai o ID da planilha
         const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
         if (idMatch && idMatch[1]) {
           const sheetId = idMatch[1];
+          // Extrai o gid da aba
           const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
-          const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
+          const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '&gid=0';
+
+          // Se for link do tipo "Publicado na Web" (/pub? ou /pubhtml)
+          if (url.includes('/pub') || url.includes('/pubhtml')) {
+            return `https://docs.google.com/spreadsheets/d/${sheetId}/pub?output=csv${gidParam}`;
+          }
+
+          // Link padrão de compartilhamento (/edit, /view, etc.)
           return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
         }
       }
@@ -1219,9 +1229,32 @@
     async function fetchSingleTab(rawUrl, prefix) {
       if (!rawUrl) return null;
       const csvUrl = convertToCsvUrl(rawUrl);
-      const resp = await fetch(csvUrl, { cache: 'no-store' });
-      if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
-      const text = await resp.text();
+      console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar URL:`, csvUrl);
+
+      let text = '';
+      try {
+        const resp = await fetch(csvUrl, { cache: 'no-store' });
+        if (resp.ok) {
+          text = await resp.text();
+        } else {
+          throw new Error(`Status HTTP ${resp.status}`);
+        }
+      } catch (errDirect) {
+        console.warn(`[Sincronização ${prefix.toUpperCase()}] Tentativa direta falhou (${errDirect.message}), tentando via proxy alternativo...`);
+        // Fallback usando proxy CORS para links protegidos por políticas de navegador
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
+        const respProxy = await fetch(proxyUrl);
+        if (!respProxy.ok) {
+          throw new Error(`Falha no download (${errDirect.message}). Verifique se a planilha está pública.`);
+        }
+        text = await respProxy.text();
+      }
+
+      // Validação: se o Google retornar HTML de login em vez de CSV
+      if (text.trim().startsWith('<!DOCTYPE html>') || text.includes('accounts.google.com') || text.includes('Sign in - Google Accounts')) {
+        throw new Error('A planilha está privada ou exige login no Google. Configure como "Qualquer pessoa com o link".');
+      }
+
       return await parseCsvToWorks(text, prefix);
     }
 
@@ -1264,7 +1297,8 @@
         console.error(err);
         if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
         if (syncText) syncText.textContent = 'Erro ao sincronizar';
-        showToastNotification('⚠️ Erro ao puxar dados da aba. Verifique o link no Google Sheets.');
+        const msg = err && err.message ? err.message : 'Verifique o link no Google Sheets.';
+        showToastNotification(`⚠️ Falha ao sincronizar: ${msg}`);
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
       }
