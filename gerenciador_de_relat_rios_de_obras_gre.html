@@ -2250,12 +2250,6 @@
       greFotosTotal: null,
       availableGresCt: null,
       availableGresPac: null,
-      renderedModules: {
-        CONTRATOS: false,
-        PACTUE: false,
-        PROJETOS: false,
-        FOTOS: false
-      },
       invalidateAll() {
         this.schoolsByGre.clear();
         this.projetosCountBySchool.clear();
@@ -2265,12 +2259,6 @@
         this.availableGresCt = null;
         this.availableGresPac = null;
         if (typeof _svgPreviewCache !== 'undefined') _svgPreviewCache.clear();
-        this.renderedModules = {
-          CONTRATOS: false,
-          PACTUE: false,
-          PROJETOS: false,
-          FOTOS: false
-        };
       }
     };
     const _svgPreviewCache = new Map();
@@ -2324,13 +2312,10 @@
         if (greDemandTag) greDemandTag.textContent = '(Obras de Contratos)';
         if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS DE CONTRATOS';
         
-        if (!FastCache.renderedModules.CONTRATOS) {
-          activeStatusFilter = 'TODOS';
-          renderGreSelector();
-          renderStatusFilters();
-          renderCards();
-          FastCache.renderedModules.CONTRATOS = true;
-        }
+        activeStatusFilter = 'TODOS';
+        renderGreSelector();
+        renderStatusFilters();
+        renderCards();
 
       } else if (currentModule === 'PACTUE') {
         if (btnPactue) btnPactue.className = activePac;
@@ -2341,13 +2326,10 @@
         if (greDemandTag) greDemandTag.textContent = '(Obras PACTUE)';
         if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS PACTUE';
         
-        if (!FastCache.renderedModules.PACTUE) {
-          activeStatusFilter = 'TODOS';
-          renderGreSelector();
-          renderStatusFilters();
-          renderCards();
-          FastCache.renderedModules.PACTUE = true;
-        }
+        activeStatusFilter = 'TODOS';
+        renderGreSelector();
+        renderStatusFilters();
+        renderCards();
 
       } else if (currentModule === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = activeProj;
@@ -2356,10 +2338,7 @@
         if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-purple-400';
         if (openExtLabel) openExtLabel.textContent = '📂 Abrir Projetos no Drive';
 
-        if (!FastCache.renderedModules.PROJETOS) {
-          initProjetosModule();
-          FastCache.renderedModules.PROJETOS = true;
-        }
+        initProjetosModule();
 
       } else if (currentModule === 'FOTOS') {
         if (btnFotos) btnFotos.className = activeFot;
@@ -2368,10 +2347,7 @@
         if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
         if (openExtLabel) openExtLabel.textContent = '📂 Abrir Fotos no Drive';
 
-        if (!FastCache.renderedModules.FOTOS) {
-          initFotosModule();
-          FastCache.renderedModules.FOTOS = true;
-        }
+        initFotosModule();
       }
 
       updateModuleBadges();
@@ -4379,25 +4355,17 @@
       FastCache.invalidateAll();
       routeFilesBetweenProjetosAndFotos();
       updateModuleBadges();
-
-      if (currentModule === 'CONTRATOS' || currentModule === 'PACTUE') {
-        renderGreSelector();
-        renderStatusFilters();
-        renderCards();
-        FastCache.renderedModules[currentModule] = true;
-      } else if (currentModule === 'PROJETOS') {
-        renderProjetosGreGrid();
-        renderProjetosSchools();
-        renderProjetosDisciplines();
-        renderProjetosList();
-        FastCache.renderedModules.PROJETOS = true;
-      } else if (currentModule === 'FOTOS') {
-        renderFotosGreGrid();
-        renderFotosSchools();
-        renderFotosCategories();
-        renderFotosGallery();
-        FastCache.renderedModules.FOTOS = true;
-      }
+      renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+      renderProjetosGreGrid();
+      renderProjetosSchools();
+      renderProjetosDisciplines();
+      renderProjetosList();
+      renderFotosGreGrid();
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
     }
 
     async function syncActiveModuleSheet() {
@@ -4405,32 +4373,57 @@
       const syncDot = document.getElementById('syncStatusDot');
       const syncText = document.getElementById('syncStatusText');
 
-      if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
-        if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-        if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
-        refreshAllViewsAfterSync();
-        setTimeout(() => {
-          if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
-          if (syncText) syncText.textContent = `Online (${timeStr})`;
-          showToastNotification(`✓ Aba ${currentModule} atualizada com as pastas e acervos!`);
-        }, 600);
-        return;
-      }
-
-      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-      const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-      if (!url) {
-        openSheetModal();
-        return;
-      }
-
       if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-      if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
 
       try {
+        if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
+          if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
+          const urlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+          const urlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+
+          if (urlCt) {
+            try {
+              const resCt = await fetchSingleTab(urlCt, 'ct');
+              if (resCt && resCt.length > 0) {
+                contractsData = resCt;
+                saveStoredData(STORAGE_KEY_CONTRACTS, contractsData);
+              }
+            } catch (e) {
+              console.warn('Sync contratos:', e);
+            }
+          }
+          if (urlPac) {
+            try {
+              const resPac = await fetchSingleTab(urlPac, 'pac');
+              if (resPac && resPac.length > 0) {
+                pactueData = resPac;
+                saveStoredData(STORAGE_KEY_PACTUE, pactueData);
+              }
+            } catch (e) {
+              console.warn('Sync pactue:', e);
+            }
+          }
+
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          localStorage.setItem(LAST_SYNC_KEY, timeStr);
+
+          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          if (syncText) syncText.textContent = `Online (${timeStr})`;
+
+          refreshAllViewsAfterSync();
+          showToastNotification(`✓ Aba ${currentModule} atualizada com os dados mais recentes!`);
+          return;
+        }
+
+        const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
+        const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        if (!url) {
+          openSheetModal();
+          return;
+        }
+
+        if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
         const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
         const parsed = await fetchSingleTab(url, prefix);
 
