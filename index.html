@@ -64,6 +64,12 @@
       animation: spin-sync 0.8s linear infinite;
     }
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
   <script src="acervo_drive_data.js"></script>
 </head>
 <body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
@@ -2084,7 +2090,8 @@
               data: '17/10/2026',
               url: 'https://drive.google.com/file/d/' + pdf.id + '/view',
               driveFileId: pdf.id,
-              driveFolderId: folderId
+              driveFolderId: folderId,
+              thumbnailUrl: 'https://lh3.googleusercontent.com/d/' + pdf.id + '=w800'
             });
           });
         }
@@ -2776,6 +2783,15 @@
     if (!projetosData || projetosData.length < 50) {
       projetosData = INITIAL_PROJETOS_DATA;
       saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+    } else {
+      let updatedThumb = false;
+      projetosData.forEach(p => {
+        if (p.driveFileId && !p.thumbnailUrl) {
+          p.thumbnailUrl = 'https://lh3.googleusercontent.com/d/' + p.driveFileId + '=w800';
+          updatedThumb = true;
+        }
+      });
+      if (updatedThumb) saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
     }
 
     let fotosData = loadStoredData(STORAGE_KEY_FOTOS_DATA, null);
@@ -3671,38 +3687,61 @@
         const badgeClass = getDisciplineBadgeClass(p.disciplina);
         const cleanSchool = extractCleanSchoolName(p.escola);
         const previewSvg = generateBlueprintPreviewSvg(p.disciplina, p.titulo, false);
+        const thumbUrl = p.thumbnailUrl || (p.driveFileId ? ('https://lh3.googleusercontent.com/d/' + p.driveFileId + '=w800') : '');
+        const displayName = p.titulo.toLowerCase().endsWith('.pdf') ? p.titulo : (p.titulo + '.pdf');
 
         return `
-          <div class="bg-brand-panel border border-brand-cardBorder hover:border-purple-500/50 rounded-2xl p-4 shadow-lg transition-all flex flex-col justify-between gap-3 group relative overflow-hidden">
+          <div class="bg-brand-panel border border-brand-cardBorder hover:border-purple-400 rounded-2xl p-3.5 shadow-lg hover:shadow-2xl hover:shadow-purple-950/40 transition-all flex flex-col justify-between gap-3 group relative overflow-hidden">
             
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-2.5">
               
-              <!-- Miniatura da Planta Baixa / Documento PDF -->
+              <!-- Miniatura Estilo Windows Explorer com Hover e Zoom -->
               <div 
                 onclick="openPdfViewer('${p.id}')"
-                class="w-full h-44 rounded-xl border border-purple-500/25 bg-[#081426] overflow-hidden relative cursor-pointer group-hover:border-purple-400 transition-all shadow-inner flex items-center justify-center"
-                title="Clique para abrir e visualizar a planta baixa em tela cheia"
+                class="w-full h-48 rounded-xl border border-purple-500/30 bg-[#060c18] overflow-hidden relative cursor-pointer group-hover:border-purple-400 transition-all shadow-inner flex items-center justify-center"
+                title="Clique para ampliar a planta (${p.titulo})"
               >
-                ${previewSvg}
+                ${thumbUrl ? `
+                  <img 
+                    src="${thumbUrl}" 
+                    alt="Capa do projeto: ${p.titulo}"
+                    loading="lazy"
+                    class="w-full h-full object-contain p-1.5 transition-transform duration-300 group-hover:scale-105"
+                    onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+                  />
+                  <div class="hidden w-full h-full flex items-center justify-center">
+                    ${previewSvg}
+                  </div>
+                ` : `
+                  ${previewSvg}
+                `}
 
-                <!-- Overlay de hover com botão de ação rápida -->
-                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
-                  <span class="px-3.5 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-bold shadow-lg flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-transform">
-                    <span>👁️</span> <span>Visualizar Planta</span>
+                <!-- Badge Superior: Tipo e Formato -->
+                <div class="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
+                  <span class="text-[9px] font-black px-2 py-0.5 rounded-md bg-purple-950/90 text-purple-200 border border-purple-500/40 shadow flex items-center gap-1">
+                    <span>📐</span> PLANTA BAIXA (PDF)
                   </span>
                 </div>
 
-                <div class="absolute top-2 right-2">
-                  <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-black/75 text-emerald-300 border border-emerald-500/30">
+                <div class="absolute top-2 right-2 pointer-events-none">
+                  <span class="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-black/80 text-emerald-300 border border-emerald-500/40">
                     PDF TÉCNICO
                   </span>
+                </div>
+
+                <!-- Overlay no Hover estilo Painel de Pré-visualização do Windows Explorer -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1.5 backdrop-blur-[1px]">
+                  <span class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-black shadow-xl flex items-center gap-2 transform translate-y-2 group-hover:translate-y-0 transition-all border border-purple-400/50">
+                    <span>🔍</span> Clique para ampliar a planta
+                  </span>
+                  <span class="text-[10px] text-purple-200 font-semibold">Pré-visualização em alta nitidez</span>
                 </div>
               </div>
 
               <!-- Informações do Documento -->
-              <div>
-                <div class="flex items-center justify-between gap-2 mb-1">
-                  <span class="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-brand-dark text-purple-300 border border-brand-cardBorder">
+              <div class="flex flex-col gap-1">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-brand-dark text-purple-300 border border-brand-cardBorder">
                     ${p.greKey}
                   </span>
                   <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">
@@ -3710,46 +3749,52 @@
                   </span>
                 </div>
 
-                <h3 class="text-sm font-extrabold text-white group-hover:text-purple-300 transition-colors line-clamp-2 leading-snug">
-                  ${p.titulo}
+                <!-- Nome do Arquivo PDF em Destaque -->
+                <h3 
+                  onclick="openPdfViewer('${p.id}')"
+                  class="text-xs sm:text-sm font-black text-white group-hover:text-purple-300 transition-colors line-clamp-2 leading-snug cursor-pointer flex items-start gap-1.5 pt-0.5" 
+                  title="${displayName}"
+                >
+                  <span class="text-purple-400 shrink-0 text-sm">📄</span>
+                  <span class="break-words">${displayName}</span>
                 </h3>
 
-                <div class="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
+                <div class="flex items-center gap-1.5 text-[11px] text-slate-400">
                   <span>🏫</span>
                   <span class="truncate font-semibold text-slate-300">${cleanSchool}</span>
                   <span>•</span>
-                  <span class="text-amber-400 font-medium">${p.municipio}</span>
+                  <span class="text-amber-400 font-medium shrink-0">${p.municipio}</span>
                 </div>
               </div>
 
             </div>
 
-            <!-- Rodapé da Caixinha com Botões de Ação -->
+            <!-- Rodapé do Card com Status e Botões de Ação -->
             <div class="pt-2 border-t border-brand-cardBorder flex flex-col gap-2">
               <div class="flex items-center justify-between text-[11px] text-slate-400">
                 <span class="flex items-center gap-1">
                   <span>Status:</span>
-                  <strong class="text-emerald-400">${p.status || 'Aprovado'}</strong>
+                  <strong class="text-emerald-400 font-bold">${p.status || 'Disponível'}</strong>
                 </span>
-                <span>📅 ${p.data || '2026'} ${p.versao ? '(' + p.versao + ')' : ''}</span>
+                <span>📅 ${p.data || '2026'}</span>
               </div>
 
-              <div class="grid grid-cols-2 gap-2 pt-1">
+              <div class="grid grid-cols-2 gap-2 pt-0.5">
                 <!-- Botão Visualizar -->
                 <button 
                   onclick="openPdfViewer('${p.id}')"
-                  class="py-1.5 px-2 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 text-xs font-bold text-center transition-all flex items-center justify-center gap-1 shadow-sm active:scale-95"
-                  title="Abrir pré-visualização completa da planta"
+                  class="py-2 px-2 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/40 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                  title="Abrir pré-visualização completa da planta baixa"
                 >
                   <span>👁️</span>
                   <span>Visualizar</span>
                 </button>
 
-                <!-- Botão Baixar Documento -->
+                <!-- Botão Baixar Projeto (PDF) com Download Imediato -->
                 <button 
                   onclick="downloadPdfDoc('${p.id}')"
-                  class="py-1.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold text-center transition-all flex items-center justify-center gap-1 shadow-md shadow-emerald-950/30 active:scale-95"
-                  title="Baixar arquivo PDF desta planta"
+                  class="py-2 px-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black text-center transition-all flex items-center justify-center gap-1.5 shadow-md shadow-emerald-950/40 border border-emerald-400/40 active:scale-95"
+                  title="Baixar arquivo original em PDF para o computador"
                 >
                   <span>⬇️</span>
                   <span>Baixar PDF</span>
@@ -3762,10 +3807,63 @@
       }).join('');
     }
 
+    // =========================================================================
+    // MODAL DE VISUALIZAÇÃO AMPLIADA DA PLANTA BAIXA & DOWNLOAD DIRETO
+    // =========================================================================
+    let currentPdfZoom = 1;
+    let activePdfViewerMode = 'image'; // 'image' (planta nítida) ou 'embed' (leitor PDF)
+
+    function zoomPdfImage(factor) {
+      const img = document.getElementById('pdfZoomImage');
+      if (!img) return;
+      currentPdfZoom = Math.min(3.5, Math.max(0.5, currentPdfZoom * factor));
+      img.style.transform = 'scale(' + currentPdfZoom + ')';
+      const label = document.getElementById('pdfZoomPercent');
+      if (label) label.textContent = Math.round(currentPdfZoom * 100) + '%';
+    }
+
+    function resetPdfImageZoom() {
+      const img = document.getElementById('pdfZoomImage');
+      if (!img) return;
+      currentPdfZoom = 1;
+      img.style.transform = 'scale(1)';
+      const label = document.getElementById('pdfZoomPercent');
+      if (label) label.textContent = '100%';
+    }
+
+    function setPdfViewerMode(mode) {
+      activePdfViewerMode = mode;
+      const imgView = document.getElementById('pdfModeImageView');
+      const embedView = document.getElementById('pdfModeEmbedView');
+      const btnImg = document.getElementById('btnModeImage');
+      const btnEmbed = document.getElementById('btnModeEmbed');
+
+      if (mode === 'image') {
+        if (imgView) imgView.classList.remove('hidden');
+        if (embedView) embedView.classList.add('hidden');
+        if (btnImg) {
+          btnImg.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all bg-purple-600 text-white shadow';
+        }
+        if (btnEmbed) {
+          btnEmbed.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder';
+        }
+      } else {
+        if (imgView) imgView.classList.add('hidden');
+        if (embedView) embedView.classList.remove('hidden');
+        if (btnImg) {
+          btnImg.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder';
+        }
+        if (btnEmbed) {
+          btnEmbed.className = 'px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all bg-purple-600 text-white shadow';
+        }
+      }
+    }
+
     function openPdfViewer(projId) {
       const p = projetosData.find(item => item.id === projId);
       if (!p) return;
       currentPdfProject = p;
+      currentPdfZoom = 1;
 
       const modal = document.getElementById('pdfViewerModal');
       const titleEl = document.getElementById('pdfModalTitle');
@@ -3777,27 +3875,104 @@
       const contentEl = document.getElementById('pdfViewerContent');
 
       const cleanSchool = extractCleanSchoolName(p.escola);
-      if (titleEl) titleEl.textContent = p.titulo || 'Planta Baixa / Projeto de Engenharia';
-      if (schoolEl) schoolEl.textContent = `${cleanSchool} • ${p.municipio || 'PIAUÍ'}`;
+      const displayName = p.titulo.toLowerCase().endsWith('.pdf') ? p.titulo : (p.titulo + '.pdf');
+      if (titleEl) titleEl.textContent = '📄 ' + displayName;
+      if (schoolEl) schoolEl.textContent = cleanSchool + ' • ' + (p.municipio || 'PIAUÍ');
       if (greBadge) greBadge.textContent = p.greKey || projetosActiveGre;
       if (discBadge) discBadge.textContent = p.disciplina || 'Projeto';
-      if (verEl) verEl.textContent = `Versão: ${p.versao || 'R01'}`;
-      if (dateEl) dateEl.textContent = `Data: ${p.data || '2026'}`;
+      if (verEl) verEl.textContent = 'Versão: ' + (p.versao || 'Acervo Drive');
+      if (dateEl) dateEl.textContent = 'Data: ' + (p.data || '2026');
+
+      // URLs de imagem e embed
+      const highResImgUrl = p.thumbnailUrl || (p.driveFileId ? ('https://lh3.googleusercontent.com/d/' + p.driveFileId + '=w2000') : '');
+      const embedPdfUrl = p.driveFileId 
+        ? ('https://drive.google.com/file/d/' + p.driveFileId + '/preview')
+        : (p.pdfDataUrl || p.url);
 
       if (contentEl) {
         contentEl.innerHTML = `
-          <div class="w-full h-full max-h-[70vh] flex flex-col items-center justify-center relative">
-            <div class="w-full h-full rounded-xl overflow-hidden border border-purple-500/30 shadow-2xl relative flex items-center justify-center bg-[#070d18]">
-              ${generateBlueprintPreviewSvg(p.disciplina, p.titulo, true)}
-              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-                <span class="px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md text-[11px] font-mono text-purple-300 border border-white/10">
-                  Prancha Técnica Oficial • Formato PDF A1 • SEDUC-PI
-                </span>
-                <span class="px-3 py-1 rounded-lg bg-emerald-500/20 backdrop-blur-md text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
-                  Status: ${p.status || 'Aprovado'}
-                </span>
+          <div class="w-full h-full flex flex-col gap-2.5">
+            
+            <!-- Barra de Controles e Alternância de Modo -->
+            <div class="flex flex-wrap items-center justify-between bg-black/60 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 shrink-0 gap-2">
+              <div class="flex items-center gap-2">
+                <button 
+                  id="btnModeImage"
+                  onclick="setPdfViewerMode('image')" 
+                  class="px-3 py-1.5 rounded-lg text-xs font-extrabold transition-all bg-purple-600 text-white shadow flex items-center gap-1.5"
+                  title="Visualização da capa da planta em alta resolução"
+                >
+                  <span>🔍</span> <span>Planta Ampliada (Alta Resolução)</span>
+                </button>
+
+                <button 
+                  id="btnModeEmbed"
+                  onclick="setPdfViewerMode('embed')" 
+                  class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder flex items-center gap-1.5"
+                  title="Visualizar documento completo com todas as páginas"
+                >
+                  <span>📑</span> <span>Leitor PDF Completo (Páginas)</span>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <!-- Controles de Zoom para a Planta -->
+                <div class="flex items-center bg-brand-dark border border-brand-cardBorder rounded-lg p-0.5">
+                  <button onclick="zoomPdfImage(0.8)" class="px-2 py-1 text-xs text-slate-300 hover:text-white hover:bg-slate-800 rounded font-bold" title="Diminuir Zoom">
+                    -
+                  </button>
+                  <span id="pdfZoomPercent" class="px-2 text-[11px] font-mono font-bold text-purple-300">100%</span>
+                  <button onclick="zoomPdfImage(1.25)" class="px-2 py-1 text-xs text-slate-300 hover:text-white hover:bg-slate-800 rounded font-bold" title="Aumentar Zoom">
+                    +
+                  </button>
+                  <button onclick="resetPdfImageZoom()" class="px-2 py-1 text-[11px] text-slate-400 hover:text-white hover:bg-slate-800 rounded ml-1" title="Ajustar à Tela">
+                    ↺ Ajustar
+                  </button>
+                </div>
+
+                <!-- Botão de Download Direto em Destaque no Topo do Visualizador -->
+                <button 
+                  onclick="triggerPdfDownload()" 
+                  class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-700/40 border border-emerald-400/40 flex items-center gap-2 transition-all active:scale-95"
+                  title="Fazer download imediato do arquivo PDF original para o computador"
+                >
+                  <span>⬇️</span>
+                  <span>Baixar Projeto (PDF)</span>
+                </button>
               </div>
             </div>
+
+            <!-- Área de Exibição 1: Imagem da Planta em Alta Resolução -->
+            <div id="pdfModeImageView" class="relative flex-1 w-full min-h-[64vh] max-h-[74vh] bg-[#040812] border border-purple-500/20 rounded-xl overflow-auto flex items-center justify-center p-3 select-none">
+              ${highResImgUrl ? `
+                <img 
+                  id="pdfZoomImage"
+                  src="${highResImgUrl}" 
+                  alt="Planta Baixa Ampliada"
+                  class="max-w-full max-h-[70vh] object-contain rounded-lg shadow-2xl transition-transform duration-150 origin-center cursor-zoom-in"
+                  onclick="zoomPdfImage(1.3)"
+                  onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=' + (currentPdfProject ? currentPdfProject.driveFileId : '') + '&sz=w1600';"
+                />
+              ` : `
+                <div class="w-full h-full flex items-center justify-center">
+                  ${generateBlueprintPreviewSvg(p.disciplina, p.titulo, true)}
+                </div>
+              `}
+
+              <div class="absolute bottom-3 left-3 bg-black/80 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 text-[11px] text-slate-300 pointer-events-none flex items-center gap-2">
+                <span>🔍 Clique na imagem ou use os botões +/- para dar zoom</span>
+              </div>
+            </div>
+
+            <!-- Área de Exibição 2: Leitor PDF Nativo / Iframe com Todas as Páginas -->
+            <div id="pdfModeEmbedView" class="hidden relative flex-1 w-full min-h-[64vh] max-h-[74vh] bg-[#040812] border border-purple-500/20 rounded-xl overflow-hidden">
+              <iframe 
+                src="${embedPdfUrl}" 
+                class="w-full h-full min-h-[64vh] border-0 rounded-xl"
+                allow="autoplay"
+              ></iframe>
+            </div>
+
           </div>
         `;
       }
@@ -3825,29 +4000,45 @@
       downloadPdfDoc(currentPdfProject.id);
     }
 
+    // Download Direto do Arquivo PDF Original
     function downloadPdfDoc(projId) {
       const p = projetosData.find(item => item.id === projId);
       if (!p) return;
 
       const cleanSchool = extractCleanSchoolName(p.escola);
       const safeTitle = (p.titulo || 'projeto').replace(/[/\\?%*:|"<>]/g, '-');
-      const fileName = `${cleanSchool} - ${p.disciplina || 'Projeto'} - ${safeTitle}.pdf`;
+      const fileName = cleanSchool + ' - ' + (p.disciplina || 'Projeto') + ' - ' + safeTitle + '.pdf';
       
-      showToastNotification(`✓ Iniciando download: ${fileName}`);
+      showToastNotification('✓ Iniciando download: ' + fileName);
 
-      // Se tiver link do drive com arquivo direto, faz abertura/download
-      if (p.url && p.url.startsWith('http') && p.url !== 'https://drive.google.com/') {
-        window.open(p.url, '_blank');
-      } else {
-        // Gera um blob de download do documento técnico em formato PDF
-        const content = `%PDF-1.4\n%SEDUC-PI PROJETO TÉCNICO DE ENGENHARIA\nESCOLA: ${cleanSchool}\nMUNICIPIO: ${p.municipio}\nGRE: ${p.greKey}\nDISCIPLINA: ${p.disciplina}\nTITULO: ${p.titulo}\nDATA: ${p.data || '2026'}\nVERSAO: ${p.versao || 'R01'}\nSTATUS: ${p.status || 'Aprovado'}\n%%EOF`;
-        const blob = new Blob([content], { type: 'application/pdf' });
+      // 1. Se for arquivo do Google Drive, usa link direto de download da API do Drive
+      if (p.driveFileId) {
+        const downloadUrl = 'https://drive.usercontent.google.com/download?id=' + p.driveFileId + '&export=download';
         const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
+        a.href = downloadUrl;
+        a.target = '_blank';
         a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+        return;
+      }
+
+      // 2. Se for arquivo local carregado em Base64 / Blob
+      if (p.pdfDataUrl) {
+        const a = document.createElement('a');
+        a.href = p.pdfDataUrl;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+
+      // 3. Se for URL externa direta
+      if (p.url && p.url.startsWith('http') && p.url !== 'https://drive.google.com/') {
+        window.open(p.url, '_blank');
+        return;
       }
     }
 
@@ -4604,9 +4795,31 @@
         else if (upName.includes('CLIM') || upName.includes('AR')) discipline = 'Climatização';
         else if (upName.includes('ORC') || upName.includes('PLANILHA')) discipline = 'Orçamento';
 
+        // Geração da Miniatura da 1ª página usando PDF.js
         const reader = new FileReader();
-        reader.onload = function(ev) {
-          const docUrl = (file.size <= 3 * 1024 * 1024) ? ev.target.result : URL.createObjectURL(file);
+        reader.onload = async function(ev) {
+          const docUrl = ev.target.result;
+          let thumbDataUrl = null;
+          let pageCount = 1;
+
+          if (typeof pdfjsLib !== 'undefined') {
+            try {
+              const arrayBuffer = await file.arrayBuffer();
+              const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+              pageCount = pdf.numPages;
+              const page = await pdf.getPage(1);
+              const viewport = page.getViewport({ scale: 1.5 });
+              const canvas = document.createElement('canvas');
+              canvas.width = viewport.width;
+              canvas.height = viewport.height;
+              const ctx = canvas.getContext('2d');
+              await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+              thumbDataUrl = canvas.toDataURL('image/jpeg', 0.88);
+            } catch (err) {
+              console.warn('PDF.js thumbnail generation error:', err);
+            }
+          }
+
           const newProj = {
             id: `proj-${Date.now()}-${index}`,
             greKey: projetosActiveGre,
@@ -4614,10 +4827,13 @@
             municipio: city,
             titulo: file.name.replace(/\.[^/.]+$/, "") || `Projeto Técnico ${discipline}`,
             disciplina: discipline,
-            status: 'Aprovado',
+            status: 'Disponível',
             versao: 'R01',
             data: dma,
-            url: docUrl
+            url: docUrl,
+            pdfDataUrl: docUrl,
+            thumbnailUrl: thumbDataUrl,
+            pageCount: pageCount
           };
 
           projetosData.unshift(newProj);
@@ -4628,7 +4844,7 @@
             updateModuleBadges();
             renderProjetosDisciplines();
             renderProjetosList();
-            showToastNotification(`✓ ${loadedCount} projeto(s) em PDF adicionado(s) com sucesso!`);
+            showToastNotification(`✓ ${loadedCount} projeto(s) em PDF adicionado(s) com miniatura gerada!`);
           }
         };
 
