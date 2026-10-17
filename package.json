@@ -1,0 +1,12 @@
+{
+  "name": "controle-obras-pactue",
+  "version": "2.0.0",
+  "scripts": {
+    "start": "node server.cjs",
+    "build:css": "tailwindcss -i input.css -o tailwind.min.css --minify",
+    "sync": "node sync-mirrors.cjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
