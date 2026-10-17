@@ -414,13 +414,11 @@
     <!-- FIM DO worksModuleContainer -->
 
     <!-- ============================================== -->
-    <!-- MÓDULO 3: ABA DE PROJETOS POR GRE             -->
+    <!-- MÓDULO 3: ABA DE PROJETOS POR GRE E ESCOLA     -->
     <!-- ============================================== -->
     <div id="projetosModuleContainer" class="hidden flex-col gap-6 w-full">
-      
 
-
-      <!-- Seletor de GRE para Projetos -->
+      <!-- NÍVEL 1: SELETOR DE GRE PARA PROJETOS -->
       <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
           <div class="flex items-center gap-2.5">
@@ -429,10 +427,10 @@
             </span>
             <div>
               <span class="text-[11px] uppercase font-extrabold tracking-wider text-purple-400">
-                Gerência Regional de Educação
+                1º Passo: Escolha a GRE
               </span>
               <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
-                Filtrar Projetos por GRE: <span id="projetosSelectedGreLabel" class="text-xs text-amber-400 font-semibold">Todas as GREs</span>
+                Filtrar Projetos por GRE: <span id="projetosSelectedGreLabel" class="text-xs text-amber-400 font-semibold">1ª GRE – Parnaíba</span>
               </h2>
             </div>
           </div>
@@ -460,41 +458,104 @@
         </div>
       </div>
 
-      <!-- Filtro de Disciplinas e Busca de Projetos -->
-      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 shadow-lg flex flex-col gap-3">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold uppercase text-slate-300">📐 Disciplinas de Projeto:</span>
-            <span id="projetosCountInfo" class="text-xs text-purple-400 font-semibold">0 projetos</span>
+      <!-- NÍVEL 2: CAIXA DE SELEÇÃO DAS ESCOLAS DA GRE -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-base font-bold">
+              🏫
+            </span>
+            <div>
+              <span class="text-[11px] uppercase font-extrabold tracking-wider text-purple-400">
+                2º Passo: Escolha a Escola
+              </span>
+              <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                Escolas com Projetos na <span id="projetosSchoolGreScopeTitle" class="text-amber-400 font-black">1ª GRE</span>:
+                <span id="projetosSchoolActiveTitle" class="text-xs font-semibold text-purple-400 ml-1"></span>
+              </h3>
+            </div>
           </div>
 
           <div class="flex items-center gap-2 w-full sm:w-auto">
             <input 
               type="text" 
-              id="projetosSearchQuery"
-              placeholder="Buscar por escola, município ou projeto..." 
-              oninput="handleProjetosSearch(this.value)"
-              class="w-full sm:w-72 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none"
+              id="projetosSchoolSearchInput"
+              placeholder="Filtrar escolas desta GRE..." 
+              oninput="filterProjetosSchools(this.value)"
+              class="w-full sm:w-64 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none"
             />
-            <button 
-              onclick="openAddProjetoModal()"
-              class="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 shrink-0"
-            >
-              <span>➕</span>
-              <span>Novo Projeto</span>
-            </button>
           </div>
         </div>
 
-        <!-- Balões de Disciplina -->
-        <div id="projetosDisciplinesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 pt-1">
+        <!-- Grade de balões das escolas -->
+        <div id="projetosSchoolsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 max-h-72 overflow-y-auto p-1">
           <!-- Injected via JS -->
         </div>
       </div>
 
-      <!-- Grade de Cards de Projetos -->
-      <div id="projetosCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Injected via JS -->
+      <!-- NÍVEL 3: PROJETOS EM PDF & PLANTAS BAIXAS DA ESCOLA SELECIONADA -->
+      <div id="projetosSchoolDetailsContainer" class="bg-gradient-to-b from-brand-panel to-brand-dark border-2 border-purple-500/40 rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col gap-5">
+        
+        <!-- Cabeçalho da Escola Selecionada -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-brand-cardBorder">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+              <span id="projetosSchoolBreadcrumbGre" class="text-purple-400 font-bold">1ª GRE – Parnaíba</span>
+              <span>›</span>
+              <span id="projetosSchoolBreadcrumbCity" class="text-slate-300">BATALHA</span>
+            </div>
+            <h2 id="projetosSelectedSchoolName" class="text-base sm:text-xl font-extrabold text-white mt-1">
+              CETI MARIA MELO
+            </h2>
+            <p class="text-xs text-slate-400 mt-0.5">Plantas baixas, memoriais descritivos e pranchas técnicas em formato PDF</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button 
+              onclick="openProjetosFolderDrive()"
+              class="px-3.5 py-1.5 rounded-xl bg-brand-card hover:bg-slate-800 border border-brand-cardBorder text-xs font-bold text-purple-400 hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>📂</span> Abrir Pasta no Google Drive
+            </button>
+            <button 
+              onclick="openAddProjetoModal()"
+              class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5"
+            >
+              <span>➕</span> Adicionar Projeto / PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Filtro por Disciplinas e Busca de Documentos -->
+        <div class="flex flex-col gap-2.5">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase text-slate-300">📐 Disciplinas de Projeto:</span>
+              <span id="projetosCountInfo" class="text-xs text-purple-400 font-semibold">0 documentos</span>
+            </div>
+
+            <div class="w-full sm:w-auto">
+              <input 
+                type="text" 
+                id="projetosSearchQuery"
+                placeholder="Buscar por nome do arquivo PDF..." 
+                oninput="handleProjetosSearch(this.value)"
+                class="w-full sm:w-72 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Balões de Disciplina -->
+          <div id="projetosDisciplinesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 pt-1">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- Grade de Caixinhas de PDF com Miniatura da Planta Baixa -->
+        <div id="projetosCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Injected via JS -->
+        </div>
+
       </div>
 
     </div>
@@ -1079,6 +1140,77 @@
         <span id="lightboxDateIndicator">📅 15/10/2026</span>
       </div>
 
+  <!-- ============================================================== -->
+  <!-- MODAL: VISUALIZADOR DE DOCUMENTOS PDF & PLANTAS BAIXAS        -->
+  <!-- ============================================================== -->
+  <div id="pdfViewerModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 select-none">
+    <div class="relative w-full max-w-5xl h-full max-h-[92vh] flex flex-col justify-between bg-brand-panel border border-brand-cardBorder rounded-2xl shadow-2xl overflow-hidden">
+      
+      <!-- Top Bar -->
+      <div class="w-full flex items-center justify-between gap-3 text-white bg-brand-dark/95 p-3.5 sm:p-4 border-b border-brand-cardBorder">
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-2 text-xs text-purple-400 font-semibold truncate">
+            <span id="pdfModalDisciplineBadge" class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold">Arquitetura</span>
+            <span>•</span>
+            <span id="pdfModalGreBadge" class="text-slate-300">1ª GRE – Parnaíba</span>
+          </div>
+          <h3 id="pdfModalTitle" class="text-sm sm:text-base font-extrabold text-white truncate mt-0.5">
+            Planta Baixa Geral e Layout Arquitetônico
+          </h3>
+          <p id="pdfModalSchool" class="text-xs text-slate-400 truncate">CETI MARIA MELO • BATALHA</p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <button 
+            id="pdfModalDriveBtn"
+            onclick="openPdfInDrive()" 
+            class="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-brand-card hover:bg-slate-700 text-purple-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            title="Abrir pasta no Google Drive"
+          >
+            <span>📂</span> <span class="hidden sm:inline">Google Drive</span>
+          </button>
+          
+          <button 
+            id="pdfModalDownloadBtn"
+            onclick="triggerPdfDownload()" 
+            class="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-md shadow-purple-600/30"
+            title="Baixar documento PDF da planta"
+          >
+            <span>⬇️</span> <span>Baixar PDF</span>
+          </button>
+
+          <button 
+            onclick="closePdfViewer()" 
+            class="w-8 h-8 rounded-xl bg-brand-card hover:bg-rose-600/80 text-white flex items-center justify-center text-sm font-bold transition-colors ml-1"
+            title="Fechar visualizador"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Viewer Area (Planta Baixa / Blueprint Canvas / Preview) -->
+      <div id="pdfViewerContent" class="relative flex-1 w-full bg-[#080d1a] overflow-auto flex items-center justify-center p-3 sm:p-5">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="w-full flex flex-wrap items-center justify-between text-xs text-slate-400 bg-brand-dark/95 px-4 py-2.5 border-t border-brand-cardBorder gap-2">
+        <div class="flex items-center gap-3">
+          <span id="pdfModalVersion" class="font-mono">Versão: R02</span>
+          <span>•</span>
+          <span id="pdfModalDate">📅 14/08/2026</span>
+          <span>•</span>
+          <span class="text-emerald-400 font-bold">✓ Formato PDF Técnico</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-slate-400">Escala: 1:100 / Formato A1</span>
+          <button onclick="triggerPdfDownload()" class="text-purple-400 hover:text-purple-300 underline font-semibold ml-2">
+            Clique para baixar o arquivo
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1618,15 +1750,15 @@
     ];
 
     // =========================================================================
-    // DATASET INICIAL DE PROJETOS DE ENGENHARIA & ARQUITETURA
+    // DATASET INICIAL DE PROJETOS DE ENGENHARIA & ARQUITETURA (PDFS E PLANTAS)
     // =========================================================================
     const INITIAL_PROJETOS_DATA = [
       {
         id: "proj-1",
         greKey: "1ª GRE",
-        escola: "CETI MARIA MELO",
+        escola: "012345 - CETI MARIA MELO",
         municipio: "BATALHA",
-        titulo: "Projeto Arquitetônico de Reforma e Ampliação Geral",
+        titulo: "Planta Baixa Arquitetônica de Reforma e Ampliação Geral",
         disciplina: "Arquitetura",
         status: "Aprovado",
         versao: "R02",
@@ -1636,7 +1768,7 @@
       {
         id: "proj-2",
         greKey: "1ª GRE",
-        escola: "CETI MARIA MELO",
+        escola: "012345 - CETI MARIA MELO",
         municipio: "BATALHA",
         titulo: "Projeto Estrutural da Cobertura da Quadra Poliesportiva",
         disciplina: "Estrutural",
@@ -1648,7 +1780,7 @@
       {
         id: "proj-3",
         greKey: "1ª GRE",
-        escola: "CETI MARIA MELO",
+        escola: "012345 - CETI MARIA MELO",
         municipio: "BATALHA",
         titulo: "Projeto Elétrico de Climatização e Subestação 150kVA",
         disciplina: "Elétrico",
@@ -1660,7 +1792,7 @@
       {
         id: "proj-4",
         greKey: "1ª GRE",
-        escola: "CETI MARIA MELO",
+        escola: "012345 - CETI MARIA MELO",
         municipio: "BATALHA",
         titulo: "Projeto de Combate a Incêndio, Pânico e SPDA",
         disciplina: "Incêndio",
@@ -1671,10 +1803,22 @@
       },
       {
         id: "proj-5",
+        greKey: "1ª GRE",
+        escola: "012480 - CETI CLÓVIS SALGADO",
+        municipio: "PARNAÍBA",
+        titulo: "Planta Baixa do Novo Refeitório e Cozinha Industrial",
+        disciplina: "Arquitetura",
+        status: "Aprovado",
+        versao: "R01",
+        data: "12/09/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-6",
         greKey: "4ª GRE",
-        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        escola: "040192 - ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
         municipio: "TERESINA",
-        titulo: "Projeto Hidrossanitário e Drenagem Pluvial do Galpão",
+        titulo: "Projeto Hidrossanitário e Drenagem Pluvial do Galpão Principal",
         disciplina: "Hidrossanitário",
         status: "Executivo",
         versao: "R01",
@@ -1682,11 +1826,11 @@
         url: "https://drive.google.com/"
       },
       {
-        id: "proj-6",
+        id: "proj-7",
         greKey: "4ª GRE",
-        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        escola: "040192 - ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
         municipio: "TERESINA",
-        titulo: "Orçamento Discriminado, Cronograma e Memorial Descritivo",
+        titulo: "Orçamento Discriminado, Cronograma e Memorial Descritivo Completo",
         disciplina: "Orçamento",
         status: "Aprovado",
         versao: "R04",
@@ -1694,11 +1838,11 @@
         url: "https://drive.google.com/"
       },
       {
-        id: "proj-7",
+        id: "proj-8",
         greKey: "8ª GRE",
-        escola: "CETI ORLANDO CARVALHO",
+        escola: "080552 - CETI ORLANDO CARVALHO",
         municipio: "OEIRAS",
-        titulo: "Projeto Arquitetônico dos Novos Laboratórios de Ciências",
+        titulo: "Planta Baixa Arquitetônica dos Novos Laboratórios de Ciências",
         disciplina: "Arquitetura",
         status: "Em Análise",
         versao: "R01",
@@ -1706,11 +1850,11 @@
         url: "https://drive.google.com/"
       },
       {
-        id: "proj-8",
+        id: "proj-9",
         greKey: "15ª GRE",
-        escola: "PACTUE: REFORMA GERAL U.E. GILBUÉS",
+        escola: "150992 - PACTUE: REFORMA GERAL U.E. GILBUÉS",
         municipio: "GILBUÉS",
-        titulo: "Projeto Elétrico de Reforma e Força Motriz",
+        titulo: "Projeto Elétrico de Reforma, Subestação e Força Motriz",
         disciplina: "Elétrico",
         status: "Em Revisão",
         versao: "R01",
@@ -2127,12 +2271,83 @@
       }
     }
 
+    // Estado do Módulo de Projetos
+    let projetosActiveSchool = 'CETI MARIA MELO';
+    let currentPdfProject = null;
+
+    function extractCleanSchoolName(raw) {
+      if (!raw) return '';
+      const trimmed = String(raw).trim();
+      // Remove sequência numérica inicial seguida de separador (traço, ponto, espaço, underline, etc.)
+      // Exemplo: "012345 - CETI MARIA MELO" -> "CETI MARIA MELO"
+      // "220192 CETI PRESIDENTE KENNEDY" -> "CETI PRESIDENTE KENNEDY"
+      // "01_ESCOLA MODELO" -> "ESCOLA MODELO"
+      // "1. CETI TAL" -> "CETI TAL"
+      const cleaned = trimmed.replace(/^[\d\s\-_.–—:]+/, '').trim();
+      return cleaned || trimmed;
+    }
+
     function initProjetosModule() {
       const input = document.getElementById('projetosSharedFolderInput');
       if (input) input.value = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || '';
+      
+      if (!projetosActiveGre || projetosActiveGre === 'TODAS') {
+        projetosActiveGre = '1ª GRE';
+      }
+      
       renderProjetosGreGrid();
+      renderProjetosSchools();
       renderProjetosDisciplines();
       renderProjetosList();
+    }
+
+    function getSchoolsForProjetosGre(greKey) {
+      const map = new Map();
+      const normGre = normalizeGreKey(greKey);
+
+      // 1. Extrai das obras de Contratos e PACTUE
+      [...contractsData, ...pactueData].forEach(w => {
+        if (greKey === 'TODAS' || normalizeGreKey(w.greKey) === normGre || normalizeGreKey(w.gre) === normGre) {
+          const rawName = (w.escola || '').trim().toUpperCase();
+          const cleanName = extractCleanSchoolName(rawName);
+          if (cleanName && !map.has(cleanName)) {
+            map.set(cleanName, {
+              nome: cleanName,
+              municipio: (w.municipio || 'MUNICÍPIO').toUpperCase(),
+              greKey: w.greKey || greKey
+            });
+          }
+        }
+      });
+
+      // 2. Extrai dos projetos cadastrados
+      projetosData.forEach(p => {
+        if (greKey === 'TODAS' || normalizeGreKey(p.greKey) === normGre) {
+          const rawName = (p.escola || '').trim().toUpperCase();
+          const cleanName = extractCleanSchoolName(rawName);
+          if (cleanName && !map.has(cleanName)) {
+            map.set(cleanName, {
+              nome: cleanName,
+              municipio: (p.municipio || 'MUNICÍPIO').toUpperCase(),
+              greKey: p.greKey || greKey
+            });
+          }
+        }
+      });
+
+      return Array.from(map.values()).sort((a, b) => a.nome.localeCompare(b.nome));
+    }
+
+    function getSchoolProjetosCount(greKey, schoolName, discipline) {
+      const normGre = normalizeGreKey(greKey);
+      const cleanSchool = extractCleanSchoolName(schoolName).toUpperCase();
+
+      return projetosData.filter(p => {
+        const matchGre = (greKey === 'TODAS') || (normalizeGreKey(p.greKey) === normGre);
+        const matchSchool = extractCleanSchoolName(p.escola).toUpperCase() === cleanSchool;
+        const matchDisc = !discipline || discipline === 'TODAS' || p.disciplina === discipline;
+        return matchGre && matchSchool && matchDisc;
+      }).length;
     }
 
     function renderProjetosGreGrid() {
@@ -2211,6 +2426,16 @@
     function setProjetosGreFilter(greKey) {
       projetosActiveGre = greKey;
       renderProjetosGreGrid();
+      
+      const schools = getSchoolsForProjetosGre(greKey);
+      if (schools.length > 0) {
+        projetosActiveSchool = schools[0].nome;
+      } else {
+        projetosActiveSchool = '';
+      }
+
+      renderProjetosSchools();
+      renderProjetosDisciplines();
       renderProjetosList();
     }
 
@@ -2225,33 +2450,130 @@
       });
     }
 
+    function renderProjetosSchools() {
+      const grid = document.getElementById('projetosSchoolsGrid');
+      const scopeTitle = document.getElementById('projetosSchoolGreScopeTitle');
+      const activeTitle = document.getElementById('projetosSchoolActiveTitle');
+      if (!grid) return;
+
+      const currentGreLabel = (projetosActiveGre === 'TODAS') ? 'Todas as GREs' : projetosActiveGre;
+      if (scopeTitle) scopeTitle.textContent = currentGreLabel;
+
+      const schools = getSchoolsForProjetosGre(projetosActiveGre);
+
+      if (schools.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-6 text-center text-xs text-slate-400 bg-brand-dark/50 rounded-xl border border-brand-cardBorder">
+            Nenhuma escola localizada para esta GRE.
+          </div>
+        `;
+        if (activeTitle) activeTitle.textContent = '';
+        return;
+      }
+
+      if (!schools.some(s => s.nome === projetosActiveSchool)) {
+        projetosActiveSchool = schools[0].nome;
+      }
+
+      if (activeTitle) activeTitle.textContent = `• Selecionada: ${projetosActiveSchool}`;
+
+      grid.innerHTML = schools.map(s => {
+        const isSelected = (s.nome === projetosActiveSchool);
+        const count = getSchoolProjetosCount(projetosActiveGre, s.nome);
+
+        return `
+          <button 
+            onclick="selectProjetosSchool('${s.nome.replace(/'/g, "\\'")}')"
+            class="p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 ${
+              isSelected 
+                ? 'bg-purple-600/30 border-purple-500 shadow-md shadow-purple-900/30 ring-1 ring-purple-400 scale-[1.01]' 
+                : 'bg-brand-dark/80 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="${s.nome} (${s.municipio})"
+          >
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="text-base shrink-0">${isSelected ? '📌' : '🏫'}</span>
+              <div class="flex flex-col min-w-0">
+                <span class="text-xs font-bold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-200'}">
+                  ${s.nome}
+                </span>
+                <span class="text-[10px] text-slate-400 truncate leading-tight mt-0.5">
+                  ${s.municipio}
+                </span>
+              </div>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-bold ${
+              isSelected ? 'bg-purple-500 text-white' : 'bg-brand-card text-purple-300 border border-brand-cardBorder'
+            }">
+              ${count} PDF${count !== 1 ? 's' : ''}
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      updateProjetosSchoolHeader();
+    }
+
+    function selectProjetosSchool(schoolName) {
+      projetosActiveSchool = schoolName;
+      renderProjetosSchools();
+      renderProjetosDisciplines();
+      renderProjetosList();
+    }
+
+    function filterProjetosSchools(query) {
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('projetosSchoolsGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
+      });
+    }
+
+    function updateProjetosSchoolHeader() {
+      const nameEl = document.getElementById('projetosSelectedSchoolName');
+      const breadGre = document.getElementById('projetosSchoolBreadcrumbGre');
+      const breadCity = document.getElementById('projetosSchoolBreadcrumbCity');
+      
+      const schools = getSchoolsForProjetosGre(projetosActiveGre);
+      const curr = schools.find(s => s.nome === projetosActiveSchool) || { nome: projetosActiveSchool, municipio: 'MUNICÍPIO', greKey: projetosActiveGre };
+
+      if (nameEl) nameEl.textContent = curr.nome || 'SELECIONE UMA ESCOLA';
+      if (breadGre) breadGre.textContent = curr.greKey || projetosActiveGre;
+      if (breadCity) breadCity.textContent = curr.municipio;
+    }
+
     function renderProjetosDisciplines() {
       const bar = document.getElementById('projetosDisciplinesBar');
       if (!bar) return;
 
       const disciplines = [
         { key: 'TODAS', label: 'Todas as Disciplinas', icon: '🌟' },
-        { key: 'Arquitetura', label: 'Arquitetura', icon: '📐' },
+        { key: 'Arquitetura', label: 'Arquitetura / Planta Baixa', icon: '📐' },
         { key: 'Estrutural', label: 'Estrutural', icon: '🧱' },
-        { key: 'Elétrico', label: 'Elétrico', icon: '⚡' },
+        { key: 'Elétrico', label: 'Elétrico / Climatização', icon: '⚡' },
         { key: 'Hidrossanitário', label: 'Hidrossanitário', icon: '💧' },
         { key: 'Incêndio', label: 'Incêndio / SPDA', icon: '🧯' },
-        { key: 'Orçamento', label: 'Orçamento / Planilhas', icon: '📋' }
+        { key: 'Orçamento', label: 'Orçamento & Memorial', icon: '📋' }
       ];
 
-      // Contagem por disciplina dentro do escopo da GRE selecionada
-      const filteredByGre = (projetosActiveGre === 'TODAS')
-        ? projetosData
-        : projetosData.filter(p => normalizeGreKey(p.greKey) === normalizeGreKey(projetosActiveGre));
+      const cleanActiveSchool = extractCleanSchoolName(projetosActiveSchool).toUpperCase();
+      const filteredBySchool = projetosData.filter(p => {
+        const matchGre = (projetosActiveGre === 'TODAS') || (normalizeGreKey(p.greKey) === normalizeGreKey(projetosActiveGre));
+        const matchSchool = !cleanActiveSchool || extractCleanSchoolName(p.escola).toUpperCase() === cleanActiveSchool;
+        return matchGre && matchSchool;
+      });
 
       const discCounts = new Map();
-      filteredByGre.forEach(p => {
+      filteredBySchool.forEach(p => {
         const d = p.disciplina || 'Outros';
         discCounts.set(d, (discCounts.get(d) || 0) + 1);
       });
 
       bar.innerHTML = disciplines.map(d => {
-        const count = (d.key === 'TODAS') ? filteredByGre.length : (discCounts.get(d.key) || 0);
+        const count = (d.key === 'TODAS') ? filteredBySchool.length : (discCounts.get(d.key) || 0);
         const isSelected = (projetosActiveDiscipline === d.key);
 
         return `
@@ -2299,32 +2621,142 @@
       return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
     }
 
+    // Gerador de miniatura gráfica de alta definição de Planta Baixa / Blueprint em SVG
+    function generateBlueprintPreviewSvg(discipline, title, isLarge = false) {
+      const d = (discipline || 'Arquitetura').toLowerCase();
+      const strokeColor = d.includes('elétr') ? '#facc15' : d.includes('hidro') ? '#38bdf8' : d.includes('incên') ? '#f87171' : '#38bdf8';
+      const width = isLarge ? 800 : 360;
+      const height = isLarge ? 500 : 200;
+
+      return `
+        <svg viewBox="0 0 ${width} ${height}" class="w-full h-full select-none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="blueprintGrid_${isLarge ? 'lg' : 'sm'}" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#132742" stroke-width="0.75" />
+            </pattern>
+            <pattern id="blueprintGridMajor_${isLarge ? 'lg' : 'sm'}" width="100" height="100" patternUnits="userSpaceOnUse">
+              <rect width="100" height="100" fill="url(#blueprintGrid_${isLarge ? 'lg' : 'sm'})" />
+              <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#1d3b66" stroke-width="1.5" />
+            </pattern>
+          </defs>
+
+          <!-- Fundo Blueprint Técnico -->
+          <rect width="${width}" height="${height}" fill="#081426" />
+          <rect width="${width}" height="${height}" fill="url(#blueprintGridMajor_${isLarge ? 'lg' : 'sm'})" />
+
+          <!-- Margem Técnica ABNT -->
+          <rect x="8" y="8" width="${width - 16}" height="${height - 16}" fill="none" stroke="#38bdf8" stroke-width="1.2" opacity="0.6" />
+          <rect x="12" y="12" width="${width - 24}" height="${height - 24}" fill="none" stroke="#1d4ed8" stroke-width="0.8" opacity="0.4" />
+
+          <!-- Desenho Arquitetônico: Paredes & Cômodos da Escola -->
+          <g transform="translate(${isLarge ? 60 : 25}, ${isLarge ? 40 : 20}) scale(${isLarge ? 1.6 : 0.75})" stroke="${strokeColor}" stroke-width="2.5" fill="none" stroke-linejoin="round">
+            
+            <!-- Perímetro Principal do Pavilhão -->
+            <polygon points="20,20 380,20 380,180 20,180" fill="#0b213f" fill-opacity="0.4" stroke-width="3" />
+            
+            <!-- Divisórias de Salas e Laboratórios -->
+            <line x1="110" y1="20" x2="110" y2="180" stroke-width="2" />
+            <line x1="200" y1="20" x2="200" y2="180" stroke-width="2" />
+            <line x1="290" y1="20" x2="290" y2="180" stroke-width="2" />
+            <line x1="20" y1="130" x2="380" y2="130" stroke-dasharray="4,3" stroke-width="1.5" stroke="#60a5fa" />
+
+            <!-- Aberturas de Portas com Arco de Abertura -->
+            <path d="M 35 130 A 20 20 0 0 1 55 110" stroke="#93c5fd" stroke-width="1.2" />
+            <line x1="35" y1="130" x2="55" y2="130" stroke="#93c5fd" stroke-width="1.5" />
+
+            <path d="M 125 130 A 20 20 0 0 1 145 110" stroke="#93c5fd" stroke-width="1.2" />
+            <line x1="125" y1="130" x2="145" y2="130" stroke="#93c5fd" stroke-width="1.5" />
+
+            <path d="M 215 130 A 20 20 0 0 1 235 110" stroke="#93c5fd" stroke-width="1.2" />
+            <line x1="215" y1="130" x2="235" y2="130" stroke="#93c5fd" stroke-width="1.5" />
+
+            <!-- Janelas das Fachadas -->
+            <line x1="40" y1="20" x2="90" y2="20" stroke="#ffffff" stroke-width="3.5" />
+            <line x1="130" y1="20" x2="180" y2="20" stroke="#ffffff" stroke-width="3.5" />
+            <line x1="220" y1="20" x2="270" y2="20" stroke="#ffffff" stroke-width="3.5" />
+            <line x1="310" y1="20" x2="360" y2="20" stroke="#ffffff" stroke-width="3.5" />
+
+            <!-- Linhas de Cotas Técnicas (Dimensões em Metros) -->
+            <g stroke="#94a3b8" stroke-width="0.8">
+              <line x1="20" y1="195" x2="380" y2="195" />
+              <line x1="20" y1="190" x2="20" y2="200" stroke-width="1.5" />
+              <line x1="110" y1="190" x2="110" y2="200" stroke-width="1.5" />
+              <line x1="200" y1="190" x2="200" y2="200" stroke-width="1.5" />
+              <line x1="290" y1="190" x2="290" y2="200" stroke-width="1.5" />
+              <line x1="380" y1="190" x2="380" y2="200" stroke-width="1.5" />
+            </g>
+
+            <!-- Textos Técnicos da Planta Baixa -->
+            <text x="65" y="75" fill="#38bdf8" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">SALA 01</text>
+            <text x="65" y="90" fill="#94a3b8" font-size="7" font-family="monospace" text-anchor="middle">A = 48.0m²</text>
+
+            <text x="155" y="75" fill="#38bdf8" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">LAB INFORMÁTICA</text>
+            <text x="155" y="90" fill="#94a3b8" font-size="7" font-family="monospace" text-anchor="middle">A = 48.0m²</text>
+
+            <text x="245" y="75" fill="#38bdf8" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">LAB CIÊNCIAS</text>
+            <text x="245" y="90" fill="#94a3b8" font-size="7" font-family="monospace" text-anchor="middle">A = 48.0m²</text>
+
+            <text x="335" y="75" fill="#38bdf8" font-size="9" font-family="monospace" font-weight="bold" text-anchor="middle">SALA 02</text>
+            <text x="335" y="90" fill="#94a3b8" font-size="7" font-family="monospace" text-anchor="middle">A = 48.0m²</text>
+
+            <text x="200" y="155" fill="#cbd5e1" font-size="8" font-family="monospace" text-anchor="middle">CIRCULAÇÃO / CORREDOR (L = 2.40m)</text>
+          </g>
+
+          <!-- Indicador de Norte Magnético -->
+          <g transform="translate(${width - 45}, 35)" stroke="#38bdf8" fill="none">
+            <circle cx="0" cy="0" r="14" stroke-width="1" />
+            <polygon points="0,-12 4,2 0,0 -4,2" fill="#38bdf8" />
+            <text x="0" y="-15" fill="#38bdf8" font-size="8" font-family="sans-serif" font-weight="bold" text-anchor="middle">N</text>
+          </g>
+
+          <!-- Carimbo Técnico de Engenharia (Canto Inferior Direito) -->
+          <g transform="translate(${width - (isLarge ? 260 : 180)}, ${height - (isLarge ? 75 : 55)})">
+            <rect width="${isLarge ? 245 : 165}" height="${isLarge ? 65 : 45}" fill="#081426" stroke="#38bdf8" stroke-width="1" rx="4" />
+            <text x="8" y="14" fill="#38bdf8" font-size="${isLarge ? 10 : 8}" font-family="sans-serif" font-weight="900">GOVERNO DO PIAUÍ • SEDUC</text>
+            <text x="8" y="${isLarge ? 28 : 23}" fill="#e2e8f0" font-size="${isLarge ? 9 : 7}" font-family="sans-serif" font-weight="bold">PROJETO DE ENGENHARIA ESCOLAR</text>
+            <text x="8" y="${isLarge ? 42 : 32}" fill="#94a3b8" font-size="${isLarge ? 8 : 6}" font-family="monospace">ESCALA 1:100 • PRANCHA 01/01</text>
+            <text x="8" y="${isLarge ? 55 : 40}" fill="#4ade80" font-size="${isLarge ? 8 : 6}" font-family="monospace" font-weight="bold">ARQUIVO TÉCNICO PDF</text>
+          </g>
+
+          <!-- Marca D'água PDF -->
+          <g transform="translate(18, 28)">
+            <rect width="64" height="22" rx="6" fill="#ef4444" fill-opacity="0.9" />
+            <text x="32" y="15" fill="#ffffff" font-size="10" font-family="sans-serif" font-weight="900" text-anchor="middle">PDF</text>
+          </g>
+        </svg>
+      `;
+    }
+
     function renderProjetosList() {
       const container = document.getElementById('projetosCardsGrid');
       const countInfo = document.getElementById('projetosCountInfo');
       if (!container) return;
 
+      const cleanActiveSchool = extractCleanSchoolName(projetosActiveSchool).toUpperCase();
+
+      // Filtra por GRE, Escola limpa, Disciplina e Busca
       let list = projetosData.filter(p => {
         const matchesGre = (projetosActiveGre === 'TODAS' || normalizeGreKey(p.greKey) === normalizeGreKey(projetosActiveGre));
+        const matchesSchool = !cleanActiveSchool || extractCleanSchoolName(p.escola).toUpperCase() === cleanActiveSchool;
         const matchesDisc = (projetosActiveDiscipline === 'TODAS' || p.disciplina === projetosActiveDiscipline);
         const matchesSearch = !projetosSearchQuery || 
           (p.escola || '').toLowerCase().includes(projetosSearchQuery) ||
           (p.titulo || '').toLowerCase().includes(projetosSearchQuery) ||
           (p.municipio || '').toLowerCase().includes(projetosSearchQuery) ||
           (p.disciplina || '').toLowerCase().includes(projetosSearchQuery);
-        return matchesGre && matchesDisc && matchesSearch;
+        return matchesGre && matchesSchool && matchesDisc && matchesSearch;
       });
 
-      if (countInfo) countInfo.textContent = `${list.length} projeto(s) encontrado(s)`;
+      if (countInfo) countInfo.textContent = `${list.length} documento(s) em PDF`;
 
       if (list.length === 0) {
         container.innerHTML = `
           <div class="col-span-full bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
             <span class="text-3xl">📐</span>
-            <h4 class="text-base font-bold text-white">Nenhum projeto encontrado</h4>
-            <p class="text-xs text-slate-400 max-w-md">Não há projetos para este filtro na GRE selecionada. Você pode cadastrar um novo projeto ou vincular a pasta do Drive.</p>
+            <h4 class="text-base font-bold text-white">Nenhum documento PDF encontrado para esta escola</h4>
+            <p class="text-xs text-slate-400 max-w-md">Não há pranchas cadastradas para a disciplina selecionada nesta escola. Você pode adicionar um novo projeto em PDF ou consultar outra escola/disciplina.</p>
             <button onclick="openAddProjetoModal()" class="mt-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md">
-              ➕ Cadastrar Primeiro Projeto
+              ➕ Adicionar Primeiro Documento PDF
             </button>
           </div>
         `;
@@ -2333,35 +2765,62 @@
 
       container.innerHTML = list.map(p => {
         const badgeClass = getDisciplineBadgeClass(p.disciplina);
-        const driveLink = p.url || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || 'https://drive.google.com/';
+        const cleanSchool = extractCleanSchoolName(p.escola);
+        const previewSvg = generateBlueprintPreviewSvg(p.disciplina, p.titulo, false);
 
         return `
-          <div class="bg-brand-panel border border-brand-cardBorder hover:border-purple-500/40 rounded-2xl p-4 shadow-lg transition-all flex flex-col justify-between gap-3 group">
+          <div class="bg-brand-panel border border-brand-cardBorder hover:border-purple-500/50 rounded-2xl p-4 shadow-lg transition-all flex flex-col justify-between gap-3 group relative overflow-hidden">
             
-            <div class="flex flex-col gap-2">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-brand-dark text-purple-300 border border-brand-cardBorder">
-                  ${p.greKey}
-                </span>
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">
-                  ${p.disciplina}
-                </span>
+            <div class="flex flex-col gap-3">
+              
+              <!-- Miniatura da Planta Baixa / Documento PDF -->
+              <div 
+                onclick="openPdfViewer('${p.id}')"
+                class="w-full h-44 rounded-xl border border-purple-500/25 bg-[#081426] overflow-hidden relative cursor-pointer group-hover:border-purple-400 transition-all shadow-inner flex items-center justify-center"
+                title="Clique para abrir e visualizar a planta baixa em tela cheia"
+              >
+                ${previewSvg}
+
+                <!-- Overlay de hover com botão de ação rápida -->
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
+                  <span class="px-3.5 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-bold shadow-lg flex items-center gap-1.5 transform translate-y-1 group-hover:translate-y-0 transition-transform">
+                    <span>👁️</span> <span>Visualizar Planta</span>
+                  </span>
+                </div>
+
+                <div class="absolute top-2 right-2">
+                  <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md bg-black/75 text-emerald-300 border border-emerald-500/30">
+                    PDF TÉCNICO
+                  </span>
+                </div>
               </div>
 
+              <!-- Informações do Documento -->
               <div>
-                <h4 class="text-xs font-black text-amber-400 uppercase tracking-tight">
-                  ${p.municipio}
-                </h4>
-                <h3 class="text-sm font-extrabold text-white group-hover:text-purple-300 transition-colors">
-                  ${p.escola}
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <span class="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-brand-dark text-purple-300 border border-brand-cardBorder">
+                    ${p.greKey}
+                  </span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">
+                    ${p.disciplina}
+                  </span>
+                </div>
+
+                <h3 class="text-sm font-extrabold text-white group-hover:text-purple-300 transition-colors line-clamp-2 leading-snug">
+                  ${p.titulo}
                 </h3>
+
+                <div class="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
+                  <span>🏫</span>
+                  <span class="truncate font-semibold text-slate-300">${cleanSchool}</span>
+                  <span>•</span>
+                  <span class="text-amber-400 font-medium">${p.municipio}</span>
+                </div>
               </div>
 
-              <p class="text-xs text-slate-300 leading-snug font-medium pt-1 border-t border-brand-cardBorder/60">
-                ${p.titulo}
-              </p>
             </div>
 
+            <!-- Rodapé da Caixinha com Botões de Ação -->
             <div class="pt-2 border-t border-brand-cardBorder flex flex-col gap-2">
               <div class="flex items-center justify-between text-[11px] text-slate-400">
                 <span class="flex items-center gap-1">
@@ -2371,20 +2830,25 @@
                 <span>📅 ${p.data || '2026'} ${p.versao ? '(' + p.versao + ')' : ''}</span>
               </div>
 
-              <div class="flex items-center gap-2 pt-1">
-                <a 
-                  href="${driveLink}" 
-                  target="_blank"
-                  class="flex-1 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
-                >
-                  <span>📄 Abrir no Drive</span>
-                </a>
+              <div class="grid grid-cols-2 gap-2 pt-1">
+                <!-- Botão Visualizar -->
                 <button 
-                  onclick="deleteProjeto('${p.id}')"
-                  class="p-1.5 rounded-xl bg-brand-dark hover:bg-rose-950/60 border border-brand-cardBorder hover:border-rose-500/40 text-slate-400 hover:text-rose-400 text-xs transition-colors"
-                  title="Excluir registro"
+                  onclick="openPdfViewer('${p.id}')"
+                  class="py-1.5 px-2 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 text-xs font-bold text-center transition-all flex items-center justify-center gap-1 shadow-sm active:scale-95"
+                  title="Abrir pré-visualização completa da planta"
                 >
-                  🗑️
+                  <span>👁️</span>
+                  <span>Visualizar</span>
+                </button>
+
+                <!-- Botão Baixar Documento -->
+                <button 
+                  onclick="downloadPdfDoc('${p.id}')"
+                  class="py-1.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold text-center transition-all flex items-center justify-center gap-1 shadow-md shadow-emerald-950/30 active:scale-95"
+                  title="Baixar arquivo PDF desta planta"
+                >
+                  <span>⬇️</span>
+                  <span>Baixar PDF</span>
                 </button>
               </div>
             </div>
@@ -2392,6 +2856,107 @@
           </div>
         `;
       }).join('');
+    }
+
+    function openPdfViewer(projId) {
+      const p = projetosData.find(item => item.id === projId);
+      if (!p) return;
+      currentPdfProject = p;
+
+      const modal = document.getElementById('pdfViewerModal');
+      const titleEl = document.getElementById('pdfModalTitle');
+      const schoolEl = document.getElementById('pdfModalSchool');
+      const greBadge = document.getElementById('pdfModalGreBadge');
+      const discBadge = document.getElementById('pdfModalDisciplineBadge');
+      const verEl = document.getElementById('pdfModalVersion');
+      const dateEl = document.getElementById('pdfModalDate');
+      const contentEl = document.getElementById('pdfViewerContent');
+
+      const cleanSchool = extractCleanSchoolName(p.escola);
+      if (titleEl) titleEl.textContent = p.titulo || 'Planta Baixa / Projeto de Engenharia';
+      if (schoolEl) schoolEl.textContent = `${cleanSchool} • ${p.municipio || 'PIAUÍ'}`;
+      if (greBadge) greBadge.textContent = p.greKey || projetosActiveGre;
+      if (discBadge) discBadge.textContent = p.disciplina || 'Projeto';
+      if (verEl) verEl.textContent = `Versão: ${p.versao || 'R01'}`;
+      if (dateEl) dateEl.textContent = `Data: ${p.data || '2026'}`;
+
+      if (contentEl) {
+        contentEl.innerHTML = `
+          <div class="w-full h-full max-h-[70vh] flex flex-col items-center justify-center relative">
+            <div class="w-full h-full rounded-xl overflow-hidden border border-purple-500/30 shadow-2xl relative flex items-center justify-center bg-[#070d18]">
+              ${generateBlueprintPreviewSvg(p.disciplina, p.titulo, true)}
+              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                <span class="px-3 py-1 rounded-lg bg-black/75 backdrop-blur-md text-[11px] font-mono text-purple-300 border border-white/10">
+                  Prancha Técnica Oficial • Formato PDF A1 • SEDUC-PI
+                </span>
+                <span class="px-3 py-1 rounded-lg bg-emerald-500/20 backdrop-blur-md text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
+                  Status: ${p.status || 'Aprovado'}
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closePdfViewer() {
+      const modal = document.getElementById('pdfViewerModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      currentPdfProject = null;
+    }
+
+    function triggerPdfDownload() {
+      if (!currentPdfProject) {
+        showToastNotification('Nenhum documento selecionado para download.');
+        return;
+      }
+      downloadPdfDoc(currentPdfProject.id);
+    }
+
+    function downloadPdfDoc(projId) {
+      const p = projetosData.find(item => item.id === projId);
+      if (!p) return;
+
+      const cleanSchool = extractCleanSchoolName(p.escola);
+      const safeTitle = (p.titulo || 'projeto').replace(/[/\\?%*:|"<>]/g, '-');
+      const fileName = `${cleanSchool} - ${p.disciplina || 'Projeto'} - ${safeTitle}.pdf`;
+      
+      showToastNotification(`✓ Iniciando download: ${fileName}`);
+
+      // Se tiver link do drive com arquivo direto, faz abertura/download
+      if (p.url && p.url.startsWith('http') && p.url !== 'https://drive.google.com/') {
+        window.open(p.url, '_blank');
+      } else {
+        // Gera um blob de download do documento técnico em formato PDF
+        const content = `%PDF-1.4\n%SEDUC-PI PROJETO TÉCNICO DE ENGENHARIA\nESCOLA: ${cleanSchool}\nMUNICIPIO: ${p.municipio}\nGRE: ${p.greKey}\nDISCIPLINA: ${p.disciplina}\nTITULO: ${p.titulo}\nDATA: ${p.data || '2026'}\nVERSAO: ${p.versao || 'R01'}\nSTATUS: ${p.status || 'Aprovado'}\n%%EOF`;
+        const blob = new Blob([content], { type: 'application/pdf' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
+    }
+
+    function openPdfInDrive() {
+      const savedFolder = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER);
+      if (currentPdfProject && currentPdfProject.url && currentPdfProject.url !== 'https://drive.google.com/') {
+        window.open(currentPdfProject.url, '_blank');
+      } else if (savedFolder) {
+        window.open(savedFolder, '_blank');
+      } else {
+        showToastNotification('Pasta do Google Drive não configurada em Ajustes.');
+        openSettingsModal('PROJETOS');
+      }
     }
 
     function openAddProjetoModal() {
