@@ -1016,7 +1016,7 @@
       </div>
 
       <!-- Abas Internas de Navegação do Modal de Ajustes -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 p-1 bg-brand-dark/90 border border-brand-cardBorder rounded-xl text-xs font-bold">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-brand-dark/90 border border-brand-cardBorder rounded-xl text-xs font-bold">
         <button 
           id="modalTabBtnPlanilha"
           type="button"
@@ -1024,7 +1024,7 @@
           class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center"
         >
           <span>📊</span>
-          <span class="truncate">Configurar Planilha e Abas Online</span>
+          <span class="truncate">Planilha &amp; Abas</span>
         </button>
         <button 
           id="modalTabBtnProjetos"
@@ -1044,12 +1044,50 @@
           <span>📸</span>
           <span>Fotos</span>
         </button>
+        <button 
+          id="modalTabBtnCelular"
+          type="button"
+          onclick="switchSettingsModalTab('CELULAR')"
+          class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-amber-300 border border-transparent text-center"
+        >
+          <span>📱</span>
+          <span class="truncate">Sincronizar Celular</span>
+        </button>
       </div>
 
       <!-- ============================================================== -->
       <!-- ABA 1: CONFIGURAR PLANILHA E ABAS ONLINE                       -->
       <!-- ============================================================== -->
       <div id="settingsTabContentPlanilha" class="flex flex-col gap-4">
+
+        <!-- Banner de Sincronização e Migração para o Celular -->
+        <div class="bg-gradient-to-r from-emerald-950/80 via-brand-dark to-emerald-950/80 border border-emerald-500/50 rounded-xl p-3 text-xs text-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 shadow-md">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📲</span>
+            <div>
+              <span class="font-extrabold text-emerald-300">Sincronização com Celular Ativa</span>
+              <p class="text-[11px] text-slate-400">As configurações salvas aqui migram automaticamente para o celular.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button 
+              type="button" 
+              onclick="copyMobileDirectLink()" 
+              class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <span>📋</span>
+              <span id="quickCopyMobileLinkLabel">Copiar Link p/ Celular</span>
+            </button>
+            <button 
+              type="button" 
+              onclick="sendMobileLinkWhatsApp()" 
+              class="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] border border-[#25D366]/40 text-[11px] font-bold flex items-center justify-center gap-1.5 transition-colors"
+            >
+              <span>🟢</span>
+              <span>WhatsApp</span>
+            </button>
+          </div>
+        </div>
 
         <!-- Instrução Amigável e Destaque de Compartilhamento -->
         <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
@@ -1331,6 +1369,99 @@
               <span>💾 Salvar Link de Fotos</span>
             </button>
           </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- ABA 4: SINCRONIZAR COM CELULAR (MIGRAÇÃO AUTOMÁTICA)           -->
+      <!-- ============================================================== -->
+      <div id="settingsTabContentCelular" class="hidden flex-col gap-4">
+        
+        <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-4 text-xs text-slate-200 flex flex-col gap-2.5 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30 uppercase tracking-wide">
+              MIGRAÇÃO AUTOMÁTICA ENTRE DESKTOP E CELULAR
+            </span>
+          </div>
+          <p class="text-slate-300 leading-relaxed text-xs">
+            Ao salvar configurações de planilhas e links no computador, elas são compartilhadas automaticamente com os dispositivos conectados. Para abrir o sistema no celular já com todas as planilhas e pastas conectadas, use as opções abaixo:
+          </p>
+        </div>
+
+        <!-- Endereço de Rede Local (Wi-Fi) -->
+        <div class="flex flex-col gap-2 bg-brand-dark/70 border border-brand-cardBorder p-4 rounded-xl">
+          <label class="text-xs font-bold text-amber-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>📶</span> Endereço para Acessar no Celular (Na mesma rede Wi-Fi)
+            </span>
+            <span class="text-[10px] text-emerald-400 font-semibold" id="mobileWifiStatusText">Detectando IP...</span>
+          </label>
+          <div class="flex gap-2">
+            <input 
+              type="text" 
+              id="mobileWifiUrlInput" 
+              readonly
+              value="http://localhost:3000"
+              class="flex-1 bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-2 text-xs text-emerald-400 font-mono outline-none select-all"
+            />
+            <button 
+              type="button"
+              onclick="copyMobileWifiUrl()"
+              class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold whitespace-nowrap transition-colors"
+            >
+              Copiar IP
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400">Digite este endereço no navegador do seu celular (Chrome ou Safari) conectado na mesma rede Wi-Fi.</p>
+        </div>
+
+        <!-- Link Direto com Configurações Embutidas -->
+        <div class="flex flex-col gap-2 bg-brand-dark/70 border border-emerald-500/40 p-4 rounded-xl">
+          <label class="text-xs font-bold text-emerald-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🚀</span> Link Pronto com Todas as Configurações (Abre e Sincroniza na Hora)
+            </span>
+            <span class="text-[10px] text-slate-400">Qualquer rede (Wi-Fi ou 4G)</span>
+          </label>
+          <p class="text-xs text-slate-300">
+            Este link contém todas as configurações salvas (Google Sheets, Projetos e Fotos). Ao abrir no celular, o aplicativo importa tudo em 1 segundo e sincroniza automaticamente:
+          </p>
+          <div class="flex flex-wrap gap-2.5 pt-1">
+            <button 
+              type="button"
+              onclick="copyMobileDirectLink()"
+              class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-950/40 flex items-center justify-center gap-2 transition-all active:scale-95"
+            >
+              <span>📋</span>
+              <span id="copyMobileDirectLinkLabel">Copiar Link Completo para Celular</span>
+            </button>
+            <button 
+              type="button"
+              onclick="sendMobileLinkWhatsApp()"
+              class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs shadow-md shadow-emerald-950/40 flex items-center justify-center gap-2 transition-all active:scale-95"
+            >
+              <span>🟢</span>
+              <span>Enviar no WhatsApp</span>
+            </button>
+            <button 
+              type="button"
+              onclick="syncLocalConfigToServer(true)"
+              class="px-3.5 py-2.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            >
+              <span>🔄 Forçar Atualização na Nuvem</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex justify-end pt-2 border-t border-brand-cardBorder">
+          <button 
+            type="button"
+            onclick="closeSheetModal()" 
+            class="px-4 py-2 rounded-xl bg-brand-card hover:bg-slate-700 border border-brand-cardBorder text-xs font-semibold text-slate-200"
+          >
+            Fechar
+          </button>
         </div>
 
       </div>
@@ -3165,14 +3296,15 @@
     function saveProjetosFolderUrl() {
       const input = document.getElementById('sheetUrlProjetosInput') || document.getElementById('projetosSharedFolderInput');
       if (!input) return;
-      const url = input.value.trim();
+      const url = input.value.trim() || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, url);
       const linkProj = document.getElementById('modalOpenProjetosTab');
       if (linkProj) {
         if (url) { linkProj.href = url; linkProj.classList.remove('hidden'); }
         else { linkProj.classList.add('hidden'); }
       }
-      showToastNotification('✓ Link da pasta de projetos salvo com sucesso!');
+      saveConfigToServer();
+      showToastNotification('✓ Link da pasta de projetos salvo e sincronizado!');
     }
 
     function saveProjetosFolderFromModal() {
@@ -3182,7 +3314,7 @@
     function openProjetosFolderDrive() {
       const modalInp = document.getElementById('sheetUrlProjetosInput') || document.getElementById('projetosSharedFolderInput');
       const modalVal = modalInp ? modalInp.value.trim() : '';
-      const saved = modalVal || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER);
+      const saved = modalVal || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       if (saved) {
         window.open(saved, '_blank');
       } else {
@@ -3259,7 +3391,7 @@
 
     function initProjetosModule() {
       const input = document.getElementById('projetosSharedFolderInput');
-      if (input) input.value = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || '';
+      if (input) input.value = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       
       if (!projetosActiveGre || projetosActiveGre === 'TODAS') {
         projetosActiveGre = '1ª GRE';
@@ -4263,14 +4395,15 @@
     function saveFotosFolderUrl() {
       const input = document.getElementById('sheetUrlFotosInput') || document.getElementById('fotosSharedFolderInput');
       if (!input) return;
-      const url = input.value.trim();
+      const url = input.value.trim() || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, url);
       const linkFot = document.getElementById('modalOpenFotosTab');
       if (linkFot) {
         if (url) { linkFot.href = url; linkFot.classList.remove('hidden'); }
         else { linkFot.classList.add('hidden'); }
       }
-      showToastNotification('✓ Link da pasta de fotos salvo com sucesso!');
+      saveConfigToServer();
+      showToastNotification('✓ Link da pasta de fotos salvo e sincronizado!');
     }
 
     function saveFotosFolderFromModal() {
@@ -4280,7 +4413,7 @@
     function openFotosFolderDrive() {
       const modalInp = document.getElementById('sheetUrlFotosInput') || document.getElementById('fotosSharedFolderInput');
       const modalVal = modalInp ? modalInp.value.trim() : '';
-      const saved = modalVal || localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
+      const saved = modalVal || localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       if (saved) {
         window.open(saved, '_blank');
       } else {
@@ -4290,7 +4423,7 @@
     }
 
     function openCurrentSchoolDriveFolder() {
-      const general = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
+      const general = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       if (general) {
         window.open(general, '_blank');
       } else {
@@ -4301,7 +4434,7 @@
 
     function initFotosModule() {
       const input = document.getElementById('fotosSharedFolderInput');
-      if (input) input.value = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || '';
+      if (input) input.value = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
 
       if (!fotosActiveGre) fotosActiveGre = '1ª GRE';
       renderFotosGreGrid();
@@ -5571,22 +5704,49 @@
       console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar URL:`, csvUrl);
 
       let text = '';
+      let success = false;
+
+      // 1. Tentativa Direta
       try {
         const resp = await fetch(csvUrl, { cache: 'no-store' });
         if (resp.ok) {
           text = await resp.text();
-        } else {
-          throw new Error(`Status HTTP ${resp.status}`);
+          success = true;
         }
       } catch (errDirect) {
-        console.warn(`[Sincronização ${prefix.toUpperCase()}] Tentativa direta falhou (${errDirect.message}), tentando via proxy alternativo...`);
-        // Fallback usando proxy CORS para links protegidos por políticas de navegador
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
-        const respProxy = await fetch(proxyUrl);
-        if (!respProxy.ok) {
-          throw new Error(`Falha no download (${errDirect.message}). Verifique se a planilha está pública.`);
+        console.warn(`[Sincronização ${prefix.toUpperCase()}] Tentativa direta falhou (${errDirect.message}), tentando via proxy local...`);
+      }
+
+      // 2. Tentativa via Proxy Local Node (/api/proxy)
+      if (!success) {
+        try {
+          const localProxyUrl = `/api/proxy?url=${encodeURIComponent(csvUrl)}`;
+          const respLocal = await fetch(localProxyUrl);
+          if (respLocal.ok) {
+            text = await respLocal.text();
+            success = true;
+          }
+        } catch (errLocal) {
+          console.warn(`[Sincronização ${prefix.toUpperCase()}] Proxy local não disponível, tentando proxy em nuvem...`);
         }
-        text = await respProxy.text();
+      }
+
+      // 3. Tentativa via Proxy Público CORS (allorigins)
+      if (!success) {
+        try {
+          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
+          const respProxy = await fetch(proxyUrl);
+          if (respProxy.ok) {
+            text = await respProxy.text();
+            success = true;
+          }
+        } catch (errProxy) {
+          console.error(`[Sincronização ${prefix.toUpperCase()}] Todos os métodos falharam.`);
+        }
+      }
+
+      if (!success || !text) {
+        throw new Error('Falha no download da planilha. Verifique se ela está pública no Google Sheets ("Qualquer pessoa com o link").');
       }
 
       // Validação: se o Google retornar HTML de login em vez de CSV
@@ -5694,7 +5854,11 @@
       }
 
       const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-      const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+      let url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+      if (!url) {
+        await loadSharedAppConfig();
+        url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+      }
       if (!url) {
         openSheetModal();
         return;
@@ -5824,8 +5988,18 @@
 
       refreshAllViewsAfterSync();
 
+      saveConfigToServer({
+        sheetUrlMain: urlMain,
+        sheetUrlContracts: urlCt,
+        sheetUrlPactue: urlPac,
+        projetosFolderUrl: urlProj || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        fotosFolderUrl: urlFot || localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
+        lastSyncTime: timeStr
+      });
+
       showFeedback(summaryMsgs.join('\n'), hasError ? 'error' : 'success');
-      showToastNotification(`✓ Configurações e abas atualizadas!`);
+      showToastNotification(`✓ Configurações e abas atualizadas e sincronizadas com a nuvem/celular!`);
     }
 
     
@@ -5970,20 +6144,24 @@
       const btnPlanilha = document.getElementById('modalTabBtnPlanilha');
       const btnProjetos = document.getElementById('modalTabBtnProjetos');
       const btnFotos = document.getElementById('modalTabBtnFotos');
+      const btnCelular = document.getElementById('modalTabBtnCelular');
 
       const secPlanilha = document.getElementById('settingsTabContentPlanilha');
       const secProjetos = document.getElementById('settingsTabContentProjetos');
       const secFotos = document.getElementById('settingsTabContentFotos');
+      const secCelular = document.getElementById('settingsTabContentCelular');
 
       const inactiveClass = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 border border-transparent text-center';
 
       if (btnPlanilha) btnPlanilha.className = inactiveClass;
       if (btnProjetos) btnProjetos.className = inactiveClass;
       if (btnFotos) btnFotos.className = inactiveClass;
+      if (btnCelular) btnCelular.className = inactiveClass;
 
       if (secPlanilha) { secPlanilha.classList.add('hidden'); secPlanilha.classList.remove('flex'); }
       if (secProjetos) { secProjetos.classList.add('hidden'); secProjetos.classList.remove('flex'); }
       if (secFotos) { secFotos.classList.add('hidden'); secFotos.classList.remove('flex'); }
+      if (secCelular) { secCelular.classList.add('hidden'); secCelular.classList.remove('flex'); }
 
       if (tabKey === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-purple-400 border border-purple-500/40 shadow text-center';
@@ -5991,6 +6169,10 @@
       } else if (tabKey === 'FOTOS') {
         if (btnFotos) btnFotos.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center';
         if (secFotos) { secFotos.classList.remove('hidden'); secFotos.classList.add('flex'); }
+      } else if (tabKey === 'CELULAR') {
+        if (btnCelular) btnCelular.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-amber-400 border border-amber-500/40 shadow text-center';
+        if (secCelular) { secCelular.classList.remove('hidden'); secCelular.classList.add('flex'); }
+        updateMobileWifiInfoInModal();
       } else {
         if (btnPlanilha) btnPlanilha.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center';
         if (secPlanilha) { secPlanilha.classList.remove('hidden'); secPlanilha.classList.add('flex'); }
@@ -6939,14 +7121,269 @@
       showToastNotification("✓ Dados originais restaurados!");
     }
 
-    // Inicialização da Página: Abre com dados sincronizados automaticamente
-    window.onload = function() {
+    // =========================================================================
+    // SUÍTE DE SINCRONIZAÇÃO E MIGRAÇÃO DE CONFIGURAÇÕES (DESKTOP <-> CELULAR)
+    // =========================================================================
+    function applyConfigToStorageAndUI(cfg) {
+      if (!cfg || typeof cfg !== 'object') return;
+      if (cfg.sheetUrlMain) localStorage.setItem(SHEET_URL_MAIN_KEY, cfg.sheetUrlMain);
+      if (cfg.sheetUrlContracts) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, cfg.sheetUrlContracts);
+      if (cfg.sheetUrlPactue) localStorage.setItem(SHEET_URL_PACTUE_KEY, cfg.sheetUrlPactue);
+      if (cfg.projetosFolderUrl) localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, cfg.projetosFolderUrl);
+      if (cfg.fotosFolderUrl) localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, cfg.fotosFolderUrl);
+      if (cfg.autoSyncInterval) localStorage.setItem(AUTO_SYNC_KEY, String(cfg.autoSyncInterval));
+      if (cfg.lastSyncTime) localStorage.setItem(LAST_SYNC_KEY, cfg.lastSyncTime);
+
+      // Atualiza campos do DOM
+      const inputMain = document.getElementById('sheetUrlMainInput');
+      const inputCt = document.getElementById('sheetUrlContractsInput');
+      const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputProj = document.getElementById('sheetUrlProjetosInput');
+      const inputFot = document.getElementById('sheetUrlFotosInput');
+      const projShared = document.getElementById('projetosSharedFolderInput');
+      const fotShared = document.getElementById('fotosSharedFolderInput');
+
+      if (inputMain && cfg.sheetUrlMain) inputMain.value = cfg.sheetUrlMain;
+      if (inputCt && cfg.sheetUrlContracts) inputCt.value = cfg.sheetUrlContracts;
+      if (inputPac && cfg.sheetUrlPactue) inputPac.value = cfg.sheetUrlPactue;
+      if (inputProj && cfg.projetosFolderUrl) inputProj.value = cfg.projetosFolderUrl;
+      if (inputFot && cfg.fotosFolderUrl) inputFot.value = cfg.fotosFolderUrl;
+      if (projShared && cfg.projetosFolderUrl) projShared.value = cfg.projetosFolderUrl;
+      if (fotShared && cfg.fotosFolderUrl) fotShared.value = cfg.fotosFolderUrl;
+    }
+
+    async function saveConfigToServer(customCfg = null) {
+      const cfg = customCfg || {
+        sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
+        sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
+        sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || ''
+      };
+
+      try {
+        await fetch('/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(cfg)
+        });
+      } catch (err) {
+        // Fallback em caso de servidor estático
+      }
+    }
+
+    async function syncLocalConfigToServer(force = false) {
+      const cfg = {
+        sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
+        sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
+        sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || ''
+      };
+
+      if (force || cfg.sheetUrlMain || cfg.sheetUrlContracts || cfg.sheetUrlPactue) {
+        try {
+          const res = await fetch('/api/config', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cfg)
+          });
+          if (res.ok && force) {
+            showToastNotification('✓ Configurações sincronizadas na nuvem/rede local!');
+          }
+        } catch (e) {
+          if (force) showToastNotification('Configurações salvas localmente.');
+        }
+      }
+    }
+
+    async function loadSharedAppConfig() {
+      // 1. Prioridade Máxima: Migração direta via URL (hash #cfg= ou ?cfg=)
+      try {
+        let rawParam = '';
+        const hash = window.location.hash || '';
+        if (hash.includes('cfg=') || hash.includes('syncConfig=')) {
+          const m = hash.match(/(?:cfg|syncConfig)=([^&]+)/);
+          if (m) rawParam = m[1];
+        }
+        if (!rawParam) {
+          const search = new URLSearchParams(window.location.search);
+          rawParam = search.get('cfg') || search.get('syncConfig') || '';
+        }
+
+        if (rawParam) {
+          try {
+            const decodedJson = decodeURIComponent(escape(atob(rawParam)));
+            const parsed = JSON.parse(decodedJson);
+            applyConfigToStorageAndUI(parsed);
+            saveConfigToServer(parsed);
+            showToastNotification('✓ Configurações de planilhas e pastas migradas para o celular!');
+            if (window.history && window.history.replaceState) {
+              window.history.replaceState(null, '', window.location.pathname);
+            }
+          } catch (eParam) {
+            console.warn('Erro ao ler parâmetro de configuração da URL:', eParam);
+          }
+        }
+      } catch (e) {}
+
+      // 2. Consulta configuração do servidor local ou arquivo app_config.json
+      try {
+        let serverCfg = null;
+        try {
+          const res = await fetch('/api/config');
+          if (res.ok) serverCfg = await res.json();
+        } catch (e) {}
+
+        if (!serverCfg || Object.keys(serverCfg).length === 0) {
+          try {
+            const resStatic = await fetch('app_config.json');
+            if (resStatic.ok) serverCfg = await resStatic.json();
+          } catch (e) {}
+        }
+
+        if (serverCfg && typeof serverCfg === 'object') {
+          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue);
+          const localCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
+          const localPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
+          const localMain = localStorage.getItem(SHEET_URL_MAIN_KEY);
+          const isLocalEmpty = !localCt && !localPac && !localMain;
+
+          if (isLocalEmpty && hasServerUrls) {
+            applyConfigToStorageAndUI(serverCfg);
+          } else if (!isLocalEmpty && !hasServerUrls) {
+            // Desktop tem links mas servidor ainda não: envia para sincronizar com os celulares
+            syncLocalConfigToServer(false);
+          } else if (hasServerUrls && serverCfg.updatedAt) {
+            applyConfigToStorageAndUI(serverCfg);
+          }
+        }
+      } catch (err) {
+        console.warn('Falha na sincronização de configurações:', err);
+      }
+
+      // 3. Garantir que Projetos e Fotos sempre tenham pasta base válida
+      if (!localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER)) {
+        localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, DEFAULT_GOOGLE_DRIVE_BASE_URL);
+      }
+      if (!localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER)) {
+        localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, DEFAULT_GOOGLE_DRIVE_BASE_URL);
+      }
+    }
+
+    async function getMobileSyncLink() {
+      const cfg = {
+        sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
+        sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
+        sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || ''
+      };
+
+      const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(cfg))));
+      let origin = window.location.origin;
+
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        try {
+          const res = await fetch('/api/info');
+          if (res.ok) {
+            const info = await res.json();
+            if (info.mobileUrl) {
+              origin = info.mobileUrl;
+            }
+          }
+        } catch (e) {}
+      }
+
+      return `${origin}${window.location.pathname}#cfg=${b64}`;
+    }
+
+    async function copyMobileDirectLink() {
+      const link = await getMobileSyncLink();
+      const onSuccess = () => {
+        showToastNotification('✓ Link para o Celular copiado com sucesso!');
+        const lbl = document.getElementById('copyMobileDirectLinkLabel');
+        const qlbl = document.getElementById('quickCopyMobileLinkLabel');
+        if (lbl) {
+          const old = lbl.textContent;
+          lbl.textContent = '✓ Link Copiado!';
+          setTimeout(() => { lbl.textContent = old; }, 2500);
+        }
+        if (qlbl) {
+          const old = qlbl.textContent;
+          qlbl.textContent = '✓ Copiado!';
+          setTimeout(() => { qlbl.textContent = old; }, 2500);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(onSuccess).catch(() => {
+          fallbackCopyText(link, onSuccess);
+        });
+      } else {
+        fallbackCopyText(link, onSuccess);
+      }
+    }
+
+    async function sendMobileLinkWhatsApp() {
+      const link = await getMobileSyncLink();
+      const msg = `*Controle de Obras GPR - Link de Acesso com Configurações e Planilhas:*\n\nAbra este link no celular para carregar automaticamente as planilhas e pastas do Google Drive:\n\n${link}`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    async function updateMobileWifiInfoInModal() {
+      const wifiInp = document.getElementById('mobileWifiUrlInput');
+      const wifiStatus = document.getElementById('mobileWifiStatusText');
+      if (!wifiInp) return;
+
+      try {
+        const res = await fetch('/api/info');
+        if (res.ok) {
+          const info = await res.json();
+          if (info.mobileUrl) {
+            wifiInp.value = info.mobileUrl;
+            if (wifiStatus) wifiStatus.textContent = `Online: ${info.localIp}`;
+            return;
+          }
+        }
+      } catch (e) {}
+
+      wifiInp.value = window.location.origin;
+      if (wifiStatus) wifiStatus.textContent = window.location.hostname;
+    }
+
+    function copyMobileWifiUrl() {
+      const wifiInp = document.getElementById('mobileWifiUrlInput');
+      if (!wifiInp || !wifiInp.value) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(wifiInp.value).then(() => {
+          showToastNotification('✓ Endereço de rede copiado!');
+        });
+      } else {
+        fallbackCopyText(wifiInp.value, () => {
+          showToastNotification('✓ Endereço de rede copiado!');
+        });
+      }
+    }
+
+    // Inicialização da Página: Abre com dados e configurações sincronizados automaticamente
+    window.onload = async function() {
       switchModule(currentModule);
+
+      // 1. Carrega configurações compartilhadas entre Desktop e Celular
+      await loadSharedAppConfig();
 
       const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
       const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
+      const savedUrlMain = localStorage.getItem(SHEET_URL_MAIN_KEY);
       
-      if (savedUrlCt || savedUrlPac) {
+      if (savedUrlCt || savedUrlPac || savedUrlMain) {
         const sheetBadge = document.getElementById('sheetBadge');
         if (sheetBadge) sheetBadge.classList.remove('hidden');
         const syncText = document.getElementById('syncStatusText');
