@@ -63,24 +63,6 @@
     .animate-spin-sync {
       animation: spin-sync 0.8s linear infinite;
     }
-    /* Otimizações de renderização, GPU e fluidez */
-    .contain-layout {
-      contain: layout style;
-    }
-    .smooth-scroll {
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-    }
-    .gpu-accel {
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      will-change: transform, opacity;
-    }
-    .cv-auto {
-      content-visibility: auto;
-      contain-intrinsic-size: 0 160px;
-    }
   </style>
 </head>
 <body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
@@ -2223,7 +2205,6 @@
     function saveStoredData(key, data) {
       try {
         localStorage.setItem(key, JSON.stringify(data));
-        FastCache.invalidateAll();
         showSavedIndicator();
       } catch (e) {
         console.warn('Erro ao salvar no localStorage:', e);
@@ -2238,30 +2219,6 @@
       const footer = document.getElementById('saveStatusIndicator');
       if (footer) footer.textContent = 'Modificações salvas';
     }
-
-    // =========================================================================
-    // CACHE DE ALTA PERFORMANCE & NAVEGAÇÃO INSTANTÂNEA
-    // =========================================================================
-    const FastCache = {
-      schoolsByGre: new Map(),
-      projetosCountBySchool: new Map(),
-      fotosCountBySchool: new Map(),
-      greProjetosTotal: null,
-      greFotosTotal: null,
-      availableGresCt: null,
-      availableGresPac: null,
-      invalidateAll() {
-        this.schoolsByGre.clear();
-        this.projetosCountBySchool.clear();
-        this.fotosCountBySchool.clear();
-        this.greProjetosTotal = null;
-        this.greFotosTotal = null;
-        this.availableGresCt = null;
-        this.availableGresPac = null;
-        if (typeof _svgPreviewCache !== 'undefined') _svgPreviewCache.clear();
-      }
-    };
-    const _svgPreviewCache = new Map();
 
     // =========================================================================
     // ALTERNÂNCIA DE MÓDULO (CONTRATOS vs PACTUE vs PROJETOS vs FOTOS)
@@ -2446,12 +2403,8 @@
     }
 
     function getSchoolsForProjetosGre(greKey) {
-      const normGre = normalizeGreKey(greKey);
-      if (FastCache.schoolsByGre.has(normGre)) {
-        return FastCache.schoolsByGre.get(normGre);
-      }
-
       const map = new Map();
+      const normGre = normalizeGreKey(greKey);
 
       // 1. Extrai das obras de Contratos e PACTUE
       [...contractsData, ...pactueData].forEach(w => {
@@ -2498,20 +2451,14 @@
         }
       });
 
-      const res = Array.from(map.values()).sort((a, b) => a.nome.localeCompare(b.nome));
-      FastCache.schoolsByGre.set(normGre, res);
-      return res;
+      return Array.from(map.values()).sort((a, b) => a.nome.localeCompare(b.nome));
     }
 
     function getSchoolProjetosCount(greKey, schoolName, discipline) {
       const normGre = normalizeGreKey(greKey);
       const cleanSchool = extractCleanSchoolName(schoolName).toUpperCase();
-      const cacheKey = `${normGre}_${cleanSchool}_${discipline || 'ALL'}`;
-      if (FastCache.projetosCountBySchool.has(cacheKey)) {
-        return FastCache.projetosCountBySchool.get(cacheKey);
-      }
 
-      const count = projetosData.filter(p => {
+      return projetosData.filter(p => {
         const matchGre = (greKey === 'TODAS') || (normalizeGreKey(p.greKey) === normGre);
         const matchSchool = extractCleanSchoolName(p.escola).toUpperCase() === cleanSchool;
         const matchDisc = !discipline || discipline === 'TODAS' || p.disciplina === discipline;
@@ -2521,9 +2468,6 @@
                         (p.titulo && /\.(png|jpe?g|webp|gif|svg)$/i.test(p.titulo));
         return matchGre && matchSchool && matchDisc && !isImage;
       }).length;
-
-      FastCache.projetosCountBySchool.set(cacheKey, count);
-      return count;
     }
 
     function renderProjetosGreGrid() {
@@ -2698,46 +2642,21 @@
       updateProjetosSchoolHeader();
     }
 
-    function updateProjetosSchoolsSelection(schoolName) {
-      const grid = document.getElementById('projetosSchoolsGrid');
-      if (!grid) return;
-      const cleanTarget = extractCleanSchoolName(schoolName).toUpperCase();
-      const btns = grid.querySelectorAll('button');
-      btns.forEach(btn => {
-        const title = btn.getAttribute('title') || '';
-        const cleanBtnSchool = extractCleanSchoolName(title.split('(')[0]).toUpperCase();
-        const isSelected = (cleanBtnSchool === cleanTarget);
-        if (isSelected) {
-          btn.className = 'p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 bg-purple-600/30 border-purple-500 shadow-md shadow-purple-900/30 ring-1 ring-purple-400 scale-[1.01]';
-        } else {
-          btn.className = 'p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 bg-brand-dark/80 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card';
-        }
-      });
-      const activeTitle = document.getElementById('projetosSchoolActiveTitle');
-      if (activeTitle) activeTitle.textContent = `• Selecionada: ${schoolName}`;
-      updateProjetosSchoolHeader();
-    }
-
     function selectProjetosSchool(schoolName) {
-      if (projetosActiveSchool === schoolName) return;
       projetosActiveSchool = schoolName;
-      updateProjetosSchoolsSelection(schoolName);
+      renderProjetosSchools();
       renderProjetosDisciplines();
       renderProjetosList();
     }
 
-    let _filterProjetosRaf = null;
     function filterProjetosSchools(query) {
-      if (_filterProjetosRaf) cancelAnimationFrame(_filterProjetosRaf);
-      _filterProjetosRaf = requestAnimationFrame(() => {
-        const q = (query || '').toLowerCase().trim();
-        const grid = document.getElementById('projetosSchoolsGrid');
-        if (!grid) return;
-        const btns = grid.querySelectorAll('button');
-        btns.forEach(b => {
-          const t = b.textContent.toLowerCase();
-          if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
-        });
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('projetosSchoolsGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
       });
     }
 
@@ -2830,18 +2749,14 @@
       return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
     }
 
-    // Gerador de miniatura gráfica de alta definição de Planta Baixa / Blueprint em SVG com Cache Memoizado
+    // Gerador de miniatura gráfica de alta definição de Planta Baixa / Blueprint em SVG
     function generateBlueprintPreviewSvg(discipline, title, isLarge = false) {
       const d = (discipline || 'Arquitetura').toLowerCase();
       const strokeColor = d.includes('elétr') ? '#facc15' : d.includes('hidro') ? '#38bdf8' : d.includes('incên') ? '#f87171' : '#38bdf8';
-      const cacheKey = `${strokeColor}_${isLarge ? 'lg' : 'sm'}`;
-      if (_svgPreviewCache.has(cacheKey)) {
-        return _svgPreviewCache.get(cacheKey);
-      }
       const width = isLarge ? 800 : 360;
       const height = isLarge ? 500 : 200;
 
-      const svg = `
+      return `
         <svg viewBox="0 0 ${width} ${height}" class="w-full h-full select-none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="blueprintGrid_${isLarge ? 'lg' : 'sm'}" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -2938,8 +2853,6 @@
           </g>
         </svg>
       `;
-      _svgPreviewCache.set(cacheKey, svg);
-      return svg;
     }
 
     function renderProjetosList() {
@@ -3364,18 +3277,14 @@
       renderFotosGallery();
     }
 
-    let _filterFotosGreRaf = null;
     function filterFotosGres(query) {
-      if (_filterFotosGreRaf) cancelAnimationFrame(_filterFotosGreRaf);
-      _filterFotosGreRaf = requestAnimationFrame(() => {
-        const q = (query || '').toLowerCase().trim();
-        const grid = document.getElementById('fotosGreGrid');
-        if (!grid) return;
-        const btns = grid.querySelectorAll('button');
-        btns.forEach(b => {
-          const t = b.textContent.toLowerCase();
-          if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
-        });
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('fotosGreGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
       });
     }
 
@@ -3386,11 +3295,7 @@
     function getSchoolPhotosCount(greKey, schoolName, category) {
       const normGre = normalizeGreKey(greKey);
       const cleanSchool = extractCleanSchoolName(schoolName).toUpperCase();
-      const cacheKey = `${normGre}_${cleanSchool}_${category || 'ALL'}`;
-      if (FastCache.fotosCountBySchool.has(cacheKey)) {
-        return FastCache.fotosCountBySchool.get(cacheKey);
-      }
-      const count = fotosData.filter(f => {
+      return fotosData.filter(f => {
         const matchG = (greKey === 'TODAS') || normalizeGreKey(f.greKey) === normGre;
         const matchS = extractCleanSchoolName(f.escola).toUpperCase() === cleanSchool;
         const matchC = !category || category === 'TODAS' || f.pasta === category;
@@ -3399,8 +3304,6 @@
                       (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
         return matchG && matchS && matchC && !isPdf;
       }).length;
-      FastCache.fotosCountBySchool.set(cacheKey, count);
-      return count;
     }
 
     function renderFotosSchools() {
@@ -3437,7 +3340,6 @@
 
         return `
           <button 
-            data-school="${s.nome.replace(/"/g, '&quot;')}"
             onclick="setFotosActiveSchool('${s.nome.replace(/'/g, "\\'")}')"
             class="p-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 ${
               isSelected 
@@ -3463,45 +3365,21 @@
       if (activeLabel) activeLabel.textContent = `• Selecionada: ${fotosActiveSchool}`;
     }
 
-    function updateFotosSchoolsSelection(schoolName) {
-      const grid = document.getElementById('fotosSchoolsGrid');
-      if (!grid) return;
-      const cleanTarget = extractCleanSchoolName(schoolName).toUpperCase();
-      const btns = grid.querySelectorAll('button');
-      btns.forEach(btn => {
-        const schoolAttr = btn.getAttribute('data-school') || btn.getAttribute('title') || '';
-        const cleanBtnSchool = extractCleanSchoolName(schoolAttr.split('–')[0]).toUpperCase();
-        const isSelected = (cleanBtnSchool === cleanTarget);
-        if (isSelected) {
-          btn.className = 'p-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 bg-blue-600 text-white shadow-md shadow-blue-600/30 border-blue-400 ring-2 ring-blue-400 scale-[1.01]';
-        } else {
-          btn.className = 'p-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card';
-        }
-      });
-      const activeLabel = document.getElementById('fotosSchoolActiveTitle');
-      if (activeLabel) activeLabel.textContent = `• Selecionada: ${schoolName}`;
-    }
-
     function setFotosActiveSchool(schoolName) {
-      if (fotosActiveSchool === schoolName) return;
       fotosActiveSchool = schoolName;
-      updateFotosSchoolsSelection(schoolName);
+      renderFotosSchools();
       renderFotosCategories();
       renderFotosGallery();
     }
 
-    let _filterFotosSchoolRaf = null;
     function filterFotosSchools(query) {
-      if (_filterFotosSchoolRaf) cancelAnimationFrame(_filterFotosSchoolRaf);
-      _filterFotosSchoolRaf = requestAnimationFrame(() => {
-        const q = (query || '').toLowerCase().trim();
-        const grid = document.getElementById('fotosSchoolsGrid');
-        if (!grid) return;
-        const btns = grid.querySelectorAll('button');
-        btns.forEach(b => {
-          const t = b.textContent.toLowerCase();
-          if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
-        });
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('fotosSchoolsGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
       });
     }
 
@@ -3708,7 +3586,6 @@
           </div>
         `;
       }).join('');
-    }
     }
 
     // =========================================================================
@@ -4352,7 +4229,6 @@
     }
 
     function refreshAllViewsAfterSync() {
-      FastCache.invalidateAll();
       routeFilesBetweenProjetosAndFotos();
       updateModuleBadges();
       renderGreSelector();
@@ -4373,57 +4249,32 @@
       const syncDot = document.getElementById('syncStatusDot');
       const syncText = document.getElementById('syncStatusText');
 
-      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-
-      try {
-        if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
-          if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
-          const urlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-          const urlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-
-          if (urlCt) {
-            try {
-              const resCt = await fetchSingleTab(urlCt, 'ct');
-              if (resCt && resCt.length > 0) {
-                contractsData = resCt;
-                saveStoredData(STORAGE_KEY_CONTRACTS, contractsData);
-              }
-            } catch (e) {
-              console.warn('Sync contratos:', e);
-            }
-          }
-          if (urlPac) {
-            try {
-              const resPac = await fetchSingleTab(urlPac, 'pac');
-              if (resPac && resPac.length > 0) {
-                pactueData = resPac;
-                saveStoredData(STORAGE_KEY_PACTUE, pactueData);
-              }
-            } catch (e) {
-              console.warn('Sync pactue:', e);
-            }
-          }
-
+      if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
+        if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+        if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
+        refreshAllViewsAfterSync();
+        setTimeout(() => {
+          if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
           const now = new Date();
           const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          localStorage.setItem(LAST_SYNC_KEY, timeStr);
-
           if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
           if (syncText) syncText.textContent = `Online (${timeStr})`;
+          showToastNotification(`✓ Aba ${currentModule} atualizada com as pastas e acervos!`);
+        }, 600);
+        return;
+      }
 
-          refreshAllViewsAfterSync();
-          showToastNotification(`✓ Aba ${currentModule} atualizada com os dados mais recentes!`);
-          return;
-        }
+      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
+      const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+      if (!url) {
+        openSheetModal();
+        return;
+      }
 
-        const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-        const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-        if (!url) {
-          openSheetModal();
-          return;
-        }
+      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+      if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
 
-        if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
+      try {
         const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
         const parsed = await fetchSingleTab(url, prefix);
 
