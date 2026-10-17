@@ -315,8 +315,8 @@
           </span>
         </div>
 
-        <!-- Grade Dinâmica de Filtros de Status (Execução, Concluída, A Iniciar, Parada, Cancelada, etc.) -->
-        <div id="statusFilterBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 pt-1">
+        <!-- Barra Flexível de Balões de Status (Comprimento proporcional ao tamanho do nome) -->
+        <div id="statusFilterBar" class="flex flex-wrap items-center gap-2 pt-1">
           <!-- Injected via JS -->
         </div>
       </div>
@@ -3773,7 +3773,7 @@
       let html = `
         <button 
           onclick="setStatusFilter('TODOS')"
-          class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[48px] ${
+          class="px-3.5 sm:px-4 py-2 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-3 min-h-[48px] w-auto shrink-0 ${
             isAllSelected
               ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400'
               : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
@@ -3781,14 +3781,14 @@
           title="Todos os Status (${greSubset.length} obras)"
         >
           <div class="flex flex-col min-w-0">
-            <span class="text-[11px] font-extrabold truncate leading-tight ${isAllSelected ? 'text-brand-dark font-black' : 'text-white'}">
+            <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? 'text-brand-dark font-black' : 'text-white'}">
               🌟 TODOS STATUS
             </span>
-            <span class="text-[9px] truncate leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+            <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
               Visão Geral
             </span>
           </div>
-          <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+          <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1.5 ${
             isAllSelected
               ? 'bg-black/25 text-brand-dark font-black'
               : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
@@ -3806,9 +3806,9 @@
         html += `
           <button 
             onclick="setStatusFilter('${st}')"
-            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[48px] ${
+            class="px-3.5 sm:px-4 py-2 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-3 min-h-[48px] w-auto shrink-0 ${
               isSelected 
-                ? style.activeBg + ' font-extrabold' 
+                ? style.activeBg + ' font-extrabold shadow-md' 
                 : style.bg + ' ' + style.border + ' ' + style.text
             }"
             title="${st} (${count} obras)"
@@ -3816,15 +3816,15 @@
             <div class="flex flex-col min-w-0">
               <div class="flex items-center gap-1.5 min-w-0">
                 <span class="w-2 h-2 rounded-full shrink-0 ${isSelected ? 'bg-white' : style.dot}"></span>
-                <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-inherit font-black' : style.text}">
+                <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isSelected ? 'text-inherit font-black' : style.text}">
                   ${st}
                 </span>
               </div>
-              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'opacity-85 font-bold' : 'text-slate-400 font-medium'}">
+              <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isSelected ? 'opacity-85 font-bold' : 'text-slate-400 font-medium'}">
                 ${style.subtitle || 'Status da Obra'}
               </span>
             </div>
-            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+            <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1.5 ${
               isSelected 
                 ? (style.activeBadge || 'bg-black/25 text-inherit font-black') 
                 : style.badge
