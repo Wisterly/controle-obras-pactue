@@ -63,6 +63,46 @@
     .animate-spin-sync {
       animation: spin-sync 0.8s linear infinite;
     }
+
+    /* Otimizações Responsivas Móveis (@media (max-width: 768px)) */
+    @media (max-width: 768px) {
+      html, body {
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* Espaçamentos fluidos no celular */
+      main {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-top: 1rem !important;
+        gap: 1rem !important;
+      }
+
+      /* Prevenção de corte e rolagem suave em tabelas e listas */
+      .responsive-scroll-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Evita auto-zoom indesejado no Safari/iOS */
+      input[type="text"], input[type="date"], select, textarea {
+        font-size: 14px !important;
+      }
+
+      /* Modais adaptados para largura máxima segura no celular */
+      .modal-responsive {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        max-height: 92vh !important;
+      }
+
+      /* Botão flutuante WhatsApp com posição ergonômica no celular */
+      #whatsappFab {
+        bottom: 16px !important;
+        right: 16px !important;
+      }
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
@@ -169,7 +209,7 @@
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
       
       <!-- Seletor em Segmented Control Chamativo (4 Abas) -->
-      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
+      <div class="grid grid-cols-2 sm:flex sm:flex-row items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
         <button 
           id="moduleBtnContracts"
           onclick="switchModule('CONTRATOS')" 
@@ -250,7 +290,7 @@
       <section class="lg:col-span-7 flex flex-col gap-4">
       
       <!-- ============================================== -->
-      <!-- SUPER BOTÃO CHAMATIVO: SELETOR DE GRE         -->
+      <!-- SELETOR DE GRE POR ROLAGEM (PADRÃO PROJETOS/FOTOS) -->
       <!-- ============================================== -->
       <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-brand-accent/40 hover:border-brand-accent/80 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
         
@@ -260,43 +300,29 @@
 
         <div class="flex flex-col gap-3 relative z-10">
           
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-1">
             <div class="flex items-center gap-2.5">
               <span class="w-9 h-9 rounded-xl bg-brand-accent/20 border border-brand-accent/30 text-brand-accent flex items-center justify-center text-lg font-black shadow-inner">
                 📍
               </span>
               <div>
                 <span class="text-[11px] uppercase font-extrabold tracking-wider text-amber-400">
-                  Gerência Regional de Educação
+                  1º Passo: Escolha a GRE
                 </span>
-                <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
-                  Escolher GRE <span id="greDemandTag" class="text-xs font-normal text-slate-400">(Obras de Contratos)</span>
+                <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
+                  Filtrar Obras por GRE: <span id="greSelectLabel" class="text-xs text-amber-400 font-semibold">Todas as GREs</span>
+                  <span id="greDemandTag" class="text-xs font-normal text-slate-400">(Obras de Contratos)</span>
                 </h2>
               </div>
             </div>
 
-            <!-- Botão de Alternar Painel Completo de GREs -->
-            <button 
-              id="toggleGreDrawerBtn"
-              onclick="toggleGreDrawer()"
-              class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-accent text-white hover:bg-blue-600 font-bold text-xs shadow-md shadow-brand-accent/30 active:scale-95 transition-all"
-            >
-              <span id="greSelectLabel">Todas as GREs</span>
-              <svg id="greChevron" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Painel de Seleção das GREs (Grade Completa com busca e botões das GREs) -->
-          <div id="greDrawer" class="pt-2 border-t border-brand-cardBorder/80 flex flex-col gap-3">
-            
-            <div class="flex items-center gap-2">
-              <div class="relative flex-1">
+            <!-- Pesquisa de GRE e Ver Todas -->
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <div class="relative flex-1 sm:w-64">
                 <input 
                   type="text" 
                   id="greSearchInput" 
-                  placeholder="Pesquisar GRE (ex: 2ª GRE, Barras, Oeiras, Corrente, Teresina)..." 
+                  placeholder="Pesquisar GRE (ex: 1ª GRE, Barras, Oeiras)..." 
                   oninput="filterGreDrawer(this.value)"
                   class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent"
                 />
@@ -311,11 +337,11 @@
                 Ver Todas
               </button>
             </div>
+          </div>
 
-            <!-- Grade com os balões de seleção das GREs -->
-            <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-1.5 max-h-64 overflow-y-auto p-1">
-              <!-- Injected via JS -->
-            </div>
+          <!-- Grade de balões de GREs com rolagem (Scroll) idêntica a Projetos e Fotos -->
+          <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-1.5 max-h-56 overflow-y-auto p-1">
+            <!-- Injetado via JS -->
           </div>
 
         </div>
@@ -391,16 +417,24 @@
               Relatório WhatsApp Formatado
             </span>
           </div>
-          <button 
-            onclick="copyWhatsAppText()" 
-            class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 text-xs font-semibold transition-all active:scale-95"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
-              <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
-            </svg>
-            <span id="previewCopyLabel">Copiar</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button 
+              onclick="copyWhatsAppText()" 
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 text-xs font-semibold transition-all active:scale-95 shadow-sm"
+              title="Copiar texto do relatório"
+            >
+              <span>📋</span>
+              <span id="previewCopyLabel">Copiar</span>
+            </button>
+            <button 
+              onclick="sendWhatsAppDirect()" 
+              class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all active:scale-95 shadow-md shadow-emerald-950/40"
+              title="Abrir diretamente no WhatsApp"
+            >
+              <span>🟢</span>
+              <span>Enviar</span>
+            </button>
+          </div>
         </div>
 
         <!-- Indicação do Escopo no preview -->
@@ -860,6 +894,106 @@
     </div>
 
   </main>
+
+  <!-- ============================================================== -->
+  <!-- BOTÃO FLUTUANTE (FAB) DO WHATSAPP (CANTO INFERIOR DIREITO)    -->
+  <!-- ============================================================== -->
+  <div id="whatsappFab" class="fixed bottom-5 right-5 z-[9999]">
+    <button 
+      onclick="openWhatsAppModal()" 
+      class="group flex items-center gap-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm px-4 py-3 sm:px-5 sm:py-3.5 rounded-full shadow-2xl shadow-emerald-950/80 hover:scale-105 active:scale-95 transition-all duration-200 border-2 border-white/25 cursor-pointer"
+      title="Abrir Relatório WhatsApp Formatado"
+    >
+      <div class="relative flex items-center justify-center">
+        <!-- Ícone Oficial do WhatsApp SVG -->
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 fill-current" viewBox="0 0 24 24">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.522 0-10 4.478-10 10 0 1.772.463 3.437 1.272 4.887l-1.353 4.943 5.068-1.33c1.408.775 3.018 1.218 4.731 1.218 5.522 0 10-4.478 10-10s-4.478-10-10-10z"/>
+        </svg>
+        <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+        </span>
+      </div>
+      <span class="tracking-wide">Relatório WhatsApp</span>
+    </button>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL / POPOVER: VISUALIZADOR DE RELATÓRIO DO WHATSAPP        -->
+  <!-- ============================================================== -->
+  <div 
+    id="whatsappModal" 
+    class="fixed inset-0 z-[10000] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-5"
+    onclick="handleWhatsAppModalBackdrop(event)"
+  >
+    <div class="bg-brand-panel border-2 border-emerald-500/40 rounded-3xl w-full max-w-xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Cabeçalho do Popover -->
+      <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card px-4 sm:px-6 py-3.5 border-b border-brand-cardBorder flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] flex items-center justify-center text-lg font-bold">
+            📱
+          </span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
+              Relatório para WhatsApp
+              <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-[#25D366]/20 text-[#25D366] border border-[#25D366]/30">
+                Pronto para envio
+              </span>
+            </h3>
+            <span id="whatsappModalScope" class="text-[11px] text-slate-400">
+              Foco: Todas as GREs | Todos os status
+            </span>
+          </div>
+        </div>
+        <button 
+          onclick="closeWhatsAppModal()" 
+          class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-brand-card border border-transparent hover:border-brand-cardBorder transition-colors"
+          title="Fechar"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Corpo com o Texto Formatado -->
+      <div class="p-3 sm:p-5 overflow-y-auto flex-1 bg-[#0a101d]">
+        <pre id="whatsAppModalOutput" class="font-mono text-xs leading-relaxed text-emerald-300/95 whitespace-pre-wrap select-all selection:bg-emerald-600/40 selection:text-white p-3 rounded-xl bg-black/40 border border-brand-cardBorder/60 max-h-[50vh] overflow-y-auto"></pre>
+      </div>
+
+      <!-- Rodapé com Botões de Ação lado a lado -->
+      <div class="px-4 sm:px-6 py-3.5 border-t border-brand-cardBorder bg-brand-card/90 flex flex-col sm:flex-row items-center justify-between gap-2.5">
+        <span class="text-[11px] text-slate-400 flex items-center gap-1.5 self-start sm:self-center">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          Texto atualizado com os filtros ativos
+        </span>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <!-- Botão 1: Copiar Relatório -->
+          <button 
+            onclick="copyWhatsAppText()" 
+            class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-600 text-xs sm:text-sm font-bold transition-all active:scale-95 shadow-md cursor-pointer"
+            title="Copiar texto para colar manualmente"
+          >
+            <span>📋</span>
+            <span>Copiar Relatório</span>
+          </button>
+
+          <!-- Botão 2: Enviar no WhatsApp -->
+          <button 
+            onclick="sendWhatsAppDirect()" 
+            class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm transition-all active:scale-95 shadow-lg shadow-emerald-950/60 cursor-pointer"
+            title="Abrir WhatsApp com o relatório preenchido"
+          >
+            <span>🟢</span>
+            <span>Enviar no WhatsApp</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ============================================================== -->
   <!-- MODAL: AJUSTES & CONEXÕES (PLANILHAS, PROJETOS E FOTOS)        -->
@@ -5970,80 +6104,95 @@
       return list;
     }
 
-    function toggleGreDrawer() {
-      const drawer = document.getElementById('greDrawer');
-      const chevron = document.getElementById('greChevron');
-      if (drawer) {
-        drawer.classList.toggle('hidden');
-        if (chevron) {
-          chevron.classList.toggle('rotate-180');
-        }
-      }
-    }
-
     function renderGreSelector() {
-      const quickChipsContainer = document.getElementById('quickGreChips');
       const allGrid = document.getElementById('allGresGrid');
       const greSelectLabel = document.getElementById('greSelectLabel');
       const dataset = getActiveDataset();
-      const availableGres = getAvailableGresForActiveDataset();
 
-      // Se o filtro ativo não existir nas GREs disponíveis, reseta para TODAS
-      if (activeFilter !== 'TODAS' && !availableGres.some(g => g.key === activeFilter)) {
-        activeFilter = 'TODAS';
-      }
+      // Mapeia e conta obras válidas por GRE na demanda ativa (Contratos ou PACTUE)
+      const greCounts = new Map();
+      dataset.forEach(item => {
+        const k = item.greKey || normalizeGreKey(item.gre);
+        if (k) {
+          greCounts.set(k, (greCounts.get(k) || 0) + 1);
+        }
+      });
 
-      // Label do Botão Principal
+      const totalCount = dataset.length;
+      const isAllSelected = (activeFilter === 'TODAS');
+
+      // Atualiza o Label Principal do Seletor
       if (greSelectLabel) {
-        if (activeFilter === 'TODAS') {
-          greSelectLabel.textContent = `Todas as GREs (${dataset.length})`;
+        if (isAllSelected) {
+          greSelectLabel.textContent = `Todas as GREs (${totalCount})`;
         } else {
-          const count = dataset.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter)).length;
-          greSelectLabel.textContent = `${activeFilter} (${count} obras)`;
+          const count = greCounts.get(activeFilter) || 0;
+          const ref = SEDUC_PI_GRES.find(s => s.key === activeFilter);
+          const poloName = ref ? ref.polo : 'Regional';
+          greSelectLabel.textContent = `${activeFilter} – ${poloName} (${count} obras)`;
         }
       }
 
-      // Grid Completo Permanente (Apenas GREs com obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
+      // Grade de Balões com Rolagem Padronizada (Padrão idêntico a Projetos e Fotos)
       if (allGrid) {
-        if (availableGres.length === 0) {
-          allGrid.innerHTML = `
-            <div class="col-span-full p-4 text-center text-xs text-slate-400">
-              Nenhuma GRE com obras ativas cadastrada nesta demanda.
+        let html = `
+          <button 
+            onclick="setFilter('TODAS')"
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+              isAllSelected 
+                ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="Ver todas as obras de todas as GREs (${totalCount} obras)"
+          >
+            <div class="flex flex-col min-w-0">
+              <span class="text-[11px] font-extrabold truncate leading-tight ${isAllSelected ? 'text-brand-dark font-black' : 'text-slate-200'}">
+                TODAS AS GRES
+              </span>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+                Geral Piauí
+              </span>
             </div>
-          `;
-        } else {
-          allGrid.innerHTML = availableGres.map(g => {
-            const isSelected = activeFilter === g.key;
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? 'bg-black/25 text-brand-dark font-black' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">
+              ${totalCount}
+            </span>
+          </button>
+        `;
 
-            return `
-              <button 
-                onclick="setFilter('${g.key}')"
-                class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 ${
-                  isSelected 
-                    ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
-                    : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
-                }"
-                title="${g.key} – ${g.polo} (${g.count} obras)"
-              >
-                <div class="flex flex-col min-w-0">
-                  <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
-                    ${g.key}
-                  </span>
-                  <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
-                    ${g.polo}
-                  </span>
-                </div>
-                <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
-                  isSelected 
-                    ? 'bg-black/25 text-brand-dark font-black' 
-                    : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                }">
-                  ${g.count}
+        SEDUC_PI_GRES.forEach(g => {
+          const count = greCounts.get(g.key) || 0;
+          const isSelected = (activeFilter === g.key);
+
+          html += `
+            <button 
+              onclick="setFilter('${g.key}')"
+              class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+                isSelected 
+                  ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
+                  : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+              }"
+              title="${g.key} – ${g.polo} (${count} obras)"
+            >
+              <div class="flex flex-col min-w-0">
+                <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
+                  ${g.key}
                 </span>
-              </button>
-            `;
-          }).join('');
-        }
+                <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+                  ${g.polo}
+                </span>
+              </div>
+              <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+                isSelected 
+                  ? 'bg-black/25 text-brand-dark font-black' 
+                  : (count > 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-500 border border-slate-700/50')
+              }">
+                ${count}
+              </span>
+            </button>
+          `;
+        });
+
+        allGrid.innerHTML = html;
       }
 
       updateSummaryBanner();
@@ -6630,25 +6779,100 @@
     }
 
     function updateWhatsAppOutput() {
+      const text = generateWhatsAppMessage();
       const out = document.getElementById('whatsAppOutput');
       if (out) {
-        out.textContent = generateWhatsAppMessage();
+        out.textContent = text;
       }
+      const modalOut = document.getElementById('whatsAppModalOutput');
+      if (modalOut) {
+        modalOut.textContent = text;
+      }
+    }
+
+    function openWhatsAppModal() {
+      const modal = document.getElementById('whatsappModal');
+      const modalOut = document.getElementById('whatsAppModalOutput');
+      const scopeLabel = document.getElementById('whatsappModalScope');
+      const text = generateWhatsAppMessage();
+
+      if (modalOut) modalOut.textContent = text;
+
+      if (scopeLabel) {
+        const modName = (currentModule === 'PACTUE') ? 'Obras PACTUE' : (currentModule === 'PROJETOS' ? 'Projetos' : (currentModule === 'FOTOS' ? 'Fotos' : 'Obras de Contratos'));
+        const greName = (activeFilter === 'TODAS') ? 'Todas as GREs' : activeFilter;
+        const statusName = (activeStatusFilter === 'TODOS') ? 'Todos os status' : activeStatusFilter;
+        scopeLabel.textContent = `${modName} • ${greName} • ${statusName}`;
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+      }
+    }
+
+    function closeWhatsAppModal() {
+      const modal = document.getElementById('whatsappModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function handleWhatsAppModalBackdrop(event) {
+      if (event && event.target && event.target.id === 'whatsappModal') {
+        closeWhatsAppModal();
+      }
+    }
+
+    function sendWhatsAppDirect() {
+      const text = generateWhatsAppMessage();
+      if (!text || !text.trim()) {
+        showToastNotification("Nenhum dado para o relatório.");
+        return;
+      }
+      const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+      window.open(url, "_blank");
     }
 
     function copyWhatsAppText() {
       const text = generateWhatsAppMessage();
-      
+      if (!text || !text.trim()) {
+        showToastNotification("Nenhum dado para o relatório.");
+        return;
+      }
+
+      const onSuccess = () => {
+        showToastNotification("✓ Relatório copiado com sucesso!");
+        const previewLabel = document.getElementById('previewCopyLabel');
+        if (previewLabel) {
+          const old = previewLabel.textContent;
+          previewLabel.textContent = "✓ Copiado!";
+          setTimeout(() => { previewLabel.textContent = old; }, 2000);
+        }
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onSuccess).catch(() => {
+          fallbackCopyText(text, onSuccess);
+        });
+      } else {
+        fallbackCopyText(text, onSuccess);
+      }
+    }
+
+    function fallbackCopyText(text, cb) {
       const textarea = document.createElement('textarea');
       textarea.value = text;
       textarea.style.position = 'fixed';
       textarea.style.opacity = '0';
       document.body.appendChild(textarea);
       textarea.select();
-      
       try {
         document.execCommand('copy');
-        showToastNotification("✓ Relatório copiado para o WhatsApp!");
+        if (cb) cb();
       } catch (err) {
         console.warn('Falha na cópia via execCommand:', err);
       } finally {
