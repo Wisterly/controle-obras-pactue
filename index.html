@@ -685,24 +685,6 @@
                 Mostrando Fachadas (0 fotos)
               </span>
             </div>
-
-            <!-- Balõezinhos de Ação Rápida: Tirar Foto e Anexar Foto para a pasta selecionada -->
-            <div class="flex items-center gap-2">
-              <button 
-                onclick="triggerDirectCameraCapture()"
-                class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
-                title="Tirar foto diretamente da câmera do celular/computador para esta pasta selecionada"
-              >
-                <span class="text-sm">📸</span> <span>Tirar Foto</span>
-              </button>
-              <button 
-                onclick="triggerDirectFileAttach()"
-                class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder hover:border-slate-500 text-xs font-bold shadow flex items-center gap-1.5 transition-all active:scale-95"
-                title="Anexar foto(s) do dispositivo para esta pasta"
-              >
-                <span class="text-sm">📁</span> <span>Anexar Foto</span>
-              </button>
-            </div>
           </div>
 
           <!-- Grade de balõezinhos de subpastas/categorias (Ilhas) -->
@@ -715,19 +697,46 @@
         <input type="file" id="directCameraCaptureInput" accept="image/*" capture="environment" class="hidden" onchange="handleDirectCameraCapture(event)">
         <input type="file" id="directFileAttachInput" accept="image/*" multiple class="hidden" onchange="handleDirectFileAttach(event)">
 
-        <!-- NÍVEL 4: GRADE DE FOTOS DA PASTA SELECIONADA -->
+        <!-- NÍVEL 4: GRADE DE FOTOS DA PASTA SELECIONADA EM MINIATURAS -->
         <div class="flex flex-col gap-3 pt-2">
           <div class="flex items-center justify-between">
             <h4 class="text-sm font-bold text-white flex items-center gap-2">
               <span id="fotosCurrentFolderIcon">🏛️</span>
               Fotos de: <span id="fotosCurrentFolderTitle" class="text-emerald-400">Fachadas</span>
             </h4>
-            <span id="fotosGalleryStatus" class="text-xs text-slate-400">Clique na foto para ampliar em tela cheia</span>
+            <span id="fotosGalleryStatus" class="text-xs text-slate-400">Clique na miniatura para ampliar em tela cheia</span>
           </div>
 
-          <!-- Grid de Fotos -->
-          <div id="fotosGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <!-- Grid de Fotos em Miniatura -->
+          <div id="fotosGalleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
             <!-- Injected via JS -->
+          </div>
+
+          <!-- Local de Ação para Anexar/Tirar Fotos (Abaixo das fotos) -->
+          <div class="mt-4 pt-4 border-t border-brand-cardBorder/70 flex flex-wrap items-center justify-between gap-3 bg-brand-dark/50 p-4 rounded-xl border border-brand-cardBorder">
+            <div class="flex items-center gap-2.5">
+              <span class="text-lg">📸</span>
+              <div class="flex flex-col">
+                <span class="text-xs font-bold text-white">Adicionar novas fotos para esta escola</span>
+                <span class="text-[10px] text-slate-400">Tire fotos com o celular ou anexe imagens (JPEG, PNG) do seu dispositivo</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button 
+                onclick="triggerDirectCameraCapture()"
+                class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
+                title="Tirar foto diretamente da câmera do celular/computador"
+              >
+                <span class="text-sm">📸</span> <span>Tirar Foto</span>
+              </button>
+              <button 
+                onclick="triggerDirectFileAttach()"
+                class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder hover:border-slate-500 text-xs font-bold shadow flex items-center gap-1.5 transition-all active:scale-95"
+                title="Anexar foto(s) do dispositivo para esta pasta"
+              >
+                <span class="text-sm">📁</span> <span>Anexar Foto</span>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -1642,6 +1651,17 @@
         termino: "10/08/2026"
       },
       {
+        id: "ct-oeiras-9",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        construtora: "R MELO CONSTRUTORA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "30/11/2026"
+      },
+      {
         id: "ct-barras-1",
         gre: "2ª GRE – BARRAS",
         greKey: "2ª GRE",
@@ -2123,6 +2143,304 @@
         data: "05/10/2026",
         descricao: "Içamento das tesouras metálicas do vão de armazenagem."
       },
+      // CETI WILSON NUNES MARTINS - 8ª GRE (OEIRAS) - 27 FOTOS ENCONTRADAS NA PASTA
+      {
+        id: "foto-wm-1",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 01.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 01 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-2",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 02.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 02 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-3",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 03.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 03 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-4",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 04.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 04 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-5",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 05.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 05 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-6",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 06.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 06 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-7",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 07.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 07 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-8",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 08.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 08 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-9",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 09.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 09 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-10",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 10.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 10 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-11",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 11.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 11 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-12",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 12.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 12 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-13",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 13.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 13 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-14",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 14.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 14 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-15",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 15.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 15 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-16",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 16.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 16 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-17",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 17.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 17 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-18",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 18.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 18 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-19",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 19.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 19 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-20",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 20.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 20 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-21",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 21.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 21 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-22",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 22.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 22 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-23",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 23.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 23 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-24",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 24.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 24 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-25",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 25.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 25 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-26",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 26.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 26 da obra do CETI Wilson Nunes Martins."
+      },
+      {
+        id: "foto-wm-27",
+        greKey: "8ª GRE",
+        escola: "22020810 - OEIRAS - CETI WILSON NUNES MARTINS",
+        municipio: "OEIRAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
+        titulo: "WhatsApp Image 2026-10-15 at 27.00.jpeg",
+        data: "15/10/2026",
+        descricao: "Registro fotográfico WhatsApp Image 27 da obra do CETI Wilson Nunes Martins."
+      },
       // CETI GOV PEDRO FREITAS - 18ª GRE (JOSÉ DE FREITAS)
       {
         id: "foto-jf-1",
@@ -2264,9 +2582,17 @@
             });
 
             // Se for acervo padrão e faltar o CETI Gov Pedro Freitas, agrega da base padrão
-            if (Array.isArray(fallback) && !mapped.some(x => String(x.escola || '').includes('PEDRO FREITAS'))) {
-              const extra = fallback.filter(x => String(x.escola || '').includes('PEDRO FREITAS'));
-              return [...mapped, ...extra];
+            if (Array.isArray(fallback)) {
+              let updated = [...mapped];
+              if (!updated.some(x => String(x.escola || '').includes('PEDRO FREITAS'))) {
+                const extraPf = fallback.filter(x => String(x.escola || '').includes('PEDRO FREITAS'));
+                updated = [...updated, ...extraPf];
+              }
+              if (!updated.some(x => String(x.escola || '').includes('WILSON NUNES MARTINS') || String(x.escola || '').includes('WILSON MARTINS'))) {
+                const extraWm = fallback.filter(x => String(x.escola || '').includes('WILSON NUNES MARTINS') || String(x.escola || '').includes('WILSON MARTINS'));
+                updated = [...updated, ...extraWm];
+              }
+              return updated;
             }
             return mapped;
           }
@@ -3640,7 +3966,7 @@
           >
             <!-- Imagem Thumbnail -->
             <div 
-              class="relative h-44 w-full bg-brand-dark overflow-hidden cursor-pointer"
+              class="relative h-28 sm:h-32 w-full bg-brand-dark overflow-hidden cursor-pointer"
               onclick="openPhotoLightboxByIndex(${index})"
               title="Clique para ampliar esta foto"
             >
@@ -3668,9 +3994,9 @@
             </div>
 
             <!-- Legenda e Mover para Pasta com Hashtag -->
-            <div class="p-3 flex flex-col justify-between flex-1 gap-2.5">
+            <div class="p-2 flex flex-col justify-between flex-1 gap-1.5">
               <div>
-                <h5 class="text-xs font-bold text-white line-clamp-2 leading-snug group-hover:text-emerald-300 transition-colors">
+                <h5 class="text-[11px] font-bold text-white line-clamp-1 leading-snug group-hover:text-emerald-300 transition-colors">
                   ${photo.titulo}
                 </h5>
               </div>
