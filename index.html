@@ -1247,6 +1247,7 @@
               // Se vier vazio na coluna R (Contratos) ou coluna H (PACTUE), trata adequadamente e unifica EM EXECUÇÃO -> EXECUÇÃO
               const rawStat = status ? status.toUpperCase().trim() : (isContracts ? 'NÃO INFORMADO' : 'EXECUÇÃO');
               const resolvedStatus = normalizeWorkStatus(rawStat);
+              const greKey = normalizeGreKey(rawGre) || '8ª GRE';
 
               parsed.push({
                 id: `${prefix}-${rowIdx}-${Date.now().toString(36)}`,
