@@ -1,11 +1,22 @@
 {
   "sheetUrlMain": "",
-  "sheetUrlContracts": "",
-  "sheetUrlPactue": "",
+  "sheetUrlContracts": "https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=671056752#gid=671056752",
+  "sheetUrlPactue": "https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=1717732222#gid=1717732222",
   "sheetUrlMedicoes": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing",
+  "medicoesContratos": [
+    { "id": "ct-rmelo", "name": "RMELO", "url": "" },
+    { "id": "ct-rodrigues-e-rodrigues", "name": "RODRIGUES E RODRIGUES", "url": "" },
+    { "id": "ct-cp-engenharia", "name: "CP ENGENHARIA", "url": "" },
+    { "id": "ct-fel-engemax", "name": "F E L / ENGEMAX", "url": "" },
+    { "id": "ct-pavcon", "name": "PAVCON", "url": "" },
+    { "id": "ct-desenvolva", "name": "DESENVOLVA", "url": "" },
+    { "id": "ct-oasis", "name": "OASIS", "url": "" },
+    { "id": "ct-assertiva", "name": "ASSERTIVA", "url": "" },
+    { "id": "ct-monte-claro", "name": "MONTE CLARO", "url": "" }
+  ],
   "projetosFolderUrl": "https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link",
   "fotosFolderUrl": "https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link",
   "autoSyncInterval": "5",
-  "lastSyncTime": "",
-  "updatedAt": "2026-10-17T08:00:00.000Z"
+  "lastSyncTime": "19:45",
+  "updatedAt": "2026-10-17T22:45:00.000Z"
 }
