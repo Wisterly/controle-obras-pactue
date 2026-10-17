@@ -6,7 +6,7 @@
   "medicoesContratos": [
     { "id": "ct-rmelo", "name": "RMELO", "url": "" },
     { "id": "ct-rodrigues-e-rodrigues", "name": "RODRIGUES E RODRIGUES", "url": "" },
-    { "id": "ct-cp-engenharia", "name: "CP ENGENHARIA", "url": "" },
+    { "id": "ct-cp-engenharia", "name": "CP ENGENHARIA", "url": "" },
     { "id": "ct-fel-engemax", "name": "F E L / ENGEMAX", "url": "" },
     { "id": "ct-pavcon", "name": "PAVCON", "url": "" },
     { "id": "ct-desenvolva", "name": "DESENVOLVA", "url": "" },
