@@ -1413,12 +1413,21 @@
     function getAvailableGresForActiveDataset() {
       const dataset = getActiveDataset();
       const greMap = new Map();
+      const grePoloFallbackMap = new Map();
 
       // Mapeia e conta apenas obras válidas
       dataset.forEach(item => {
         const k = item.greKey || normalizeGreKey(item.gre);
         if (k) {
           greMap.set(k, (greMap.get(k) || 0) + 1);
+
+          // Tenta extrair polo do nome original caso exista (ex: "8ª GRE - OEIRAS")
+          if (!grePoloFallbackMap.has(k) && item.gre) {
+            const parts = item.gre.split(/[-–—]/);
+            if (parts.length > 1) {
+              grePoloFallbackMap.set(k, parts[1].trim());
+            }
+          }
         }
       });
 
@@ -1427,10 +1436,11 @@
       greMap.forEach((count, k) => {
         if (count > 0) {
           const ref = SEDUC_PI_GRES.find(s => s.key === k);
+          const poloName = (ref ? ref.polo : '') || grePoloFallbackMap.get(k) || 'Regional';
           list.push({
             key: k,
-            name: ref ? ref.name : k,
-            polo: ref ? ref.polo : 'Regional',
+            name: ref ? ref.name : `${k} – ${poloName}`,
+            polo: poloName,
             count: count
           });
         }
@@ -1479,18 +1489,19 @@
         }
       }
 
-      // Quick Chips Horizontais (Apenas GREs que têm obras) - Mais compactos
+      // Quick Chips Horizontais (Apenas GREs que têm obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
       if (quickChipsContainer) {
         let chipsHtml = `
           <button 
             onclick="setFilter('TODAS')"
-            class="px-2.5 py-1 rounded-lg text-[11px] font-bold whitespace-nowrap transition-all shadow-sm ${
+            class="px-2.5 py-1.5 rounded-xl text-left whitespace-nowrap transition-all shadow-sm flex flex-col justify-center shrink-0 ${
               activeFilter === 'TODAS' 
                 ? 'bg-brand-accent text-white shadow-brand-accent/30 scale-105' 
                 : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
             }"
           >
-            ✨ Todas (${dataset.length})
+            <span class="text-[11px] font-bold leading-tight">✨ Todas as GREs</span>
+            <span class="text-[9px] text-slate-300/80 leading-tight">${dataset.length} obras totais</span>
           </button>
         `;
 
@@ -1499,15 +1510,24 @@
           chipsHtml += `
             <button 
               onclick="setFilter('${g.key}')"
-              class="px-2 py-1 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              class="px-2.5 py-1.5 rounded-xl text-left whitespace-nowrap transition-all flex items-center gap-2 shrink-0 ${
                 isSelected 
-                  ? 'bg-amber-500 text-brand-dark font-black shadow-sm shadow-amber-500/30 scale-105' 
+                  ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-105' 
                   : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
               }"
-              title="${g.key} - ${g.polo}"
+              title="${g.key} – ${g.polo} (${g.count} obras)"
             >
-              <span>${g.key}</span>
-              <span class="text-[9px] px-1 py-0.1 rounded-full ${isSelected ? 'bg-black/25 text-brand-dark' : 'bg-brand-dark text-slate-400'} font-bold min-w-[16px] text-center">
+              <div class="flex flex-col min-w-0">
+                <span class="text-[11px] font-extrabold leading-tight ${isSelected ? 'text-brand-dark' : 'text-white'}">
+                  ${g.key}
+                </span>
+                <span class="text-[9px] leading-tight ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400'}">
+                  ${g.polo}
+                </span>
+              </div>
+              <span class="text-[9px] px-1.5 py-0.5 rounded-full font-black ${
+                isSelected ? 'bg-black/25 text-brand-dark' : 'bg-brand-dark text-slate-300 border border-brand-cardBorder'
+              } min-w-[18px] text-center">
                 ${g.count}
               </span>
             </button>
@@ -1517,7 +1537,7 @@
         quickChipsContainer.innerHTML = chipsHtml;
       }
 
-      // Grid Compacto no Drawer (Apenas GREs com obras - balõezinhos menores)
+      // Grid Completo no Drawer (Apenas GREs com obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
       if (allGrid) {
         if (availableGres.length === 0) {
           allGrid.innerHTML = `
@@ -1532,18 +1552,20 @@
             return `
               <button 
                 onclick="setFilter('${g.key}'); toggleGreDrawer();"
-                class="px-2 py-1.5 rounded-lg text-left border transition-all flex items-center justify-between gap-1.5 ${
+                class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 ${
                   isSelected 
                     ? 'bg-amber-500/25 border-amber-400 text-amber-300 shadow-sm ring-1 ring-amber-400 font-bold' 
-                    : 'bg-brand-dark/90 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+                    : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
                 }"
                 title="${g.key} – ${g.polo} (${g.count} obras)"
               >
                 <div class="flex flex-col min-w-0">
-                  <span class="text-[11px] font-bold truncate leading-tight ${isSelected ? 'text-amber-300' : 'text-white'}">
+                  <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-amber-300' : 'text-white'}">
                     ${g.key}
                   </span>
-                  <span class="text-[9px] text-slate-400 truncate leading-tight">${g.polo}</span>
+                  <span class="text-[9px] text-slate-400 truncate leading-tight mt-0.5 font-medium">
+                    ${g.polo}
+                  </span>
                 </div>
                 <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
                   isSelected 
