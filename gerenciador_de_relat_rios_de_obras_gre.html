@@ -407,14 +407,43 @@
         <button onclick="closeSheetModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
       </div>
 
-      <!-- Instrução Amigável -->
-      <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3 text-xs text-slate-300 flex flex-col gap-1">
-        <p class="font-semibold text-amber-300">💡 Como pegar o link de cada aba no Google Sheets:</p>
-        <p class="text-slate-400 leading-relaxed">
-          1. Abra a sua planilha no Google Drive e clique em <strong>Compartilhar &gt; "Qualquer pessoa com o link pode ler"</strong>.<br/>
-          2. No rodapé do Google Sheets, clique na aba <strong>Contratos</strong> e copie a URL do navegador (ela termina com <code>#gid=...</code>). Cole no campo de Contratos.<br/>
-          3. Depois clique na aba <strong>PACTUE</strong> e copie a URL (o <code>#gid=...</code> mudará). Cole no campo de PACTUE!
+      <!-- Instrução Amigável e Destaque de Compartilhamento -->
+      <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">PASSO OBRIGATÓRIO NO GOOGLE DRIVE</span>
+        </div>
+        <p class="text-slate-300 leading-relaxed">
+          1. Na sua planilha do Google Drive, clique no botão azul <strong>Compartilhar</strong> (canto superior direito).<br/>
+          2. Em <strong>Acesso geral</strong>, mude para: <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>.<br/>
+          3. Copie o link e cole no campo abaixo. O sistema lerá e sincronizará automaticamente!
         </p>
+      </div>
+
+      <!-- Campo Link Geral da Planilha (Compartilhamento Principal) -->
+      <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-brand-accent/40 p-3.5 rounded-xl">
+        <label class="text-xs font-extrabold text-brand-accent uppercase tracking-wide flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>🌐</span> Link Geral da Planilha Compartilhada (Qualquer pessoa com o link)
+          </span>
+          <span class="text-[10px] text-slate-400 font-normal">Base para todas as abas</span>
+        </label>
+        <div class="flex gap-2">
+          <input 
+            type="url" 
+            id="sheetUrlMainInput" 
+            placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing"
+            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+          <button 
+            type="button"
+            onclick="applyMainSheetUrlToBothTabs()"
+            class="px-3 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 text-xs font-bold whitespace-nowrap transition-colors"
+            title="Aplica este link principal nas duas abas"
+          >
+            Aplicar nas Abas
+          </button>
+        </div>
+        <p class="text-[10px] text-slate-400">Cole aqui o link direto gerado pelo botão <strong>Compartilhar</strong> do Google Drive.</p>
       </div>
 
       <!-- Campo Aba 1: Obras de Contratos -->
@@ -877,10 +906,28 @@
     const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
     const STORAGE_KEY_CONTRACTS = 'seduc_obras_contracts_data';
     const STORAGE_KEY_PACTUE = 'seduc_obras_pactue_data';
+    const SHEET_URL_MAIN_KEY = 'seduc_sheet_url_main';
     const SHEET_URL_CONTRACTS_KEY = 'seduc_sheet_url_contracts';
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
+
+    function applyMainSheetUrlToBothTabs() {
+      const inputMain = document.getElementById('sheetUrlMainInput');
+      const inputCt = document.getElementById('sheetUrlContractsInput');
+      const inputPac = document.getElementById('sheetUrlPactueInput');
+      if (!inputMain || !inputMain.value.trim()) {
+        showToastNotification('Por favor, cole primeiro o link geral da planilha.');
+        return;
+      }
+      const raw = inputMain.value.trim();
+      localStorage.setItem(SHEET_URL_MAIN_KEY, raw);
+      
+      // Se não tiver gid específico, define o link geral como base para as duas abas
+      if (inputCt && !inputCt.value.trim()) inputCt.value = raw;
+      if (inputPac && !inputPac.value.trim()) inputPac.value = raw;
+      showToastNotification('✓ Link principal aplicado aos campos das abas!');
+    }
 
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
@@ -1260,7 +1307,7 @@
 
     async function syncActiveModuleSheet() {
       const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-      const url = localStorage.getItem(key);
+      const url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
       if (!url) {
         openSheetModal();
         return;
@@ -1305,22 +1352,31 @@
     }
 
     async function saveAndSyncAllModal() {
+      const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
       const feedbackBox = document.getElementById('syncFeedbackBox');
 
-      const urlCt = inputCt ? inputCt.value.trim() : '';
-      const urlPac = inputPac ? inputPac.value.trim() : '';
+      const urlMain = inputMain ? inputMain.value.trim() : '';
+      let urlCt = inputCt ? inputCt.value.trim() : '';
+      let urlPac = inputPac ? inputPac.value.trim() : '';
 
-      if (!urlCt && !urlPac) {
-        showFeedback('Por favor, informe pelo menos uma URL de aba do Google Sheets.', 'error');
+      if (urlMain) {
+        localStorage.setItem(SHEET_URL_MAIN_KEY, urlMain);
+        // Se o usuário colocou o link geral e deixou aba em branco, adota o link geral
+        if (!urlCt) { urlCt = urlMain; if (inputCt) inputCt.value = urlMain; }
+        if (!urlPac) { urlPac = urlMain; if (inputPac) inputPac.value = urlMain; }
+      }
+
+      if (!urlCt && !urlPac && !urlMain) {
+        showFeedback('Por favor, informe o link compartilhado da planilha do Google Sheets.', 'error');
         return;
       }
 
       if (urlCt) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, urlCt);
       if (urlPac) localStorage.setItem(SHEET_URL_PACTUE_KEY, urlPac);
 
-      showFeedback('⏳ Sincronizando abas informadas do Google Sheets...', 'loading');
+      showFeedback('⏳ Sincronizando dados da planilha do Google Sheets...', 'loading');
 
       let summaryMsgs = [];
       let hasError = false;
@@ -1379,6 +1435,7 @@
 
     function openSheetModal() {
       const modal = document.getElementById('sheetModal');
+      const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
       const select = document.getElementById('autoSyncIntervalSelect');
@@ -1386,11 +1443,13 @@
       const linkCt = document.getElementById('modalOpenContractsTab');
       const linkPac = document.getElementById('modalOpenPactueTab');
 
+      const savedUrlMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
       const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
       const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
       const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
       const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
 
+      if (inputMain) inputMain.value = savedUrlMain;
       if (inputCt) inputCt.value = savedUrlCt;
       if (inputPac) inputPac.value = savedUrlPac;
       if (select) select.value = savedInterval;
