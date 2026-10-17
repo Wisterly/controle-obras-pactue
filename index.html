@@ -556,6 +556,60 @@
           <!-- Injected via JS -->
         </div>
 
+        <!-- ÁREA DE UPLOAD DE PROJETOS (DRAG & DROP + BOTÃO ANEXAR PROJETO) -->
+        <div 
+          id="projetosDropzoneContainer"
+          ondragover="handleProjetosDragOver(event)"
+          ondragenter="handleProjetosDragEnter(event)"
+          ondragleave="handleProjetosDragLeave(event)"
+          ondrop="handleProjetosDrop(event)"
+          class="mt-4 p-6 sm:p-7 rounded-2xl border-2 border-dashed border-purple-500/40 hover:border-purple-400 bg-brand-dark/60 hover:bg-purple-950/20 transition-all duration-200 flex flex-col items-center justify-center text-center gap-3.5 relative group shadow-lg cursor-pointer"
+          onclick="triggerDirectProjetoAttach()"
+          title="Clique ou arraste e solte arquivos de projetos (PDF) aqui para fazer upload automático"
+        >
+          <!-- Ícone e Destaque Visual -->
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner pointer-events-none">
+            📑
+          </div>
+
+          <div class="flex flex-col gap-1 max-w-lg pointer-events-none">
+            <h4 class="text-sm sm:text-base font-extrabold text-white flex items-center justify-center gap-2">
+              <span>Área de Upload de Projetos</span>
+              <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                Arraste & Solte PDF Aqui
+              </span>
+            </h4>
+            <p class="text-xs text-slate-300">
+              Arraste e solte ou mova seus projetos e plantas em PDF para esta área para realizar o upload automático, ou utilize o botão abaixo:
+            </p>
+            <p class="text-[11px] text-slate-400">
+              Escola de destino: <strong id="projetosUploadSchoolLabel" class="text-purple-300 font-bold">...</strong> na <span id="projetosUploadGreLabel" class="text-amber-400 font-bold">...</span>
+            </p>
+          </div>
+
+          <!-- Botão de Ação: Somente Anexar Projeto (sem botão de tirar foto) -->
+          <div class="flex flex-wrap items-center justify-center gap-3 mt-1" onclick="event.stopPropagation()">
+            <button 
+              type="button"
+              onclick="event.stopPropagation(); triggerDirectProjetoAttach()"
+              class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-black shadow-lg shadow-purple-700/30 flex items-center gap-2 transition-all active:scale-95 border border-purple-400/40"
+              title="Anexar documentos e projetos em PDF do computador ou celular"
+            >
+              <span class="text-base">📁</span> <span>Anexar Projeto</span>
+            </button>
+          </div>
+
+          <!-- Input oculto para anexo de projetos -->
+          <input 
+            type="file" 
+            id="directProjetoAttachInput" 
+            accept=".pdf,application/pdf" 
+            multiple 
+            class="hidden" 
+            onchange="handleDirectProjetoAttach(event)"
+          />
+        </div>
+
       </div>
 
     </div>
@@ -729,29 +783,54 @@
             <!-- Injected via JS -->
           </div>
 
-          <!-- Local de Ação para Anexar/Tirar Fotos (Abaixo das fotos) -->
-          <div class="mt-4 pt-4 border-t border-brand-cardBorder/70 flex flex-wrap items-center justify-between gap-3 bg-brand-dark/50 p-4 rounded-xl border border-brand-cardBorder">
-            <div class="flex items-center gap-2.5">
-              <span class="text-lg">📸</span>
-              <div class="flex flex-col">
-                <span class="text-xs font-bold text-white">Adicionar novas fotos para esta escola</span>
-                <span class="text-[10px] text-slate-400">Tire fotos com o celular ou anexe imagens (JPEG, PNG) do seu dispositivo</span>
-              </div>
+          <!-- ÁREA DE UPLOAD DE FOTOS (DRAG & DROP + BOTÕES DE AÇÃO) -->
+          <div 
+            id="fotosDropzoneContainer"
+            ondragover="handleFotosDragOver(event)"
+            ondragenter="handleFotosDragEnter(event)"
+            ondragleave="handleFotosDragLeave(event)"
+            ondrop="handleFotosDrop(event)"
+            class="mt-4 p-6 sm:p-7 rounded-2xl border-2 border-dashed border-emerald-500/40 hover:border-emerald-400 bg-brand-dark/60 hover:bg-emerald-950/20 transition-all duration-200 flex flex-col items-center justify-center text-center gap-3.5 relative group shadow-lg cursor-pointer"
+            onclick="triggerDirectFileAttach()"
+            title="Clique ou arraste e solte fotos aqui para fazer upload automático"
+          >
+            <!-- Ícone e Destaque Visual -->
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-inner pointer-events-none">
+              ☁️
             </div>
-            <div class="flex items-center gap-2">
+
+            <div class="flex flex-col gap-1 max-w-lg pointer-events-none">
+              <h4 class="text-sm sm:text-base font-extrabold text-white flex items-center justify-center gap-2">
+                <span>Área de Upload de Fotos</span>
+                <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Arraste & Solte Fotos Aqui
+                </span>
+              </h4>
+              <p class="text-xs text-slate-300">
+                Arraste e solte ou mova suas fotos (JPEG, PNG) para esta área para realizar o upload automático, ou utilize os botões abaixo:
+              </p>
+              <p class="text-[11px] text-slate-400">
+                Ambiente de destino: <strong id="fotosUploadTargetLabel" class="text-emerald-400 font-bold">#Fachadas</strong> na escola <span id="fotosUploadSchoolLabel" class="text-white font-semibold">...</span>
+              </p>
+            </div>
+
+            <!-- Botões de Ação Específicos para Fotos -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mt-1" onclick="event.stopPropagation()">
               <button 
-                onclick="triggerDirectCameraCapture()"
-                class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
-                title="Tirar foto diretamente da câmera do celular/computador"
+                type="button"
+                onclick="event.stopPropagation(); triggerDirectCameraCapture()"
+                class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-700/30 flex items-center gap-2 transition-all active:scale-95 border border-emerald-400/40"
+                title="Tirar foto diretamente da câmera do celular ou webcam do notebook"
               >
-                <span class="text-sm">📸</span> <span>Tirar Foto</span>
+                <span class="text-base">📸</span> <span>Tirar Foto</span>
               </button>
               <button 
-                onclick="triggerDirectFileAttach()"
-                class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder hover:border-slate-500 text-xs font-bold shadow flex items-center gap-1.5 transition-all active:scale-95"
-                title="Anexar foto(s) do dispositivo para esta pasta"
+                type="button"
+                onclick="event.stopPropagation(); triggerDirectFileAttach()"
+                class="px-4 py-2.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-100 border border-brand-cardBorder hover:border-slate-400 text-xs font-bold shadow-md flex items-center gap-2 transition-all active:scale-95"
+                title="Anexar documentos e fotos do computador ou celular"
               >
-                <span class="text-sm">📁</span> <span>Anexar Foto</span>
+                <span class="text-base">📁</span> <span>Anexar Foto</span>
               </button>
             </div>
           </div>
@@ -1450,7 +1529,61 @@
     </div>
   </div>
 
+    <!-- ============================================================== -->
+  <!-- MODAL: CÂMERA AO VIVO PARA NOTEBOOK / COMPUTADOR               -->
   <!-- ============================================================== -->
+  <div id="cameraWebcamModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 select-none">
+    <div class="relative w-full max-w-lg bg-brand-panel border-2 border-emerald-500/50 rounded-2xl p-4 sm:p-5 shadow-2xl flex flex-col gap-3.5">
+      <div class="flex items-center justify-between border-b border-brand-cardBorder pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📸</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white">Câmera ao Vivo</h3>
+            <p class="text-[11px] text-emerald-400 font-semibold" id="webcamSchoolTarget">Escola ativa</p>
+          </div>
+        </div>
+        <button onclick="closeCameraWebcamModal()" class="text-slate-400 hover:text-white p-1 text-lg font-bold">✕</button>
+      </div>
+
+      <!-- Visor da Câmera -->
+      <div class="relative w-full aspect-video bg-black rounded-xl overflow-hidden border border-brand-cardBorder flex items-center justify-center shadow-inner">
+        <video id="webcamVideoFeed" autoplay playsinline class="w-full h-full object-cover"></video>
+        <canvas id="webcamCaptureCanvas" class="hidden"></canvas>
+        <div id="webcamLoadingSpinner" class="absolute inset-0 bg-black/75 flex items-center justify-center text-xs text-emerald-400 font-bold gap-2">
+          <span class="animate-spin text-lg">⏳</span> Conectando à câmera do dispositivo...
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+        <button 
+          type="button" 
+          onclick="triggerFallbackCameraInput()" 
+          class="text-xs text-slate-400 hover:text-emerald-400 underline"
+        >
+          Usar seletor nativo / arquivo
+        </button>
+
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <button 
+            type="button" 
+            onclick="closeCameraWebcamModal()" 
+            class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-300 border border-brand-cardBorder text-xs font-bold"
+          >
+            Cancelar
+          </button>
+          <button 
+            type="button" 
+            onclick="captureWebcamPhoto()" 
+            class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
+          >
+            <span>📸</span> Fotografar e Salvar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ============================================================== -->
   <!-- MODAL: ADICIONAR ESCOLA MANUALMENTE NA GRE                    -->
   <!-- ============================================================== -->
   <div id="addEscolaModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
@@ -3135,6 +3268,11 @@
       if (nameEl) nameEl.textContent = curr.nome || 'SELECIONE UMA ESCOLA';
       if (breadGre) breadGre.textContent = curr.greKey || projetosActiveGre;
       if (breadCity) breadCity.textContent = curr.municipio;
+
+      const projUpSchool = document.getElementById('projetosUploadSchoolLabel');
+      const projUpGre = document.getElementById('projetosUploadGreLabel');
+      if (projUpSchool) projUpSchool.textContent = curr.nome || 'Nenhuma escola selecionada';
+      if (projUpGre) projUpGre.textContent = curr.greKey || projetosActiveGre;
     }
 
     function renderProjetosDisciplines() {
@@ -3340,6 +3478,10 @@
       });
 
       if (countInfo) countInfo.textContent = `${list.length} documento(s) em PDF`;
+      const projUpSchool = document.getElementById('projetosUploadSchoolLabel');
+      const projUpGre = document.getElementById('projetosUploadGreLabel');
+      if (projUpSchool) projUpSchool.textContent = cleanActiveSchool || 'Nenhuma escola selecionada';
+      if (projUpGre) projUpGre.textContent = projetosActiveGre;
 
       if (list.length === 0) {
         container.innerHTML = `
@@ -3955,12 +4097,20 @@
         if (folderIcon) folderIcon.textContent = '🏛️';
         if (folderTitle) folderTitle.textContent = 'Aguardando seleção de ambiente';
         if (badgeCount) badgeCount.textContent = 'Aguardando seleção de ambiente (' + allSchoolPhotos.length + ' fotos)';
+        const upTarget = document.getElementById('fotosUploadTargetLabel');
+        const upSchool = document.getElementById('fotosUploadSchoolLabel');
+        if (upTarget) upTarget.textContent = 'Aguardando seleção';
+        if (upSchool) upSchool.textContent = fotosActiveSchool || 'Escola Ativa';
         currentLightboxPhotos = allSchoolPhotos;
       } else {
         if (folderIcon) folderIcon.textContent = catObj ? catObj.icon : '📁';
         if (folderTitle) folderTitle.textContent = catObj ? catObj.label : fotosActiveCategory;
         currentLightboxPhotos = allSchoolPhotos.filter(f => f.pasta === fotosActiveCategory);
         if (badgeCount) badgeCount.textContent = 'Mostrando ' + (catObj ? catObj.label : fotosActiveCategory) + ' (' + currentLightboxPhotos.length + ' fotos)';
+        const upTarget = document.getElementById('fotosUploadTargetLabel');
+        const upSchool = document.getElementById('fotosUploadSchoolLabel');
+        if (upTarget) upTarget.textContent = '#' + (catObj ? catObj.label : fotosActiveCategory);
+        if (upSchool) upSchool.textContent = fotosActiveSchool || 'Escola Ativa';
       }
 
       if (currentLightboxPhotos.length === 0) {
@@ -4142,69 +4292,176 @@
 
     let pendingFotoCategory = null;
 
-    function triggerDirectCameraCapture(targetCategory) {
-      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
-      if (pendingFotoCategory === 'TODAS') pendingFotoCategory = 'Fachadas';
-      const input = document.getElementById('directCameraCaptureInput');
+    
+    // =========================================================================
+    // ÁREA DE UPLOAD E ARRASTE (FOTOS E PROJETOS) + CÂMERA NOTEBOOK/MOBILE
+    // =========================================================================
+    let webcamStream = null;
+
+    function handleFotosDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('fotosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.add('border-emerald-400', 'bg-emerald-500/20', 'scale-[1.01]', 'ring-2', 'ring-emerald-400/50');
+      }
+    }
+
+    function handleFotosDragEnter(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('fotosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.add('border-emerald-400', 'bg-emerald-500/20', 'scale-[1.01]', 'ring-2', 'ring-emerald-400/50');
+      }
+    }
+
+    function handleFotosDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('fotosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.remove('border-emerald-400', 'bg-emerald-500/20', 'scale-[1.01]', 'ring-2', 'ring-emerald-400/50');
+      }
+    }
+
+    function handleFotosDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('fotosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.remove('border-emerald-400', 'bg-emerald-500/20', 'scale-[1.01]', 'ring-2', 'ring-emerald-400/50');
+      }
+
+      const files = e.dataTransfer ? e.dataTransfer.files : [];
+      if (!files || files.length === 0) return;
+      processFotosUploadFiles(files);
+    }
+
+    function handleProjetosDragOver(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('projetosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.add('border-purple-400', 'bg-purple-500/20', 'scale-[1.01]', 'ring-2', 'ring-purple-400/50');
+      }
+    }
+
+    function handleProjetosDragEnter(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('projetosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.add('border-purple-400', 'bg-purple-500/20', 'scale-[1.01]', 'ring-2', 'ring-purple-400/50');
+      }
+    }
+
+    function handleProjetosDragLeave(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('projetosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.remove('border-purple-400', 'bg-purple-500/20', 'scale-[1.01]', 'ring-2', 'ring-purple-400/50');
+      }
+    }
+
+    function handleProjetosDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dropzone = document.getElementById('projetosDropzoneContainer');
+      if (dropzone) {
+        dropzone.classList.remove('border-purple-400', 'bg-purple-500/20', 'scale-[1.01]', 'ring-2', 'ring-purple-400/50');
+      }
+
+      const files = e.dataTransfer ? e.dataTransfer.files : [];
+      if (!files || files.length === 0) return;
+      processProjetosUploadFiles(files);
+    }
+
+    function triggerDirectProjetoAttach() {
+      const input = document.getElementById('directProjetoAttachInput');
       if (input) input.click();
     }
 
-    function triggerDirectFileAttach(targetCategory) {
-      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
-      if (pendingFotoCategory === 'TODAS') pendingFotoCategory = 'Fachadas';
-      const input = document.getElementById('directFileAttachInput');
-      if (input) input.click();
+    function handleDirectProjetoAttach(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      processProjetosUploadFiles(files);
+      e.target.value = '';
     }
 
-    function handleDirectCameraCapture(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
+    function processProjetosUploadFiles(files) {
+      const cleanSchool = extractCleanSchoolName(projetosActiveSchool).toUpperCase();
+      const schools = getSchoolsForGre(projetosActiveGre);
+      const currSchool = schools.find(s => s.nome === projetosActiveSchool);
+      const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+      const now = new Date();
+      const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
 
-      const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
-      const actualCategory = (targetCategory === 'TODAS') ? 'Fachadas' : targetCategory;
-      const reader = new FileReader();
+      let loadedCount = 0;
+      let skippedImages = 0;
+      const fileList = Array.from(files);
 
-      reader.onload = function(e) {
-        const photoUrl = e.target.result;
-        const now = new Date();
-        const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
-        const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      fileList.forEach((file, index) => {
+        // Se for imagem arrastada por engano na aba de projetos
+        const isImage = file.type.startsWith('image/') || /\.(jpe?g|png|webp|gif|bmp)$/i.test(file.name);
+        if (isImage) {
+          skippedImages++;
+          // Redireciona automaticamente para fotos se desejado
+          processFotosUploadFiles([file]);
+          return;
+        }
 
-        const schools = getSchoolsForGre(fotosActiveGre);
-        const currSchool = schools.find(s => s.nome === fotosActiveSchool);
-        const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+        // Detecta disciplina com base no nome do arquivo
+        const upName = file.name.toUpperCase();
+        let discipline = 'Arquitetura';
+        if (upName.includes('EST') || upName.includes('ESTRUT') || upName.includes('CONCRETO')) discipline = 'Estrutural';
+        else if (upName.includes('ELET') || upName.includes('ELETRIC') || upName.includes('LUZ')) discipline = 'Elétrico';
+        else if (upName.includes('HID') || upName.includes('SAN') || upName.includes('AGUA') || upName.includes('ESGOTO')) discipline = 'Hidrossanitário';
+        else if (upName.includes('INC') || upName.includes('COMBATE') || upName.includes('BOMBEIRO') || upName.includes('SPDA')) discipline = 'Incêndio';
+        else if (upName.includes('CLIM') || upName.includes('AR')) discipline = 'Climatização';
+        else if (upName.includes('ORC') || upName.includes('PLANILHA')) discipline = 'Orçamento';
 
-        const newPhoto = {
-          id: `foto-${Date.now()}`,
-          greKey: fotosActiveGre,
-          escola: fotosActiveSchool,
-          municipio: city,
-          pasta: actualCategory,
-          url: photoUrl,
-          titulo: `Foto Câmera #${actualCategory} (${hora})`,
-          data: dma,
-          descricao: `Foto capturada diretamente via câmera em ${dma} às ${hora}.`
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          const docUrl = (file.size <= 3 * 1024 * 1024) ? ev.target.result : URL.createObjectURL(file);
+          const newProj = {
+            id: `proj-${Date.now()}-${index}`,
+            greKey: projetosActiveGre,
+            escola: projetosActiveSchool,
+            municipio: city,
+            titulo: file.name.replace(/\.[^/.]+$/, "") || `Projeto Técnico ${discipline}`,
+            disciplina: discipline,
+            status: 'Aprovado',
+            versao: 'R01',
+            data: dma,
+            url: docUrl
+          };
+
+          projetosData.unshift(newProj);
+          loadedCount++;
+
+          if (loadedCount + skippedImages === fileList.length) {
+            saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+            updateModuleBadges();
+            renderProjetosDisciplines();
+            renderProjetosList();
+            showToastNotification(`✓ ${loadedCount} projeto(s) em PDF adicionado(s) com sucesso!`);
+          }
         };
 
-        fotosData.unshift(newPhoto);
-        saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
-        updateModuleBadges();
-        fotosActiveCategory = actualCategory;
-        renderFotosCategories();
-        renderFotosGallery();
-        showToastNotification(`📸 Foto tirada e anexada com sucesso em #${actualCategory}!`);
-      };
+        // Lê como Data URL para possibilitar visualização e download
+        reader.readAsDataURL(file);
+      });
 
-      reader.readAsDataURL(file);
-      event.target.value = '';
+      if (skippedImages > 0 && loadedCount === 0) {
+        showToastNotification(`📸 ${skippedImages} foto(s) detectada(s) e enviada(s) automaticamente para a aba de Fotos!`);
+      }
     }
 
-    function handleDirectFileAttach(event) {
-      const files = event.target.files;
-      if (!files || files.length === 0) return;
-
+    function processFotosUploadFiles(files) {
       const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
-      const actualCategory = (targetCategory === 'TODAS') ? 'Fachadas' : targetCategory;
+      const actualCategory = (targetCategory === 'TODAS' || !targetCategory) ? 'Fachadas' : targetCategory;
       const schools = getSchoolsForGre(fotosActiveGre);
       const currSchool = schools.find(s => s.nome === fotosActiveSchool);
       const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
@@ -4212,7 +4469,18 @@
       const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
 
       let loadedCount = 0;
-      Array.from(files).forEach((file, index) => {
+      let skippedPdfs = 0;
+      const fileList = Array.from(files);
+
+      fileList.forEach((file, index) => {
+        // Se for PDF arrastado em fotos, repassa para projetos
+        const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+        if (isPdf) {
+          skippedPdfs++;
+          processProjetosUploadFiles([file]);
+          return;
+        }
+
         const reader = new FileReader();
         reader.onload = function(e) {
           const newPhoto = {
@@ -4224,21 +4492,145 @@
             url: e.target.result,
             titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto #${actualCategory}`,
             data: dma,
-            descricao: `Foto anexada do dispositivo em ${dma}.`
+            descricao: `Foto anexada via upload automático em ${dma}.`
           };
           fotosData.unshift(newPhoto);
           loadedCount++;
-          if (loadedCount === files.length) {
+          if (loadedCount + skippedPdfs === fileList.length) {
             saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
             updateModuleBadges();
             fotosActiveCategory = actualCategory;
             renderFotosCategories();
             renderFotosGallery();
-            showToastNotification(`✓ ${files.length} foto(s) anexada(s) em #${actualCategory}!`);
+            showToastNotification(`✓ ${loadedCount} foto(s) anexada(s) com sucesso em #${actualCategory}!`);
           }
         };
         reader.readAsDataURL(file);
       });
+
+      if (skippedPdfs > 0 && loadedCount === 0) {
+        showToastNotification(`📄 ${skippedPdfs} documento(s) em PDF detectado(s) e enviado(s) para a aba de Projetos!`);
+      }
+    }
+
+    function triggerDirectCameraCapture(targetCategory) {
+      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
+      if (pendingFotoCategory === 'TODAS' || !pendingFotoCategory) pendingFotoCategory = 'Fachadas';
+
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      if (isMobile) {
+        const input = document.getElementById('directCameraCaptureInput');
+        if (input) input.click();
+        return;
+      }
+
+      // No notebook/desktop, abre visor ao vivo com câmera
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        openCameraWebcamModal();
+      } else {
+        const input = document.getElementById('directCameraCaptureInput');
+        if (input) input.click();
+      }
+    }
+
+    function openCameraWebcamModal() {
+      const modal = document.getElementById('cameraWebcamModal');
+      const video = document.getElementById('webcamVideoFeed');
+      const spinner = document.getElementById('webcamLoadingSpinner');
+      const schoolLabel = document.getElementById('webcamSchoolTarget');
+
+      if (schoolLabel) {
+        schoolLabel.textContent = `${fotosActiveSchool || 'Escola'} • #${pendingFotoCategory || 'Fachadas'}`;
+      }
+
+      if (!modal || !video) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      if (spinner) spinner.classList.remove('hidden');
+
+      navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false
+      }).then(stream => {
+        webcamStream = stream;
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          if (spinner) spinner.classList.add('hidden');
+        };
+      }).catch(err => {
+        console.warn('Câmera/Webcam não acessível:', err);
+        closeCameraWebcamModal();
+        const input = document.getElementById('directCameraCaptureInput');
+        if (input) input.click();
+      });
+    }
+
+    function closeCameraWebcamModal() {
+      const modal = document.getElementById('cameraWebcamModal');
+      const video = document.getElementById('webcamVideoFeed');
+      if (webcamStream) {
+        webcamStream.getTracks().forEach(track => track.stop());
+        webcamStream = null;
+      }
+      if (video) video.srcObject = null;
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function captureWebcamPhoto() {
+      const video = document.getElementById('webcamVideoFeed');
+      const canvas = document.getElementById('webcamCaptureCanvas');
+      if (!video || !canvas || !webcamStream) {
+        closeCameraWebcamModal();
+        return;
+      }
+
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const photoUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+      closeCameraWebcamModal();
+
+      const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
+      const actualCategory = (targetCategory === 'TODAS' || !targetCategory) ? 'Fachadas' : targetCategory;
+      const schools = getSchoolsForGre(fotosActiveGre);
+      const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+      const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+      const now = new Date();
+      const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+      const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+      const newPhoto = {
+        id: `foto-${Date.now()}`,
+        greKey: fotosActiveGre,
+        escola: fotosActiveSchool,
+        municipio: city,
+        pasta: actualCategory,
+        url: photoUrl,
+        titulo: `Foto Câmera #${actualCategory} (${hora})`,
+        data: dma,
+        descricao: `Foto capturada via câmera do notebook/dispositivo em ${dma} às ${hora}.`
+      };
+
+      fotosData.unshift(newPhoto);
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      updateModuleBadges();
+      fotosActiveCategory = actualCategory;
+      renderFotosCategories();
+      renderFotosGallery();
+      showToastNotification(`📸 Foto tirada com sucesso em #${actualCategory}!`);
+    }
+
+    function triggerFallbackCameraInput() {
+      closeCameraWebcamModal();
+      const input = document.getElementById('directCameraCaptureInput');
+      if (input) input.click();
+    }
+);
       event.target.value = '';
     }
 
