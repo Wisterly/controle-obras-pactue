@@ -544,6 +544,25 @@
     // =========================================================================
     // LISTA DE REFERÊNCIA DAS 21 GRES DA SEDUC-PI
     // =========================================================================
+    function normalizeHeaderName(name) {
+      return (name || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    // Unifica status: "EM EXECUÇÃO" ou "EXECUÇÃO" viram sempre "EXECUÇÃO"
+    function normalizeWorkStatus(rawStatus) {
+      if (!rawStatus) return '';
+      let s = String(rawStatus).toUpperCase().trim();
+      const norm = normalizeHeaderName(s);
+      if (norm === 'em execucao' || norm === 'execucao' || norm === 'em execucao.' || norm === 'execucao.') {
+        return 'EXECUÇÃO';
+      }
+      return s;
+    }
+
     const SEDUC_PI_GRES = [
       { key: "1ª GRE", polo: "Parnaíba", name: "1ª GRE – PARNAÍBA" },
       { key: "2ª GRE", polo: "Barras", name: "2ª GRE – BARRAS" },
@@ -906,7 +925,13 @@
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed;
+            // Garante que qualquer registro antigo com "EM EXECUÇÃO" seja unificado para "EXECUÇÃO"
+            return parsed.map(item => {
+              if (item.status) {
+                item.status = normalizeWorkStatus(item.status);
+              }
+              return item;
+            });
           }
         }
       } catch (e) {
@@ -1028,14 +1053,6 @@
       }
 
       return str.toUpperCase();
-    }
-
-    function normalizeHeaderName(name) {
-      return (name || '')
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .trim();
     }
 
     function getCell(row, idx) {
@@ -1170,10 +1187,9 @@
                 }
               }
 
-              // Se vier vazio na coluna R, marca como NÃO INFORMADO para não forçar erroneamente
-              const resolvedStatus = status 
-                ? status.toUpperCase().trim() 
-                : (isContracts ? 'NÃO INFORMADO' : 'EM EXECUÇÃO');
+              // Se vier vazio na coluna R (Contratos) ou coluna H (PACTUE), trata adequadamente e unifica EM EXECUÇÃO -> EXECUÇÃO
+              const rawStat = status ? status.toUpperCase().trim() : (isContracts ? 'NÃO INFORMADO' : 'EXECUÇÃO');
+              const resolvedStatus = normalizeWorkStatus(rawStat);
 
               parsed.push({
                 id: `${prefix}-${rowIdx}-${Date.now().toString(36)}`,
@@ -1698,7 +1714,7 @@
       // Extrai todos os status únicos presentes na coluna R (Contratos) ou coluna H (PACTUE)
       const statusCounts = new Map();
       greSubset.forEach(w => {
-        let st = (w.status || '').toUpperCase().trim();
+        let st = normalizeWorkStatus(w.status);
         if (!st) st = 'NÃO INFORMADO';
         statusCounts.set(st, (statusCounts.get(st) || 0) + 1);
       });
@@ -1787,7 +1803,7 @@
       const dataset = getActiveDataset();
       const filtered = dataset.filter(item => {
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-        const matchesStatus = (activeStatusFilter === 'TODOS' || (item.status && item.status.toUpperCase().trim() === activeStatusFilter));
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
         return matchesGre && matchesStatus;
       });
 
@@ -1930,7 +1946,7 @@
 
       const filtered = dataset.filter(item => {
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-        const matchesStatus = (activeStatusFilter === 'TODOS' || (item.status && item.status.toUpperCase().trim() === activeStatusFilter));
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
         const q = searchQuery.toLowerCase();
         const matchesSearch = !q || 
           (item.escola && item.escola.toLowerCase().includes(q)) || 
@@ -2094,7 +2110,7 @@
       targetGres.forEach(g => {
         const schools = dataset.filter(w => {
           const matchesGre = (w.greKey === g.key || normalizeGreKey(w.gre) === g.key);
-          const matchesStatus = (activeStatusFilter === 'TODOS' || (w.status && w.status.toUpperCase().trim() === activeStatusFilter));
+          const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(w.status) === activeStatusFilter));
           return matchesGre && matchesStatus;
         });
 
