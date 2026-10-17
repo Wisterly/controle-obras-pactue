@@ -771,7 +771,7 @@
           </div>
 
           <!-- Grade de balõezinhos de subpastas/categorias (Ilhas) -->
-          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2">
+          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
             <!-- Injected via JS -->
           </div>
         </div>
@@ -2168,25 +2168,33 @@
     // CATEGORIAS / SUBPASTAS PADRÃO DE FOTOS (BALÕEZINHOS)
     // =========================================================================
     const FOTOS_DEFAULT_CATEGORIES = [
-      { key: "Fachadas", icon: "🏛️", color: "blue", label: "Fachadas", subtitle: "Acessos & Fachada", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
-      { key: "Laboratórios", icon: "🔬", color: "emerald", label: "Laboratórios", subtitle: "Ciências & Robótica", badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
-      { key: "Salas de Aula", icon: "📚", color: "amber", label: "Salas de Aula", subtitle: "Blocos Pedagógicos", badge: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
-      { key: "Quadra Poliesportiva", icon: "🏀", color: "orange", label: "Quadra Poliesportiva", subtitle: "Cobertura & Piso", badge: "bg-orange-500/20 text-orange-300 border-orange-500/30" },
-      { key: "Refeitório", icon: "🍽️", color: "purple", label: "Refeitório / Cozinha", subtitle: "Alimentação & Copa", badge: "bg-purple-500/20 text-purple-300 border-purple-500/30" },
-      { key: "Banheiros", icon: "🚻", color: "cyan", label: "Banheiros / PCD", subtitle: "Sanitários & Metais", badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30" },
-      { key: "Obras e Estrutura", icon: "🏗️", color: "rose", label: "Obras e Estrutura", subtitle: "Fundações & Cobertura", badge: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
-      { key: "Área Externa", icon: "🌿", color: "lime", label: "Área Externa / Pátio", subtitle: "Pátio & Urbanização", badge: "bg-lime-500/20 text-lime-300 border-lime-500/30" }
+      { key: "01 Fachada", icon: "🏛️", color: "blue", label: "01 Fachada", subtitle: "Acessos & Fachada", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
+      { key: "02 Subestação", icon: "⚡", color: "amber", label: "02 Subestação", subtitle: "Transformador & Energia", badge: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
+      { key: "03 Sala de Aula", icon: "📚", color: "indigo", label: "03 Sala de Aula", subtitle: "Blocos Pedagógicos", badge: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30" },
+      { key: "04 Refeitório", icon: "🍽️", color: "purple", label: "04 Refeitório", subtitle: "Cozinha & Alimentação", badge: "bg-purple-500/20 text-purple-300 border-purple-500/30" },
+      { key: "05 Laboratório de Informática", icon: "💻", color: "cyan", label: "05 Lab. Informática", subtitle: "TI & Computadores", badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30" },
+      { key: "06 Sala AEE / Saúde Digital", icon: "🩺", color: "emerald", label: "06 Sala AEE / Saúde", subtitle: "Inclusão & Saúde Digital", badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
+      { key: "07 Laboratório de Ciências", icon: "🔬", color: "teal", label: "07 Lab. Ciências", subtitle: "Física, Química & Bio", badge: "bg-teal-500/20 text-teal-300 border-teal-500/30" },
+      { key: "08 Biblioteca", icon: "📖", color: "orange", label: "08 Biblioteca", subtitle: "Acervo & Leitura", badge: "bg-orange-500/20 text-orange-300 border-orange-500/30" },
+      { key: "09 Quadra", icon: "🏀", color: "rose", label: "09 Quadra", subtitle: "Quadra Poliesportiva", badge: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
+      { key: "10 Banheiro / Vestiário", icon: "🚿", color: "sky", label: "10 Banheiro / Vestiário", subtitle: "Sanitários & Vestiários", badge: "bg-sky-500/20 text-sky-300 border-sky-500/30" },
+      { key: "11 Setor Administrativo", icon: "🏢", color: "slate", label: "11 Setor Administrativo", subtitle: "Diretoria & Coordenação", badge: "bg-slate-500/20 text-slate-300 border-slate-500/30" },
+      { key: "12 Demais fotos", icon: "📸", color: "lime", label: "12 Demais fotos", subtitle: "Áreas Comuns & Outras", badge: "bg-lime-500/20 text-lime-300 border-lime-500/30" }
     ];
 
     const FOTOS_MOVABLE_CATEGORIES = [
-      { key: "Fachadas", label: "Fachadas", icon: "🏛️" },
-      { key: "Laboratórios", label: "Laboratórios", icon: "🔬" },
-      { key: "Salas de Aula", label: "Salas de Aula", icon: "📚" },
-      { key: "Quadra Poliesportiva", label: "Quadra Poliesportiva", icon: "🏀" },
-      { key: "Refeitório", label: "Refeitório", icon: "🍽️" },
-      { key: "Banheiros", label: "Banheiros", icon: "🚻" },
-      { key: "Obras e Estrutura", label: "Obras e Estrutura", icon: "🏗️" },
-      { key: "Área Externa", label: "Área Externa", icon: "🌿" }
+      { key: "01 Fachada", label: "01 Fachada", icon: "🏛️" },
+      { key: "02 Subestação", label: "02 Subestação", icon: "⚡" },
+      { key: "03 Sala de Aula", label: "03 Sala de Aula", icon: "📚" },
+      { key: "04 Refeitório", label: "04 Refeitório", icon: "🍽️" },
+      { key: "05 Laboratório de Informática", label: "05 Laboratório de Informática", icon: "💻" },
+      { key: "06 Sala AEE / Saúde Digital", label: "06 Sala AEE / Saúde Digital", icon: "🩺" },
+      { key: "07 Laboratório de Ciências", label: "07 Laboratório de Ciências", icon: "🔬" },
+      { key: "08 Biblioteca", label: "08 Biblioteca", icon: "📖" },
+      { key: "09 Quadra", label: "09 Quadra", icon: "🏀" },
+      { key: "10 Banheiro / Vestiário", label: "10 Banheiro / Vestiário", icon: "🚿" },
+      { key: "11 Setor Administrativo", label: "11 Setor Administrativo", icon: "🏢" },
+      { key: "12 Demais fotos", label: "12 Demais fotos", icon: "📸" }
     ];
 
     // =========================================================================
@@ -2943,34 +2951,53 @@
     // PADRONIZADOR OFICIAL DE PASTAS E ESCOLAS (INEP - MUNICÍPIO - ESCOLA)
     // Exemplo do print: 22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS
     // =========================================================================
-    function parseSchoolFolderInfo(rawStr, fallbackCity = '') {
+        function parseSchoolFolderInfo(rawStr, fallbackCity = '') {
       if (!rawStr) return { inep: '', municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: '' };
       const trimmed = String(rawStr).trim();
 
-      // Padrão Oficial: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS"
-      // 1º números: Código INEP da escola
-      // 2º nome: Cidade / Município
-      // 3º nome: Nome da Escola
-      const parts = trimmed.split(/\s*[-–—]\s*/);
-      
-      if (parts.length >= 3 && /^\d+$/.test(parts[0])) {
-        const inep = parts[0].trim();
-        const municipio = parts[1].trim().toUpperCase();
-        const nome = parts.slice(2).join(' - ').trim().toUpperCase();
+      // Split inteligente por hífen (- ou – ou —)
+      const parts = trimmed.split(/\s*[-–—]\s*/).map(p => p.trim()).filter(Boolean);
+
+      let inep = '';
+      let nome = '';
+      let municipio = '';
+
+      // Regra 1: Código INEP é sempre a sequência numérica de 8 dígitos no início
+      if (parts.length > 0 && /^\d{7,8}$/.test(parts[0])) {
+        inep = parts[0];
+        const remainingParts = parts.slice(1);
+
+        // Regra 2: Nome da Escola é o segmento contendo as siglas CETI ou CEJA
+        const schoolIndex = remainingParts.findIndex(p => /\b(CETI|CEJA)\b/i.test(p));
+
+        if (schoolIndex !== -1) {
+          nome = remainingParts[schoolIndex].toUpperCase();
+          // Regra 3: Município é o segmento restante sem INEP e sem CETI/CEJA
+          const cityParts = remainingParts.filter((_, idx) => idx !== schoolIndex);
+          municipio = (cityParts.join(' - ') || fallbackCity || 'MUNICÍPIO').toUpperCase();
+        } else {
+          // Caso específico sem sigla CETI/CEJA (ex: SEDE ou nomenclatura direta)
+          if (remainingParts.length >= 2) {
+            municipio = remainingParts[0].toUpperCase();
+            nome = remainingParts.slice(1).join(' - ').toUpperCase();
+          } else if (remainingParts.length === 1) {
+            nome = remainingParts[0].toUpperCase();
+            municipio = (fallbackCity || 'MUNICÍPIO').toUpperCase();
+          }
+        }
+        return { inep, municipio, nome: nome || trimmed.toUpperCase() };
+      }
+
+      // Fallback inteligente para casos em que o INEP não está na 1ª posição ou formatações atípicas
+      const schoolIndex = parts.findIndex(p => /\b(CETI|CEJA)\b/i.test(p));
+      if (schoolIndex !== -1) {
+        nome = parts[schoolIndex].toUpperCase();
+        const otherParts = parts.filter((_, idx) => idx !== schoolIndex);
+        const numPart = otherParts.find(p => /^\d{7,8}$/.test(p));
+        if (numPart) inep = numPart;
+        const cityParts = otherParts.filter(p => !/^\d{7,8}$/.test(p));
+        municipio = (cityParts.join(' - ') || fallbackCity || 'MUNICÍPIO').toUpperCase();
         return { inep, municipio, nome };
-      }
-
-      // Se tiver 2 partes e a 1ª for números: "012345 - CETI MARIA MELO"
-      if (parts.length === 2 && /^\d+$/.test(parts[0])) {
-        const inep = parts[0].trim();
-        const nome = parts[1].trim().toUpperCase();
-        return { inep, municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome };
-      }
-
-      // Se começar com números mas sem traço: "22020810 CETI GOV PEDRO FREITAS"
-      const numMatch = trimmed.match(/^(\d+)\s+[-–—]?\s*(.+)$/);
-      if (numMatch) {
-        return { inep: numMatch[1], municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: numMatch[2].trim().toUpperCase() };
       }
 
       return { inep: '', municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: trimmed.toUpperCase() };
