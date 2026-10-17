@@ -1,4 +1,4 @@
-# 🏗️ Gerenciador de Relatórios de Obras GRE (SEDUC-PI)
+# 🏗️ Controle de Obras GPR (SEDUC-PI)
 
 Aplicação web moderna para controle, monitoramento e consolidação de relatórios de obras escolares das Gerências Regionais de Educação (GRE / SEDUC-PI), com suporte a pactuação, persistência local e gerador automatizado de mensagens para WhatsApp.
 
