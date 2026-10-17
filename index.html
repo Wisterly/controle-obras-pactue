@@ -4498,10 +4498,10 @@
             </div>
             <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui fotos ou imagens registradas (PNG, JPEG, etc.). Use os botões abaixo para tirar uma foto ou anexar imagens para esta pasta.</p>
             <div class="flex flex-wrap items-center justify-center gap-2 mt-2">
-              <button onclick="triggerDirectCameraCapture('${fotosActiveCategory || 'Fachadas'}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-700/30 flex items-center gap-1.5">
+              <button onclick="triggerDirectCameraCapture('${fotosActiveCategory || ''}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-700/30 flex items-center gap-1.5">
                 <span>📸</span> Tirar Foto Agora
               </button>
-              <button onclick="triggerDirectFileAttach('${fotosActiveCategory || 'Fachadas'}')" class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold transition-all shadow flex items-center gap-1.5">
+              <button onclick="triggerDirectFileAttach('${fotosActiveCategory || ''}')" class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold transition-all shadow flex items-center gap-1.5">
                 <span>📁</span> Anexar Foto
               </button>
             </div>
@@ -4858,8 +4858,10 @@
     }
 
     function processFotosUploadFiles(files) {
-      const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
-      const actualCategory = (targetCategory === 'TODAS' || !targetCategory) ? 'Fachadas' : targetCategory;
+      const targetCategory = (pendingFotoCategory !== undefined && pendingFotoCategory !== null) 
+        ? pendingFotoCategory 
+        : (fotosActiveCategory || '');
+      const actualCategory = (targetCategory === 'TODAS') ? '' : targetCategory;
       const schools = getSchoolsForGre(fotosActiveGre);
       const currSchool = schools.find(s => s.nome === fotosActiveSchool);
       const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
@@ -4881,6 +4883,7 @@
 
         const reader = new FileReader();
         reader.onload = function(e) {
+          const categoryLabel = actualCategory ? `#${actualCategory}` : 'Aguardando seleção';
           const newPhoto = {
             id: `foto-${Date.now()}-${index}`,
             greKey: fotosActiveGre,
@@ -4888,9 +4891,9 @@
             municipio: city,
             pasta: actualCategory,
             url: e.target.result,
-            titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto #${actualCategory}`,
+            titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto ${categoryLabel}`,
             data: dma,
-            descricao: `Foto anexada via upload automático em ${dma}.`
+            descricao: `Foto anexada via upload em ${dma}.`
           };
           fotosData.unshift(newPhoto);
           loadedCount++;
@@ -4900,7 +4903,7 @@
             fotosActiveCategory = actualCategory;
             renderFotosCategories();
             renderFotosGallery();
-            showToastNotification(`✓ ${loadedCount} foto(s) anexada(s) com sucesso em #${actualCategory}!`);
+            showToastNotification(`✓ ${loadedCount} foto(s) anexada(s) com sucesso em ${categoryLabel}!`);
           }
         };
         reader.readAsDataURL(file);
@@ -4911,9 +4914,39 @@
       }
     }
 
+    // =========================================================================
+    // AÇÕES DE ANEXAR FOTOS E CAPTURA DE CÂMERA
+    // =========================================================================
+    function triggerDirectFileAttach(targetCategory) {
+      pendingFotoCategory = (targetCategory !== undefined && targetCategory !== null) 
+        ? targetCategory 
+        : (fotosActiveCategory || '');
+      const input = document.getElementById('directFileAttachInput');
+      if (input) {
+        input.value = ''; // Permite selecionar o mesmo arquivo novamente
+        input.click();
+      } else {
+        console.error('Elemento directFileAttachInput não encontrado no DOM');
+      }
+    }
+
+    function handleDirectFileAttach(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      processFotosUploadFiles(files);
+      e.target.value = '';
+    }
+
+    function handleDirectCameraCapture(e) {
+      const files = e.target.files;
+      if (!files || files.length === 0) return;
+      processFotosUploadFiles(files);
+      e.target.value = '';
+    }
+
     function triggerDirectCameraCapture(targetCategory) {
-      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
-      if (pendingFotoCategory === 'TODAS' || !pendingFotoCategory) pendingFotoCategory = 'Fachadas';
+      pendingFotoCategory = targetCategory || fotosActiveCategory || '';
+      if (pendingFotoCategory === 'TODAS') pendingFotoCategory = '';
 
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       if (isMobile) {
