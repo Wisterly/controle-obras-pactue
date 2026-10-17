@@ -314,6 +314,131 @@
       <section class="lg:col-span-7 flex flex-col gap-4">
       
       <!-- ============================================== -->
+      <!-- PAINEL DIDÁTICO DE CONTRATOS E MEDIÇÕES (EXCLUSIVO MEDIÇÕES) -->
+      <!-- ============================================== -->
+      <div id="medicoesDashboardSection" class="hidden flex-col gap-4">
+        
+        <!-- Bloco de Seletor de Contratos / Abas da Planilha -->
+        <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
+          
+          <!-- Glow decorativo ciano -->
+          <div class="absolute -right-8 -top-8 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="absolute -left-8 -bottom-8 w-36 h-36 bg-teal-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="flex flex-col gap-3 relative z-10">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-2.5">
+                <span class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-lg font-black shadow-inner">
+                  📑
+                </span>
+                <div>
+                  <span class="text-[11px] uppercase font-extrabold tracking-wider text-cyan-400">
+                    1º Passo: Escolha o Contrato (Aba da Planilha)
+                  </span>
+                  <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
+                    Contratos e Medições: <span id="medicoesActiveContratoLabel" class="text-xs text-cyan-400 font-semibold">Todos os Contratos</span>
+                  </h2>
+                </div>
+              </div>
+
+              <!-- Botão para abrir a aba do contrato no Google Sheets -->
+              <div class="flex items-center gap-2">
+                <a 
+                  id="medicoesOpenSheetBtn" 
+                  href="#" 
+                  target="_blank" 
+                  class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-300 text-xs font-bold transition-all"
+                  title="Abrir a planilha / aba correspondente no Google Sheets"
+                >
+                  <span>🔗</span> Abrir Aba no Sheets
+                </a>
+              </div>
+            </div>
+
+            <!-- Lista de Balões/Abas de Contratos -->
+            <div id="medicoesContratosList" class="flex flex-wrap items-center gap-2 pt-1">
+              <!-- Injetado dinamicamente via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel Didático de Indicadores / KPIs em Tempo Real -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+          
+          <!-- KPI 1: Total Medido -->
+          <div class="bg-brand-card/90 border border-brand-cardBorder rounded-2xl p-3 sm:p-4 flex flex-col gap-1 shadow-md">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span class="text-[10px] uppercase font-bold tracking-wider">Total Medido</span>
+              <span class="text-cyan-400 font-bold">💰</span>
+            </div>
+            <span id="medicoesKpiTotalVal" class="text-sm sm:text-base font-mono font-black text-cyan-400 truncate">
+              R$ 0,00
+            </span>
+            <span id="medicoesKpiTotalCount" class="text-[10px] text-slate-400 truncate">
+              0 medições
+            </span>
+          </div>
+
+          <!-- KPI 2: Na GPR (Nosso Setor) -->
+          <div class="bg-brand-card/90 border border-brand-cardBorder hover:border-cyan-500/50 rounded-2xl p-3 sm:p-4 flex flex-col gap-1 shadow-md transition-all">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-cyan-300">Na GPR (Setor)</span>
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            </div>
+            <span id="medicoesKpiGprCount" class="text-sm sm:text-base font-mono font-black text-cyan-300">
+              0 proc.
+            </span>
+            <span id="medicoesKpiGprVal" class="text-[10px] text-cyan-400/80 truncate">
+              R$ 0,00
+            </span>
+          </div>
+
+          <!-- KPI 3: No FIM (Pagamento) -->
+          <div class="bg-brand-card/90 border border-brand-cardBorder hover:border-indigo-500/50 rounded-2xl p-3 sm:p-4 flex flex-col gap-1 shadow-md transition-all">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-300">No FIM (Pagamento)</span>
+              <span class="text-indigo-400">💳</span>
+            </div>
+            <span id="medicoesKpiFimCount" class="text-sm sm:text-base font-mono font-black text-indigo-300">
+              0 proc.
+            </span>
+            <span id="medicoesKpiFimVal" class="text-[10px] text-indigo-400/80 truncate">
+              R$ 0,00
+            </span>
+          </div>
+
+          <!-- KPI 4: Pagos -->
+          <div class="bg-brand-card/90 border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl p-3 sm:p-4 flex flex-col gap-1 shadow-md transition-all">
+            <div class="flex items-center justify-between text-slate-400 text-xs">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-300">Concluídos / Pagos</span>
+              <span class="text-emerald-400">✅</span>
+            </div>
+            <span id="medicoesKpiPagoCount" class="text-sm sm:text-base font-mono font-black text-emerald-300">
+              0 proc.
+            </span>
+            <span id="medicoesKpiPagoVal" class="text-[10px] text-emerald-400/80 truncate">
+              R$ 0,00
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Banner Informativo de Tramitação e Dias em Aberto -->
+        <div id="medicoesTramitacaoAlertBanner" class="bg-brand-dark/90 border border-cyan-500/30 rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="text-cyan-400 text-base">⏱️</span>
+            <span class="text-slate-300">
+              Média de Tramitação: <strong id="medicoesMediaDias" class="text-white font-bold">0 dias</strong>
+            </span>
+          </div>
+          <div id="medicoesAlertPill" class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium">
+            <!-- Injetado via JS -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================== -->
       <!-- SELETOR DE GRE POR ROLAGEM (PADRÃO PROJETOS/FOTOS) -->
       <!-- ============================================== -->
       <div id="worksGreContainer" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
@@ -3308,6 +3433,132 @@
     ];
 
     // =========================================================================
+    // DATASET INICIAL: MEDIÇÕES DE OBRAS POR CONTRATO (GPR / SEDUC)
+    // =========================================================================
+    const INITIAL_MEDICOES_DATA = [
+      {
+        id: "med-ct01-1",
+        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        medicao: "1ª Medição",
+        gre: "4ª GRE – TERESINA",
+        greKey: "4ª GRE",
+        processo: "00025.004120/2024-81",
+        valor: "R$ 145.820,00",
+        valorNumerico: 145820.00,
+        setor: "GPR",
+        dataEntrada: "02/10/2026",
+        escola: "CETI ZACK PAIXÃO",
+        municipio: "TERESINA"
+      },
+      {
+        id: "med-ct01-2",
+        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        medicao: "2ª Medição",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        processo: "00025.007832/2024-14",
+        valor: "R$ 98.400,00",
+        valorNumerico: 98400.00,
+        setor: "FIM",
+        dataEntrada: "20/09/2026",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA"
+      },
+      {
+        id: "med-ct01-3",
+        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        medicao: "3ª Medição",
+        gre: "10ª GRE – FLORIANO",
+        greKey: "10ª GRE",
+        processo: "00025.011245/2024-33",
+        valor: "R$ 210.500,00",
+        valorNumerico: 210500.00,
+        setor: "PAGO",
+        dataEntrada: "15/08/2026",
+        escola: "COLÉGIO AGRÍCOLA",
+        municipio: "FLORIANO"
+      },
+      {
+        id: "med-ct02-1",
+        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
+        medicao: "1ª Medição",
+        gre: "18ª GRE – VALENÇA",
+        greKey: "18ª GRE",
+        processo: "00025.013490/2024-62",
+        valor: "R$ 380.000,00",
+        valorNumerico: 380000.00,
+        setor: "GPR",
+        dataEntrada: "28/09/2026",
+        escola: "CETI SANTO ANTÔNIO",
+        municipio: "VALENÇA DO PIAUÍ"
+      },
+      {
+        id: "med-ct02-2",
+        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
+        medicao: "2ª Medição",
+        gre: "21ª GRE – TERESINA",
+        greKey: "21ª GRE",
+        processo: "00025.015670/2024-95",
+        valor: "R$ 412.300,00",
+        valorNumerico: 412300.00,
+        setor: "FIM",
+        dataEntrada: "05/09/2026",
+        escola: "CETI JOÃO HENRIQUE",
+        municipio: "TERESINA"
+      },
+      {
+        id: "med-ct02-3",
+        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
+        medicao: "3ª Medição",
+        gre: "4ª GRE – TERESINA",
+        greKey: "4ª GRE",
+        processo: "00025.018902/2024-71",
+        valor: "R$ 295.000,00",
+        valorNumerico: 295000.00,
+        setor: "PAGO",
+        dataEntrada: "01/08/2026",
+        escola: "UNIDADE ESCOLAR PROFESSORA LÍDIA",
+        municipio: "TERESINA"
+      },
+      {
+        id: "med-ct03-1",
+        contrato: "Contrato 15/2023 - Climatização e Quadras",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=2",
+        medicao: "1ª Medição",
+        gre: "7ª GRE – VALENÇA",
+        greKey: "7ª GRE",
+        processo: "00025.020110/2024-12",
+        valor: "R$ 165.000,00",
+        valorNumerico: 165000.00,
+        setor: "GPR",
+        dataEntrada: "10/10/2026",
+        escola: "CETI PAULISTANA",
+        municipio: "PAULISTANA"
+      },
+      {
+        id: "med-ct03-2",
+        contrato: "Contrato 15/2023 - Climatização e Quadras",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=2",
+        medicao: "2ª Medição",
+        gre: "1ª GRE – PARNAÍBA",
+        greKey: "1ª GRE",
+        processo: "00025.022340/2024-45",
+        valor: "R$ 180.500,00",
+        valorNumerico: 180500.00,
+        setor: "PAGO",
+        dataEntrada: "15/07/2026",
+        escola: "CETI CLÓVIS SALGADO",
+        municipio: "PARNAÍBA"
+      }
+    ];
+
+    // =========================================================================
     // CHAVES DE ARMAZENAMENTO PERMANENTES & IMUTÁVEIS (NUNCA SÃO RESETADAS)
     // =========================================================================
     const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
@@ -3357,9 +3608,14 @@
     }
 
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
+    let activeContratoFilter = 'TODOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
-    let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, []);
+    let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
+    if (!medicoesData || !Array.isArray(medicoesData) || medicoesData.length === 0) {
+      medicoesData = INITIAL_MEDICOES_DATA;
+      saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+    }
     
     let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, null);
     if (!projetosData || projetosData.length < 50) {
@@ -3554,9 +3810,14 @@
       if (projetosContainer) { projetosContainer.classList.add('hidden'); projetosContainer.classList.remove('flex'); }
       if (fotosContainer) { fotosContainer.classList.add('hidden'); fotosContainer.classList.remove('flex'); }
 
+      const medDash = document.getElementById('medicoesDashboardSection');
+      if (medDash) { medDash.classList.add('hidden'); medDash.classList.remove('flex'); }
+      const searchInp = document.getElementById('searchInput');
+
       if (currentModule === 'CONTRATOS') {
         if (btnContracts) btnContracts.className = activeCt;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
+        if (searchInp) searchInp.placeholder = "Buscar por escola, município ou construtora...";
         if (activeTabName) activeTabName.textContent = 'Aba Contratos';
         if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50';
         if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
@@ -3577,7 +3838,10 @@
         const worksGreGlow2 = document.getElementById('worksGreGlow2');
         if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
         if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg font-black shadow-inner';
-        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-blue-400';
+        if (worksGreStep) {
+          worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-blue-400';
+          worksGreStep.textContent = '1º Passo: Escolha a GRE';
+        }
         if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none';
         if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none';
         
@@ -3589,6 +3853,7 @@
       } else if (currentModule === 'PACTUE') {
         if (btnPactue) btnPactue.className = activePac;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
+        if (searchInp) searchInp.placeholder = "Buscar por escola, município ou construtora...";
         if (activeTabName) activeTabName.textContent = 'Aba PACTUE';
         if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50';
         if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
@@ -3609,7 +3874,10 @@
         const worksGreGlow2 = document.getElementById('worksGreGlow2');
         if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-amber-500/30 hover:border-amber-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
         if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center text-lg font-black shadow-inner';
-        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-amber-400';
+        if (worksGreStep) {
+          worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-amber-400';
+          worksGreStep.textContent = '1º Passo: Escolha a GRE';
+        }
         if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none';
         if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none';
         
@@ -3621,11 +3889,13 @@
       } else if (currentModule === 'MEDICOES') {
         if (btnMedicoes) btnMedicoes.className = activeMed;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
+        if (medDash) { medDash.classList.remove('hidden'); medDash.classList.add('flex'); }
+        if (searchInp) searchInp.placeholder = "Buscar por número do processo, medição, contrato ou GRE...";
         if (activeTabName) activeTabName.textContent = 'Aba Medições';
         if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50';
         if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
         if (greDemandTag) {
-          greDemandTag.textContent = '(Medições de Obras)';
+          greDemandTag.textContent = '(Medições de Contratos)';
           greDemandTag.className = 'text-xs font-semibold text-cyan-400';
         }
         if (whatsappModuleScope) {
@@ -3641,11 +3911,15 @@
         const worksGreGlow2 = document.getElementById('worksGreGlow2');
         if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
         if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-lg font-black shadow-inner';
-        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-cyan-400';
+        if (worksGreStep) {
+          worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-cyan-400';
+          worksGreStep.textContent = '2º Passo: Escolha a GRE da Medição';
+        }
         if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none';
         if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none';
         
         activeStatusFilter = 'TODOS';
+        renderMedicoesDashboard();
         renderGreSelector();
         renderStatusFilters();
         renderCards();
@@ -6911,6 +7185,125 @@
       });
     }
 
+    function parseCsvToMedicoes(csvText, prefix, sheetUrl) {
+      return new Promise((resolve, reject) => {
+        Papa.parse(csvText, {
+          header: false,
+          skipEmptyLines: true,
+          complete: function(results) {
+            const rawRows = results.data;
+            if (!rawRows || rawRows.length === 0) {
+              resolve([]);
+              return;
+            }
+
+            const headerRow = rawRows[0] || [];
+            let colContrato = -1;
+            let colMedicao = -1;
+            let colGre = -1;
+            let colProcesso = -1;
+            let colValor = -1;
+            let colSetor = -1;
+            let colEntrada = -1;
+            let colEscola = -1;
+            let colMunicipio = -1;
+
+            headerRow.forEach((val, idx) => {
+              const norm = normalizeHeaderName(val);
+              if (colContrato === -1 && (norm.includes('contrato') || norm.includes('instrumento') || norm.includes('termo') || norm === 'ct' || norm.includes('aba'))) {
+                colContrato = idx;
+              }
+              if (colMedicao === -1 && (norm.includes('medicao') || norm.includes('med') || norm.includes('parcela') || norm.includes('descricao') || norm.includes('ref') || norm.includes('objeto'))) {
+                colMedicao = idx;
+              }
+              if (colGre === -1 && (norm === 'gre' || norm.startsWith('gre') || norm.includes('regional') || norm.includes('gerencia'))) {
+                colGre = idx;
+              }
+              if (colProcesso === -1 && (norm.includes('processo') || norm.includes('sei') || norm.includes('protocolo') || norm.includes('proc'))) {
+                colProcesso = idx;
+              }
+              if (colValor === -1 && (norm.includes('valor') || norm.includes('r$') || norm.includes('medido') || norm.includes('total'))) {
+                colValor = idx;
+              }
+              if (colSetor === -1 && (norm.includes('setor') || norm.includes('localizacao') || norm.includes('status') || norm.includes('situacao') || norm.includes('pagamento') || norm.includes('fim') || norm.includes('gpr'))) {
+                colSetor = idx;
+              }
+              if (colEntrada === -1 && (norm.includes('entrada') || norm.includes('data') || norm.includes('recebimento') || norm.includes('inicio'))) {
+                colEntrada = idx;
+              }
+              if (colEscola === -1 && (norm.includes('escola') || norm.includes('entidade') || norm.includes('unidade'))) {
+                colEscola = idx;
+              }
+              if (colMunicipio === -1 && (norm.includes('municipio') || norm.includes('cidade'))) {
+                colMunicipio = idx;
+              }
+            });
+
+            // Fallback se cabeçalho não foi detectado
+            if (colMedicao === -1) colMedicao = 0;
+            if (colGre === -1) colGre = 1;
+            if (colProcesso === -1) colProcesso = 2;
+            if (colValor === -1) colValor = 3;
+            if (colSetor === -1) colSetor = 4;
+            if (colEntrada === -1) colEntrada = 5;
+
+            // Extrai o nome do contrato a partir da URL se houver parâmetro
+            let defaultContrato = 'Contrato 01/2024';
+            if (sheetUrl && sheetUrl.includes('sheet=')) {
+              const m = sheetUrl.match(/sheet=([^&]+)/);
+              if (m) defaultContrato = decodeURIComponent(m[1]);
+            }
+
+            const parsed = [];
+            rawRows.slice(1).forEach((r, rowIdx) => {
+              if (!Array.isArray(r) || r.length === 0) return;
+
+              const rawMed = getCell(r, colMedicao);
+              const rawGre = colGre !== -1 ? getCell(r, colGre) : '';
+              const rawProc = colProcesso !== -1 ? getCell(r, colProcesso) : '';
+              const rawVal = colValor !== -1 ? getCell(r, colValor) : '';
+              const rawSetor = colSetor !== -1 ? getCell(r, colSetor) : 'GPR';
+              const rawEntrada = colEntrada !== -1 ? getCell(r, colEntrada) : '';
+              const rawContrato = colContrato !== -1 ? getCell(r, colContrato) : '';
+              const rawEscola = colEscola !== -1 ? getCell(r, colEscola) : '';
+              const rawMunicipio = colMunicipio !== -1 ? getCell(r, colMunicipio) : '';
+
+              if (!rawMed && !rawProc && !rawVal) return;
+              const normMed = normalizeHeaderName(rawMed);
+              if (normMed.includes('medicao') || normMed.includes('processo') || normMed.includes('valor')) return;
+
+              const greKey = normalizeGreKey(rawGre) || '4ª GRE';
+              const valorNum = parseMoedaToNumber(rawVal);
+              const setorNorm = normalizeSetorMedicao(rawSetor);
+              const contratoFinal = rawContrato ? rawContrato.trim() : defaultContrato;
+
+              parsed.push({
+                id: `med-${rowIdx}-${Date.now().toString(36)}`,
+                contrato: contratoFinal,
+                contratoLink: sheetUrl || '',
+                medicao: rawMed ? rawMed.trim() : `Medição ${rowIdx + 1}`,
+                gre: (rawGre || greKey).trim().toUpperCase(),
+                greKey: greKey,
+                processo: rawProc ? rawProc.trim() : 'Não informado',
+                valor: rawVal ? rawVal.trim() : formatNumberToMoeda(valorNum),
+                valorNumerico: valorNum,
+                setor: setorNorm,
+                dataEntrada: formatRawDateToDma(rawEntrada),
+                escola: rawEscola ? rawEscola.trim().toUpperCase() : '',
+                municipio: rawMunicipio ? rawMunicipio.trim().toUpperCase() : ''
+              });
+            });
+
+            console.log(`[Importação MEDIÇÕES]`, `${parsed.length} medições processadas.`);
+            resolve(parsed);
+          },
+          error: function(err) {
+            reject(err);
+          }
+        });
+      });
+    }
+
     async function fetchSingleTab(rawUrl, prefix) {
       if (!rawUrl) return null;
       console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar:`, rawUrl);
@@ -6991,6 +7384,10 @@
         throw new Error('A planilha está privada ou exige login no Google. Configure como "Qualquer pessoa com o link".');
       }
 
+      if (prefix === 'med') {
+        return await parseCsvToMedicoes(text, prefix, rawUrl);
+      }
+
       return await parseCsvToWorks(text, prefix);
     }
 
@@ -7057,6 +7454,7 @@
     function refreshAllViewsAfterSync() {
       routeFilesBetweenProjetosAndFotos();
       updateModuleBadges();
+      renderMedicoesDashboard();
       renderGreSelector();
       renderStatusFilters();
       renderCards();
@@ -7496,10 +7894,13 @@
     function renderGreSelector() {
       const allGrid = document.getElementById('allGresGrid');
       const greSelectLabel = document.getElementById('greSelectLabel');
-      const dataset = getActiveDataset();
+      let dataset = getActiveDataset();
+      if (currentModule === 'MEDICOES' && activeContratoFilter !== 'TODOS') {
+        dataset = dataset.filter(item => item.contrato === activeContratoFilter);
+      }
       const isContratos = (currentModule === 'CONTRATOS');
 
-      // Mapeia e conta obras válidas por GRE na demanda ativa (Contratos ou PACTUE)
+      // Mapeia e conta obras ou medições válidas por GRE na demanda ativa
       const greCounts = new Map();
       dataset.forEach(item => {
         const k = item.greKey || normalizeGreKey(item.gre);
@@ -7537,14 +7938,15 @@
 
       if (greSelectLabel) {
         greSelectLabel.className = themeLabelClass;
+        const noun = (currentModule === 'MEDICOES') ? 'medições' : 'obras';
 
         if (isAllSelected) {
-          greSelectLabel.textContent = `Todas as GREs (${totalCount})`;
+          greSelectLabel.textContent = `Todas as GREs (${totalCount} ${noun})`;
         } else {
           const count = greCounts.get(activeFilter) || 0;
           const ref = SEDUC_PI_GRES.find(s => s.key === activeFilter);
           const poloName = ref ? ref.polo : 'Regional';
-          greSelectLabel.textContent = `${activeFilter} – ${poloName} (${count} obras)`;
+          greSelectLabel.textContent = `${activeFilter} – ${poloName} (${count} ${noun})`;
         }
       }
 
@@ -7645,7 +8047,40 @@
     // =========================================================================
     function getStatusStyles(statusName) {
       const s = (statusName || '').toUpperCase();
-      if (s.includes('EXECUCAO') || s.includes('EXECUÇÃO') || s.includes('ANDAMENTO')) {
+      if (s === 'GPR') {
+        return {
+          bg: 'bg-cyan-500/10 hover:bg-cyan-500/20',
+          text: 'text-cyan-300',
+          border: 'border-cyan-500/40 hover:border-cyan-400',
+          activeBg: 'bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-md shadow-cyan-500/30 scale-[1.02] border-cyan-300 ring-2 ring-cyan-300',
+          activeBadge: 'bg-black/25 text-brand-dark font-black',
+          badge: 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30',
+          dot: 'bg-cyan-400 animate-pulse',
+          subtitle: 'Na GPR (Nosso Setor)'
+        };
+      } else if (s === 'FIM') {
+        return {
+          bg: 'bg-indigo-500/10 hover:bg-indigo-500/20',
+          text: 'text-indigo-300',
+          border: 'border-indigo-500/40 hover:border-indigo-400',
+          activeBg: 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-[1.02] border-indigo-400 ring-2 ring-indigo-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
+          dot: 'bg-indigo-400',
+          subtitle: 'No FIM (Pagamento)'
+        };
+      } else if (s === 'PAGO' || s === 'QUITADO' || s === 'LIQUIDADO') {
+        return {
+          bg: 'bg-emerald-500/10 hover:bg-emerald-500/20',
+          text: 'text-emerald-300',
+          border: 'border-emerald-500/40 hover:border-emerald-400',
+          activeBg: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-[1.02] border-emerald-400 ring-2 ring-emerald-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+          dot: 'bg-emerald-400',
+          subtitle: 'Concluído e Pago'
+        };
+      } else if (s.includes('EXECUCAO') || s.includes('EXECUÇÃO') || s.includes('ANDAMENTO')) {
         return {
           bg: 'bg-emerald-500/10 hover:bg-emerald-500/20',
           text: 'text-emerald-300',
@@ -7720,7 +8155,7 @@
         activeBadge: 'bg-black/25 text-white font-black',
         badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
         dot: 'bg-indigo-400',
-        subtitle: 'Status da Obra'
+        subtitle: (currentModule === 'MEDICOES') ? 'Setor da Medição' : 'Status da Obra'
       };
     }
 
@@ -7728,16 +8163,20 @@
       const bar = document.getElementById('statusFilterBar');
       if (!bar) return;
 
-      const dataset = getActiveDataset();
+      let dataset = getActiveDataset();
+      if (currentModule === 'MEDICOES' && activeContratoFilter !== 'TODOS') {
+        dataset = dataset.filter(w => w.contrato === activeContratoFilter);
+      }
+
       // Filtra pelo escopo da GRE selecionada
       const greSubset = (activeFilter === 'TODAS') 
         ? dataset 
         : dataset.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter));
 
-      // Extrai todos os status únicos presentes na coluna R (Contratos) ou coluna H (PACTUE)
+      // Extrai todos os status únicos presentes na coluna R (Contratos), coluna H (PACTUE) ou setor (Medições)
       const statusCounts = new Map();
       greSubset.forEach(w => {
-        let st = normalizeWorkStatus(w.status);
+        let st = (currentModule === 'MEDICOES') ? (w.setor || 'GPR') : normalizeWorkStatus(w.status);
         if (!st) st = 'NÃO INFORMADO';
         statusCounts.set(st, (statusCounts.get(st) || 0) + 1);
       });
@@ -7777,6 +8216,10 @@
         activeTodosSubText = 'text-black/80 font-bold';
       }
 
+      const isMed = (currentModule === 'MEDICOES');
+      const allLabel = isMed ? '🌟 TODOS SETORES' : '🌟 TODOS STATUS';
+      const noun = isMed ? 'medições' : 'obras';
+
       let html = `
         <button 
           onclick="setStatusFilter('TODOS')"
@@ -7785,11 +8228,11 @@
               ? activeTodosBtnClass
               : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
           }"
-          title="Todos os Status (${greSubset.length} obras)"
+          title="Todos os filtros (${greSubset.length} ${noun})"
         >
           <div class="flex flex-col min-w-0">
             <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? activeTodosText : 'text-white'}">
-              🌟 TODOS STATUS
+              ${allLabel}
             </span>
             <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeTodosSubText : 'text-slate-400 font-medium'}">
               Visão Geral
@@ -7818,7 +8261,7 @@
                 ? style.activeBg + ' font-extrabold shadow-md' 
                 : style.bg + ' ' + style.border + ' ' + style.text
             }"
-            title="${st} (${count} obras)"
+            title="${st} (${count} ${noun})"
           >
             <div class="flex flex-col min-w-0">
               <div class="flex items-center gap-1.5 min-w-0">
@@ -7828,7 +8271,7 @@
                 </span>
               </div>
               <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isSelected ? 'opacity-85 font-bold' : 'text-slate-400 font-medium'}">
-                ${style.subtitle || 'Status da Obra'}
+                ${style.subtitle || (isMed ? 'Setor da Medição' : 'Status da Obra')}
               </span>
             </div>
             <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1.5 ${
@@ -7849,10 +8292,10 @@
         activeCountLabel.className = activeCountClass;
 
         if (activeStatusFilter === 'TODOS') {
-          activeCountLabel.textContent = `Mostrando todos (${greSubset.length} obras)`;
+          activeCountLabel.textContent = `Mostrando todos (${greSubset.length} ${noun})`;
         } else {
           const c = statusCounts.get(activeStatusFilter) || 0;
-          activeCountLabel.textContent = `${activeStatusFilter}: ${c} obra(s)`;
+          activeCountLabel.textContent = `${activeStatusFilter}: ${c} ${isMed ? 'medição(ões)' : 'obra(s)'}`;
         }
       }
 
@@ -7877,10 +8320,19 @@
       const whatsAppScope = document.getElementById('whatsappGreScope');
 
       const dataset = getActiveDataset();
+      const isMed = (currentModule === 'MEDICOES');
+
       const filtered = dataset.filter(item => {
-        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-        const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
-        return matchesGre && matchesStatus;
+        if (isMed) {
+          const matchesContrato = (activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
+          const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
+          const matchesStatus = (activeStatusFilter === 'TODOS' || (item.setor || '').toUpperCase() === activeStatusFilter);
+          return matchesContrato && matchesGre && matchesStatus;
+        } else {
+          const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
+          const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
+          return matchesGre && matchesStatus;
+        }
       });
 
       if (badge) {
@@ -7894,7 +8346,8 @@
         }
       }
       if (stBadge) {
-        stBadge.textContent = (activeStatusFilter === 'TODOS') ? 'TODOS OS STATUS' : activeStatusFilter;
+        const defaultAllSt = isMed ? 'TODOS OS SETORES' : 'TODOS OS STATUS';
+        stBadge.textContent = (activeStatusFilter === 'TODOS') ? defaultAllSt : activeStatusFilter;
         if (currentModule === 'CONTRATOS') {
           stBadge.className = 'px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs flex items-center gap-1.5';
         } else if (currentModule === 'MEDICOES') {
@@ -7903,10 +8356,18 @@
           stBadge.className = 'px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center gap-1.5';
         }
       }
-      if (count) count.textContent = `${filtered.length} obra(s) filtrada(s)`;
+      if (count) {
+        count.textContent = isMed 
+          ? `${filtered.length} mediç${filtered.length === 1 ? 'ão' : 'ões'} filtrada(s)`
+          : `${filtered.length} obra(s) filtrada(s)`;
+      }
 
       if (whatsAppScope) {
-        whatsAppScope.textContent = `Foco: ${activeFilter} | Status: ${activeStatusFilter} (${filtered.length} obras)`;
+        if (isMed) {
+          whatsAppScope.textContent = `Contrato: ${activeContratoFilter} | GRE: ${activeFilter} | Setor: ${activeStatusFilter} (${filtered.length} medições)`;
+        } else {
+          whatsAppScope.textContent = `Foco: ${activeFilter} | Status: ${activeStatusFilter} (${filtered.length} obras)`;
+        }
       }
     }
 
@@ -8030,6 +8491,426 @@
         updateWhatsAppOutput();
         updateSummaryBanner();
       }
+    }
+
+    // =========================================================================
+    // SUÍTE DE GESTÃO DIDÁTICA: MEDIÇÕES DE OBRAS POR CONTRATO (GPR / SEDUC)
+    // =========================================================================
+    function parseMoedaToNumber(valStr) {
+      if (!valStr) return 0;
+      if (typeof valStr === 'number') return valStr;
+      const clean = String(valStr).replace(/[^\d,\.-]/g, '').replace(/\./g, '').replace(',', '.');
+      const num = parseFloat(clean);
+      return isNaN(num) ? 0 : num;
+    }
+
+    function formatNumberToMoeda(num) {
+      return Number(num || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function normalizeSetorMedicao(rawSetor) {
+      if (!rawSetor) return 'GPR';
+      const s = String(rawSetor).trim().toUpperCase();
+      if (s.includes('PAGO') || s.includes('PAGA') || s.includes('QUITAD') || s.includes('LIQUIDAD')) return 'PAGO';
+      if (s.includes('GPR') || s.includes('PROJETO') || s.includes('ENGENHARIA') || s.includes('OBRA')) return 'GPR';
+      if (s.includes('FIM') || s.includes('FINANCE') || s.includes('PAGAMENTO') || s.includes('TESOUR') || s.includes('CONTAB')) return 'FIM';
+      return s;
+    }
+
+    function calculateDiasTramitacao(dataEntradaStr, isPago = false) {
+      if (!dataEntradaStr || dataEntradaStr === 'A DEFINIR') {
+        return { dias: 0, label: 'Data a definir', alertLevel: 'normal' };
+      }
+
+      const parts = dataEntradaStr.split('/');
+      if (parts.length !== 3) {
+        return { dias: 0, label: dataEntradaStr, alertLevel: 'normal' };
+      }
+
+      const d = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10) - 1;
+      const y = parseInt(parts[2], 10);
+      const entrada = new Date(y, m, d);
+      const hoje = new Date();
+
+      entrada.setHours(0, 0, 0, 0);
+      const hojeZero = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+
+      const diffMs = hojeZero.getTime() - entrada.getTime();
+      const dias = Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+
+      if (isPago) {
+        return { dias, label: `Concluído / Pago (${dias} dias totais)`, alertLevel: 'pago' };
+      }
+
+      if (dias <= 15) {
+        return { dias, label: `${dias} dia${dias === 1 ? '' : 's'} em tramitação (Normal)`, alertLevel: 'normal' };
+      } else if (dias <= 30) {
+        return { dias, label: `${dias} dias em tramitação (Atenção)`, alertLevel: 'atencao' };
+      } else {
+        return { dias, label: `${dias} dias em tramitação (Atraso)`, alertLevel: 'critico' };
+      }
+    }
+
+    function copyProcessoToClipboard(procNum) {
+      if (!procNum) return;
+      const onSuccess = () => {
+        showToastNotification(`✓ Nº do Processo ${procNum} copiado!`);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(procNum).then(onSuccess).catch(() => {
+          fallbackCopyText(procNum, onSuccess);
+        });
+      } else {
+        fallbackCopyText(procNum, onSuccess);
+      }
+    }
+
+    function updateMedicaoSetor(id, newSetor) {
+      const item = medicoesData.find(m => m.id === id);
+      if (item) {
+        item.setor = newSetor.toUpperCase().trim();
+        saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+        renderMedicoesDashboard();
+        renderStatusFilters();
+        renderCards();
+        updateWhatsAppOutput();
+        updateSummaryBanner();
+        showToastNotification(`✓ Setor do processo atualizado para ${item.setor}!`);
+      }
+    }
+
+    function setContratoFilter(contratoName) {
+      activeContratoFilter = contratoName;
+      renderMedicoesDashboard();
+      renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+    }
+
+    function renderMedicoesDashboard() {
+      const container = document.getElementById('medicoesDashboardSection');
+      if (!container || currentModule !== 'MEDICOES') return;
+
+      // 1. Extrai contratos únicos
+      const contratosMap = new Map();
+      medicoesData.forEach(m => {
+        const cName = m.contrato || 'Contrato 01';
+        if (!contratosMap.has(cName)) {
+          contratosMap.set(cName, { count: 0, link: m.contratoLink || '' });
+        }
+        contratosMap.get(cName).count++;
+        if (!contratosMap.get(cName).link && m.contratoLink) {
+          contratosMap.get(cName).link = m.contratoLink;
+        }
+      });
+
+      const list = document.getElementById('medicoesContratosList');
+      if (list) {
+        let html = `
+          <button 
+            onclick="setContratoFilter('TODOS')"
+            class="px-3.5 py-1.5 rounded-xl text-xs transition-all font-bold shrink-0 flex items-center gap-1.5 ${
+              activeContratoFilter === 'TODOS'
+                ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark font-black shadow-md shadow-cyan-500/30 scale-[1.02]'
+                : 'bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder hover:border-cyan-500/40'
+            }"
+          >
+            <span>🌐 Todos os Contratos</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[10px] font-black ${
+              activeContratoFilter === 'TODOS' ? 'bg-black/25 text-brand-dark' : 'bg-cyan-500/20 text-cyan-300'
+            }">${medicoesData.length}</span>
+          </button>
+        `;
+
+        contratosMap.forEach((info, cName) => {
+          const isSel = (activeContratoFilter === cName);
+          html += `
+            <button 
+              onclick="setContratoFilter('${cName.replace(/'/g, "\\'")}')"
+              class="px-3.5 py-1.5 rounded-xl text-xs transition-all font-bold shrink-0 flex items-center gap-2 ${
+                isSel
+                  ? 'bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark font-black shadow-md shadow-cyan-500/30 scale-[1.02]'
+                  : 'bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder hover:border-cyan-500/40'
+              }"
+              title="${cName} (${info.count} medições)"
+            >
+              <span class="truncate max-w-[220px]">📑 ${cName}</span>
+              <span class="px-1.5 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
+                isSel ? 'bg-black/25 text-brand-dark' : 'bg-cyan-500/20 text-cyan-300'
+              }">${info.count}</span>
+            </button>
+          `;
+        });
+
+        list.innerHTML = html;
+      }
+
+      // Atualiza label do contrato ativo
+      const lbl = document.getElementById('medicoesActiveContratoLabel');
+      if (lbl) {
+        lbl.textContent = activeContratoFilter === 'TODOS' ? 'Todos os Contratos' : activeContratoFilter;
+      }
+
+      // Atualiza link direto da aba no Google Sheets
+      const linkBtn = document.getElementById('medicoesOpenSheetBtn');
+      if (linkBtn) {
+        let targetLink = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL;
+        if (activeContratoFilter !== 'TODOS' && contratosMap.has(activeContratoFilter)) {
+          const cInfo = contratosMap.get(activeContratoFilter);
+          if (cInfo && cInfo.link) targetLink = cInfo.link;
+        }
+        linkBtn.href = targetLink;
+      }
+
+      // 2. Calcula KPIs para o subconjunto filtrado
+      const subset = medicoesData.filter(m => {
+        return (activeContratoFilter === 'TODOS' || m.contrato === activeContratoFilter);
+      });
+
+      const totalVal = subset.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
+      const gprItems = subset.filter(m => m.setor === 'GPR');
+      const fimItems = subset.filter(m => m.setor === 'FIM');
+      const pagoItems = subset.filter(m => m.setor === 'PAGO');
+
+      const gprVal = gprItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
+      const fimVal = fimItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
+      const pagoVal = pagoItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
+
+      // Média de dias e alertas de atraso
+      let totalDias = 0;
+      let countEmAberto = 0;
+      let atrasados30 = 0;
+
+      subset.forEach(m => {
+        if (m.setor !== 'PAGO' && m.dataEntrada) {
+          const tram = calculateDiasTramitacao(m.dataEntrada, false);
+          totalDias += tram.dias;
+          countEmAberto++;
+          if (tram.dias > 30) atrasados30++;
+        }
+      });
+
+      const mediaDias = countEmAberto > 0 ? Math.round(totalDias / countEmAberto) : 0;
+
+      // Atualiza elementos DOM de KPIs
+      const elTotalVal = document.getElementById('medicoesKpiTotalVal');
+      const elTotalCount = document.getElementById('medicoesKpiTotalCount');
+      const elGprCount = document.getElementById('medicoesKpiGprCount');
+      const elGprVal = document.getElementById('medicoesKpiGprVal');
+      const elFimCount = document.getElementById('medicoesKpiFimCount');
+      const elFimVal = document.getElementById('medicoesKpiFimVal');
+      const elPagoCount = document.getElementById('medicoesKpiPagoCount');
+      const elPagoVal = document.getElementById('medicoesKpiPagoVal');
+      const elMediaDias = document.getElementById('medicoesMediaDias');
+      const elAlertPill = document.getElementById('medicoesAlertPill');
+
+      if (elTotalVal) elTotalVal.textContent = formatNumberToMoeda(totalVal);
+      if (elTotalCount) elTotalCount.textContent = `${subset.length} mediç${subset.length === 1 ? 'ão' : 'ões'}`;
+      if (elGprCount) elGprCount.textContent = `${gprItems.length} proc.`;
+      if (elGprVal) elGprVal.textContent = formatNumberToMoeda(gprVal);
+      if (elFimCount) elFimCount.textContent = `${fimItems.length} proc.`;
+      if (elFimVal) elFimVal.textContent = formatNumberToMoeda(fimVal);
+      if (elPagoCount) elPagoCount.textContent = `${pagoItems.length} proc.`;
+      if (elPagoVal) elPagoVal.textContent = formatNumberToMoeda(pagoVal);
+      if (elMediaDias) elMediaDias.textContent = `${mediaDias} dia${mediaDias === 1 ? '' : 's'}`;
+
+      if (elAlertPill) {
+        if (atrasados30 > 0) {
+          elAlertPill.innerHTML = `
+            <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+              🚨 ${atrasados30} processo(s) com mais de 30 dias em aberto!
+            </span>
+          `;
+        } else {
+          elAlertPill.innerHTML = `
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              ✓ Nenhum processo com atraso crítico
+            </span>
+          `;
+        }
+      }
+    }
+
+    function renderMedicaoCardHtml(item) {
+      const tram = calculateDiasTramitacao(item.dataEntrada, item.setor === 'PAGO');
+      const valorStr = formatNumberToMoeda(item.valorNumerico || parseMoedaToNumber(item.valor));
+      const isPago = (item.setor === 'PAGO');
+      const isGpr = (item.setor === 'GPR');
+      const isFim = (item.setor === 'FIM');
+
+      let setorBadgeHtml = '';
+      if (isGpr) {
+        setorBadgeHtml = `
+          <span class="px-2.5 sm:px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 text-[11px] font-black shadow-sm flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            🏢 GPR (Nosso Setor)
+          </span>
+        `;
+      } else if (isFim) {
+        setorBadgeHtml = `
+          <span class="px-2.5 sm:px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/50 text-[11px] font-black shadow-sm flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+            🏦 FIM (Pagamento)
+          </span>
+        `;
+      } else if (isPago) {
+        setorBadgeHtml = `
+          <span class="px-2.5 sm:px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 text-[11px] font-black shadow-sm flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            ✅ PAGO / QUITADO
+          </span>
+        `;
+      } else {
+        setorBadgeHtml = `
+          <span class="px-2.5 sm:px-3 py-1 rounded-full bg-slate-700 text-slate-200 border border-slate-600 text-[11px] font-bold">
+            ${item.setor}
+          </span>
+        `;
+      }
+
+      let tramitacaoPill = '';
+      if (isPago) {
+        tramitacaoPill = `
+          <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1">
+            ✅ Processo Quitado
+          </span>
+        `;
+      } else if (tram.alertLevel === 'normal') {
+        tramitacaoPill = `
+          <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            ⏱️ ${tram.label}
+          </span>
+        `;
+      } else if (tram.alertLevel === 'atencao') {
+        tramitacaoPill = `
+          <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+            ⚠️ ${tram.label}
+          </span>
+        `;
+      } else {
+        tramitacaoPill = `
+          <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/50 text-[11px] font-black flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            🚨 ${tram.label}
+          </span>
+        `;
+      }
+
+      return `
+        <div class="bg-brand-card border border-cyan-500/30 hover:border-cyan-400/70 rounded-2xl p-4 sm:p-5 flex flex-col gap-4 shadow-xl shadow-cyan-950/20 transition-all">
+          
+          <!-- Topo: Contrato, GRE e Setor -->
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex flex-col gap-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="px-2.5 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-[11px] font-black uppercase tracking-wider flex items-center gap-1">
+                  <span>📑</span> ${item.contrato || 'CONTRATO'}
+                </span>
+                <span class="px-2.5 py-0.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-[11px] font-bold">
+                  📍 ${item.gre}
+                </span>
+                ${item.escola ? `
+                  <span class="text-xs text-slate-400 font-medium truncate max-w-[200px]" title="${item.escola}">
+                    • ${item.escola}
+                  </span>
+                ` : ''}
+              </div>
+              <h3 class="text-base sm:text-lg font-black text-white tracking-tight flex items-center gap-2 mt-1">
+                <span class="text-cyan-400">📊</span> ${item.medicao || 'Medição'}
+              </h3>
+            </div>
+            
+            <!-- Badge do Setor Atual -->
+            <div class="shrink-0 flex flex-col items-end gap-1">
+              ${setorBadgeHtml}
+            </div>
+          </div>
+
+          <!-- Bloco Principal: Valor Medido e Número do Processo -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-brand-dark/90 border border-brand-cardBorder rounded-xl p-3.5">
+            
+            <!-- Valor Medido -->
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1">
+                💰 Valor Medido:
+              </span>
+              <span class="text-lg sm:text-xl font-mono font-black text-cyan-400">
+                ${valorStr}
+              </span>
+            </div>
+
+            <!-- Número do Processo com Botão de Copiar -->
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1">
+                📄 Nº do Processo Administrativo:
+              </span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-mono font-bold text-slate-200 select-all truncate">
+                  ${item.processo || 'Não Informado'}
+                </span>
+                ${item.processo ? `
+                  <button 
+                    onclick="copyProcessoToClipboard('${item.processo}')" 
+                    class="px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold transition-all shrink-0 active:scale-95 flex items-center gap-1"
+                    title="Copiar número do processo"
+                  >
+                    <span>📋</span> Copiar
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- Bloco de Tramitação e Prazos (Cálculo Automático) -->
+          <div class="flex flex-wrap items-center justify-between gap-3 bg-brand-panel/80 border border-brand-cardBorder/60 rounded-xl p-3 text-xs">
+            
+            <!-- Data de Entrada -->
+            <div class="flex items-center gap-1.5 text-slate-300">
+              <span class="text-slate-500">📅</span>
+              <span class="text-slate-400">Entrada do Processo:</span>
+              <strong class="text-slate-100 font-bold">${item.dataEntrada || 'A DEFINIR'}</strong>
+            </div>
+
+            <!-- Dias de Tramitação Automáticos -->
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400">Tramitação:</span>
+              ${tramitacaoPill}
+            </div>
+          </div>
+
+          <!-- Ação Rápida: Mudar Setor do Processo e Link do Contrato -->
+          <div class="pt-2 border-t border-brand-cardBorder/60 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <label class="text-[10px] uppercase font-bold text-slate-400">Setor Atual:</label>
+              <select 
+                onchange="updateMedicaoSetor('${item.id}', this.value)"
+                class="bg-brand-dark border border-brand-cardBorder rounded-lg px-2 py-1 text-xs text-cyan-300 font-bold focus:outline-none focus:border-cyan-400 transition-colors"
+              >
+                <option value="GPR" ${item.setor === 'GPR' ? 'selected' : ''}>🏢 GPR (Gerência de Projetos)</option>
+                <option value="FIM" ${item.setor === 'FIM' ? 'selected' : ''}>🏦 FIM (Setor de Pagamento)</option>
+                <option value="PAGO" ${item.setor === 'PAGO' ? 'selected' : ''}>✅ PAGO / CONCLUÍDO</option>
+                ${(!['GPR', 'FIM', 'PAGO'].includes(item.setor)) ? `<option value="${item.setor}" selected>${item.setor}</option>` : ''}
+              </select>
+            </div>
+
+            ${item.contratoLink ? `
+              <a 
+                href="${item.contratoLink}" 
+                target="_blank" 
+                class="text-[11px] text-cyan-400 hover:text-cyan-300 font-semibold underline flex items-center gap-1"
+              >
+                <span>🔗</span> Abrir Aba no Sheets
+              </a>
+            ` : ''}
+          </div>
+
+        </div>
+      `;
     }
 
     function renderWorkCardHtml(item) {
@@ -8170,25 +9051,42 @@
       if (!list) return;
 
       const dataset = getActiveDataset();
-      const isContratos = (currentModule === 'CONTRATOS');
+      const isMed = (currentModule === 'MEDICOES');
 
       const filtered = dataset.filter(item => {
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-        const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
-        const q = searchQuery.toLowerCase();
-        const matchesSearch = !q || 
-          (item.escola && item.escola.toLowerCase().includes(q)) || 
-          (item.municipio && item.municipio.toLowerCase().includes(q)) ||
-          (item.construtora && item.construtora.toLowerCase().includes(q));
-        return matchesGre && matchesStatus && matchesSearch;
+        const matchesContrato = (!isMed || activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
+        
+        let itemStatus = isMed ? (item.setor || 'GPR') : normalizeWorkStatus(item.status);
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (itemStatus === activeStatusFilter));
+        
+        const q = searchQuery.toLowerCase().trim();
+        let matchesSearch = !q;
+        if (q) {
+          if (isMed) {
+            matchesSearch = (item.processo && item.processo.toLowerCase().includes(q)) ||
+                            (item.medicao && item.medicao.toLowerCase().includes(q)) ||
+                            (item.contrato && item.contrato.toLowerCase().includes(q)) ||
+                            (item.gre && item.gre.toLowerCase().includes(q)) ||
+                            (item.escola && item.escola.toLowerCase().includes(q)) ||
+                            (item.setor && item.setor.toLowerCase().includes(q)) ||
+                            (item.valor && String(item.valor).toLowerCase().includes(q));
+          } else {
+            matchesSearch = (item.escola && item.escola.toLowerCase().includes(q)) || 
+                            (item.municipio && item.municipio.toLowerCase().includes(q)) ||
+                            (item.construtora && item.construtora.toLowerCase().includes(q));
+          }
+        }
+        return matchesGre && matchesContrato && matchesStatus && matchesSearch;
       });
 
       if (filtered.length === 0) {
+        const noun = isMed ? 'medição encontrada' : 'obra encontrada';
         list.innerHTML = `
           <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center text-slate-400 text-sm flex flex-col items-center gap-2">
             <span class="text-3xl">🔍</span>
-            <p>Nenhuma obra encontrada para os filtros selecionados.</p>
-            <button onclick="setFilter('TODAS'); setStatusFilter('TODOS'); handleSearch(''); document.getElementById('searchInput').value='';" class="text-xs text-brand-accent underline">
+            <p>Nenhuma ${noun} para os filtros selecionados.</p>
+            <button onclick="setFilter('TODAS'); setStatusFilter('TODOS'); ${isMed ? "setContratoFilter('TODOS'); " : ""}handleSearch(''); document.getElementById('searchInput').value='';" class="text-xs text-brand-accent underline">
               Limpar todos os filtros
             </button>
           </div>
@@ -8202,19 +9100,21 @@
         currentCardsObserver = null;
       }
 
+      const renderCardFn = isMed ? renderMedicaoCardHtml : renderWorkCardHtml;
+      const pingColor = (currentModule === 'CONTRATOS') ? 'bg-blue-500' : (isMed ? 'bg-cyan-500' : 'bg-amber-500');
+      const nounPlural = isMed ? 'medições' : 'obras';
+
       cardsRenderIndex = 0;
       const initialChunk = filtered.slice(0, CARDS_CHUNK_SIZE);
-      list.innerHTML = initialChunk.map(item => renderWorkCardHtml(item)).join('');
+      list.innerHTML = initialChunk.map(item => renderCardFn(item)).join('');
       cardsRenderIndex = initialChunk.length;
 
-      const pingColor = (currentModule === 'CONTRATOS') ? 'bg-blue-500' : (currentModule === 'MEDICOES' ? 'bg-cyan-500' : 'bg-amber-500');
-
-      // Se houver mais obras para exibir além do primeiro lote, ativa scroll infinito suave
+      // Se houver mais registros para exibir além do primeiro lote, ativa scroll infinito suave
       if (cardsRenderIndex < filtered.length) {
         const sentinel = document.createElement('div');
         sentinel.id = 'cardsInfiniteSentinel';
         sentinel.className = 'py-4 text-center text-xs text-slate-500 font-semibold flex items-center justify-center gap-2';
-        sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
+        sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais ${nounPlural} (${cardsRenderIndex} de ${filtered.length})...`;
         list.appendChild(sentinel);
 
         if ('IntersectionObserver' in window) {
@@ -8223,7 +9123,7 @@
               const nextChunk = filtered.slice(cardsRenderIndex, cardsRenderIndex + CARDS_CHUNK_SIZE);
               if (nextChunk.length > 0) {
                 const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = nextChunk.map(item => renderWorkCardHtml(item)).join('');
+                tempDiv.innerHTML = nextChunk.map(item => renderCardFn(item)).join('');
                 while (tempDiv.firstChild) {
                   list.insertBefore(tempDiv.firstChild, sentinel);
                 }
@@ -8233,7 +9133,7 @@
                   currentCardsObserver.disconnect();
                   currentCardsObserver = null;
                 } else {
-                  sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
+                  sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais ${nounPlural} (${cardsRenderIndex} de ${filtered.length})...`;
                 }
               } else {
                 sentinel.remove();
@@ -8252,6 +9152,78 @@
     // =========================================================================
     function generateWhatsAppMessage() {
       const dataset = getActiveDataset();
+
+      if (currentModule === 'MEDICOES') {
+        let items = dataset;
+        if (activeContratoFilter !== 'TODOS') {
+          items = items.filter(w => w.contrato === activeContratoFilter);
+        }
+        if (activeFilter !== 'TODAS') {
+          items = items.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter));
+        }
+        if (activeStatusFilter !== 'TODOS') {
+          items = items.filter(w => (w.setor || 'GPR') === activeStatusFilter);
+        }
+
+        if (items.length === 0) {
+          return `Nenhuma medição encontrada para os filtros selecionados (${activeContratoFilter} / GRE: ${activeFilter} / Setor: ${activeStatusFilter}).`;
+        }
+
+        // Calcula totalizadores financeiros
+        let totalValor = 0;
+        let totalGpr = 0;
+        let totalFim = 0;
+        let totalPago = 0;
+
+        items.forEach(it => {
+          const val = parseMoedaToNumber(it.valor);
+          totalValor += val;
+          const s = normalizeSetorMedicao(it.setor);
+          if (s === 'GPR') totalGpr += val;
+          else if (s === 'FIM') totalFim += val;
+          else if (s === 'PAGO') totalPago += val;
+        });
+
+        // Agrupa por Contrato
+        const contratosMap = new Map();
+        items.forEach(it => {
+          const cName = it.contrato || 'CONTRATO NÃO IDENTIFICADO';
+          if (!contratosMap.has(cName)) contratosMap.set(cName, []);
+          contratosMap.get(cName).push(it);
+        });
+
+        let msg = `📊 *RELATÓRIO DE MEDIÇÕES DE OBRAS - GPR / SEDUC*\n`;
+        msg += `📅 *Emitido em:* ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}\n`;
+        if (activeContratoFilter !== 'TODOS') msg += `📑 *Contrato:* ${activeContratoFilter}\n`;
+        if (activeFilter !== 'TODAS') msg += `📍 *Filtro GRE:* ${activeFilter}\n`;
+        if (activeStatusFilter !== 'TODOS') msg += `🏢 *Filtro Setor:* ${activeStatusFilter}\n`;
+        msg += `\n💵 *RESUMO FINANCEIRO:*`;
+        msg += `\n• *Total Medido:* ${formatNumberToMoeda(totalValor)} (${items.length} medições)`;
+        msg += `\n• *Na GPR (Projetos):* ${formatNumberToMoeda(totalGpr)}`;
+        msg += `\n• *No FIM (Pagamento):* ${formatNumberToMoeda(totalFim)}`;
+        msg += `\n• *Pago / Quitado:* ${formatNumberToMoeda(totalPago)}\n`;
+        msg += `\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
+
+        contratosMap.forEach((medicoes, cName) => {
+          msg += `\n📑 *CONTRATO: ${cName}*\n`;
+          medicoes.forEach(m => {
+            const isPago = (normalizeSetorMedicao(m.setor) === 'PAGO');
+            const tram = calculateDiasTramitacao(m.dataEntrada, isPago);
+            let setorIcon = '🏢';
+            if (isPago) setorIcon = '✅';
+            else if (normalizeSetorMedicao(m.setor) === 'FIM') setorIcon = '🏦';
+
+            msg += `\n🔹 *${m.medicao || 'Medição'}* (${m.gre || 'GRE'}${m.escola ? ' - ' + m.escola : ''})`;
+            msg += `\n  • *Processo:* ${m.processo || 'Não informado'}`;
+            msg += `\n  • *Valor:* ${m.valor ? formatNumberToMoeda(parseMoedaToNumber(m.valor)) : 'R$ 0,00'}`;
+            msg += `\n  • *Setor Atual:* ${setorIcon} ${m.setor || 'GPR'}`;
+            msg += `\n  • *Entrada:* ${m.dataEntrada || 'A DEFINIR'}`;
+            msg += `\n  • *Tramitação:* ${tram.label}\n`;
+          });
+        });
+
+        return msg.trim();
+      }
 
       // Identifica GREs únicas presentes
       const uniqueGres = [];
@@ -8335,10 +9307,11 @@
       if (modalOut) modalOut.textContent = text;
 
       if (scopeLabel) {
-        const modName = (currentModule === 'PACTUE') ? 'Obras PACTUE' : (currentModule === 'PROJETOS' ? 'Projetos' : (currentModule === 'FOTOS' ? 'Fotos' : 'Obras de Contratos'));
+        const modName = (currentModule === 'PACTUE') ? 'Obras PACTUE' : (currentModule === 'PROJETOS' ? 'Projetos' : (currentModule === 'FOTOS' ? 'Fotos' : (currentModule === 'MEDICOES' ? 'Medições' : 'Obras de Contratos')));
         const greName = (activeFilter === 'TODAS') ? 'Todas as GREs' : activeFilter;
         const statusName = (activeStatusFilter === 'TODOS') ? 'Todos os status' : activeStatusFilter;
-        scopeLabel.textContent = `${modName} • ${greName} • ${statusName}`;
+        const contratoName = (currentModule === 'MEDICOES' && activeContratoFilter !== 'TODOS') ? ` • ${activeContratoFilter}` : '';
+        scopeLabel.textContent = `${modName}${contratoName} • ${greName} • ${statusName}`;
       }
 
       if (modal) {
