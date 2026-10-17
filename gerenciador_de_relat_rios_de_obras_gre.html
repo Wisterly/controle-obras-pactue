@@ -1104,7 +1104,7 @@
                 escola = getCell(r, 7);
                 municipio = getCell(r, 8);
                 construtora = getCell(r, 14);
-                termino = getCell(r, 16);
+                termino = formatRawDateToDma(getCell(r, 16));
                 status = getCell(r, 17);
                 situacao = getCell(r, 18);
 
@@ -1129,7 +1129,7 @@
                 descritivo = getCell(r, 5);
                 construtora = getCell(r, 6);
                 status = getCell(r, 7);
-                termino = getCell(r, 9);
+                termino = formatRawDateToDma(getCell(r, 9));
                 situacao = status; // No PACTUE reflete o status da pactuação
 
                 // Detecta se é a linha de cabeçalho
@@ -1649,22 +1649,22 @@
         ? dataset 
         : dataset.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter));
 
-      // Extrai todos os status únicos presentes nesta GRE / demanda
+      // Extrai todos os status únicos presentes na coluna R (Contratos) ou coluna H (PACTUE)
       const statusCounts = new Map();
       greSubset.forEach(w => {
-        const st = (w.status || 'EM EXECUÇÃO').toUpperCase().trim();
+        let st = (w.status || '').toUpperCase().trim();
+        if (!st) st = 'NÃO INFORMADO';
         statusCounts.set(st, (statusCounts.get(st) || 0) + 1);
       });
 
-      // Lista ordenada com os status mais comuns primeiro
-      const knownOrder = ['EM EXECUÇÃO', 'CONCLUÍDO', 'CONCLUIDA', 'CONCLUÍDA', 'A INICIAR', 'PARADA', 'CANCELADA'];
+      // Se o status ativo não existir nesta GRE selecionada, volta para TODOS
+      if (activeStatusFilter !== 'TODOS' && !statusCounts.has(activeStatusFilter)) {
+        activeStatusFilter = 'TODOS';
+      }
+
+      // Ordena pelos status mais frequentes da coluna R / H
       const uniqueStatuses = Array.from(statusCounts.keys()).sort((a, b) => {
-        const ia = knownOrder.indexOf(a);
-        const ib = knownOrder.indexOf(b);
-        if (ia !== -1 && ib !== -1) return ia - ib;
-        if (ia !== -1) return -1;
-        if (ib !== -1) return 1;
-        return a.localeCompare(b);
+        return (statusCounts.get(b) || 0) - (statusCounts.get(a) || 0);
       });
 
       let html = `
@@ -1779,13 +1779,66 @@
       return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${s}</span>`;
     }
 
+    // Normaliza qualquer formato de data vindo do Google Sheets/Excel para DD/MM/AAAA
+    function formatRawDateToDma(rawVal) {
+      if (!rawVal) return 'A DEFINIR';
+      let str = String(rawVal).trim();
+      if (!str || str === '-' || str.toUpperCase() === 'A DEFINIR' || str.toUpperCase() === 'INDEFINIDO') {
+        return 'A DEFINIR';
+      }
+
+      // Se tiver horário, remove o horário (ex: "15/10/2026 00:00:00" ou "2026-10-15T00:00:00")
+      str = str.split(' ')[0].split('T')[0].trim();
+
+      // Caso 1: DD/MM/AAAA ou DD-MM-AAAA ou DD.MM.AAAA
+      const dmaMatch = str.match(/^([0-3]?[0-9])[\/\-\.]([0-1]?[0-9])[\/\-\.](\d{2,4})$/);
+      if (dmaMatch) {
+        const d = dmaMatch[1].padStart(2, '0');
+        const m = dmaMatch[2].padStart(2, '0');
+        let y = dmaMatch[3];
+        if (y.length === 2) y = '20' + y;
+        return `${d}/${m}/${y}`;
+      }
+
+      // Caso 2: AAAA-MM-DD
+      const ymdMatch = str.match(/^(\d{4})[\/\-\.]([0-1]?[0-9])[\/\-\.]([0-3]?[0-9])$/);
+      if (ymdMatch) {
+        const y = ymdMatch[1];
+        const m = ymdMatch[2].padStart(2, '0');
+        const d = ymdMatch[3].padStart(2, '0');
+        return `${d}/${m}/${y}`;
+      }
+
+      // Caso 3: Número serial do Excel/Google Sheets
+      if (/^\d{5}$/.test(str)) {
+        const serial = parseInt(str, 10);
+        const utc_days = Math.floor(serial - 25569);
+        const utc_value = utc_days * 86400;
+        const date_info = new Date(utc_value * 1000);
+        if (!isNaN(date_info.getTime())) {
+          const d = String(date_info.getUTCDate()).padStart(2, '0');
+          const m = String(date_info.getUTCMonth() + 1).padStart(2, '0');
+          const y = date_info.getUTCFullYear();
+          return `${d}/${m}/${y}`;
+        }
+      }
+
+      return str.toUpperCase();
+    }
+
     function dmaToYmd(dma) {
       if (!dma || dma === 'A DEFINIR') return '';
-      const parts = dma.split('/');
+      let str = String(dma).trim();
+      str = str.split(' ')[0].split('T')[0];
+
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+
+      const parts = str.split('/');
       if (parts.length === 3) {
         const d = parts[0].padStart(2, '0');
         const m = parts[1].padStart(2, '0');
-        const y = parts[2];
+        let y = parts[2];
+        if (y.length === 2) y = '20' + y;
         return `${y}-${m}-${d}`;
       }
       return '';
