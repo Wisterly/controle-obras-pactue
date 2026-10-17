@@ -240,13 +240,8 @@
             </button>
           </div>
 
-          <!-- Quick Horizontal Scroll Chips (GREs ativas nesta demanda) -->
-          <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none" id="quickGreChips">
-            <!-- Injected via JS -->
-          </div>
-
-          <!-- Drawer expansível com busca e lista completa de todas as 21 GREs -->
-          <div id="greDrawer" class="hidden pt-3 border-t border-brand-cardBorder/80 flex flex-col gap-3">
+          <!-- Painel de Seleção das GREs (Grade Completa com busca e botões das GREs) -->
+          <div id="greDrawer" class="pt-2 border-t border-brand-cardBorder/80 flex flex-col gap-3">
             
             <div class="flex items-center gap-2">
               <div class="relative flex-1">
@@ -269,8 +264,8 @@
               </button>
             </div>
 
-            <!-- Grade compacta com as GREs filtradas -->
-            <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-1.5 max-h-60 overflow-y-auto p-1">
+            <!-- Grade com os balões de seleção das GREs -->
+            <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-1.5 max-h-64 overflow-y-auto p-1">
               <!-- Injected via JS -->
             </div>
           </div>
@@ -1615,55 +1610,7 @@
         }
       }
 
-      // Quick Chips Horizontais (Apenas GREs que têm obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
-      if (quickChipsContainer) {
-        let chipsHtml = `
-          <button 
-            onclick="setFilter('TODAS')"
-            class="px-2.5 py-1.5 rounded-xl text-left whitespace-nowrap transition-all shadow-sm flex flex-col justify-center shrink-0 ${
-              activeFilter === 'TODAS' 
-                ? 'bg-brand-accent text-white shadow-brand-accent/30 scale-105' 
-                : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
-            }"
-          >
-            <span class="text-[11px] font-bold leading-tight">✨ Todas as GREs</span>
-            <span class="text-[9px] text-slate-300/80 leading-tight">${dataset.length} obras totais</span>
-          </button>
-        `;
-
-        availableGres.forEach(g => {
-          const isSelected = activeFilter === g.key;
-          chipsHtml += `
-            <button 
-              onclick="setFilter('${g.key}')"
-              class="px-2.5 py-1.5 rounded-xl text-left whitespace-nowrap transition-all flex items-center gap-2 shrink-0 ${
-                isSelected 
-                  ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-105' 
-                  : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
-              }"
-              title="${g.key} – ${g.polo} (${g.count} obras)"
-            >
-              <div class="flex flex-col min-w-0">
-                <span class="text-[11px] font-extrabold leading-tight ${isSelected ? 'text-brand-dark' : 'text-white'}">
-                  ${g.key}
-                </span>
-                <span class="text-[9px] leading-tight ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400'}">
-                  ${g.polo}
-                </span>
-              </div>
-              <span class="text-[9px] px-1.5 py-0.5 rounded-full font-black ${
-                isSelected ? 'bg-black/25 text-brand-dark' : 'bg-brand-dark text-slate-300 border border-brand-cardBorder'
-              } min-w-[18px] text-center">
-                ${g.count}
-              </span>
-            </button>
-          `;
-        });
-
-        quickChipsContainer.innerHTML = chipsHtml;
-      }
-
-      // Grid Completo no Drawer (Apenas GREs com obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
+      // Grid Completo Permanente (Apenas GREs com obras) - Padronizado: Número da GRE em cima e Nome Regional embaixo
       if (allGrid) {
         if (availableGres.length === 0) {
           allGrid.innerHTML = `
@@ -1677,25 +1624,25 @@
 
             return `
               <button 
-                onclick="setFilter('${g.key}'); toggleGreDrawer();"
+                onclick="setFilter('${g.key}')"
                 class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 ${
                   isSelected 
-                    ? 'bg-amber-500/25 border-amber-400 text-amber-300 shadow-sm ring-1 ring-amber-400 font-bold' 
+                    ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
                     : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
                 }"
                 title="${g.key} – ${g.polo} (${g.count} obras)"
               >
                 <div class="flex flex-col min-w-0">
-                  <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-amber-300' : 'text-white'}">
+                  <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
                     ${g.key}
                   </span>
-                  <span class="text-[9px] text-slate-400 truncate leading-tight mt-0.5 font-medium">
+                  <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
                     ${g.polo}
                   </span>
                 </div>
                 <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
                   isSelected 
-                    ? 'bg-amber-400 text-brand-dark' 
+                    ? 'bg-black/25 text-brand-dark font-black' 
                     : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                 }">
                   ${g.count}
