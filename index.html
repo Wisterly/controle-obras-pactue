@@ -1021,42 +1021,125 @@
               return;
             }
 
-            const firstRow = rows[0];
-            const headers = Object.keys(firstRow);
-            const colMap = {};
+            // Headers na ordem exata da planilha
+            const headers = results.meta && results.meta.fields ? results.meta.fields : Object.keys(rows[0]);
+            
+            let colEscola = null;
+            let colConstrutora = null;
+            let colMunicipio = null;
+            let colGre = null;
+            let colTermino = null;
+            let idxTermino = -1;
+            let colStatusDiarios = null;
+            let idxStatusDiarios = -1;
+            let colStatus = null;
 
-            headers.forEach(h => {
+            // 1. Mapeamento por correspondência de nomes
+            headers.forEach((h, idx) => {
               const norm = normalizeHeaderName(h);
-              if (norm.includes('gre') || norm.includes('regional') || norm.includes('gerencia')) colMap.gre = h;
-              else if (norm.includes('escola') || norm.includes('unidade') || norm.includes('colegio') || norm.includes('objeto')) colMap.escola = h;
-              else if (norm.includes('municipio') || norm.includes('cidade')) colMap.municipio = h;
-              else if (norm.includes('construtora') || norm.includes('empresa') || norm.includes('responsavel')) colMap.construtora = h;
-              else if (norm.includes('status') || norm.includes('fase')) colMap.status = h;
-              else if (norm.includes('situacao') || norm.includes('condicao')) colMap.situacao = h;
-              else if (norm.includes('termino') || norm.includes('previsao') || norm.includes('data') || norm.includes('prazo')) colMap.termino = h;
+
+              // Escola: Prioridade máxima para "NOME ENTIDADE"
+              if (norm.includes('nome entidade') || norm.includes('nome_entidade') || norm.includes('nome da entidade') || norm === 'entidade') {
+                colEscola = h;
+              } else if (!colEscola && (norm.includes('escola') || norm.includes('unidade escolar') || norm.includes('colegio'))) {
+                colEscola = h;
+              }
+
+              // Construtora / Empresa
+              if (norm.includes('construtora')) {
+                colConstrutora = h;
+              } else if (!colConstrutora && (norm.includes('empresa') || norm.includes('empreiteira'))) {
+                colConstrutora = h;
+              }
+
+              // Município
+              if (norm.includes('municipio') || norm.includes('cidade')) {
+                colMunicipio = h;
+              }
+
+              // GRE / Regional
+              if (norm.includes('gre') || norm.includes('regional') || norm.includes('gerencia')) {
+                colGre = h;
+              }
+
+              // Término / Previsão
+              if (norm.includes('termino') || norm.includes('previsao') || norm.includes('término') || norm.includes('previsão')) {
+                if (idxTermino === -1) {
+                  idxTermino = idx;
+                  colTermino = h;
+                }
+              }
+
+              // Status Diários (Situação)
+              if (norm.includes('diario') || norm.includes('diarios') || norm.includes('diário') || norm.includes('diários')) {
+                idxStatusDiarios = idx;
+                colStatusDiarios = h;
+              }
             });
 
-            const parsed = rows.map((r, idx) => {
-              const rawGre = (colMap.gre ? r[colMap.gre] : '') || '8ª GRE';
-              const greKey = normalizeGreKey(rawGre);
-              const escola = (colMap.escola ? r[colMap.escola] : '') || `Demanda #${idx + 1}`;
-              const municipio = (colMap.municipio ? r[colMap.municipio] : '') || 'MUNICÍPIO';
-              const construtora = (colMap.construtora ? r[colMap.construtora] : '') || 'A DEFINIR';
-              let status = (colMap.status ? r[colMap.status] : '') || 'EM EXECUÇÃO';
-              let situacao = (colMap.situacao ? r[colMap.situacao] : '') || 'EM ANDAMENTO';
-              let termino = (colMap.termino ? r[colMap.termino] : '') || 'A DEFINIR';
+            // 2. Coluna de Status:
+            // "A coluna que está entre a coluna término/previsão e a coluna status diários"
+            if (idxTermino !== -1 && idxStatusDiarios !== -1 && idxStatusDiarios > idxTermino) {
+              for (let i = idxTermino + 1; i < idxStatusDiarios; i++) {
+                colStatus = headers[i];
+                break;
+              }
+            }
 
-              return {
+            // Fallback caso as posições não estejam nessa ordem exata
+            if (!colStatus) {
+              headers.forEach(h => {
+                const norm = normalizeHeaderName(h);
+                if (h !== colStatusDiarios && h !== colTermino) {
+                  if (norm === 'status' || norm === 'situacao' || norm.includes('status da obra') || norm.includes('fase')) {
+                    colStatus = h;
+                  }
+                }
+              });
+            }
+
+            console.log('[Mapeamento Colunas]', {
+              Escola: colEscola,
+              Construtora: colConstrutora,
+              Municipio: colMunicipio,
+              GRE: colGre,
+              Termino: colTermino,
+              StatusEntreEles: colStatus,
+              StatusDiarios: colStatusDiarios
+            });
+
+            const parsed = [];
+            rows.forEach((r, idx) => {
+              const rawEscola = (colEscola ? r[colEscola] : '') || '';
+              // Pula linhas em branco ou sem nome de entidade
+              if (!rawEscola || rawEscola.trim().length === 0) return;
+
+              const rawGre = (colGre ? r[colGre] : '') || '8ª GRE';
+              const greKey = normalizeGreKey(rawGre);
+              const escola = rawEscola.toUpperCase().trim();
+              const municipio = ((colMunicipio ? r[colMunicipio] : '') || 'MUNICÍPIO').toUpperCase().trim();
+              const construtora = ((colConstrutora ? r[colConstrutora] : '') || 'A DEFINIR').toUpperCase().trim();
+              
+              // Status vem da coluna entre Término e Status Diários
+              let status = ((colStatus ? r[colStatus] : '') || 'EM EXECUÇÃO').toUpperCase().trim();
+              
+              // Situação vem da coluna Status Diários
+              let situacao = ((colStatusDiarios ? r[colStatusDiarios] : '') || 'EM ANDAMENTO').toUpperCase().trim();
+              
+              // Término vem da coluna Término / Previsão
+              let termino = ((colTermino ? r[colTermino] : '') || 'A DEFINIR').toUpperCase().trim();
+
+              parsed.push({
                 id: `${prefix}-${idx}-${Date.now().toString(36)}`,
                 gre: rawGre.toUpperCase().trim(),
                 greKey: greKey,
-                escola: escola.toUpperCase().trim(),
-                municipio: municipio.toUpperCase().trim(),
-                construtora: construtora.toUpperCase().trim(),
-                status: status.toUpperCase().trim(),
-                situacao: situacao.toUpperCase().trim(),
-                termino: termino.toUpperCase().trim()
-              };
+                escola: escola,
+                municipio: municipio,
+                construtora: construtora,
+                status: status,
+                situacao: situacao,
+                termino: termino
+              });
             });
 
             resolve(parsed);
@@ -1490,6 +1573,14 @@
           activeBg: 'bg-rose-600 text-white',
           dot: 'bg-rose-400'
         };
+      } else if (s.includes('SALDO') || s.includes('AGUARDANDO SALDO') || s.includes('ESPERANDO SALDO')) {
+        return {
+          bg: 'bg-purple-500/20',
+          text: 'text-purple-300',
+          border: 'border-purple-500/40',
+          activeBg: 'bg-purple-600 text-white',
+          dot: 'bg-purple-400'
+        };
       } else if (s.includes('CANCEL')) {
         return {
           bg: 'bg-slate-700/40',
@@ -1757,10 +1848,12 @@
                   class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
                 >
                   <option value="EM EXECUÇÃO" ${item.status === 'EM EXECUÇÃO' ? 'selected' : ''}>EM EXECUÇÃO</option>
-                  <option value="CONCLUÍDO" ${(item.status === 'CONCLUÍDO' || item.status === 'CONCLUIDA') ? 'selected' : ''}>CONCLUÍDO</option>
+                  <option value="CONCLUÍDO" ${(item.status === 'CONCLUÍDO' || item.status === 'CONCLUIDA' || item.status === 'CONCLUÍDA') ? 'selected' : ''}>CONCLUÍDO</option>
                   <option value="A INICIAR" ${item.status === 'A INICIAR' ? 'selected' : ''}>A INICIAR</option>
-                  <option value="PARALISADA" ${item.status === 'PARALISADA' ? 'selected' : ''}>PARALISADA</option>
+                  <option value="AGUARDANDO SALDO" ${(item.status === 'AGUARDANDO SALDO' || item.status === 'ESPERANDO SALDO') ? 'selected' : ''}>AGUARDANDO SALDO</option>
+                  <option value="PARALISADA" ${(item.status === 'PARALISADA' || item.status === 'PARADA') ? 'selected' : ''}>PARALISADA</option>
                   <option value="CANCELADA" ${item.status === 'CANCELADA' ? 'selected' : ''}>CANCELADA</option>
+                  ${(!['EM EXECUÇÃO', 'CONCLUÍDO', 'CONCLUIDA', 'CONCLUÍDA', 'A INICIAR', 'AGUARDANDO SALDO', 'ESPERANDO SALDO', 'PARALISADA', 'PARADA', 'CANCELADA'].includes(item.status)) ? `<option value="${item.status}" selected>${item.status}</option>` : ''}
                 </select>
               </div>
 
