@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciador de Relatórios de Obras GRE</title>
+  <title>Gerenciador de Relatórios de Obras GRE - SEDUC-PI</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,6 +26,8 @@
               cardBorder: '#23385d',
               accent: '#3b82f6',
               amber: '#f59e0b',
+              emerald: '#10b981',
+              rose: '#f43f5e',
               whatsapp: '#25D366',
             }
           }
@@ -33,7 +36,6 @@
     };
   </script>
   <style>
-    /* Custom scrollbar for better aesthetics */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -52,6 +54,13 @@
       filter: invert(0.85);
       cursor: pointer;
     }
+    @keyframes spin-sync {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .animate-spin-sync {
+      animation: spin-sync 0.8s linear infinite;
+    }
   </style>
 </head>
 <body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
@@ -61,87 +70,230 @@
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
     </svg>
-    <span class="text-sm font-semibold">Texto copiado para o WhatsApp com sucesso!</span>
+    <span id="toastMessage" class="text-sm font-semibold">Texto copiado para o WhatsApp com sucesso!</span>
   </div>
 
-  <header class="border-b border-brand-cardBorder/80 bg-brand-panel/90 backdrop-blur-md sticky top-0 z-40 px-4 py-3 sm:px-8">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3 w-full sm:w-auto">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-brand-dark font-extrabold text-xl shadow-lg shadow-amber-500/20">
+  <!-- Header -->
+  <header class="border-b border-brand-cardBorder/80 bg-brand-panel/95 backdrop-blur-md sticky top-0 z-40 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3 w-full md:w-auto">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 flex items-center justify-center text-brand-dark font-extrabold text-xl shadow-lg shadow-amber-500/20 shrink-0">
           🏗️
         </div>
         <div>
-          <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            Relatório de Obras GRE
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">
+              Relatório de Obras GRE
+            </h1>
             <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30">SEDUC-PI</span>
-          </h1>
-          <p class="text-xs text-slate-400">Edição com persistência e gerador WhatsApp</p>
+          </div>
+          <p class="text-xs text-slate-400">Pactuação, sincronização online e gerador WhatsApp</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+      <!-- Action Bar -->
+      <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
+        
+        <!-- Status de Sincronização / Planilha -->
         <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-brand-dark/80 border border-brand-cardBorder text-xs text-slate-300">
-          <span id="saveBadgeDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="saveBadgeText" class="text-emerald-400 font-medium">Salvo automaticamente</span>
+          <span id="syncStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="syncStatusText" class="text-emerald-400 font-medium">Dados locais carregados</span>
         </div>
-        <button id="quickCopyBtn" onclick="copyWhatsAppText()" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/25 active:scale-95 transition-all">
+
+        <!-- Botão Conectar Planilha Online -->
+        <button 
+          onclick="openSheetModal()" 
+          id="sheetModalBtn"
+          class="flex items-center gap-2 px-3.5 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 hover:text-white border border-brand-cardBorder hover:border-brand-accent/50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95"
+          title="Conectar ou gerenciar planilha Google Sheets online"
+        >
+          <span class="text-emerald-400 font-bold">📊</span>
+          <span>Planilha Online</span>
+          <span id="sheetBadge" class="hidden px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">CONECTADA</span>
+        </button>
+
+        <!-- Botão Rápido Sincronizar -->
+        <button 
+          onclick="syncFromOnlineSheet()" 
+          id="quickSyncBtn"
+          class="flex items-center gap-1.5 px-3 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 border border-brand-cardBorder rounded-xl text-xs sm:text-sm font-semibold transition-all active:scale-95"
+          title="Puxar atualizações da planilha online agora"
+        >
+          <svg id="syncIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span class="hidden sm:inline">Sincronizar</span>
+        </button>
+
+        <!-- Botão Copiar WhatsApp Principal -->
+        <button 
+          id="quickCopyBtn" 
+          onclick="copyWhatsAppText()" 
+          class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white font-bold rounded-xl text-xs sm:text-sm shadow-lg shadow-emerald-600/25 active:scale-95 transition-all"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
           </svg>
-          <span id="quickCopyText">Copiar para WhatsApp</span>
+          <span id="quickCopyText">Copiar WhatsApp</span>
         </button>
+
       </div>
     </div>
   </header>
 
+  <!-- Main Content -->
   <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
     
-    <!-- Left Column: Interactive Cards & Search -->
-    <section class="lg:col-span-7 flex flex-col gap-5">
+    <!-- Left Column: GRE Selector, Filters, Cards -->
+    <section class="lg:col-span-7 flex flex-col gap-4">
       
-      <!-- Filter and Search Bar -->
-      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
-        <!-- GRE Filter Tabs -->
-        <div class="flex items-center gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-          <button onclick="setFilter('TODAS')" id="filter-TODAS" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-accent text-white shadow-md transition-all">
-            Todas (<span id="count-TODAS">0</span>)
-          </button>
-          <button onclick="setFilter('8ª GRE')" id="filter-8ª GRE" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder transition-all">
-            8ª GRE (Oeiras) (<span id="count-8">0</span>)
-          </button>
-          <button onclick="setFilter('15ª GRE')" id="filter-15ª GRE" class="filter-tab px-3 py-1.5 rounded-xl text-xs font-semibold bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder transition-all">
-            15ª GRE (Corrente) (<span id="count-15">0</span>)
-          </button>
+      <!-- ============================================== -->
+      <!-- SUPER BOTÃO CHAMATIVO: SELETOR DE GRE         -->
+      <!-- ============================================== -->
+      <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-brand-accent/40 hover:border-brand-accent/80 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
+        
+        <!-- Glow decorativo -->
+        <div class="absolute -right-8 -top-8 w-32 h-32 bg-brand-accent/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="flex flex-col gap-3 relative z-10">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5">
+              <span class="w-8 h-8 rounded-xl bg-brand-accent/20 border border-brand-accent/30 text-brand-accent flex items-center justify-center text-base font-black shadow-inner">
+                📍
+              </span>
+              <div>
+                <span class="text-[11px] uppercase font-extrabold tracking-wider text-amber-400">
+                  Controle por Região
+                </span>
+                <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
+                  Escolher Gerência Regional (GRE)
+                </h2>
+              </div>
+            </div>
+
+            <!-- Botão de Alternar Painel Completo de GREs -->
+            <button 
+              id="toggleGreDrawerBtn"
+              onclick="toggleGreDrawer()"
+              class="flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl bg-brand-accent text-white hover:bg-blue-600 font-bold text-xs shadow-md shadow-brand-accent/30 active:scale-95 transition-all"
+            >
+              <span id="greSelectLabel">Todas as GREs</span>
+              <svg id="greChevron" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Quick Horizontal Scroll Chips (As GREs mais ativas) -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none" id="quickGreChips">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- Drawer expansível com busca e lista completa de todas as GREs -->
+          <div id="greDrawer" class="hidden pt-3 border-t border-brand-cardBorder/80 flex flex-col gap-3">
+            
+            <div class="flex items-center gap-2">
+              <div class="relative flex-1">
+                <input 
+                  type="text" 
+                  id="greSearchInput" 
+                  placeholder="Pesquisar número da GRE ou município polo..." 
+                  oninput="filterGreDrawer(this.value)"
+                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent"
+                />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <button 
+                onclick="setFilter('TODAS')" 
+                class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
+              >
+                Limpar / Ver Todas
+              </button>
+            </div>
+
+            <!-- Grade com todas as GREs -->
+            <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-56 overflow-y-auto p-1">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+
+          <!-- Banner Informativo da GRE Selecionada -->
+          <div id="greSummaryBanner" class="mt-1 bg-brand-dark/70 border border-brand-cardBorder rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div class="flex items-center gap-2">
+              <span id="greSummaryBadge" class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30 text-[11px]">
+                TODAS AS GRES
+              </span>
+              <span id="greSummaryCount" class="text-slate-300 font-medium">17 obras listadas</span>
+            </div>
+            
+            <!-- Mini contadores de status da GRE selecionada -->
+            <div class="flex items-center gap-2 text-[11px]">
+              <span class="text-emerald-400 font-semibold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span id="countExec">0</span> em execução
+              </span>
+              <span class="text-rose-400 font-semibold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                <span id="countParada">0</span> paradas
+              </span>
+              <span class="text-orange-400 font-semibold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-orange-400"></span>
+                <span id="countLento">0</span> ritmo lento
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Search and Filter Bar -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="flex items-center gap-2 text-xs text-slate-400 w-full sm:w-auto">
+          <span>Filtrar por nome:</span>
         </div>
 
         <!-- Search Input -->
-        <div class="relative w-full sm:w-64">
+        <div class="relative w-full sm:w-80">
           <input 
             type="text" 
             id="searchInput" 
-            placeholder="Buscar escola ou município..." 
+            placeholder="Buscar por escola, município ou construtora..." 
             oninput="handleSearch(this.value)"
-            class="w-full bg-brand-dark/90 border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent transition-colors"
+            class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-2 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent transition-colors"
           />
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-2.5 top-2 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
       </div>
 
+      <!-- Lista de Cards -->
       <div id="cardsList" class="flex flex-col gap-4">
         <!-- Injected via JavaScript -->
       </div>
     </section>
 
+    <!-- Right Column: WhatsApp Generator Sticky -->
     <section class="lg:col-span-5 flex flex-col gap-4 sticky top-20 self-start">
       <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl flex flex-col overflow-hidden shadow-2xl">
+        
         <div class="bg-brand-card/90 px-4 py-3 border-b border-brand-cardBorder flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
-            <span class="text-xs font-bold text-slate-200 tracking-wide uppercase">Mensagem formatada para WhatsApp</span>
+            <span class="text-xs font-bold text-slate-200 tracking-wide uppercase">
+              Relatório Formatado para WhatsApp
+            </span>
           </div>
-          <button onclick="copyWhatsAppText()" class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 text-xs font-semibold transition-all">
+          <button 
+            onclick="copyWhatsAppText()" 
+            class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 text-xs font-semibold transition-all active:scale-95"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
               <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
               <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
@@ -150,23 +302,142 @@
           </button>
         </div>
 
-        <div class="p-4 bg-[#0a101d] max-h-[70vh] overflow-y-auto">
+        <!-- Indicação da GRE no preview -->
+        <div class="px-4 py-1.5 bg-brand-dark/90 border-b border-brand-cardBorder/60 flex items-center justify-between text-[11px] text-slate-400">
+          <span id="whatsappGreScope">Foco atual: Todas as GREs</span>
+          <span class="text-emerald-400 font-mono text-[10px]">Pronto para envio</span>
+        </div>
+
+        <div class="p-4 bg-[#0a101d] max-h-[65vh] overflow-y-auto">
           <pre id="whatsAppOutput" class="font-mono text-[11px] leading-relaxed text-emerald-300/90 whitespace-pre-wrap select-all selection:bg-emerald-600/40 selection:text-white"></pre>
         </div>
 
         <div class="px-4 py-3 border-t border-brand-cardBorder/60 bg-brand-dark/60 text-[11px] text-slate-400 flex items-center justify-between">
           <span class="flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span id="saveStatusIndicator" class="text-emerald-400 font-medium">Dados protegidos no navegador</span>
+            <span id="saveStatusIndicator" class="text-emerald-400 font-medium">Modificações salvas</span>
           </span>
           <button onclick="openResetModal()" class="text-slate-400 hover:text-amber-400 underline transition-colors">
             Restaurar originais
           </button>
         </div>
+
       </div>
     </section>
 
   </main>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: CONECTAR PLANILHA ONLINE (GOOGLE SHEETS / CSV)          -->
+  <!-- ============================================================== -->
+  <div id="sheetModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
+      
+      <div class="flex items-start justify-between gap-3 border-b border-brand-cardBorder pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30">
+            📊
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Conectar Planilha Online</h3>
+            <p class="text-xs text-slate-400">Alimente o sistema em tempo real direto do Google Sheets</p>
+          </div>
+        </div>
+        <button onclick="closeSheetModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
+      </div>
+
+      <!-- Formulário de Link -->
+      <div class="flex flex-col gap-2">
+        <label class="text-xs font-bold text-slate-300 uppercase tracking-wide flex items-center justify-between">
+          <span>Link da Planilha (Google Sheets ou CSV)</span>
+          <span class="text-[10px] text-amber-400 lowercase font-normal">Qualquer link público de leitura</span>
+        </label>
+        <div class="flex gap-2">
+          <input 
+            type="url" 
+            id="sheetUrlInput" 
+            placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiM.../edit?usp=sharing"
+            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+        </div>
+        <p class="text-[11px] text-slate-400">
+          💡 <strong>Como compartilhar no Google Sheets:</strong> Abra a planilha &gt; <em>Compartilhar</em> &gt; mude para <strong>"Qualquer pessoa com o link pode ler"</strong> e cole o link acima. O sistema converte automaticamente!
+        </p>
+      </div>
+
+      <!-- Configurações de Auto-Sincronização -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3">
+          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+            ⏱️ Atualização Automática
+          </label>
+          <select 
+            id="autoSyncIntervalSelect" 
+            onchange="updateAutoSyncSetting(this.value)"
+            class="w-full bg-brand-panel border border-brand-cardBorder rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+          >
+            <option value="0">Desativada (manual)</option>
+            <option value="2">A cada 2 minutos</option>
+            <option value="5" selected>A cada 5 minutos (Recomendado)</option>
+            <option value="15">A cada 15 minutos</option>
+            <option value="30">A cada 30 minutos</option>
+          </select>
+        </div>
+
+        <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3 flex flex-col justify-center">
+          <span class="text-[10px] uppercase font-bold text-slate-400">Última Sincronização</span>
+          <span id="modalLastSyncText" class="text-xs text-emerald-400 font-semibold mt-0.5">
+            Nenhuma sincronização recente
+          </span>
+        </div>
+      </div>
+
+      <!-- Feedback de Importação -->
+      <div id="syncFeedbackBox" class="hidden p-3 rounded-xl border text-xs"></div>
+
+      <!-- Botões de Ação da Planilha -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
+        
+        <div class="flex items-center gap-2">
+          <!-- Abrir Planilha Base -->
+          <a 
+            id="openSheetExternalBtn" 
+            href="#" 
+            target="_blank" 
+            class="hidden px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors items-center gap-1.5"
+          >
+            🔗 <span>Abrir Planilha no Google</span>
+          </a>
+
+          <!-- Baixar Modelo CSV -->
+          <button 
+            onclick="downloadCsvTemplate()" 
+            class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+          >
+            📥 <span>Baixar Modelo CSV</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button 
+            onclick="closeSheetModal()" 
+            class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+          >
+            Fechar
+          </button>
+
+          <button 
+            onclick="saveAndSyncSheetModal()" 
+            class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
+          >
+            <span>Salvar &amp; Sincronizar Agora</span>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 
   <!-- Reset Confirmation Modal -->
   <div id="resetModal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
@@ -177,7 +448,7 @@
         </div>
         <div>
           <h3 class="text-sm font-bold text-white">Restaurar dados padrão?</h3>
-          <p class="text-xs text-slate-400 mt-1">Todas as alterações de datas e status serão revertidas para os valores originais da planilha.</p>
+          <p class="text-xs text-slate-400 mt-1">Todas as alterações locais serão revertidas para os valores originais da base.</p>
         </div>
       </div>
       <div class="flex items-center justify-end gap-2 pt-2 border-t border-brand-cardBorder">
@@ -192,7 +463,34 @@
   </div>
 
   <script>
-    // Initial dataset loaded strictly from the user's PDF sheet (GRUPO OBRAS ct.pdf)
+    // =========================================================================
+    // LISTA DE REFERÊNCIA DAS 21 GRES DA SEDUC-PI
+    // =========================================================================
+    const SEDUC_PI_GRES = [
+      { key: "1ª GRE", polo: "Parnaíba", name: "1ª GRE – PARNAÍBA" },
+      { key: "2ª GRE", polo: "Barras", name: "2ª GRE – BARRAS" },
+      { key: "3ª GRE", polo: "Piripiri", name: "3ª GRE – PIRIPIRI" },
+      { key: "4ª GRE", polo: "Teresina Sul", name: "4ª GRE – TERESINA" },
+      { key: "5ª GRE", polo: "Campo Maior", name: "5ª GRE – CAMPO MAIOR" },
+      { key: "6ª GRE", polo: "Regeneração", name: "6ª GRE – REGENERAÇÃO" },
+      { key: "7ª GRE", polo: "Valença do Piauí", name: "7ª GRE – VALENÇA" },
+      { key: "8ª GRE", polo: "Oeiras", name: "8ª GRE – OEIRAS" },
+      { key: "9ª GRE", polo: "Floriano", name: "9ª GRE – FLORIANO" },
+      { key: "10ª GRE", polo: "Uruçuí", name: "10ª GRE – URUÇUÍ" },
+      { key: "11ª GRE", polo: "São Raimundo Nonato", name: "11ª GRE – SÃO RAIMUNDO NONATO" },
+      { key: "12ª GRE", polo: "São João do Piauí", name: "12ª GRE – SÃO JOÃO DO PIAUÍ" },
+      { key: "13ª GRE", polo: "São Raimundo Nonato", name: "13ª GRE – SÃO RAIMUNDO NONATO" },
+      { key: "14ª GRE", polo: "Bom Jesus", name: "14ª GRE – BOM JESUS" },
+      { key: "15ª GRE", polo: "Corrente", name: "15ª GRE – CORRENTE" },
+      { key: "16ª GRE", polo: "Fronteiras", name: "16ª GRE – FRONTEIRAS" },
+      { key: "17ª GRE", polo: "Paulistana", name: "17ª GRE – PAULISTANA" },
+      { key: "18ª GRE", polo: "Teresina Norte", name: "18ª GRE – TERESINA" },
+      { key: "19ª GRE", polo: "Teresina Sudeste", name: "19ª GRE – TERESINA" },
+      { key: "20ª GRE", polo: "Teresina", name: "20ª GRE – TERESINA" },
+      { key: "21ª GRE", polo: "Teresina", name: "21ª GRE – TERESINA" }
+    ];
+
+    // Dataset Inicial Padrão (Base das obras iniciais 8ª e 15ª GRE)
     const INITIAL_DATA = [
       {
         id: "oeiras-1",
@@ -383,20 +681,25 @@
       }
     ];
 
-    const STORAGE_KEY = 'seduc_obras_gre_ct_data_v2';
+    // Chaves de armazenamento
+    const STORAGE_KEY = 'seduc_obras_gre_ct_data_v3';
+    const SHEET_URL_KEY = 'seduc_obras_gre_sheet_url';
+    const AUTO_SYNC_KEY = 'seduc_obras_gre_auto_sync_interval';
+    const LAST_SYNC_KEY = 'seduc_obras_gre_last_sync_time';
 
-    // Loads persisted user modifications or initializes default dataset
+    let worksData = loadPersistedData();
+    let activeFilter = 'TODAS';
+    let searchQuery = '';
+    let autoSyncTimer = null;
+
+    // Carrega dados salvos
     function loadPersistedData() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
-            const savedMap = new Map(parsed.map(item => [item.id, item]));
-            return INITIAL_DATA.map(initItem => {
-              const userItem = savedMap.get(initItem.id);
-              return userItem ? { ...initItem, ...userItem } : initItem;
-            });
+            return parsed;
           }
         }
       } catch (e) {
@@ -405,29 +708,512 @@
       return JSON.parse(JSON.stringify(INITIAL_DATA));
     }
 
-    // Persists state to localStorage
     function persistData() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(worksData));
         showSavedIndicator();
       } catch (e) {
-        console.warn('Erro ao gravar no localStorage:', e);
+        console.warn('Erro ao salvar no localStorage:', e);
       }
     }
 
-    let worksData = loadPersistedData();
-    let activeFilter = 'TODAS';
-    let searchQuery = '';
-
     function showSavedIndicator() {
-      const dot = document.getElementById('saveBadgeDot');
-      const text = document.getElementById('saveBadgeText');
       const footer = document.getElementById('saveStatusIndicator');
-      if (text) text.textContent = 'Salvo automaticamente';
-      if (footer) footer.textContent = 'Dados protegidos no navegador';
+      if (footer) footer.textContent = 'Modificações salvas';
     }
 
-    // Convert DD/MM/AAAA to YYYY-MM-DD
+    // =========================================================================
+    // CONVERSOR E PARSER DE GOOGLE SHEETS / CSV
+    // =========================================================================
+    function convertToCsvUrl(rawUrl) {
+      if (!rawUrl) return '';
+      let url = rawUrl.trim();
+
+      // Se for link do Google Sheets
+      if (url.includes('docs.google.com/spreadsheets')) {
+        const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+        if (idMatch && idMatch[1]) {
+          const sheetId = idMatch[1];
+          const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+          const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '';
+          return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
+        }
+      }
+      return url;
+    }
+
+    function normalizeGreKey(greString) {
+      if (!greString) return '8ª GRE';
+      const clean = greString.toUpperCase().trim();
+      const match = clean.match(/([0-9]+)\s*ª?\s*GRE/);
+      if (match) {
+        return `${match[1]}ª GRE`;
+      }
+      return clean;
+    }
+
+    function normalizeHeaderName(name) {
+      return (name || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    // Sincroniza a partir da planilha online
+    async function syncFromOnlineSheet(isAuto = false) {
+      const savedUrl = localStorage.getItem(SHEET_URL_KEY);
+      if (!savedUrl) {
+        if (!isAuto) openSheetModal();
+        return;
+      }
+
+      const csvUrl = convertToCsvUrl(savedUrl);
+      const syncIcon = document.getElementById('syncIcon');
+      const syncDot = document.getElementById('syncStatusDot');
+      const syncText = document.getElementById('syncStatusText');
+      const modalLastSync = document.getElementById('modalLastSyncText');
+
+      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+      if (syncText) syncText.textContent = 'Sincronizando...';
+
+      try {
+        const response = await fetch(csvUrl, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`Erro HTTP ${response.status} ao acessar a planilha.`);
+        }
+
+        const csvText = await response.text();
+        if (!csvText || csvText.trim().length === 0) {
+          throw new Error('A planilha retornou vazia.');
+        }
+
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: function(results) {
+            const rows = results.data;
+            if (!rows || rows.length === 0) {
+              showFeedback('Não foram encontradas linhas de dados na planilha.', 'error');
+              return;
+            }
+
+            // Identificar colunas de forma inteligente
+            const firstRow = rows[0];
+            const headers = Object.keys(firstRow);
+            const colMap = {};
+
+            headers.forEach(h => {
+              const norm = normalizeHeaderName(h);
+              if (norm.includes('gre') || norm.includes('regional') || norm.includes('gerencia')) colMap.gre = h;
+              else if (norm.includes('escola') || norm.includes('unidade') || norm.includes('colegio')) colMap.escola = h;
+              else if (norm.includes('municipio') || norm.includes('cidade')) colMap.municipio = h;
+              else if (norm.includes('construtora') || norm.includes('empresa')) colMap.construtora = h;
+              else if (norm.includes('status') || norm.includes('fase')) colMap.status = h;
+              else if (norm.includes('situacao') || norm.includes('condicao')) colMap.situacao = h;
+              else if (norm.includes('termino') || norm.includes('previsao') || norm.includes('data')) colMap.termino = h;
+            });
+
+            const parsedWorks = rows.map((r, idx) => {
+              const rawGre = (colMap.gre ? r[colMap.gre] : '') || '8ª GRE';
+              const greKey = normalizeGreKey(rawGre);
+              const escola = (colMap.escola ? r[colMap.escola] : '') || `Escola #${idx + 1}`;
+              const municipio = (colMap.municipio ? r[colMap.municipio] : '') || 'MUNICÍPIO';
+              const construtora = (colMap.construtora ? r[colMap.construtora] : '') || 'A DEFINIR';
+              let status = (colMap.status ? r[colMap.status] : '') || 'EM EXECUÇÃO';
+              let situacao = (colMap.situacao ? r[colMap.situacao] : '') || 'EM ANDAMENTO';
+              let termino = (colMap.termino ? r[colMap.termino] : '') || 'A DEFINIR';
+
+              return {
+                id: `online-${idx}-${Date.now().toString(36)}`,
+                gre: rawGre.toUpperCase().trim(),
+                greKey: greKey,
+                escola: escola.toUpperCase().trim(),
+                municipio: municipio.toUpperCase().trim(),
+                construtora: construtora.toUpperCase().trim(),
+                status: status.toUpperCase().trim(),
+                situacao: situacao.toUpperCase().trim(),
+                termino: termino.toUpperCase().trim()
+              };
+            });
+
+            if (parsedWorks.length > 0) {
+              worksData = parsedWorks;
+              persistData();
+
+              const now = new Date();
+              const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+              localStorage.setItem(LAST_SYNC_KEY, timeStr);
+
+              if (syncDot) {
+                syncDot.classList.remove('bg-amber-400');
+                syncDot.classList.add('bg-emerald-400');
+              }
+              if (syncText) syncText.textContent = `Online (${timeStr})`;
+              if (modalLastSync) modalLastSync.textContent = `Sincronizado hoje às ${timeStr} (${parsedWorks.length} obras)`;
+
+              const sheetBadge = document.getElementById('sheetBadge');
+              if (sheetBadge) sheetBadge.classList.remove('hidden');
+
+              renderGreSelector();
+              renderCards();
+
+              showToastNotification(`✓ Sincronizado com sucesso! ${parsedWorks.length} obras atualizadas.`);
+              showFeedback(`✓ Conexão bem-sucedida! ${parsedWorks.length} obras e ${getAvailableGres().length} GREs carregadas.`, 'success');
+            }
+          },
+          error: function(err) {
+            console.error('Erro PapaParse:', err);
+            showFeedback('Erro ao processar as colunas da planilha.', 'error');
+          }
+        });
+
+      } catch (err) {
+        console.error('Erro ao sincronizar:', err);
+        if (syncDot) {
+          syncDot.classList.remove('bg-emerald-400');
+          syncDot.classList.add('bg-amber-400');
+        }
+        if (syncText) syncText.textContent = 'Erro ao sincronizar';
+        showToastNotification('⚠️ Erro ao puxar dados da planilha. Verifique o compartilhamento.');
+        showFeedback(`Erro ao acessar planilha: certifique-se de que ela está como "Qualquer pessoa com o link pode ler".`, 'error');
+      } finally {
+        if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
+      }
+    }
+
+    // Modal de Planilha
+    function openSheetModal() {
+      const modal = document.getElementById('sheetModal');
+      const input = document.getElementById('sheetUrlInput');
+      const openBtn = document.getElementById('openSheetExternalBtn');
+      const select = document.getElementById('autoSyncIntervalSelect');
+      const lastSync = document.getElementById('modalLastSyncText');
+
+      const savedUrl = localStorage.getItem(SHEET_URL_KEY) || '';
+      const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
+      const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
+
+      if (input) input.value = savedUrl;
+      if (select) select.value = savedInterval;
+      if (lastSync && lastSyncTime) lastSync.textContent = `Última sincronização às ${lastSyncTime}`;
+
+      if (openBtn) {
+        if (savedUrl) {
+          openBtn.href = savedUrl;
+          openBtn.classList.remove('hidden');
+          openBtn.classList.add('flex');
+        } else {
+          openBtn.classList.add('hidden');
+          openBtn.classList.remove('flex');
+        }
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeSheetModal() {
+      const modal = document.getElementById('sheetModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function saveAndSyncSheetModal() {
+      const input = document.getElementById('sheetUrlInput');
+      const url = input ? input.value.trim() : '';
+
+      if (!url) {
+        showFeedback('Por favor, cole um link válido da planilha do Google Sheets.', 'error');
+        return;
+      }
+
+      localStorage.setItem(SHEET_URL_KEY, url);
+      const openBtn = document.getElementById('openSheetExternalBtn');
+      if (openBtn) {
+        openBtn.href = url;
+        openBtn.classList.remove('hidden');
+        openBtn.classList.add('flex');
+      }
+
+      syncFromOnlineSheet();
+    }
+
+    function updateAutoSyncSetting(val) {
+      localStorage.setItem(AUTO_SYNC_KEY, val);
+      startAutoSyncTimer();
+      showToastNotification(`Atualização automática ajustada.`);
+    }
+
+    function startAutoSyncTimer() {
+      if (autoSyncTimer) clearInterval(autoSyncTimer);
+      const val = parseInt(localStorage.getItem(AUTO_SYNC_KEY) || '5', 10);
+      if (val > 0) {
+        autoSyncTimer = setInterval(() => {
+          syncFromOnlineSheet(true);
+        }, val * 60 * 1000);
+      }
+    }
+
+    function showFeedback(msg, type) {
+      const box = document.getElementById('syncFeedbackBox');
+      if (!box) return;
+      box.classList.remove('hidden', 'bg-rose-950/60', 'text-rose-300', 'border-rose-800', 'bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
+      if (type === 'error') {
+        box.classList.add('bg-rose-950/60', 'text-rose-300', 'border-rose-800');
+      } else {
+        box.classList.add('bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
+      }
+      box.textContent = msg;
+    }
+
+    // Baixa Modelo CSV
+    function downloadCsvTemplate() {
+      const csvContent = "data:text/csv;charset=utf-8," + 
+        "GRE,MUNICIPIO,ESCOLA,CONSTRUTORA,STATUS,SITUACAO,TERMINO\n" +
+        "8ª GRE,OEIRAS,CETI ORLANDO CARVALHO,R MELO CONSTRUTORA LTDA,EM EXECUÇÃO,PARADA,13/09/2026\n" +
+        "8ª GRE,OEIRAS,CETI ARMANDO BURLAMAQUI,R MELO CONSTRUTORA LTDA,A INICIAR,A INICIAR,15/09/2026\n" +
+        "15ª GRE,CORRENTE,CETI JOAQUIM ANTÔNIO LUSTOSA,DESENVOLVA EMPREENDIMENTOS,EM EXECUÇÃO,PARADA,09/10/2026\n" +
+        "1ª GRE,PARNAÍBA,CETI POLIVALENTE,CONSTRUTORA EXEMPLO,EM EXECUÇÃO,EM ANDAMENTO,20/12/2026\n";
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "modelo_obras_gre_seduc.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // =========================================================================
+    // SELETOR DINÂMICO DE GRES (TODAS AS GRES)
+    // =========================================================================
+    function getAvailableGres() {
+      // Combina as GREs presentes nos dados com a lista de referência
+      const greMap = new Map();
+
+      // Primeiro, conta as obras de cada GRE nos dados
+      worksData.forEach(item => {
+        const k = item.greKey || normalizeGreKey(item.gre);
+        greMap.set(k, (greMap.get(k) || 0) + 1);
+      });
+
+      // Lista final ordenada
+      const list = [];
+      SEDUC_PI_GRES.forEach(s => {
+        const count = greMap.get(s.key) || 0;
+        list.push({
+          key: s.key,
+          name: s.name,
+          polo: s.polo,
+          count: count
+        });
+      });
+
+      // Inclui GREs extras que possam ter vindo da planilha e não estão no padrão
+      greMap.forEach((cnt, k) => {
+        if (!list.some(item => item.key === k)) {
+          list.push({
+            key: k,
+            name: `${k}`,
+            polo: 'Regional',
+            count: cnt
+          });
+        }
+      });
+
+      return list;
+    }
+
+    function toggleGreDrawer() {
+      const drawer = document.getElementById('greDrawer');
+      const chevron = document.getElementById('greChevron');
+      if (drawer) {
+        drawer.classList.toggle('hidden');
+        if (chevron) {
+          chevron.classList.toggle('rotate-180');
+        }
+      }
+    }
+
+    function renderGreSelector() {
+      const quickChipsContainer = document.getElementById('quickGreChips');
+      const allGrid = document.getElementById('allGresGrid');
+      const greSelectLabel = document.getElementById('greSelectLabel');
+      const availableGres = getAvailableGres();
+
+      // Label do Botão Principal
+      if (greSelectLabel) {
+        if (activeFilter === 'TODAS') {
+          greSelectLabel.textContent = `Todas as GREs (${worksData.length})`;
+        } else {
+          const found = availableGres.find(g => g.key === activeFilter);
+          const count = worksData.filter(w => w.greKey === activeFilter).length;
+          greSelectLabel.textContent = `${activeFilter} (${count} obras)`;
+        }
+      }
+
+      // Quick Chips (Todas + as que têm obras)
+      if (quickChipsContainer) {
+        const activeGresWithWorks = availableGres.filter(g => g.count > 0);
+
+        let chipsHtml = `
+          <button 
+            onclick="setFilter('TODAS')"
+            class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-sm ${
+              activeFilter === 'TODAS' 
+                ? 'bg-brand-accent text-white shadow-brand-accent/30 scale-105' 
+                : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
+            }"
+          >
+            ✨ Todas (${worksData.length})
+          </button>
+        `;
+
+        activeGresWithWorks.forEach(g => {
+          const isSelected = activeFilter === g.key;
+          chipsHtml += `
+            <button 
+              onclick="setFilter('${g.key}')"
+              class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                isSelected 
+                  ? 'bg-amber-500 text-brand-dark font-extrabold shadow-md shadow-amber-500/30 scale-105' 
+                  : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
+              }"
+            >
+              <span>${g.key}</span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-black/20 text-brand-dark' : 'bg-brand-dark text-slate-400'} font-bold">
+                ${g.count}
+              </span>
+            </button>
+          `;
+        });
+
+        quickChipsContainer.innerHTML = chipsHtml;
+      }
+
+      // Grid Completo no Drawer
+      if (allGrid) {
+        allGrid.innerHTML = availableGres.map(g => {
+          const isSelected = activeFilter === g.key;
+          const hasWorks = g.count > 0;
+
+          return `
+            <button 
+              onclick="setFilter('${g.key}'); toggleGreDrawer();"
+              class="p-2 rounded-xl text-left border text-xs transition-all flex flex-col justify-between ${
+                isSelected 
+                  ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400' 
+                  : hasWorks 
+                    ? 'bg-brand-dark border-brand-cardBorder hover:border-slate-500 text-slate-200' 
+                    : 'bg-brand-dark/40 border-brand-cardBorder/40 text-slate-500 hover:text-slate-300'
+              }"
+            >
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs ${isSelected ? 'text-amber-300' : 'text-white'}">${g.key}</span>
+                <span class="text-[10px] px-1.5 py-0.2 rounded-full ${hasWorks ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'bg-slate-800 text-slate-500'}">
+                  ${g.count}
+                </span>
+              </div>
+              <span class="text-[10px] text-slate-400 truncate mt-0.5">${g.polo}</span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      updateSummaryBanner();
+    }
+
+    function filterGreDrawer(query) {
+      const q = (query || '').toLowerCase().trim();
+      const allGrid = document.getElementById('allGresGrid');
+      if (!allGrid) return;
+
+      const buttons = allGrid.querySelectorAll('button');
+      buttons.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        if (text.includes(q)) {
+          btn.classList.remove('hidden');
+        } else {
+          btn.classList.add('hidden');
+        }
+      });
+    }
+
+    function updateSummaryBanner() {
+      const badge = document.getElementById('greSummaryBadge');
+      const count = document.getElementById('greSummaryCount');
+      const cExec = document.getElementById('countExec');
+      const cParada = document.getElementById('countParada');
+      const cLento = document.getElementById('countLento');
+      const whatsAppScope = document.getElementById('whatsappGreScope');
+
+      const subset = (activeFilter === 'TODAS') 
+        ? worksData 
+        : worksData.filter(w => w.greKey === activeFilter);
+
+      const nExec = subset.filter(w => (w.status === 'EM EXECUÇÃO' || w.situacao === 'EM ANDAMENTO')).length;
+      const nParada = subset.filter(w => w.situacao === 'PARADA').length;
+      const nLento = subset.filter(w => w.situacao === 'RITMO LENTO').length;
+
+      if (badge) badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
+      if (count) count.textContent = `${subset.length} obra(s) encontrada(s)`;
+      if (cExec) cExec.textContent = nExec;
+      if (cParada) cParada.textContent = nParada;
+      if (cLento) cLento.textContent = nLento;
+
+      if (whatsAppScope) {
+        whatsAppScope.textContent = (activeFilter === 'TODAS') 
+          ? 'Foco atual: Todas as GREs (' + subset.length + ' obras)' 
+          : `Foco atual: ${activeFilter} (${subset.length} obras)`;
+      }
+    }
+
+    function setFilter(greKey) {
+      activeFilter = greKey;
+      renderGreSelector();
+      renderCards();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      renderCards();
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DOS CARDS DE OBRAS
+    // =========================================================================
+    function getStatusBadge(status) {
+      const s = (status || '').toUpperCase();
+      if (s === 'EM EXECUÇÃO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM EXECUÇÃO</span>`;
+      } else if (s === 'A INICIAR') {
+        return `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold">A INICIAR</span>`;
+      } else if (s === 'CONCLUÍDO' || s === 'CONCLUIDA' || s === 'CONCLUÍDA') {
+        return `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">CONCLUÍDO</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${s}</span>`;
+    }
+
+    function getSituacaoBadge(sit) {
+      const s = (sit || '').toUpperCase();
+      if (s === 'PARADA') {
+        return `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold">PARADA</span>`;
+      } else if (s === 'RITMO LENTO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-[10px] font-bold">RITMO LENTO</span>`;
+      } else if (s === 'EM ANDAMENTO') {
+        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM ANDAMENTO</span>`;
+      } else if (s === 'A INICIAR') {
+        return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">A INICIAR</span>`;
+      }
+      return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${s}</span>`;
+    }
+
+    // Conversões de Data
     function dmaToYmd(dma) {
       if (!dma || dma === 'A DEFINIR') return '';
       const parts = dma.split('/');
@@ -440,7 +1226,6 @@
       return '';
     }
 
-    // Convert YYYY-MM-DD to DD/MM/AAAA
     function ymdToDma(ymd) {
       if (!ymd) return 'A DEFINIR';
       const parts = ymd.split('-');
@@ -467,62 +1252,8 @@
         item[field] = value.toUpperCase().trim();
         persistData();
         updateWhatsAppOutput();
+        updateSummaryBanner();
       }
-    }
-
-    function generateWhatsAppMessage() {
-      const gres = [
-        { key: "8ª GRE", header: "*8ª GRE – OEIRAS*" },
-        { key: "15ª GRE", header: "*15ª GRE – CORRENTE*" }
-      ];
-
-      let blocks = [];
-
-      gres.forEach(g => {
-        const schools = worksData.filter(w => w.greKey === g.key);
-        if (schools.length > 0) {
-          let section = `${g.header}\n\n`;
-          const schoolEntries = schools.map(s => {
-            return `ESCOLA: ${s.escola}\n` +
-                   `MUNICÍPIO: ${s.municipio}\n` +
-                   `CONSTRUTORA: ${s.construtora}\n` +
-                   `🔹 STATUS: ${s.status}\n` +
-                   `SITUAÇÃO: ${s.situacao}\n` +
-                   `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
-          });
-          section += schoolEntries.join('\n\n');
-          blocks.push(section);
-        }
-      });
-
-      return blocks.join('\n\n---\n\n');
-    }
-
-    function updateWhatsAppOutput() {
-      const out = document.getElementById('whatsAppOutput');
-      if (out) {
-        out.textContent = generateWhatsAppMessage();
-      }
-    }
-
-    function getStatusBadge(status) {
-      if (status === 'EM EXECUÇÃO') {
-        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM EXECUÇÃO</span>`;
-      } else if (status === 'A INICIAR') {
-        return `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold">A INICIAR</span>`;
-      }
-      return `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">${status}</span>`;
-    }
-
-    function getSituacaoBadge(sit) {
-      if (sit === 'PARADA') {
-        return `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold">PARADA</span>`;
-      } else if (sit === 'RITMO LENTO') {
-        return `<span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-[10px] font-bold">RITMO LENTO</span>`;
-      } else if (sit === 'EM ANDAMENTO') {
-        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM ANDAMENTO</span>`;
-      }
-      return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${sit}</span>`;
     }
 
     function renderCards() {
@@ -531,22 +1262,22 @@
 
       const filtered = worksData.filter(item => {
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter);
-        const matchesSearch = !searchQuery || 
-          item.escola.toLowerCase().includes(searchQuery.toLowerCase()) || 
-          item.municipio.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.construtora.toLowerCase().includes(searchQuery.toLowerCase());
+        const q = searchQuery.toLowerCase();
+        const matchesSearch = !q || 
+          (item.escola && item.escola.toLowerCase().includes(q)) || 
+          (item.municipio && item.municipio.toLowerCase().includes(q)) ||
+          (item.construtora && item.construtora.toLowerCase().includes(q));
         return matchesGre && matchesSearch;
       });
 
-      // Update counters
-      document.getElementById('count-TODAS').textContent = worksData.length;
-      document.getElementById('count-8').textContent = worksData.filter(w => w.greKey === '8ª GRE').length;
-      document.getElementById('count-15').textContent = worksData.filter(w => w.greKey === '15ª GRE').length;
-
       if (filtered.length === 0) {
         list.innerHTML = `
-          <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center text-slate-400 text-sm">
-            Nenhuma obra encontrada para o filtro atual.
+          <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center text-slate-400 text-sm flex flex-col items-center gap-2">
+            <span class="text-3xl">🔍</span>
+            <p>Nenhuma obra encontrada para o filtro atual.</p>
+            <button onclick="setFilter('TODAS'); handleSearch(''); document.getElementById('searchInput').value='';" class="text-xs text-brand-accent underline">
+              Ver todas as obras
+            </button>
           </div>
         `;
         updateWhatsAppOutput();
@@ -555,7 +1286,6 @@
 
       list.innerHTML = filtered.map(item => {
         const ymd = dmaToYmd(item.termino);
-        const isDefinido = item.termino !== 'A DEFINIR';
 
         return `
           <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-lg transition-all hover:border-slate-500/50">
@@ -565,7 +1295,7 @@
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400/90">${item.gre}</span>
                 <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
-                <p class="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
+                <p class="text-xs text-slate-400 flex flex-wrap items-center gap-1.5 mt-0.5">
                   <span class="text-slate-300 font-medium">📍 ${item.municipio}</span>
                   <span class="text-slate-600">•</span>
                   <span class="text-slate-400">Construtora: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
@@ -607,7 +1337,7 @@
                 </select>
               </div>
 
-              <!-- Seletor de Data Interativo (Calendário) -->
+              <!-- Seletor de Data Interativo -->
               <div>
                 <div class="flex items-center justify-between mb-1">
                   <label class="block text-[10px] uppercase font-bold text-amber-400">📅 Término / Previsão</label>
@@ -642,28 +1372,60 @@
       updateWhatsAppOutput();
     }
 
-    function setFilter(greKey) {
-      activeFilter = greKey;
-      document.querySelectorAll('.filter-tab').forEach(btn => {
-        btn.classList.remove('bg-brand-accent', 'text-white', 'shadow-md');
-        btn.classList.add('bg-brand-card', 'text-slate-300', 'border', 'border-brand-cardBorder');
+    // =========================================================================
+    // GERADOR DE MENSAGEM DO WHATSAPP (FOCADO NA GRE SELECIONADA OU TODAS)
+    // =========================================================================
+    function generateWhatsAppMessage() {
+      // Se tiver uma GRE selecionada, gera o relatório exclusivamente para ela
+      // Se estiver em 'TODAS', gera agrupado por todas as GREs presentes
+      const uniqueGres = [];
+      const seen = new Set();
+
+      worksData.forEach(w => {
+        const k = w.greKey || normalizeGreKey(w.gre);
+        if (!seen.has(k)) {
+          seen.add(k);
+          uniqueGres.push({ key: k, header: `*${w.gre || k}*` });
+        }
       });
 
-      const activeBtn = document.getElementById(`filter-${greKey}`);
-      if (activeBtn) {
-        activeBtn.classList.add('bg-brand-accent', 'text-white', 'shadow-md');
-        activeBtn.classList.remove('bg-brand-card', 'text-slate-300');
+      // Ordenar GREs
+      uniqueGres.sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
+
+      const targetGres = (activeFilter === 'TODAS') 
+        ? uniqueGres 
+        : uniqueGres.filter(g => g.key === activeFilter);
+
+      let blocks = [];
+
+      targetGres.forEach(g => {
+        const schools = worksData.filter(w => (w.greKey === g.key || normalizeGreKey(w.gre) === g.key));
+        if (schools.length > 0) {
+          let section = `${g.header}\n\n`;
+          const schoolEntries = schools.map(s => {
+            return `ESCOLA: ${s.escola}\n` +
+                   `MUNICÍPIO: ${s.municipio}\n` +
+                   `CONSTRUTORA: ${s.construtora}\n` +
+                   `🔹 STATUS: ${s.status}\n` +
+                   `SITUAÇÃO: ${s.situacao}\n` +
+                   `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
+          });
+          section += schoolEntries.join('\n\n');
+          blocks.push(section);
+        }
+      });
+
+      return blocks.join('\n\n---\n\n');
+    }
+
+    function updateWhatsAppOutput() {
+      const out = document.getElementById('whatsAppOutput');
+      if (out) {
+        out.textContent = generateWhatsAppMessage();
       }
-
-      renderCards();
     }
 
-    function handleSearch(val) {
-      searchQuery = val;
-      renderCards();
-    }
-
-    // Copy formatted WhatsApp message
+    // Copiar Texto para o WhatsApp
     function copyWhatsAppText() {
       const text = generateWhatsAppMessage();
       
@@ -676,7 +1438,7 @@
       
       try {
         document.execCommand('copy');
-        showToast();
+        showToastNotification("✓ Relatório copiado para o WhatsApp!");
       } catch (err) {
         console.warn('Falha na cópia via execCommand:', err);
       } finally {
@@ -684,10 +1446,13 @@
       }
     }
 
-    function showToast() {
+    function showToastNotification(message) {
       const toast = document.getElementById('copyToast');
+      const toastMsg = document.getElementById('toastMessage');
       const quickBtn = document.getElementById('quickCopyText');
       const previewLabel = document.getElementById('previewCopyLabel');
+
+      if (toastMsg && message) toastMsg.textContent = message;
 
       if (toast) {
         toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
@@ -702,12 +1467,12 @@
           toast.classList.remove('opacity-100', 'translate-y-0');
           toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
         }
-        if (quickBtn) quickBtn.textContent = "Copiar para WhatsApp";
+        if (quickBtn) quickBtn.textContent = "Copiar WhatsApp";
         if (previewLabel) previewLabel.textContent = "Copiar";
       }, 2500);
     }
 
-    // Modal helpers (without alert or confirm)
+    // Modal de Reset
     function openResetModal() {
       const modal = document.getElementById('resetModal');
       if (modal) {
@@ -732,12 +1497,26 @@
       }
       worksData = JSON.parse(JSON.stringify(INITIAL_DATA));
       closeResetModal();
+      renderGreSelector();
       renderCards();
+      showToastNotification("✓ Dados padrão restaurados!");
     }
 
+    // Inicialização da Página
     window.onload = function() {
+      const savedSheetUrl = localStorage.getItem(SHEET_URL_KEY);
+      if (savedSheetUrl) {
+        const sheetBadge = document.getElementById('sheetBadge');
+        if (sheetBadge) sheetBadge.classList.remove('hidden');
+        const syncText = document.getElementById('syncStatusText');
+        const lastSync = localStorage.getItem(LAST_SYNC_KEY);
+        if (syncText && lastSync) syncText.textContent = `Online (${lastSync})`;
+      }
+
+      renderGreSelector();
       renderCards();
       showSavedIndicator();
+      startAutoSyncTimer();
     };
   </script>
 </body>
