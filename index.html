@@ -2198,8 +2198,6 @@
         : uniqueGres.filter(g => g.key === activeFilter);
 
       let blocks = [];
-      const titleMod = (currentModule === 'CONTRATOS') ? '📋 *RELATÓRIO DE OBRAS - CONTRATOS (SEDUC-PI)*' : '🤝 *RELATÓRIO DE OBRAS - PACTUE (SEDUC-PI)*';
-      blocks.push(titleMod);
 
       targetGres.forEach(g => {
         const schools = dataset.filter(w => {
@@ -2234,11 +2232,12 @@
         }
       });
 
-      if (blocks.length === 1) {
-        return `${titleMod}\n\nNenhuma obra encontrada para os filtros selecionados (${activeFilter} / Status: ${activeStatusFilter}).`;
+      if (blocks.length === 0) {
+        return `Nenhuma obra encontrada para os filtros selecionados (${activeFilter} / Status: ${activeStatusFilter}).`;
       }
 
-      return blocks.join('\n\n---\n\n');
+      // Se for apenas uma GRE filtrada, não precisa de separador; se forem várias, separa com quebra de linha dupla
+      return blocks.join('\n\n');
     }
 
     function updateWhatsAppOutput() {
