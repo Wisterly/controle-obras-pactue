@@ -149,12 +149,12 @@
   <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
       
-      <!-- Seletor em Segmented Control Chamativo -->
-      <div class="flex items-center gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
+      <!-- Seletor em Segmented Control Chamativo (4 Abas) -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
         <button 
           id="moduleBtnContracts"
           onclick="switchModule('CONTRATOS')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]"
+          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]"
         >
           <span>🏗️</span>
           <span>Obras de Contratos</span>
@@ -166,11 +166,35 @@
         <button 
           id="moduleBtnPactue"
           onclick="switchModule('PACTUE')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
         >
           <span>🤝</span>
           <span>Obras PACTUE</span>
           <span id="pactueBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
+            0
+          </span>
+        </button>
+
+        <button 
+          id="moduleBtnProjetos"
+          onclick="switchModule('PROJETOS')" 
+          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+        >
+          <span>📐</span>
+          <span>Projetos</span>
+          <span id="projetosBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
+            0
+          </span>
+        </button>
+
+        <button 
+          id="moduleBtnFotos"
+          onclick="switchModule('FOTOS')" 
+          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+        >
+          <span>📸</span>
+          <span>Fotos</span>
+          <span id="fotosBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
             0
           </span>
         </button>
@@ -179,27 +203,32 @@
       <!-- Informação da Aba e Atalho Direto -->
       <div class="flex items-center gap-2 text-xs text-slate-400 w-full sm:w-auto justify-between sm:justify-end">
         <span class="flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
+          <span id="activeTabColorDot" class="w-2 h-2 rounded-full bg-brand-accent"></span>
           <span>Aba ativa: <strong id="activeTabNameDisplay" class="text-slate-200">Aba Contratos</strong></span>
         </span>
         <button 
-          onclick="openActiveSheetTabDirect()" 
+          onclick="openActiveExternalResourceDirect()" 
           id="openActiveTabExternalBtn"
           class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-brand-card hover:bg-slate-800 text-brand-accent hover:text-blue-300 border border-brand-cardBorder text-xs font-semibold transition-colors"
-          title="Abrir diretamente esta aba na planilha Google Sheets"
+          title="Abrir diretamente no Google Sheets / Drive"
         >
-          <span>🔗 Abrir Aba no Google</span>
+          <span id="openActiveTabExternalLabel">🔗 Abrir no Google</span>
         </button>
       </div>
 
     </div>
   </section>
 
-  <!-- Main Content -->
-  <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 flex flex-col gap-6 flex-1">
     
-    <!-- Left Column: GRE Selector, Status Filters, Cards -->
-    <section class="lg:col-span-7 flex flex-col gap-4">
+    <!-- ============================================== -->
+    <!-- MÓDULO 1 & 2: OBRAS DE CONTRATO E PACTUE      -->
+    <!-- ============================================== -->
+    <div id="worksModuleContainer" class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full">
+    
+      <!-- Left Column: GRE Selector, Status Filters, Cards -->
+      <section class="lg:col-span-7 flex flex-col gap-4">
       
       <!-- ============================================== -->
       <!-- SUPER BOTÃO CHAMATIVO: SELETOR DE GRE         -->
@@ -381,6 +410,320 @@
       </div>
     </section>
 
+    </div>
+    <!-- FIM DO worksModuleContainer -->
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 3: ABA DE PROJETOS POR GRE             -->
+    <!-- ============================================== -->
+    <div id="projetosModuleContainer" class="hidden flex-col gap-6 w-full">
+      
+      <!-- Barra Superior: Link da Pasta Compartilhada de Projetos -->
+      <div class="bg-brand-panel border border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
+            📁
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+              Pasta Compartilhada de Projetos
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">Google Drive</span>
+            </h3>
+            <p class="text-xs text-slate-400">Projetos de engenharia e arquitetura organizados por GRE e Escola</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
+          <input 
+            type="url" 
+            id="projetosSharedFolderInput" 
+            placeholder="Cole o link da pasta compartilhada de Projetos do Google Drive..."
+            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+          <button 
+            onclick="saveProjetosFolderUrl()"
+            class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-600/25 shrink-0"
+          >
+            💾 Salvar Link
+          </button>
+          <button 
+            onclick="openProjetosFolderDrive()"
+            class="px-3 py-2 rounded-xl bg-brand-dark hover:bg-brand-card border border-purple-500/40 text-purple-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 shrink-0"
+            title="Abrir pasta de projetos no Google Drive"
+          >
+            <span>📂 Abrir no Drive</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Seletor de GRE para Projetos -->
+      <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-400 flex items-center justify-center text-lg font-black">
+              📍
+            </span>
+            <div>
+              <span class="text-[11px] uppercase font-extrabold tracking-wider text-purple-400">
+                Gerência Regional de Educação
+              </span>
+              <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
+                Filtrar Projetos por GRE: <span id="projetosSelectedGreLabel" class="text-xs text-amber-400 font-semibold">Todas as GREs</span>
+              </h2>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <input 
+              type="text" 
+              id="projetosGreSearchInput" 
+              placeholder="Pesquisar GRE (ex: 1ª GRE, Parnaíba)..."
+              oninput="filterProjetosGres(this.value)"
+              class="bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-400 w-48 sm:w-64"
+            />
+            <button 
+              onclick="setProjetosGreFilter('TODAS')"
+              class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
+            >
+              Ver Todas
+            </button>
+          </div>
+        </div>
+
+        <!-- Grade de balões de GREs para projetos -->
+        <div id="projetosGreGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-1.5 max-h-56 overflow-y-auto p-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Filtro de Disciplinas e Busca de Projetos -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 shadow-lg flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase text-slate-300">📐 Disciplinas de Projeto:</span>
+            <span id="projetosCountInfo" class="text-xs text-purple-400 font-semibold">0 projetos</span>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <input 
+              type="text" 
+              id="projetosSearchQuery"
+              placeholder="Buscar por escola, município ou projeto..." 
+              oninput="handleProjetosSearch(this.value)"
+              class="w-full sm:w-72 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none"
+            />
+            <button 
+              onclick="openAddProjetoModal()"
+              class="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-600/30 flex items-center gap-1.5 shrink-0"
+            >
+              <span>➕</span>
+              <span>Novo Projeto</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Balões de Disciplina -->
+        <div id="projetosDisciplinesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 pt-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Grade de Cards de Projetos -->
+      <div id="projetosCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MÓDULO 4: ABA DE FOTOS POR GRE E ESCOLA       -->
+    <!-- ============================================== -->
+    <div id="fotosModuleContainer" class="hidden flex-col gap-6 w-full">
+      
+      <!-- Barra Superior: Link da Pasta Compartilhada de Fotos -->
+      <div class="bg-brand-panel border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xl shrink-0">
+            📸
+          </div>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+              Pasta Compartilhada de Fotos
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Google Drive</span>
+            </h3>
+            <p class="text-xs text-slate-400">Fotos separadas por GRE, Escola e Ambientes (Fachadas, Laboratórios, etc.)</p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
+          <input 
+            type="url" 
+            id="fotosSharedFolderInput" 
+            placeholder="Cole o link da pasta compartilhada de Fotos do Google Drive..."
+            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+          <button 
+            onclick="saveFotosFolderUrl()"
+            class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/25 shrink-0"
+          >
+            💾 Salvar Link
+          </button>
+          <button 
+            onclick="openFotosFolderDrive()"
+            class="px-3 py-2 rounded-xl bg-brand-dark hover:bg-brand-card border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 shrink-0"
+            title="Abrir pasta geral de fotos no Google Drive"
+          >
+            <span>📂 Abrir no Drive</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- NÍVEL 1: SELETOR DE GRE COM BALÕES UNIFORMES -->
+      <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg font-black">
+              📍
+            </span>
+            <div>
+              <span class="text-[11px] uppercase font-extrabold tracking-wider text-emerald-400">
+                1º Passo: Escolha a GRE
+              </span>
+              <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
+                Gerência Regional: <span id="fotosSelectedGreLabel" class="text-xs text-amber-400 font-semibold">1ª GRE – Parnaíba</span>
+              </h2>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <input 
+              type="text" 
+              id="fotosGreSearchInput" 
+              placeholder="Pesquisar GRE..."
+              oninput="filterFotosGres(this.value)"
+              class="bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 w-48 sm:w-64"
+            />
+          </div>
+        </div>
+
+        <!-- Grade de balões de GREs para fotos -->
+        <div id="fotosGreGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-1.5 max-h-56 overflow-y-auto p-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- NÍVEL 2: ESCOLHER A ESCOLA DA GRE SELECIONADA -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-base font-bold">
+              🏫
+            </span>
+            <div>
+              <span class="text-[11px] uppercase font-extrabold tracking-wider text-blue-400">
+                2º Passo: Escolha a Escola
+              </span>
+              <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                Escolas da <span id="fotosSchoolGreScopeTitle" class="text-amber-400 font-black">1ª GRE</span>:
+                <span id="fotosSchoolActiveTitle" class="text-xs font-semibold text-emerald-400 ml-1"></span>
+              </h3>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <input 
+              type="text" 
+              id="fotosSchoolSearchInput"
+              placeholder="Filtrar escolas desta GRE..." 
+              oninput="filterFotosSchools(this.value)"
+              class="w-full sm:w-64 bg-brand-dark border border-brand-cardBorder focus:border-blue-400 rounded-xl px-3 py-1.5 text-xs text-white placeholder-slate-400 outline-none"
+            />
+            <button 
+              onclick="openAddEscolaModal()"
+              class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
+              title="Adicionar outra escola nesta GRE"
+            >
+              ➕ Nova Escola
+            </button>
+          </div>
+        </div>
+
+        <!-- Grade de balões das escolas -->
+        <div id="fotosSchoolsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 max-h-72 overflow-y-auto p-1">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- NÍVEL 3 & 4: CAIXA ESPECÍFICA DA ESCOLA COM BALÕEZINHOS DAS SUBPASTAS (FACHADAS, LABORATÓRIOS, ETC.) E AS FOTOS -->
+      <div id="fotosSchoolDetailsContainer" class="bg-gradient-to-b from-brand-panel to-brand-dark border-2 border-emerald-500/40 rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col gap-5">
+        
+        <!-- Cabeçalho da Escola Selecionada -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-brand-cardBorder">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+              <span id="fotosSchoolBreadcrumbGre" class="text-emerald-400 font-bold">1ª GRE – Parnaíba</span>
+              <span>›</span>
+              <span id="fotosSchoolBreadcrumbCity" class="text-slate-300">Batalha</span>
+            </div>
+            <h2 id="fotosSelectedSchoolName" class="text-base sm:text-xl font-extrabold text-white mt-1">
+              CETI MARIA MELO
+            </h2>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button 
+              id="openSchoolDriveFolderBtn"
+              onclick="openCurrentSchoolDriveFolder()"
+              class="px-3.5 py-1.5 rounded-xl bg-brand-card hover:bg-slate-800 border border-brand-cardBorder text-xs font-bold text-emerald-400 hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>📂</span> Abrir Pasta desta Escola no Drive
+            </button>
+            <button 
+              onclick="openAddFotoModal()"
+              class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/30 flex items-center gap-1.5"
+            >
+              <span>➕</span> Adicionar Foto
+            </button>
+          </div>
+        </div>
+
+        <!-- NÍVEL 3: BALÕEZINHOS DAS SUBPASTAS (FACHADAS, LABORATÓRIOS, SALAS, ETC.) -->
+        <div class="flex flex-col gap-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs uppercase font-extrabold text-slate-300 flex items-center gap-1.5">
+              <span>🗂️</span> Pastas / Ambientes desta Escola (Clique no balãozinho):
+            </span>
+            <span id="fotosActiveFolderCountBadge" class="text-xs text-emerald-400 font-semibold">
+              Mostrando Fachadas (0 fotos)
+            </span>
+          </div>
+
+          <!-- Grade de balõezinhos de subpastas/categorias -->
+          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+        <!-- NÍVEL 4: GRADE DE FOTOS DA PASTA SELECIONADA -->
+        <div class="flex flex-col gap-3 pt-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span id="fotosCurrentFolderIcon">🏛️</span>
+              Fotos de: <span id="fotosCurrentFolderTitle" class="text-emerald-400">Fachadas</span>
+            </h4>
+            <span id="fotosGalleryStatus" class="text-xs text-slate-400">Clique na foto para ampliar em tela cheia</span>
+          </div>
+
+          <!-- Grid de Fotos -->
+          <div id="fotosGalleryGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <!-- Injected via JS -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 
   <!-- ============================================================== -->
@@ -477,6 +820,42 @@
         />
       </div>
 
+      <!-- Campo Aba 3: Pasta de Projetos -->
+      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-purple-500/30 p-3.5 rounded-xl">
+        <label class="text-xs font-bold text-purple-300 uppercase tracking-wide flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>📐</span> Link da Pasta de Projetos (Google Drive)
+          </span>
+          <a id="modalOpenProjetosTab" href="#" target="_blank" class="hidden text-[10px] text-purple-400 underline">
+            Abrir pasta no Drive ↗
+          </a>
+        </label>
+        <input 
+          type="url" 
+          id="sheetUrlProjetosInput" 
+          placeholder="Ex: https://drive.google.com/drive/folders/... (link da pasta compartilhada)"
+          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+        />
+      </div>
+
+      <!-- Campo Aba 4: Pasta de Fotos -->
+      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-emerald-500/30 p-3.5 rounded-xl">
+        <label class="text-xs font-bold text-emerald-300 uppercase tracking-wide flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>📸</span> Link da Pasta de Fotos (Google Drive)
+          </span>
+          <a id="modalOpenFotosTab" href="#" target="_blank" class="hidden text-[10px] text-emerald-400 underline">
+            Abrir pasta no Drive ↗
+          </a>
+        </label>
+        <input 
+          type="url" 
+          id="sheetUrlFotosInput" 
+          placeholder="Ex: https://drive.google.com/drive/folders/... (link da pasta compartilhada)"
+          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+        />
+      </div>
+
       <!-- Configurações de Auto-Sincronização -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3">
@@ -559,6 +938,286 @@
         </button>
         <button onclick="confirmReset()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white transition-colors shadow-md shadow-rose-900/30">
           Sim, restaurar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: VISUALIZADOR DE FOTOS (LIGHTBOX FULLSCREEN)            -->
+  <!-- ============================================================== -->
+  <div id="photoLightboxModal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 select-none">
+    <div class="relative w-full max-w-5xl h-full max-h-[92vh] flex flex-col justify-between items-center">
+      
+      <!-- Top Bar -->
+      <div class="w-full flex items-center justify-between gap-3 text-white bg-black/40 backdrop-blur-md p-3 rounded-2xl border border-white/10">
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-2 text-xs text-emerald-400 font-semibold truncate">
+            <span id="lightboxCategoryBadge">Fachadas</span>
+            <span>•</span>
+            <span id="lightboxGreBadge" class="text-slate-300">1ª GRE – Parnaíba</span>
+          </div>
+          <h3 id="lightboxSchoolName" class="text-sm sm:text-base font-extrabold text-white truncate">
+            CETI MARIA MELO
+          </h3>
+          <p id="lightboxPhotoCaption" class="text-xs text-slate-300 truncate mt-0.5">Legenda da Foto</p>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <a 
+            id="lightboxDownloadBtn" 
+            href="#" 
+            download="foto_escola.jpg"
+            target="_blank" 
+            class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            title="Baixar imagem"
+          >
+            <span>⬇️</span> Baixar
+          </a>
+          <button 
+            onclick="closePhotoLightbox()" 
+            class="w-8 h-8 rounded-xl bg-white/10 hover:bg-rose-600/80 text-white flex items-center justify-center text-sm font-bold transition-colors"
+            title="Fechar (Esc)"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Image View -->
+      <div class="relative flex-1 w-full flex items-center justify-center my-3 overflow-hidden">
+        <button 
+          onclick="prevLightboxPhoto()" 
+          class="absolute left-2 sm:left-4 z-10 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-white text-xl flex items-center justify-center transition-all shadow-lg active:scale-95"
+          title="Foto anterior (Seta esquerda)"
+        >
+          ‹
+        </button>
+
+        <img 
+          id="lightboxImageElement" 
+          src="" 
+          alt="Foto da Escola" 
+          class="max-h-[72vh] max-w-full object-contain rounded-2xl shadow-2xl transition-transform duration-200"
+        />
+
+        <button 
+          onclick="nextLightboxPhoto()" 
+          class="absolute right-2 sm:right-4 z-10 w-11 h-11 rounded-full bg-black/60 hover:bg-black/90 border border-white/20 text-white text-xl flex items-center justify-center transition-all shadow-lg active:scale-95"
+          title="Próxima foto (Seta direita)"
+        >
+          ›
+        </button>
+      </div>
+
+      <!-- Bottom Info -->
+      <div class="w-full flex items-center justify-between text-xs text-slate-400 bg-black/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+        <span id="lightboxIndexIndicator">Foto 1 de 1</span>
+        <span id="lightboxDateIndicator">📅 15/10/2026</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: ADICIONAR FOTO                                         -->
+  <!-- ============================================================== -->
+  <div id="addFotoModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-brand-cardBorder pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg font-bold border border-emerald-500/30">
+            📸
+          </span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white">Adicionar Foto</h3>
+            <p id="addFotoSchoolSubtitle" class="text-xs text-slate-400">CETI MARIA MELO</p>
+          </div>
+        </div>
+        <button onclick="closeAddFotoModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <!-- Subpasta / Categoria -->
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Pasta / Ambiente:</label>
+          <select id="addFotoCategorySelect" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-emerald-400">
+            <option value="Fachadas">🏛️ Fachadas</option>
+            <option value="Laboratórios">🔬 Laboratórios</option>
+            <option value="Salas de Aula">📚 Salas de Aula</option>
+            <option value="Quadra Poliesportiva">🏀 Quadra Poliesportiva</option>
+            <option value="Refeitório">🍽️ Refeitório / Cantina</option>
+            <option value="Banheiros">🚻 Banheiros / Vestiários</option>
+            <option value="Obras e Estrutura">🏗️ Obras e Estrutura</option>
+            <option value="Área Externa">🌿 Área Externa / Pátio</option>
+          </select>
+        </div>
+
+        <!-- Título / Legenda -->
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Legenda / Descrição:</label>
+          <input 
+            type="text" 
+            id="addFotoCaptionInput" 
+            placeholder="Ex: Fachada frontal revitalizada com pintura nova" 
+            class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-emerald-400"
+          />
+        </div>
+
+        <!-- Opção 1: Arquivo Local -->
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">1. Carregar Arquivo do Computador:</label>
+          <input 
+            type="file" 
+            id="addFotoFileInput" 
+            accept="image/*"
+            class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-1.5 text-slate-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500"
+          />
+        </div>
+
+        <!-- Opção 2: Link / URL / Google Drive -->
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">2. Ou Cole Link Direto / Google Drive:</label>
+          <input 
+            type="url" 
+            id="addFotoUrlInput" 
+            placeholder="https://... (link da imagem ou drive)" 
+            class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-emerald-400"
+          />
+        </div>
+
+        <!-- Data da Foto -->
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Data do Registro:</label>
+          <input 
+            type="text" 
+            id="addFotoDateInput" 
+            placeholder="DD/MM/AAAA" 
+            class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-emerald-400"
+          />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-brand-cardBorder">
+        <button onclick="closeAddFotoModal()" class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white">
+          Cancelar
+        </button>
+        <button onclick="saveNewFoto()" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30">
+          Salvar Foto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: ADICIONAR PROJETO                                      -->
+  <!-- ============================================================== -->
+  <div id="addProjetoModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-brand-cardBorder pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg font-bold border border-purple-500/30">
+            📐
+          </span>
+          <div>
+            <h3 class="text-sm sm:text-base font-bold text-white">Cadastrar / Vincular Projeto</h3>
+            <p class="text-xs text-slate-400">Insira os dados do projeto de engenharia ou arquitetura</p>
+          </div>
+        </div>
+        <button onclick="closeAddProjetoModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">GRE:</label>
+          <select id="addProjGreSelect" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400">
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Município:</label>
+          <input type="text" id="addProjCityInput" placeholder="Ex: Parnaíba, Teresina, Oeiras" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400" />
+        </div>
+
+        <div class="sm:col-span-2 flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Nome da Escola:</label>
+          <input type="text" id="addProjSchoolInput" placeholder="Ex: CETI MARIA MELO" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400" />
+        </div>
+
+        <div class="sm:col-span-2 flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Título do Projeto:</label>
+          <input type="text" id="addProjTitleInput" placeholder="Ex: Projeto Arquitetônico de Reforma e Ampliação" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400" />
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Disciplina:</label>
+          <select id="addProjDisciplineSelect" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400">
+            <option value="Arquitetura">📐 Arquitetura</option>
+            <option value="Estrutural">🧱 Estrutural</option>
+            <option value="Elétrico">⚡ Elétrico</option>
+            <option value="Hidrossanitário">💧 Hidrossanitário</option>
+            <option value="Incêndio">🧯 Incêndio / SPDA</option>
+            <option value="Orçamento">📋 Orçamento / Planilhas</option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Status do Projeto:</label>
+          <select id="addProjStatusSelect" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400">
+            <option value="Aprovado">✅ Projeto Aprovado</option>
+            <option value="Executivo">🏗️ Projeto Executivo</option>
+            <option value="Em Análise">🔍 Em Análise Técnica</option>
+            <option value="Em Revisão">📝 Em Revisão</option>
+          </select>
+        </div>
+
+        <div class="sm:col-span-2 flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Link do Arquivo / Pasta no Google Drive:</label>
+          <input type="url" id="addProjUrlInput" placeholder="https://drive.google.com/..." class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-purple-400" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-brand-cardBorder">
+        <button onclick="closeAddProjetoModal()" class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white">
+          Cancelar
+        </button>
+        <button onclick="saveNewProjeto()" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white shadow-md shadow-purple-900/30">
+          Salvar Projeto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- MODAL: ADICIONAR ESCOLA MANUALMENTE NA GRE                    -->
+  <!-- ============================================================== -->
+  <div id="addEscolaModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-sm w-full p-5 shadow-2xl flex flex-col gap-4">
+      <div class="flex items-center justify-between border-b border-brand-cardBorder pb-2">
+        <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+          <span>🏫</span> Nova Escola na GRE
+        </h3>
+        <button onclick="closeAddEscolaModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <div class="flex flex-col gap-3 text-xs">
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Nome da Escola:</label>
+          <input type="text" id="newSchoolNameInput" placeholder="Ex: C.E.T.I. DOMINGOS MOURÃO" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-blue-400" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="font-bold text-slate-300">Município:</label>
+          <input type="text" id="newSchoolCityInput" placeholder="Ex: Teresina, Parnaíba" class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl p-2 text-white outline-none focus:border-blue-400" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2 border-t border-brand-cardBorder">
+        <button onclick="closeAddEscolaModal()" class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white">
+          Cancelar
+        </button>
+        <button onclick="saveNewSchoolToGre()" class="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-bold text-white shadow-md">
+          Adicionar
         </button>
       </div>
     </div>
@@ -896,6 +1555,240 @@
     ];
 
     // =========================================================================
+    // DATASET INICIAL DE PROJETOS DE ENGENHARIA & ARQUITETURA
+    // =========================================================================
+    const INITIAL_PROJETOS_DATA = [
+      {
+        id: "proj-1",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        titulo: "Projeto Arquitetônico de Reforma e Ampliação Geral",
+        disciplina: "Arquitetura",
+        status: "Aprovado",
+        versao: "R02",
+        data: "14/08/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-2",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        titulo: "Projeto Estrutural da Cobertura da Quadra Poliesportiva",
+        disciplina: "Estrutural",
+        status: "Executivo",
+        versao: "R01",
+        data: "20/08/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-3",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        titulo: "Projeto Elétrico de Climatização e Subestação 150kVA",
+        disciplina: "Elétrico",
+        status: "Aprovado",
+        versao: "R03",
+        data: "02/09/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-4",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        titulo: "Projeto de Combate a Incêndio, Pânico e SPDA",
+        disciplina: "Incêndio",
+        status: "Aprovado",
+        versao: "R02",
+        data: "10/09/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-5",
+        greKey: "4ª GRE",
+        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        municipio: "TERESINA",
+        titulo: "Projeto Hidrossanitário e Drenagem Pluvial do Galpão",
+        disciplina: "Hidrossanitário",
+        status: "Executivo",
+        versao: "R01",
+        data: "28/08/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-6",
+        greKey: "4ª GRE",
+        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        municipio: "TERESINA",
+        titulo: "Orçamento Discriminado, Cronograma e Memorial Descritivo",
+        disciplina: "Orçamento",
+        status: "Aprovado",
+        versao: "R04",
+        data: "12/09/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-7",
+        greKey: "8ª GRE",
+        escola: "CETI ORLANDO CARVALHO",
+        municipio: "OEIRAS",
+        titulo: "Projeto Arquitetônico dos Novos Laboratórios de Ciências",
+        disciplina: "Arquitetura",
+        status: "Em Análise",
+        versao: "R01",
+        data: "18/09/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-8",
+        greKey: "15ª GRE",
+        escola: "PACTUE: REFORMA GERAL U.E. GILBUÉS",
+        municipio: "GILBUÉS",
+        titulo: "Projeto Elétrico de Reforma e Força Motriz",
+        disciplina: "Elétrico",
+        status: "Em Revisão",
+        versao: "R01",
+        data: "05/10/2026",
+        url: "https://drive.google.com/"
+      }
+    ];
+
+    // =========================================================================
+    // CATEGORIAS / SUBPASTAS PADRÃO DE FOTOS (BALÕEZINHOS)
+    // =========================================================================
+    const FOTOS_DEFAULT_CATEGORIES = [
+      { key: "Fachadas", icon: "🏛️", color: "blue", label: "Fachadas", subtitle: "Acessos & Fachada", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
+      { key: "Laboratórios", icon: "🔬", color: "emerald", label: "Laboratórios", subtitle: "Ciências & Robótica", badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
+      { key: "Salas de Aula", icon: "📚", color: "amber", label: "Salas de Aula", subtitle: "Blocos Pedagógicos", badge: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
+      { key: "Quadra Poliesportiva", icon: "🏀", color: "orange", label: "Quadra Poliesportiva", subtitle: "Cobertura & Piso", badge: "bg-orange-500/20 text-orange-300 border-orange-500/30" },
+      { key: "Refeitório", icon: "🍽️", color: "purple", label: "Refeitório / Cozinha", subtitle: "Alimentação & Copa", badge: "bg-purple-500/20 text-purple-300 border-purple-500/30" },
+      { key: "Banheiros", icon: "🚻", color: "cyan", label: "Banheiros / PCD", subtitle: "Sanitários & Metais", badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30" },
+      { key: "Obras e Estrutura", icon: "🏗️", color: "rose", label: "Obras e Estrutura", subtitle: "Fundações & Cobertura", badge: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
+      { key: "Área Externa", icon: "🌿", color: "lime", label: "Área Externa / Pátio", subtitle: "Pátio & Urbanização", badge: "bg-lime-500/20 text-lime-300 border-lime-500/30" }
+    ];
+
+    // =========================================================================
+    // DATASET INICIAL DE FOTOS ORGANIZADAS POR GRE, ESCOLA E SUBPASTAS
+    // =========================================================================
+    const INITIAL_FOTOS_DATA = [
+      // CETI MARIA MELO - 1ª GRE
+      {
+        id: "foto-1",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Fachada Principal Revitalizada",
+        data: "10/10/2026",
+        descricao: "Pórtico de entrada principal da escola com nova pintura institucional SEDUC-PI."
+      },
+      {
+        id: "foto-2",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1541829070764-84a7d30dd3f3?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Fachada Lateral e Acesso dos Alunos",
+        data: "12/10/2026",
+        descricao: "Muro perimetral, gradil de proteção e portão de acesso seguro."
+      },
+      {
+        id: "foto-3",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Laboratórios",
+        url: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Laboratório de Ciências e Biologia",
+        data: "14/10/2026",
+        descricao: "Bancadas em granito, cubas de lavagem, microscópios e tubulação instalada."
+      },
+      {
+        id: "foto-4",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Laboratórios",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Laboratório de Informática e Robótica",
+        data: "15/10/2026",
+        descricao: "Estações de trabalho, rede de internet fibra óptica e climatização em funcionamento."
+      },
+      {
+        id: "foto-5",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Salas de Aula",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Sala de Aula Climatizada - Bloco A",
+        data: "12/10/2026",
+        descricao: "Carteiras novas confortáveis, quadro branco e forro termoacústico."
+      },
+      {
+        id: "foto-6",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Quadra Poliesportiva",
+        url: "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Quadra Poliesportiva Coberta e Iluminada",
+        data: "15/10/2026",
+        descricao: "Piso industrial polido com demarcações oficiais para futsal, basquete e vôlei."
+      },
+      {
+        id: "foto-7",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Refeitório",
+        url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Refeitório e Cozinha Padrão SEDUC",
+        data: "11/10/2026",
+        descricao: "Espaço amplo com mesas coletivas, despensa azulejada e coifa de exaustão."
+      },
+      {
+        id: "foto-8",
+        greKey: "1ª GRE",
+        escola: "CETI MARIA MELO",
+        municipio: "BATALHA",
+        pasta: "Banheiros",
+        url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Sanitários e Acessibilidade PCD",
+        data: "13/10/2026",
+        descricao: "Divisórias em granilite, torneiras automáticas e barras de acessibilidade NBR 9050."
+      },
+      // ALMOXARIFADO SEDUC - 4ª GRE
+      {
+        id: "foto-9",
+        greKey: "4ª GRE",
+        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        municipio: "TERESINA",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Fachada do Almoxarifado Central",
+        data: "01/10/2026",
+        descricao: "Placas de identificação e guarita de triagem de caminhões."
+      },
+      {
+        id: "foto-10",
+        greKey: "4ª GRE",
+        escola: "ALMOXARIFADO SECRETARIA ESTADUAL DE EDUCAÇÃO",
+        municipio: "TERESINA",
+        pasta: "Obras e Estrutura",
+        url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Montagem da Cobertura Metálica",
+        data: "05/10/2026",
+        descricao: "Içamento das tesouras metálicas do vão de armazenagem."
+      }
+    ];
+
+    // =========================================================================
     // CHAVES DE ARMAZENAMENTO PERMANENTES & IMUTÁVEIS (NUNCA SÃO RESETADAS)
     // =========================================================================
     const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
@@ -906,6 +1799,11 @@
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
+
+    const STORAGE_KEY_PROJETOS_FOLDER = 'seduc_projetos_folder_url';
+    const STORAGE_KEY_FOTOS_FOLDER = 'seduc_fotos_folder_url';
+    const STORAGE_KEY_PROJETOS_DATA = 'seduc_projetos_items_data';
+    const STORAGE_KEY_FOTOS_DATA = 'seduc_fotos_items_data';
 
     function applyMainSheetUrlToBothTabs() {
       const inputMain = document.getElementById('sheetUrlMainInput');
@@ -927,11 +1825,25 @@
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
+    let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, INITIAL_PROJETOS_DATA);
+    let fotosData = loadStoredData(STORAGE_KEY_FOTOS_DATA, INITIAL_FOTOS_DATA);
 
-    let activeFilter = 'TODAS'; // GRE selecionada
+    let activeFilter = 'TODAS'; // GRE selecionada em Obras
     let activeStatusFilter = 'TODOS'; // Status da obra selecionado
     let searchQuery = '';
     let autoSyncTimer = null;
+
+    // Estado do Módulo de Projetos
+    let projetosActiveGre = 'TODAS';
+    let projetosActiveDiscipline = 'TODAS';
+    let projetosSearchQuery = '';
+
+    // Estado do Módulo de Fotos
+    let fotosActiveGre = '1ª GRE';
+    let fotosActiveSchool = 'CETI MARIA MELO';
+    let fotosActiveCategory = 'Fachadas';
+    let currentLightboxPhotos = [];
+    let currentLightboxIndex = 0;
 
     function getActiveDataset() {
       return (currentModule === 'CONTRATOS') ? contractsData : pactueData;
@@ -1001,7 +1913,7 @@
     }
 
     // =========================================================================
-    // ALTERNÂNCIA DE MÓDULO (CONTRATOS vs PACTUE)
+    // ALTERNÂNCIA DE MÓDULO (CONTRATOS vs PACTUE vs PROJETOS vs FOTOS)
     // =========================================================================
     function switchModule(moduleName) {
       currentModule = moduleName;
@@ -1009,48 +1921,1069 @@
 
       const btnContracts = document.getElementById('moduleBtnContracts');
       const btnPactue = document.getElementById('moduleBtnPactue');
+      const btnProjetos = document.getElementById('moduleBtnProjetos');
+      const btnFotos = document.getElementById('moduleBtnFotos');
+
+      const worksContainer = document.getElementById('worksModuleContainer');
+      const projetosContainer = document.getElementById('projetosModuleContainer');
+      const fotosContainer = document.getElementById('fotosModuleContainer');
+
       const activeTabName = document.getElementById('activeTabNameDisplay');
+      const activeColorDot = document.getElementById('activeTabColorDot');
+      const openExtLabel = document.getElementById('openActiveTabExternalLabel');
       const greDemandTag = document.getElementById('greDemandTag');
       const whatsappModuleScope = document.getElementById('whatsappModuleScope');
 
+      // Classes base de botões
+      const activeCt = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]';
+      const activePac = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.02]';
+      const activeProj = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25 scale-[1.02]';
+      const activeFot = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/25 scale-[1.02]';
+      const inactiveBtn = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+
+      // Reseta classes de todos
+      if (btnContracts) btnContracts.className = inactiveBtn;
+      if (btnPactue) btnPactue.className = inactiveBtn;
+      if (btnProjetos) btnProjetos.className = inactiveBtn;
+      if (btnFotos) btnFotos.className = inactiveBtn;
+
+      // Oculta todos os containers de visão
+      if (worksContainer) { worksContainer.classList.add('hidden'); worksContainer.classList.remove('grid'); }
+      if (projetosContainer) { projetosContainer.classList.add('hidden'); projetosContainer.classList.remove('flex'); }
+      if (fotosContainer) { fotosContainer.classList.add('hidden'); fotosContainer.classList.remove('flex'); }
+
       if (currentModule === 'CONTRATOS') {
-        btnContracts.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]';
-        btnPactue.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+        if (btnContracts) btnContracts.className = activeCt;
+        if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
         if (activeTabName) activeTabName.textContent = 'Aba Contratos';
+        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-blue-500';
+        if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
         if (greDemandTag) greDemandTag.textContent = '(Obras de Contratos)';
         if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS DE CONTRATOS';
-      } else {
-        btnPactue.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.02]';
-        btnContracts.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+        
+        activeStatusFilter = 'TODOS';
+        renderGreSelector();
+        renderStatusFilters();
+        renderCards();
+
+      } else if (currentModule === 'PACTUE') {
+        if (btnPactue) btnPactue.className = activePac;
+        if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
         if (activeTabName) activeTabName.textContent = 'Aba PACTUE';
+        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
         if (greDemandTag) greDemandTag.textContent = '(Obras PACTUE)';
         if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS PACTUE';
+        
+        activeStatusFilter = 'TODOS';
+        renderGreSelector();
+        renderStatusFilters();
+        renderCards();
+
+      } else if (currentModule === 'PROJETOS') {
+        if (btnProjetos) btnProjetos.className = activeProj;
+        if (projetosContainer) { projetosContainer.classList.remove('hidden'); projetosContainer.classList.add('flex'); }
+        if (activeTabName) activeTabName.textContent = 'Projetos por GRE';
+        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-purple-400';
+        if (openExtLabel) openExtLabel.textContent = '📂 Abrir Projetos no Drive';
+
+        initProjetosModule();
+
+      } else if (currentModule === 'FOTOS') {
+        if (btnFotos) btnFotos.className = activeFot;
+        if (fotosContainer) { fotosContainer.classList.remove('hidden'); fotosContainer.classList.add('flex'); }
+        if (activeTabName) activeTabName.textContent = 'Fotos por GRE e Escola';
+        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+        if (openExtLabel) openExtLabel.textContent = '📂 Abrir Fotos no Drive';
+
+        initFotosModule();
       }
 
-      // Reinicia filtro de status para ver tudo ao trocar de aba, ou mantém se aplicável
-      activeStatusFilter = 'TODOS';
-      
       updateModuleBadges();
-      renderGreSelector();
-      renderStatusFilters();
-      renderCards();
     }
 
     function updateModuleBadges() {
       const bCt = document.getElementById('contractsBadgeCount');
       const bPac = document.getElementById('pactueBadgeCount');
+      const bProj = document.getElementById('projetosBadgeCount');
+      const bFot = document.getElementById('fotosBadgeCount');
+
       if (bCt) bCt.textContent = contractsData.length;
       if (bPac) bPac.textContent = pactueData.length;
+      if (bProj) bProj.textContent = projetosData.length;
+      if (bFot) bFot.textContent = fotosData.length;
+    }
+
+    function openActiveExternalResourceDirect() {
+      if (currentModule === 'CONTRATOS') {
+        const url = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        if (url) window.open(url, '_blank'); else openSheetModal();
+      } else if (currentModule === 'PACTUE') {
+        const url = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        if (url) window.open(url, '_blank'); else openSheetModal();
+      } else if (currentModule === 'PROJETOS') {
+        openProjetosFolderDrive();
+      } else if (currentModule === 'FOTOS') {
+        openFotosFolderDrive();
+      }
     }
 
     function openActiveSheetTabDirect() {
-      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-      const url = localStorage.getItem(key);
-      if (url) {
-        window.open(url, '_blank');
+      openActiveExternalResourceDirect();
+    }
+
+    // =========================================================================
+    // MÓDULO 3: PROJETOS DE ENGENHARIA & ARQUITETURA
+    // =========================================================================
+    function saveProjetosFolderUrl() {
+      const input = document.getElementById('projetosSharedFolderInput');
+      if (!input) return;
+      const url = input.value.trim();
+      localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, url);
+      showToastNotification('✓ Link da pasta de projetos salvo com sucesso!');
+    }
+
+    function openProjetosFolderDrive() {
+      const saved = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER);
+      if (saved) {
+        window.open(saved, '_blank');
       } else {
+        const input = document.getElementById('projetosSharedFolderInput');
+        if (input && input.value.trim()) {
+          saveProjetosFolderUrl();
+          window.open(input.value.trim(), '_blank');
+        } else {
+          showToastNotification('Por favor, informe primeiro o link da pasta de projetos do Google Drive.');
+          if (input) input.focus();
+        }
+      }
+    }
+
+    function initProjetosModule() {
+      const input = document.getElementById('projetosSharedFolderInput');
+      if (input) input.value = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || '';
+      renderProjetosGreGrid();
+      renderProjetosDisciplines();
+      renderProjetosList();
+    }
+
+    function renderProjetosGreGrid() {
+      const grid = document.getElementById('projetosGreGrid');
+      if (!grid) return;
+
+      const greCounts = new Map();
+      projetosData.forEach(p => {
+        const k = normalizeGreKey(p.greKey);
+        greCounts.set(k, (greCounts.get(k) || 0) + 1);
+      });
+
+      const totalCount = projetosData.length;
+      const isAllSelected = (projetosActiveGre === 'TODAS');
+
+      let html = `
+        <button 
+          onclick="setProjetosGreFilter('TODAS')"
+          class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+            isAllSelected 
+              ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-[1.02] border-purple-400 font-extrabold ring-1 ring-purple-400' 
+              : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+          }"
+        >
+          <div class="flex flex-col min-w-0">
+            <span class="text-[11px] font-extrabold truncate leading-tight ${isAllSelected ? 'text-white' : 'text-slate-200'}">
+              TODAS AS GRES
+            </span>
+            <span class="text-[9px] truncate leading-tight mt-0.5 ${isAllSelected ? 'text-white/80' : 'text-slate-400'}">
+              Geral Piauí
+            </span>
+          </div>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? 'bg-black/25 text-white' : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'}">
+            ${totalCount}
+          </span>
+        </button>
+      `;
+
+      SEDUC_PI_GRES.forEach(g => {
+        const count = greCounts.get(g.key) || 0;
+        const isSelected = (projetosActiveGre === g.key);
+
+        html += `
+          <button 
+            onclick="setProjetosGreFilter('${g.key}')"
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+              isSelected 
+                ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-[1.02] border-purple-400 font-extrabold ring-1 ring-purple-400' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="${g.key} – ${g.polo} (${count} projetos)"
+          >
+            <div class="flex flex-col min-w-0">
+              <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-200'}">
+                ${g.key}
+              </span>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-400'}">
+                ${g.polo}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'}">
+              ${count}
+            </span>
+          </button>
+        `;
+      });
+
+      grid.innerHTML = html;
+
+      const label = document.getElementById('projetosSelectedGreLabel');
+      if (label) {
+        label.textContent = (projetosActiveGre === 'TODAS') ? 'Todas as GREs' : projetosActiveGre;
+      }
+    }
+
+    function setProjetosGreFilter(greKey) {
+      projetosActiveGre = greKey;
+      renderProjetosGreGrid();
+      renderProjetosList();
+    }
+
+    function filterProjetosGres(query) {
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('projetosGreGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
+      });
+    }
+
+    function renderProjetosDisciplines() {
+      const bar = document.getElementById('projetosDisciplinesBar');
+      if (!bar) return;
+
+      const disciplines = [
+        { key: 'TODAS', label: 'Todas as Disciplinas', icon: '🌟' },
+        { key: 'Arquitetura', label: 'Arquitetura', icon: '📐' },
+        { key: 'Estrutural', label: 'Estrutural', icon: '🧱' },
+        { key: 'Elétrico', label: 'Elétrico', icon: '⚡' },
+        { key: 'Hidrossanitário', label: 'Hidrossanitário', icon: '💧' },
+        { key: 'Incêndio', label: 'Incêndio / SPDA', icon: '🧯' },
+        { key: 'Orçamento', label: 'Orçamento / Planilhas', icon: '📋' }
+      ];
+
+      // Contagem por disciplina dentro do escopo da GRE selecionada
+      const filteredByGre = (projetosActiveGre === 'TODAS')
+        ? projetosData
+        : projetosData.filter(p => normalizeGreKey(p.greKey) === normalizeGreKey(projetosActiveGre));
+
+      const discCounts = new Map();
+      filteredByGre.forEach(p => {
+        const d = p.disciplina || 'Outros';
+        discCounts.set(d, (discCounts.get(d) || 0) + 1);
+      });
+
+      bar.innerHTML = disciplines.map(d => {
+        const count = (d.key === 'TODAS') ? filteredByGre.length : (discCounts.get(d.key) || 0);
+        const isSelected = (projetosActiveDiscipline === d.key);
+
+        return `
+          <button 
+            onclick="setProjetosDisciplineFilter('${d.key}')"
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+              isSelected 
+                ? 'bg-purple-600 text-white font-extrabold shadow-md shadow-purple-600/30 scale-[1.02] border-purple-400 ring-1 ring-purple-400' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+          >
+            <div class="flex items-center gap-1.5 min-w-0">
+              <span class="text-sm shrink-0">${d.icon}</span>
+              <span class="text-[11px] font-bold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-300'}">
+                ${d.label}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-brand-card text-purple-300 border border-brand-cardBorder'}">
+              ${count}
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setProjetosDisciplineFilter(disc) {
+      projetosActiveDiscipline = disc;
+      renderProjetosDisciplines();
+      renderProjetosList();
+    }
+
+    function handleProjetosSearch(val) {
+      projetosSearchQuery = (val || '').toLowerCase().trim();
+      renderProjetosList();
+    }
+
+    function getDisciplineBadgeClass(discipline) {
+      const d = (discipline || '').toLowerCase();
+      if (d.includes('arquit')) return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+      if (d.includes('estrut')) return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+      if (d.includes('elétr') || d.includes('eletri')) return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+      if (d.includes('hidros') || d.includes('hidro')) return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
+      if (d.includes('incênd') || d.includes('spda')) return 'bg-rose-500/20 text-rose-300 border-rose-500/30';
+      if (d.includes('orça') || d.includes('planilh')) return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+      return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+    }
+
+    function renderProjetosList() {
+      const container = document.getElementById('projetosCardsGrid');
+      const countInfo = document.getElementById('projetosCountInfo');
+      if (!container) return;
+
+      let list = projetosData.filter(p => {
+        const matchesGre = (projetosActiveGre === 'TODAS' || normalizeGreKey(p.greKey) === normalizeGreKey(projetosActiveGre));
+        const matchesDisc = (projetosActiveDiscipline === 'TODAS' || p.disciplina === projetosActiveDiscipline);
+        const matchesSearch = !projetosSearchQuery || 
+          (p.escola || '').toLowerCase().includes(projetosSearchQuery) ||
+          (p.titulo || '').toLowerCase().includes(projetosSearchQuery) ||
+          (p.municipio || '').toLowerCase().includes(projetosSearchQuery) ||
+          (p.disciplina || '').toLowerCase().includes(projetosSearchQuery);
+        return matchesGre && matchesDisc && matchesSearch;
+      });
+
+      if (countInfo) countInfo.textContent = `${list.length} projeto(s) encontrado(s)`;
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
+            <span class="text-3xl">📐</span>
+            <h4 class="text-base font-bold text-white">Nenhum projeto encontrado</h4>
+            <p class="text-xs text-slate-400 max-w-md">Não há projetos para este filtro na GRE selecionada. Você pode cadastrar um novo projeto ou vincular a pasta do Drive.</p>
+            <button onclick="openAddProjetoModal()" class="mt-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md">
+              ➕ Cadastrar Primeiro Projeto
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(p => {
+        const badgeClass = getDisciplineBadgeClass(p.disciplina);
+        const driveLink = p.url || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || 'https://drive.google.com/';
+
+        return `
+          <div class="bg-brand-panel border border-brand-cardBorder hover:border-purple-500/40 rounded-2xl p-4 shadow-lg transition-all flex flex-col justify-between gap-3 group">
+            
+            <div class="flex flex-col gap-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-brand-dark text-purple-300 border border-brand-cardBorder">
+                  ${p.greKey}
+                </span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">
+                  ${p.disciplina}
+                </span>
+              </div>
+
+              <div>
+                <h4 class="text-xs font-black text-amber-400 uppercase tracking-tight">
+                  ${p.municipio}
+                </h4>
+                <h3 class="text-sm font-extrabold text-white group-hover:text-purple-300 transition-colors">
+                  ${p.escola}
+                </h3>
+              </div>
+
+              <p class="text-xs text-slate-300 leading-snug font-medium pt-1 border-t border-brand-cardBorder/60">
+                ${p.titulo}
+              </p>
+            </div>
+
+            <div class="pt-2 border-t border-brand-cardBorder flex flex-col gap-2">
+              <div class="flex items-center justify-between text-[11px] text-slate-400">
+                <span class="flex items-center gap-1">
+                  <span>Status:</span>
+                  <strong class="text-emerald-400">${p.status || 'Aprovado'}</strong>
+                </span>
+                <span>📅 ${p.data || '2026'} ${p.versao ? '(' + p.versao + ')' : ''}</span>
+              </div>
+
+              <div class="flex items-center gap-2 pt-1">
+                <a 
+                  href="${driveLink}" 
+                  target="_blank"
+                  class="flex-1 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white border border-purple-500/30 text-xs font-bold text-center transition-all flex items-center justify-center gap-1.5"
+                >
+                  <span>📄 Abrir no Drive</span>
+                </a>
+                <button 
+                  onclick="deleteProjeto('${p.id}')"
+                  class="p-1.5 rounded-xl bg-brand-dark hover:bg-rose-950/60 border border-brand-cardBorder hover:border-rose-500/40 text-slate-400 hover:text-rose-400 text-xs transition-colors"
+                  title="Excluir registro"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAddProjetoModal() {
+      const modal = document.getElementById('addProjetoModal');
+      const select = document.getElementById('addProjGreSelect');
+      if (select) {
+        select.innerHTML = SEDUC_PI_GRES.map(g => `<option value="${g.key}" ${g.key === projetosActiveGre ? 'selected' : ''}>${g.name}</option>`).join('');
+      }
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeAddProjetoModal() {
+      const modal = document.getElementById('addProjetoModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function saveNewProjeto() {
+      const gre = document.getElementById('addProjGreSelect').value;
+      const city = document.getElementById('addProjCityInput').value.trim().toUpperCase() || 'MUNICÍPIO';
+      const school = document.getElementById('addProjSchoolInput').value.trim().toUpperCase();
+      const title = document.getElementById('addProjTitleInput').value.trim();
+      const disc = document.getElementById('addProjDisciplineSelect').value;
+      const status = document.getElementById('addProjStatusSelect').value;
+      const url = document.getElementById('addProjUrlInput').value.trim();
+
+      if (!school || !title) {
+        showToastNotification('Por favor, informe a escola e o título do projeto.');
+        return;
+      }
+
+      const now = new Date();
+      const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+
+      const newProj = {
+        id: `proj-${Date.now()}`,
+        greKey: gre,
+        escola: school,
+        municipio: city,
+        titulo: title,
+        disciplina: disc,
+        status: status,
+        versao: 'R01',
+        data: dma,
+        url: url || 'https://drive.google.com/'
+      };
+
+      projetosData.unshift(newProj);
+      saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+      closeAddProjetoModal();
+      updateModuleBadges();
+      renderProjetosDisciplines();
+      renderProjetosList();
+      showToastNotification('✓ Projeto cadastrado com sucesso!');
+    }
+
+    function deleteProjeto(id) {
+      if (!confirm('Deseja realmente remover este projeto?')) return;
+      projetosData = projetosData.filter(p => p.id !== id);
+      saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+      updateModuleBadges();
+      renderProjetosDisciplines();
+      renderProjetosList();
+      showToastNotification('Projeto removido.');
+    }
+
+    // =========================================================================
+    // MÓDULO 4: FOTOS POR GRE, ESCOLA E SUBPASTAS (FACHADAS, LABORATÓRIOS, ETC.)
+    // =========================================================================
+    function saveFotosFolderUrl() {
+      const input = document.getElementById('fotosSharedFolderInput');
+      if (!input) return;
+      const url = input.value.trim();
+      localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, url);
+      showToastNotification('✓ Link da pasta de fotos salvo com sucesso!');
+    }
+
+    function openFotosFolderDrive() {
+      const saved = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
+      if (saved) {
+        window.open(saved, '_blank');
+      } else {
+        const input = document.getElementById('fotosSharedFolderInput');
+        if (input && input.value.trim()) {
+          saveFotosFolderUrl();
+          window.open(input.value.trim(), '_blank');
+        } else {
+          showToastNotification('Por favor, informe primeiro o link da pasta de fotos do Google Drive.');
+          if (input) input.focus();
+        }
+      }
+    }
+
+    function openCurrentSchoolDriveFolder() {
+      const general = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
+      if (general) {
+        window.open(general, '_blank');
+      } else {
+        showToastNotification('Configure o link da pasta geral de Fotos para abrir diretamente.');
         openSheetModal();
       }
+    }
+
+    function initFotosModule() {
+      const input = document.getElementById('fotosSharedFolderInput');
+      if (input) input.value = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || '';
+
+      if (!fotosActiveGre) fotosActiveGre = '1ª GRE';
+      renderFotosGreGrid();
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
+    }
+
+    function renderFotosGreGrid() {
+      const grid = document.getElementById('fotosGreGrid');
+      if (!grid) return;
+
+      const grePhotoCounts = new Map();
+      fotosData.forEach(f => {
+        const k = normalizeGreKey(f.greKey);
+        grePhotoCounts.set(k, (grePhotoCounts.get(k) || 0) + 1);
+      });
+
+      grid.innerHTML = SEDUC_PI_GRES.map(g => {
+        const count = grePhotoCounts.get(g.key) || 0;
+        const isSelected = (fotosActiveGre === g.key);
+
+        return `
+          <button 
+            onclick="setFotosGreFilter('${g.key}')"
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[46px] ${
+              isSelected 
+                ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-[1.02] border-emerald-400 font-extrabold ring-1 ring-emerald-400' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="${g.key} – ${g.polo} (${count} fotos)"
+          >
+            <div class="flex flex-col min-w-0">
+              <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-200'}">
+                ${g.key}
+              </span>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-400'}">
+                ${g.polo}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+              ${count}
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      const label = document.getElementById('fotosSelectedGreLabel');
+      if (label) {
+        const poloObj = SEDUC_PI_GRES.find(x => x.key === fotosActiveGre);
+        label.textContent = poloObj ? `${poloObj.name}` : fotosActiveGre;
+      }
+      const scopeLabel = document.getElementById('fotosSchoolGreScopeTitle');
+      if (scopeLabel) scopeLabel.textContent = fotosActiveGre;
+    }
+
+    function setFotosGreFilter(greKey) {
+      fotosActiveGre = greKey;
+      renderFotosGreGrid();
+      
+      // Ao mudar de GRE, seleciona a primeira escola disponível
+      const schools = getSchoolsForGre(greKey);
+      if (schools.length > 0) {
+        fotosActiveSchool = schools[0].nome;
+      } else {
+        fotosActiveSchool = '';
+      }
+      
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
+    }
+
+    function filterFotosGres(query) {
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('fotosGreGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
+      });
+    }
+
+    function getSchoolsForGre(greKey) {
+      const map = new Map();
+      const normGre = normalizeGreKey(greKey);
+
+      // 1. Extrai das obras (Contratos e PACTUE)
+      [...contractsData, ...pactueData].forEach(w => {
+        if (normalizeGreKey(w.greKey) === normGre || normalizeGreKey(w.gre) === normGre) {
+          const name = (w.escola || '').trim().toUpperCase();
+          if (name && !map.has(name)) {
+            map.set(name, {
+              nome: name,
+              municipio: (w.municipio || 'MUNICÍPIO').toUpperCase(),
+              greKey: greKey
+            });
+          }
+        }
+      });
+
+      // 2. Extrai do acervo de fotos cadastradas
+      fotosData.forEach(f => {
+        if (normalizeGreKey(f.greKey) === normGre && f.escola) {
+          const name = f.escola.trim().toUpperCase();
+          if (!map.has(name)) {
+            map.set(name, {
+              nome: name,
+              municipio: (f.municipio || 'MUNICÍPIO').toUpperCase(),
+              greKey: greKey
+            });
+          }
+        }
+      });
+
+      return Array.from(map.values());
+    }
+
+    function getSchoolPhotosCount(greKey, schoolName, category) {
+      const normGre = normalizeGreKey(greKey);
+      const normSchool = (schoolName || '').trim().toUpperCase();
+      return fotosData.filter(f => {
+        const matchG = normalizeGreKey(f.greKey) === normGre;
+        const matchS = (f.escola || '').trim().toUpperCase() === normSchool;
+        const matchC = !category || f.pasta === category;
+        return matchG && matchS && matchC;
+      }).length;
+    }
+
+    function renderFotosSchools() {
+      const grid = document.getElementById('fotosSchoolsGrid');
+      if (!grid) return;
+
+      const schools = getSchoolsForGre(fotosActiveGre);
+
+      if (schools.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-brand-dark/60 border border-brand-cardBorder rounded-xl p-6 text-center text-xs text-slate-400">
+            Nenhuma escola cadastrada nesta GRE ainda. Clique em "➕ Nova Escola" para adicionar.
+          </div>
+        `;
+        return;
+      }
+
+      // Se a escola ativa atual não pertence a essa lista, define a primeira
+      if (!schools.some(s => s.nome === fotosActiveSchool)) {
+        fotosActiveSchool = schools[0].nome;
+      }
+
+      grid.innerHTML = schools.map(s => {
+        const count = getSchoolPhotosCount(fotosActiveGre, s.nome);
+        const isSelected = (fotosActiveSchool === s.nome);
+
+        return `
+          <button 
+            onclick="setFotosActiveSchool('${s.nome.replace(/'/g, "\\'")}')"
+            class="p-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 ${
+              isSelected 
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 border-blue-400 ring-2 ring-blue-400 scale-[1.01]' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="${s.nome} – ${s.municipio} (${count} fotos)"
+          >
+            <div class="flex flex-col min-w-0">
+              <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-100'}">
+                ${s.nome}
+              </span>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-400'}">
+                📍 ${s.municipio}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isSelected ? 'bg-black/25 text-white' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+              ${count} fotos
+            </span>
+          </button>
+        `;
+      }).join('');
+
+      const activeLabel = document.getElementById('fotosSchoolActiveTitle');
+      if (activeLabel) activeLabel.textContent = `• Selecionada: ${fotosActiveSchool}`;
+    }
+
+    function setFotosActiveSchool(schoolName) {
+      fotosActiveSchool = schoolName;
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
+    }
+
+    function filterFotosSchools(query) {
+      const q = (query || '').toLowerCase().trim();
+      const grid = document.getElementById('fotosSchoolsGrid');
+      if (!grid) return;
+      const btns = grid.querySelectorAll('button');
+      btns.forEach(b => {
+        const t = b.textContent.toLowerCase();
+        if (t.includes(q)) b.classList.remove('hidden'); else b.classList.add('hidden');
+      });
+    }
+
+    function renderFotosCategories() {
+      const bar = document.getElementById('fotosCategoriesBar');
+      if (!bar) return;
+
+      const schoolNameTitle = document.getElementById('fotosSelectedSchoolName');
+      const breadcrumbGre = document.getElementById('fotosSchoolBreadcrumbGre');
+      const breadcrumbCity = document.getElementById('fotosSchoolBreadcrumbCity');
+
+      if (schoolNameTitle) schoolNameTitle.textContent = fotosActiveSchool || 'NENHUMA ESCOLA SELECIONADA';
+      if (breadcrumbGre) breadcrumbGre.textContent = fotosActiveGre;
+
+      // Acha município da escola
+      const schools = getSchoolsForGre(fotosActiveGre);
+      const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+      if (breadcrumbCity) breadcrumbCity.textContent = currSchool ? currSchool.municipio : '';
+
+      bar.innerHTML = FOTOS_DEFAULT_CATEGORIES.map(cat => {
+        const count = getSchoolPhotosCount(fotosActiveGre, fotosActiveSchool, cat.key);
+        const isSelected = (fotosActiveCategory === cat.key);
+
+        let activeTheme = 'bg-emerald-600 text-white border-emerald-400 shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400 font-extrabold';
+        if (cat.color === 'blue') activeTheme = 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-600/30 ring-2 ring-blue-400 font-extrabold';
+        if (cat.color === 'amber') activeTheme = 'bg-amber-500 text-brand-dark border-amber-300 shadow-md shadow-amber-500/30 ring-2 ring-amber-300 font-extrabold';
+        if (cat.color === 'orange') activeTheme = 'bg-orange-600 text-white border-orange-400 shadow-md shadow-orange-600/30 ring-2 ring-orange-400 font-extrabold';
+        if (cat.color === 'purple') activeTheme = 'bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-600/30 ring-2 ring-purple-400 font-extrabold';
+        if (cat.color === 'cyan') activeTheme = 'bg-cyan-600 text-white border-cyan-400 shadow-md shadow-cyan-600/30 ring-2 ring-cyan-400 font-extrabold';
+        if (cat.color === 'rose') activeTheme = 'bg-rose-600 text-white border-rose-400 shadow-md shadow-rose-600/30 ring-2 ring-rose-400 font-extrabold';
+        if (cat.color === 'lime') activeTheme = 'bg-lime-600 text-white border-lime-400 shadow-md shadow-lime-600/30 ring-2 ring-lime-400 font-extrabold';
+
+        return `
+          <button 
+            onclick="setFotosCategory('${cat.key}')"
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[48px] ${
+              isSelected 
+                ? activeTheme + ' scale-[1.02]' 
+                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+            }"
+            title="${cat.label} (${count} fotos)"
+          >
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-sm shrink-0">${cat.icon}</span>
+                <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-inherit font-black' : 'text-white'}">
+                  ${cat.label}
+                </span>
+              </div>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'opacity-90 font-bold' : 'text-slate-400 font-medium'}">
+                ${cat.subtitle}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+              isSelected ? 'bg-black/25 text-inherit font-black' : cat.badge
+            }">
+              ${count}
+            </span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setFotosCategory(catKey) {
+      fotosActiveCategory = catKey;
+      renderFotosCategories();
+      renderFotosGallery();
+    }
+
+    function renderFotosGallery() {
+      const grid = document.getElementById('fotosGalleryGrid');
+      const folderIcon = document.getElementById('fotosCurrentFolderIcon');
+      const folderTitle = document.getElementById('fotosCurrentFolderTitle');
+      const badgeCount = document.getElementById('fotosActiveFolderCountBadge');
+      if (!grid) return;
+
+      const catObj = FOTOS_DEFAULT_CATEGORIES.find(c => c.key === fotosActiveCategory) || { icon: '📁', label: fotosActiveCategory };
+      if (folderIcon) folderIcon.textContent = catObj.icon;
+      if (folderTitle) folderTitle.textContent = catObj.label;
+
+      const normGre = normalizeGreKey(fotosActiveGre);
+      const normSchool = (fotosActiveSchool || '').trim().toUpperCase();
+
+      currentLightboxPhotos = fotosData.filter(f => {
+        return normalizeGreKey(f.greKey) === normGre &&
+               (f.escola || '').trim().toUpperCase() === normSchool &&
+               f.pasta === fotosActiveCategory;
+      });
+
+      if (badgeCount) {
+        badgeCount.textContent = `Mostrando ${catObj.label} (${currentLightboxPhotos.length} fotos)`;
+      }
+
+      if (currentLightboxPhotos.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-brand-dark/60 border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
+            <span class="text-3xl">${catObj.icon}</span>
+            <h4 class="text-base font-bold text-white">Nenhuma foto encontrada em "${catObj.label}"</h4>
+            <p class="text-xs text-slate-400 max-w-md">Esta pasta ainda não possui fotos para a escola <strong>${fotosActiveSchool}</strong>. Clique no botão abaixo para adicionar a primeira imagem ou vincular a pasta do Google Drive.</p>
+            <button onclick="openAddFotoModal()" class="mt-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/30 flex items-center gap-2">
+              <span>➕</span> Adicionar Primeira Foto
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = currentLightboxPhotos.map((photo, index) => {
+        return `
+          <div 
+            class="bg-brand-panel border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg group transition-all cursor-pointer flex flex-col"
+            onclick="openPhotoLightboxByIndex(${index})"
+          >
+            <!-- Imagem Thumbnail -->
+            <div class="relative h-44 w-full bg-brand-dark overflow-hidden">
+              <img 
+                src="${photo.url}" 
+                alt="${photo.titulo}"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                onerror="this.src='https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80'"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                <span class="text-xs text-white font-bold flex items-center gap-1.5">
+                  <span>🔍</span> Clique para Ampliar
+                </span>
+              </div>
+              <span class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white border border-white/20">
+                ${photo.data || '2026'}
+              </span>
+            </div>
+
+            <!-- Legenda -->
+            <div class="p-3 flex flex-col justify-between flex-1 gap-2">
+              <h5 class="text-xs font-bold text-white line-clamp-2 leading-snug group-hover:text-emerald-300 transition-colors">
+                ${photo.titulo}
+              </h5>
+              <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-brand-cardBorder/60">
+                <span class="truncate">${photo.pasta}</span>
+                <button 
+                  onclick="event.stopPropagation(); deleteFoto('${photo.id}')"
+                  class="text-slate-500 hover:text-rose-400 transition-colors"
+                  title="Excluir foto"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // =========================================================================
+    // LIGHTBOX FULLSCREEN PARA FOTOS
+    // =========================================================================
+    function openPhotoLightboxByIndex(idx) {
+      if (!currentLightboxPhotos || currentLightboxPhotos.length === 0) return;
+      currentLightboxIndex = (idx >= 0 && idx < currentLightboxPhotos.length) ? idx : 0;
+      updateLightboxDisplay();
+
+      const modal = document.getElementById('photoLightboxModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      // Adiciona navegação por teclado
+      window.addEventListener('keydown', handleLightboxKeyboard);
+    }
+
+    function closePhotoLightbox() {
+      const modal = document.getElementById('photoLightboxModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+      window.removeEventListener('keydown', handleLightboxKeyboard);
+    }
+
+    function handleLightboxKeyboard(e) {
+      if (e.key === 'ArrowRight') nextLightboxPhoto();
+      if (e.key === 'ArrowLeft') prevLightboxPhoto();
+      if (e.key === 'Escape') closePhotoLightbox();
+    }
+
+    function nextLightboxPhoto() {
+      if (!currentLightboxPhotos || currentLightboxPhotos.length <= 1) return;
+      currentLightboxIndex = (currentLightboxIndex + 1) % currentLightboxPhotos.length;
+      updateLightboxDisplay();
+    }
+
+    function prevLightboxPhoto() {
+      if (!currentLightboxPhotos || currentLightboxPhotos.length <= 1) return;
+      currentLightboxIndex = (currentLightboxIndex - 1 + currentLightboxPhotos.length) % currentLightboxPhotos.length;
+      updateLightboxDisplay();
+    }
+
+    function updateLightboxDisplay() {
+      const photo = currentLightboxPhotos[currentLightboxIndex];
+      if (!photo) return;
+
+      const img = document.getElementById('lightboxImageElement');
+      const catBadge = document.getElementById('lightboxCategoryBadge');
+      const greBadge = document.getElementById('lightboxGreBadge');
+      const schoolName = document.getElementById('lightboxSchoolName');
+      const caption = document.getElementById('lightboxPhotoCaption');
+      const indexInd = document.getElementById('lightboxIndexIndicator');
+      const dateInd = document.getElementById('lightboxDateIndicator');
+      const downloadBtn = document.getElementById('lightboxDownloadBtn');
+
+      if (img) img.src = photo.url;
+      if (catBadge) catBadge.textContent = photo.pasta || fotosActiveCategory;
+      if (greBadge) greBadge.textContent = `${photo.greKey} – ${photo.municipio || ''}`;
+      if (schoolName) schoolName.textContent = photo.escola;
+      if (caption) caption.textContent = photo.titulo;
+      if (indexInd) indexInd.textContent = `Foto ${currentLightboxIndex + 1} de ${currentLightboxPhotos.length}`;
+      if (dateInd) dateInd.textContent = `📅 ${photo.data || '2026'}`;
+      if (downloadBtn) downloadBtn.href = photo.url;
+    }
+
+    function openAddFotoModal() {
+      const modal = document.getElementById('addFotoModal');
+      const subtitle = document.getElementById('addFotoSchoolSubtitle');
+      const select = document.getElementById('addFotoCategorySelect');
+      const dateInput = document.getElementById('addFotoDateInput');
+
+      if (subtitle) subtitle.textContent = `${fotosActiveSchool} (${fotosActiveGre})`;
+      if (select) select.value = fotosActiveCategory;
+      if (dateInput) {
+        const now = new Date();
+        dateInput.value = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+      }
+
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeAddFotoModal() {
+      const modal = document.getElementById('addFotoModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function saveNewFoto() {
+      const cat = document.getElementById('addFotoCategorySelect').value;
+      const caption = document.getElementById('addFotoCaptionInput').value.trim() || 'Foto da Escola';
+      const fileInput = document.getElementById('addFotoFileInput');
+      const urlInput = document.getElementById('addFotoUrlInput').value.trim();
+      const dateVal = document.getElementById('addFotoDateInput').value.trim();
+
+      const schools = getSchoolsForGre(fotosActiveGre);
+      const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+      const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+
+      function createAndSave(photoUrl) {
+        const newFoto = {
+          id: `foto-${Date.now()}`,
+          greKey: fotosActiveGre,
+          escola: fotosActiveSchool,
+          municipio: city,
+          pasta: cat,
+          url: photoUrl,
+          titulo: caption,
+          data: dateVal || '2026',
+          descricao: caption
+        };
+
+        fotosData.unshift(newFoto);
+        saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+        closeAddFotoModal();
+        updateModuleBadges();
+        fotosActiveCategory = cat;
+        renderFotosCategories();
+        renderFotosGallery();
+        showToastNotification('✓ Foto adicionada com sucesso!');
+      }
+
+      if (fileInput && fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          createAndSave(e.target.result);
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (urlInput) {
+        createAndSave(urlInput);
+      } else {
+        showToastNotification('Por favor, selecione um arquivo de imagem ou informe a URL da foto.');
+      }
+    }
+
+    function deleteFoto(id) {
+      if (!confirm('Deseja realmente excluir esta foto?')) return;
+      fotosData = fotosData.filter(f => f.id !== id);
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      updateModuleBadges();
+      renderFotosCategories();
+      renderFotosGallery();
+      showToastNotification('Foto excluída.');
+    }
+
+    function openAddEscolaModal() {
+      const modal = document.getElementById('addEscolaModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeAddEscolaModal() {
+      const modal = document.getElementById('addEscolaModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function saveNewSchoolToGre() {
+      const name = document.getElementById('newSchoolNameInput').value.trim().toUpperCase();
+      const city = document.getElementById('newSchoolCityInput').value.trim().toUpperCase() || 'MUNICÍPIO';
+      if (!name) {
+        showToastNotification('Informe o nome da escola.');
+        return;
+      }
+
+      // Cria registro de fotos para associar essa escola à GRE
+      const initialFoto = {
+        id: `foto-init-${Date.now()}`,
+        greKey: fotosActiveGre,
+        escola: name,
+        municipio: city,
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+        titulo: `Fachada da Escola ${name}`,
+        data: "2026",
+        descricao: "Registro inicial de cadastro"
+      };
+
+      fotosData.push(initialFoto);
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      closeAddEscolaModal();
+      fotosActiveSchool = name;
+      renderFotosSchools();
+      renderFotosCategories();
+      renderFotosGallery();
+      showToastNotification(`✓ Escola ${name} cadastrada na ${fotosActiveGre}!`);
     }
 
     // =========================================================================
@@ -1351,11 +3284,26 @@
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputProj = document.getElementById('sheetUrlProjetosInput');
+      const inputFot = document.getElementById('sheetUrlFotosInput');
       const feedbackBox = document.getElementById('syncFeedbackBox');
 
       const urlMain = inputMain ? inputMain.value.trim() : '';
       let urlCt = inputCt ? inputCt.value.trim() : '';
       let urlPac = inputPac ? inputPac.value.trim() : '';
+      const urlProj = inputProj ? inputProj.value.trim() : '';
+      const urlFot = inputFot ? inputFot.value.trim() : '';
+
+      if (urlProj) {
+        localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, urlProj);
+        const tabInp = document.getElementById('projetosSharedFolderInput');
+        if (tabInp) tabInp.value = urlProj;
+      }
+      if (urlFot) {
+        localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, urlFot);
+        const tabInp = document.getElementById('fotosSharedFolderInput');
+        if (tabInp) tabInp.value = urlFot;
+      }
 
       if (urlMain) {
         localStorage.setItem(SHEET_URL_MAIN_KEY, urlMain);
@@ -1364,15 +3312,15 @@
         if (!urlPac) { urlPac = urlMain; if (inputPac) inputPac.value = urlMain; }
       }
 
-      if (!urlCt && !urlPac && !urlMain) {
-        showFeedback('Por favor, informe o link compartilhado da planilha do Google Sheets.', 'error');
+      if (!urlCt && !urlPac && !urlMain && !urlProj && !urlFot) {
+        showFeedback('Por favor, informe pelo menos um link compartilhado (Planilha, Projetos ou Fotos).', 'error');
         return;
       }
 
       if (urlCt) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, urlCt);
       if (urlPac) localStorage.setItem(SHEET_URL_PACTUE_KEY, urlPac);
 
-      showFeedback('⏳ Sincronizando dados da planilha do Google Sheets...', 'loading');
+      showFeedback('⏳ Sincronizando dados e salvando links...', 'loading');
 
       let summaryMsgs = [];
       let hasError = false;
@@ -1407,6 +3355,9 @@
         }
       }
 
+      if (urlProj) summaryMsgs.push('✓ Link da Pasta de Projetos salvo.');
+      if (urlFot) summaryMsgs.push('✓ Link da Pasta de Fotos salvo.');
+
       const now = new Date();
       const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
       localStorage.setItem(LAST_SYNC_KEY, timeStr);
@@ -1426,7 +3377,7 @@
       renderCards();
 
       showFeedback(summaryMsgs.join('\n'), hasError ? 'error' : 'success');
-      showToastNotification(`✓ Abas atualizadas com sucesso!`);
+      showToastNotification(`✓ Configurações e abas atualizadas!`);
     }
 
     function openSheetModal() {
@@ -1434,20 +3385,28 @@
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputProj = document.getElementById('sheetUrlProjetosInput');
+      const inputFot = document.getElementById('sheetUrlFotosInput');
       const select = document.getElementById('autoSyncIntervalSelect');
       const lastSync = document.getElementById('modalLastSyncText');
       const linkCt = document.getElementById('modalOpenContractsTab');
       const linkPac = document.getElementById('modalOpenPactueTab');
+      const linkProj = document.getElementById('modalOpenProjetosTab');
+      const linkFot = document.getElementById('modalOpenFotosTab');
 
       const savedUrlMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
       const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
       const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
+      const savedUrlProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || '';
+      const savedUrlFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || '';
       const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
       const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
 
       if (inputMain) inputMain.value = savedUrlMain;
       if (inputCt) inputCt.value = savedUrlCt;
       if (inputPac) inputPac.value = savedUrlPac;
+      if (inputProj) inputProj.value = savedUrlProj;
+      if (inputFot) inputFot.value = savedUrlFot;
       if (select) select.value = savedInterval;
       if (lastSync && lastSyncTime) lastSync.textContent = `Última sincronização às ${lastSyncTime}`;
 
@@ -1466,6 +3425,24 @@
           linkPac.classList.remove('hidden');
         } else {
           linkPac.classList.add('hidden');
+        }
+      }
+
+      if (linkProj) {
+        if (savedUrlProj) {
+          linkProj.href = savedUrlProj;
+          linkProj.classList.remove('hidden');
+        } else {
+          linkProj.classList.add('hidden');
+        }
+      }
+
+      if (linkFot) {
+        if (savedUrlFot) {
+          linkFot.href = savedUrlFot;
+          linkFot.classList.remove('hidden');
+        } else {
+          linkFot.classList.add('hidden');
         }
       }
 
