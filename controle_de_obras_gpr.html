@@ -3269,6 +3269,24 @@
       }
 
       updateModuleBadges();
+      updateWhatsAppFabVisibility();
+    }
+
+    // VISIBILIDADE DO BOTÃO FLUTUANTE (FAB) DO WHATSAPP NO CELULAR
+    // Aparece somente nas abas "Obras de Contratos" e "Obras PACTUE". Oculto em "Projetos" e "Fotos".
+    function updateWhatsAppFabVisibility() {
+      const whatsappFab = document.getElementById('whatsappFab');
+      if (!whatsappFab) return;
+      if (currentModule === 'CONTRATOS' || currentModule === 'PACTUE') {
+        whatsappFab.classList.remove('hidden');
+        whatsappFab.style.display = '';
+      } else {
+        whatsappFab.classList.add('hidden');
+        whatsappFab.style.display = 'none';
+        if (typeof closeWhatsAppModal === 'function') {
+          closeWhatsAppModal();
+        }
+      }
     }
 
     function updateModuleBadges() {
