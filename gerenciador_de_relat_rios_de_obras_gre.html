@@ -1038,150 +1038,143 @@
         .trim();
     }
 
+    function getCell(row, idx) {
+      if (!row || idx < 0 || idx >= row.length) return '';
+      const val = row[idx];
+      return (val !== undefined && val !== null) ? String(val).trim() : '';
+    }
+
     function parseCsvToWorks(csvText, prefix) {
       return new Promise((resolve, reject) => {
         Papa.parse(csvText, {
-          header: true,
+          header: false,
           skipEmptyLines: true,
           complete: function(results) {
-            const rows = results.data;
-            if (!rows || rows.length === 0) {
+            const rawRows = results.data;
+            if (!rawRows || rawRows.length === 0) {
               resolve([]);
               return;
             }
 
-            // Headers na ordem exata da planilha
-            const headers = results.meta && results.meta.fields ? results.meta.fields : Object.keys(rows[0]);
-            
-            let colEscola = null;
-            let colConstrutora = null;
-            let colMunicipio = null;
-            let colGre = null;
-            let colTermino = null;
-            let idxTermino = -1;
-            let colStatusDiarios = null;
-            let idxStatusDiarios = -1;
-            let colStatus = null;
-
-            // Prioridade 1: Identificar a coluna específica que tem o nome "GRE"
-            headers.forEach(h => {
-              const norm = normalizeHeaderName(h);
+            // Identificar se a linha 0 tem o cabeçalho e achar a coluna GRE
+            const headerRow = rawRows[0] || [];
+            let colGreIndex = -1;
+            headerRow.forEach((val, idx) => {
+              const norm = normalizeHeaderName(val);
               if (norm === 'gre') {
-                colGre = h;
+                colGreIndex = idx;
               }
             });
-            if (!colGre) {
-              headers.forEach(h => {
-                const norm = normalizeHeaderName(h);
-                if (!colGre && (norm.startsWith('gre') || norm.endsWith('gre') || norm.includes('gerencia regional') || norm.includes('gerência regional'))) {
-                  colGre = h;
+            if (colGreIndex === -1) {
+              headerRow.forEach((val, idx) => {
+                const norm = normalizeHeaderName(val);
+                if (norm.startsWith('gre') || norm.includes('regional') || norm.includes('gerencia')) {
+                  if (colGreIndex === -1) colGreIndex = idx;
                 }
               });
             }
 
-            // 1. Mapeamento por correspondência de nomes
-            headers.forEach((h, idx) => {
-              const norm = normalizeHeaderName(h);
+            const isContracts = (prefix === 'ct');
+            const parsed = [];
 
-              // Escola: Prioridade máxima para "NOME ENTIDADE"
-              if (norm.includes('nome entidade') || norm.includes('nome_entidade') || norm.includes('nome da entidade') || norm === 'entidade') {
-                colEscola = h;
-              } else if (!colEscola && (norm.includes('escola') || norm.includes('unidade escolar') || norm.includes('colegio'))) {
-                colEscola = h;
+            // Percorre as linhas de dados
+            rawRows.forEach((r, rowIdx) => {
+              if (!Array.isArray(r) || r.length === 0) return;
+
+              let escola = '';
+              let municipio = '';
+              let construtora = '';
+              let status = '';
+              let situacao = '';
+              let termino = '';
+              let objeto = '';
+              let descritivo = '';
+              let rawGre = '';
+
+              if (isContracts) {
+                // ==========================================
+                // MAPEAMENTO EXATO: OBRAS DE CONTRATOS
+                // H (7): Escola
+                // I (8): Município
+                // O (14): Empresa
+                // Q (16): Término / Previsão
+                // R (17): Status
+                // S (18): Situação (Status Diários)
+                // ==========================================
+                escola = getCell(r, 7);
+                municipio = getCell(r, 8);
+                construtora = getCell(r, 14);
+                termino = getCell(r, 16);
+                status = getCell(r, 17);
+                situacao = getCell(r, 18);
+
+                // Detecta se é a linha de cabeçalho
+                const normEscola = normalizeHeaderName(escola);
+                if (normEscola.includes('entidade') || normEscola.includes('escola') || normEscola === 'h') return;
+
+              } else {
+                // ==========================================
+                // MAPEAMENTO EXATO: OBRAS PACTUE
+                // C (2): Município
+                // D (3): Escola
+                // E (4): Objeto
+                // F (5): Descritivo dos Serviços
+                // G (6): Empresa
+                // H (7): Status
+                // J (9): Término / Previsão
+                // ==========================================
+                municipio = getCell(r, 2);
+                escola = getCell(r, 3);
+                objeto = getCell(r, 4);
+                descritivo = getCell(r, 5);
+                construtora = getCell(r, 6);
+                status = getCell(r, 7);
+                termino = getCell(r, 9);
+                situacao = status; // No PACTUE reflete o status da pactuação
+
+                // Detecta se é a linha de cabeçalho
+                const normEscola = normalizeHeaderName(escola);
+                if (normEscola.includes('entidade') || normEscola.includes('escola') || normEscola === 'd') return;
+                const normObjeto = normalizeHeaderName(objeto);
+                if (normObjeto.includes('objeto') || normObjeto === 'e') return;
               }
 
-              // Construtora / Empresa
-              if (norm.includes('construtora')) {
-                colConstrutora = h;
-              } else if (!colConstrutora && (norm.includes('empresa') || norm.includes('empreiteira'))) {
-                colConstrutora = h;
-              }
+              // Pula linhas em branco
+              if (!escola || escola.trim().length === 0) return;
 
-              // Município
-              if (norm.includes('municipio') || norm.includes('cidade')) {
-                colMunicipio = h;
+              // Identifica a GRE
+              if (colGreIndex !== -1) {
+                rawGre = getCell(r, colGreIndex);
               }
-
-              // Término / Previsão
-              if (norm.includes('termino') || norm.includes('previsao') || norm.includes('término') || norm.includes('previsão')) {
-                if (idxTermino === -1) {
-                  idxTermino = idx;
-                  colTermino = h;
-                }
-              }
-
-              // Status Diários (Situação)
-              if (norm.includes('diario') || norm.includes('diarios') || norm.includes('diário') || norm.includes('diários')) {
-                idxStatusDiarios = idx;
-                colStatusDiarios = h;
-              }
-            });
-
-            // 2. Coluna de Status:
-            // "A coluna que está entre a coluna término/previsão e a coluna status diários"
-            if (idxTermino !== -1 && idxStatusDiarios !== -1 && idxStatusDiarios > idxTermino) {
-              for (let i = idxTermino + 1; i < idxStatusDiarios; i++) {
-                colStatus = headers[i];
-                break;
-              }
-            }
-
-            // Fallback caso as posições não estejam nessa ordem exata
-            if (!colStatus) {
-              headers.forEach(h => {
-                const norm = normalizeHeaderName(h);
-                if (h !== colStatusDiarios && h !== colTermino) {
-                  if (norm === 'status' || norm === 'situacao' || norm.includes('status da obra') || norm.includes('fase')) {
-                    colStatus = h;
+              if (!rawGre) {
+                // Tenta achar nas colunas A (0), B (1) ou C (2)
+                for (let c = 0; c <= 2; c++) {
+                  const check = getCell(r, c);
+                  if (check && (check.match(/\d+/) || check.toUpperCase().includes('GRE'))) {
+                    rawGre = check;
+                    break;
                   }
                 }
-              });
-            }
+              }
 
-            console.log('[Mapeamento Colunas]', {
-              Escola: colEscola,
-              Construtora: colConstrutora,
-              Municipio: colMunicipio,
-              GRE: colGre,
-              Termino: colTermino,
-              StatusEntreEles: colStatus,
-              StatusDiarios: colStatusDiarios
-            });
-
-            const parsed = [];
-            rows.forEach((r, idx) => {
-              const rawEscola = (colEscola ? r[colEscola] : '') || '';
-              // Pula linhas em branco ou sem nome de entidade
-              if (!rawEscola || rawEscola.trim().length === 0) return;
-
-              const rawGre = (colGre ? r[colGre] : '') || '8ª GRE';
-              const greKey = normalizeGreKey(rawGre);
-              const escola = rawEscola.toUpperCase().trim();
-              const municipio = ((colMunicipio ? r[colMunicipio] : '') || 'MUNICÍPIO').toUpperCase().trim();
-              const construtora = ((colConstrutora ? r[colConstrutora] : '') || 'A DEFINIR').toUpperCase().trim();
-              
-              // Status vem da coluna entre Término e Status Diários
-              let status = ((colStatus ? r[colStatus] : '') || 'EM EXECUÇÃO').toUpperCase().trim();
-              
-              // Situação vem da coluna Status Diários
-              let situacao = ((colStatusDiarios ? r[colStatusDiarios] : '') || 'EM ANDAMENTO').toUpperCase().trim();
-              
-              // Término vem da coluna Término / Previsão
-              let termino = ((colTermino ? r[colTermino] : '') || 'A DEFINIR').toUpperCase().trim();
+              const greKey = normalizeGreKey(rawGre) || '8ª GRE';
 
               parsed.push({
-                id: `${prefix}-${idx}-${Date.now().toString(36)}`,
-                gre: rawGre.toUpperCase().trim(),
+                id: `${prefix}-${rowIdx}-${Date.now().toString(36)}`,
+                gre: (rawGre || greKey).toUpperCase().trim(),
                 greKey: greKey,
-                escola: escola,
-                municipio: municipio,
-                construtora: construtora,
-                status: status,
-                situacao: situacao,
-                termino: termino
+                escola: escola.toUpperCase().trim(),
+                municipio: (municipio || 'MUNICÍPIO').toUpperCase().trim(),
+                construtora: (construtora || 'A DEFINIR').toUpperCase().trim(),
+                status: (status || 'EM EXECUÇÃO').toUpperCase().trim(),
+                situacao: (situacao || 'EM ANDAMENTO').toUpperCase().trim(),
+                termino: (termino || 'A DEFINIR').toUpperCase().trim(),
+                objeto: objeto ? objeto.trim() : '',
+                descritivo: descritivo ? descritivo.trim() : ''
               });
             });
 
+            console.log(`[Importação ${prefix.toUpperCase()}]`, `${parsed.length} obras processadas com sucesso.`);
             resolve(parsed);
           },
           error: function(err) {
@@ -1884,6 +1877,23 @@
               </div>
             </div>
 
+            ${(item.objeto || item.descritivo) ? `
+              <div class="bg-brand-dark/90 border border-brand-cardBorder rounded-xl p-3 flex flex-col gap-2 text-xs">
+                ${item.objeto ? `
+                  <div class="flex items-start gap-1.5">
+                    <span class="text-amber-400 font-bold shrink-0">📦 Objeto:</span>
+                    <span class="text-slate-100 font-medium">${item.objeto}</span>
+                  </div>
+                ` : ''}
+                ${item.descritivo ? `
+                  <div class="flex flex-col gap-0.5 pt-1.5 border-t border-brand-cardBorder/60 text-[11px]">
+                    <span class="text-blue-400 font-semibold">📝 Descritivo dos Serviços:</span>
+                    <span class="text-slate-300 leading-relaxed">${item.descritivo}</span>
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+
             <!-- Controles Interativos -->
             <div class="pt-3 border-t border-brand-cardBorder/60 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
               
@@ -1992,12 +2002,22 @@
         if (schools.length > 0) {
           let section = `${g.header}\n\n`;
           const schoolEntries = schools.map(s => {
-            return `ESCOLA: ${s.escola}\n` +
-                   `MUNICÍPIO: ${s.municipio}\n` +
-                   `EMPRESA: ${s.construtora}\n` +
-                   `🔹 STATUS: ${s.status}\n` +
-                   `SITUAÇÃO: ${s.situacao}\n` +
-                   `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
+            if (currentModule === 'PACTUE') {
+              return `ESCOLA: ${s.escola}\n` +
+                     `MUNICÍPIO: ${s.municipio}\n` +
+                     (s.objeto ? `OBJETO: ${s.objeto}\n` : '') +
+                     (s.descritivo ? `DESCRITIVO DOS SERVIÇOS: ${s.descritivo}\n` : '') +
+                     `EMPRESA: ${s.construtora}\n` +
+                     `🔹 STATUS: ${s.status}\n` +
+                     `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
+            } else {
+              return `ESCOLA: ${s.escola}\n` +
+                     `MUNICÍPIO: ${s.municipio}\n` +
+                     `EMPRESA: ${s.construtora}\n` +
+                     `🔹 STATUS: ${s.status}\n` +
+                     `SITUAÇÃO: ${s.situacao}\n` +
+                     `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
+            }
           });
           section += schoolEntries.join('\n\n');
           blocks.push(section);
