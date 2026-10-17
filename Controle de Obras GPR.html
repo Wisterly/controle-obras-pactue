@@ -382,115 +382,133 @@
           </div>
         </div>
 
-        <!-- Painel Didático de Indicadores / KPIs em Tempo Real (6 Cards Clicáveis) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-2.5">
+        <!-- Painel Didático de Indicadores / Cards Informativos (Largura Proporcional, Altura Baixa, Legíveis sem Abreviação) -->
+        <div class="flex flex-wrap items-stretch gap-2 sm:gap-2.5">
           
-          <!-- KPI 1: Total Medido -->
+          <!-- Card Informativo 1: Total Geral Medido -->
           <button 
             onclick="setStatusFilter('TODOS')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-cyan-400/50 rounded-2xl p-3 flex flex-col gap-1 shadow-md text-left transition-all hover:scale-[1.02] cursor-pointer"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-cyan-400/50 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md text-left transition-all hover:scale-[1.01] cursor-pointer"
             title="Clique para ver todos os setores"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider">Total</span>
-              <span class="text-cyan-400 font-bold">💰</span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-slate-300 whitespace-nowrap">Total Geral Medido</span>
+              <span class="text-cyan-400 text-xs">💰</span>
             </div>
-            <span id="medicoesKpiTotalVal" class="text-xs sm:text-sm font-mono font-black text-cyan-400 truncate">
-              R$ 0,00
-            </span>
-            <span id="medicoesKpiTotalCount" class="text-[10px] text-slate-400 truncate font-semibold">
-              0 medições
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiTotalVal" class="text-xs sm:text-[13px] font-mono font-black text-cyan-400 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiTotalCount" class="text-[10px] sm:text-[11px] text-slate-400 font-semibold whitespace-nowrap">
+                0 medições
+              </span>
+            </div>
           </button>
 
-          <!-- KPI 2: Na GPR (Nosso Setor) -->
+          <!-- Card Informativo 2: Na GPR (UGERF) -->
           <button 
             onclick="setStatusFilter('GPR')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-cyan-500/70 rounded-2xl p-3 flex flex-col gap-1 shadow-md transition-all hover:scale-[1.02] text-left cursor-pointer"
-            title="Clique para filtrar apenas o setor GPR (UGERF)"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-cyan-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
+            title="Clique para filtrar o setor GPR (UGERF)"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-cyan-300">Na GPR</span>
-              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-cyan-300 whitespace-nowrap">Na GPR (UGERF)</span>
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0"></span>
             </div>
-            <span id="medicoesKpiGprCount" class="text-xs sm:text-sm font-mono font-black text-cyan-300">
-              0 proc.
-            </span>
-            <span id="medicoesKpiGprVal" class="text-[10px] text-cyan-400/80 truncate font-semibold">
-              R$ 0,00
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiGprVal" class="text-xs sm:text-[13px] font-mono font-black text-cyan-400 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiGprCount" class="text-[10px] sm:text-[11px] text-cyan-300/90 font-semibold whitespace-nowrap">
+                0 processos
+              </span>
+            </div>
           </button>
 
-          <!-- KPI 3: Na UGF -->
+          <!-- Card Informativo 3: Na UGF -->
           <button 
             onclick="setStatusFilter('UGF')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-amber-500/70 rounded-2xl p-3 flex flex-col gap-1 shadow-md transition-all hover:scale-[1.02] text-left cursor-pointer"
-            title="Clique para filtrar apenas o setor UGF"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-amber-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
+            title="Clique para filtrar o setor UGF"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-amber-300">Na UGF</span>
-              <span class="text-amber-400">🏛️</span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-amber-300 whitespace-nowrap">Na UGF</span>
+              <span class="text-amber-400 text-xs">🏛️</span>
             </div>
-            <span id="medicoesKpiUgfCount" class="text-xs sm:text-sm font-mono font-black text-amber-300">
-              0 proc.
-            </span>
-            <span id="medicoesKpiUgfVal" class="text-[10px] text-amber-400/80 truncate font-semibold">
-              R$ 0,00
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiUgfVal" class="text-xs sm:text-[13px] font-mono font-black text-amber-400 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiUgfCount" class="text-[10px] sm:text-[11px] text-amber-300/90 font-semibold whitespace-nowrap">
+                0 processos
+              </span>
+            </div>
           </button>
 
-          <!-- KPI 4: No UFIM (Pagamento) -->
+          <!-- Card Informativo 4: No UFIM (Pagamento) -->
           <button 
             onclick="setStatusFilter('UFIM')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-indigo-500/70 rounded-2xl p-3 flex flex-col gap-1 shadow-md transition-all hover:scale-[1.02] text-left cursor-pointer"
-            title="Clique para filtrar apenas o setor UFIM"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-indigo-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
+            title="Clique para filtrar o setor UFIM"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-indigo-300">No UFIM</span>
-              <span class="text-indigo-400">🏦</span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-indigo-300 whitespace-nowrap">No UFIM</span>
+              <span class="text-indigo-400 text-xs">🏦</span>
             </div>
-            <span id="medicoesKpiFimCount" class="text-xs sm:text-sm font-mono font-black text-indigo-300">
-              0 proc.
-            </span>
-            <span id="medicoesKpiFimVal" class="text-[10px] text-indigo-400/80 truncate font-semibold">
-              R$ 0,00
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiFimVal" class="text-xs sm:text-[13px] font-mono font-black text-indigo-300 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiFimCount" class="text-[10px] sm:text-[11px] text-indigo-300/90 font-semibold whitespace-nowrap">
+                0 processos
+              </span>
+            </div>
           </button>
 
-          <!-- KPI 5: Pago Parcial -->
+          <!-- Card Informativo 5: Pago Parcial -->
           <button 
             onclick="setStatusFilter('PAGO PARCIAL')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-orange-500/70 rounded-2xl p-3 flex flex-col gap-1 shadow-md transition-all hover:scale-[1.02] text-left cursor-pointer"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-orange-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
             title="Clique para filtrar pagamentos parciais"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-orange-300">Parcial</span>
-              <span class="text-orange-400">🟠</span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-orange-300 whitespace-nowrap">Pago Parcial</span>
+              <span class="text-orange-400 text-xs">🟠</span>
             </div>
-            <span id="medicoesKpiParcialCount" class="text-xs sm:text-sm font-mono font-black text-orange-300">
-              0 proc.
-            </span>
-            <span id="medicoesKpiParcialVal" class="text-[10px] text-orange-400/80 truncate font-semibold">
-              R$ 0,00
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiParcialVal" class="text-xs sm:text-[13px] font-mono font-black text-orange-400 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiParcialCount" class="text-[10px] sm:text-[11px] text-orange-300/90 font-semibold whitespace-nowrap">
+                0 processos
+              </span>
+            </div>
           </button>
 
-          <!-- KPI 6: Pagos / Concluídos -->
+          <!-- Card Informativo 6: Pagos / Concluídos -->
           <button 
             onclick="setStatusFilter('PAGO')"
-            class="bg-brand-card/90 border border-brand-cardBorder hover:border-emerald-500/70 rounded-2xl p-3 flex flex-col gap-1 shadow-md transition-all hover:scale-[1.02] text-left cursor-pointer"
+            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-emerald-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
             title="Clique para filtrar medições pagas"
           >
-            <div class="flex items-center justify-between text-slate-400 text-xs">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-emerald-300">Pagos</span>
-              <span class="text-emerald-400">✅</span>
+            <div class="flex items-center justify-between gap-3 text-slate-400">
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-emerald-300 whitespace-nowrap">Pagos / Quitados</span>
+              <span class="text-emerald-400 text-xs">✅</span>
             </div>
-            <span id="medicoesKpiPagoCount" class="text-xs sm:text-sm font-mono font-black text-emerald-300">
-              0 proc.
-            </span>
-            <span id="medicoesKpiPagoVal" class="text-[10px] text-emerald-400/80 truncate font-semibold">
-              R$ 0,00
-            </span>
+            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
+              <span id="medicoesKpiPagoVal" class="text-xs sm:text-[13px] font-mono font-black text-emerald-400 whitespace-nowrap">
+                R$ 0,00
+              </span>
+              <span class="text-slate-500 text-[10px]">•</span>
+              <span id="medicoesKpiPagoCount" class="text-[10px] sm:text-[11px] text-emerald-300/90 font-semibold whitespace-nowrap">
+                0 processos
+              </span>
+            </div>
           </button>
 
         </div>
@@ -9073,7 +9091,7 @@
       let html = `
         <button 
           onclick="setStatusFilter('TODOS')"
-          class="px-3.5 sm:px-4 py-2 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-3 min-h-[48px] w-auto shrink-0 ${
+          class="px-3 sm:px-3.5 py-1.5 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-2.5 min-h-[40px] w-auto shrink-0 ${
             isAllSelected
               ? activeTodosBtnClass
               : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
@@ -9088,7 +9106,7 @@
               Visão Geral
             </span>
           </div>
-          <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1.5 ${
+          <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1 ${
             isAllSelected
               ? activeTodosBadgeClass
               : inactiveTodosBadgeClass
@@ -9106,7 +9124,7 @@
         html += `
           <button 
             onclick="setStatusFilter('${st}')"
-            class="px-3.5 sm:px-4 py-2 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-3 min-h-[48px] w-auto shrink-0 ${
+            class="px-3 sm:px-3.5 py-1.5 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-2.5 min-h-[40px] w-auto shrink-0 ${
               isSelected 
                 ? style.activeBg + ' font-extrabold shadow-md' 
                 : style.bg + ' ' + style.border + ' ' + style.text
@@ -9522,7 +9540,7 @@
               }"
               title="${cName} (${info.count} medições)"
             >
-              <span class="truncate max-w-[220px]">📑 ${cName}</span>
+              <span class="whitespace-nowrap font-bold">📑 ${cName}</span>
               <span class="px-1.5 py-0.5 rounded-full text-[10px] font-black shrink-0 ${
                 isSel ? 'bg-black/25 text-brand-dark' : 'bg-cyan-500/20 text-cyan-300'
               }">${info.count}</span>
@@ -9605,15 +9623,15 @@
 
       if (elTotalVal) elTotalVal.textContent = formatNumberToMoeda(totalVal);
       if (elTotalCount) elTotalCount.textContent = `${subset.length} mediç${subset.length === 1 ? 'ão' : 'ões'}`;
-      if (elGprCount) elGprCount.textContent = `${gprItems.length} proc.`;
+      if (elGprCount) elGprCount.textContent = `${gprItems.length} processo${gprItems.length === 1 ? '' : 's'}`;
       if (elGprVal) elGprVal.textContent = formatNumberToMoeda(gprVal);
-      if (elUgfCount) elUgfCount.textContent = `${ugfItems.length} proc.`;
+      if (elUgfCount) elUgfCount.textContent = `${ugfItems.length} processo${ugfItems.length === 1 ? '' : 's'}`;
       if (elUgfVal) elUgfVal.textContent = formatNumberToMoeda(ugfVal);
-      if (elFimCount) elFimCount.textContent = `${fimItems.length} proc.`;
+      if (elFimCount) elFimCount.textContent = `${fimItems.length} processo${fimItems.length === 1 ? '' : 's'}`;
       if (elFimVal) elFimVal.textContent = formatNumberToMoeda(fimVal);
-      if (elParcialCount) elParcialCount.textContent = `${parcialItems.length} proc.`;
+      if (elParcialCount) elParcialCount.textContent = `${parcialItems.length} processo${parcialItems.length === 1 ? '' : 's'}`;
       if (elParcialVal) elParcialVal.textContent = formatNumberToMoeda(parcialVal);
-      if (elPagoCount) elPagoCount.textContent = `${pagoItems.length} proc.`;
+      if (elPagoCount) elPagoCount.textContent = `${pagoItems.length} processo${pagoItems.length === 1 ? '' : 's'}`;
       if (elPagoVal) elPagoVal.textContent = formatNumberToMoeda(pagoVal);
       if (elMediaDias) elMediaDias.textContent = `${mediaDias} dia${mediaDias === 1 ? '' : 's'}`;
 
