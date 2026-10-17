@@ -1,0 +1,5312 @@
+{
+  "01ª GRE": {
+    "folderId": "1a45yhfJzMLCLDJG4SNcnLY136M-CqRix",
+    "schoolsCount": 43,
+    "schools": [
+      {
+        "inep": "10000000",
+        "municipio": "PARNAÍBA",
+        "nome": "SEDE GRE",
+        "rawFolder": "10000000 - PARNAÍBA - SEDE GRE",
+        "driveFolderId": "1VeURRr4dUh6VjANpnOrl58hefAo2Ws7L",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22012419",
+        "municipio": "BURITI DOS LOPES",
+        "nome": "CETI ZEZITA SAMPAIO",
+        "rawFolder": "22012419 - BURITI DOS LOPES - CETI ZEZITA SAMPAIO",
+        "driveFolderId": "1BJQghd6F0rUU-YwZ75yEw8LVzO53Lj66",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22012508",
+        "municipio": "BURITI DOS LOPES",
+        "nome": "CEJA LEÔNIDAS MELO",
+        "rawFolder": "22012508 - BURITI DOS LOPES - CEJA LEÔNIDAS MELO",
+        "driveFolderId": "1i36XKlddZfIE0zj16WVNMv-teeEZQuFF",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22013555",
+        "municipio": "COCAL",
+        "nome": "CETI JOSÉ BASSON",
+        "rawFolder": "22013555 - COCAL - CETI JOSÉ BASSON",
+        "driveFolderId": "17_21AywjW7sp5iynVOcAErgZOnR5myXr",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22013601",
+        "municipio": "COCAL",
+        "nome": "U E EMILIA SOARES ARAUJO",
+        "rawFolder": "22013601 - COCAL - U E EMILIA SOARES ARAUJO",
+        "driveFolderId": "1QcQhRKh88MzXvD-qzMIkSc27G0p1CEuq",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014160",
+        "municipio": "LUÍS CORREIA",
+        "nome": "CETI RAIMUNDO MIRANDA DE BRITO",
+        "rawFolder": "22014160 - LUÍS CORREIA - CETI RAIMUNDO MIRANDA DE BRITO",
+        "driveFolderId": "1NYoWMvPbAT_YZDVvXw3yxsAfRmcoct5t",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014306",
+        "municipio": "CAJUEIRO DA PRAIA",
+        "nome": "CETI MANOEL RICARDO",
+        "rawFolder": "22014306 - CAJUEIRO DA PRAIA - CETI MANOEL RICARDO",
+        "driveFolderId": "1PZhivpse8U-U6Kc3AXzaMBZ8OiJ7vtfJ",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014314",
+        "municipio": "LUÍS CORREIA",
+        "nome": "CETI MANOEL RODRIGUES VIEIRA",
+        "rawFolder": "22014314 - LUÍS CORREIA - CETI MANOEL RODRIGUES VIEIRA",
+        "driveFolderId": "1huJghhk6OAH1cMv7zQbTQZEYUDtNzvO6",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014322",
+        "municipio": "LUÍS CORREIA",
+        "nome": "CETI PEDRO II",
+        "rawFolder": "22014322 - LUÍS CORREIA - CETI PEDRO II",
+        "driveFolderId": "1ygVMSJzsoEeW0SymrCXI2PMi_546Yi_R",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014373",
+        "municipio": "LUÍS CORREIA - ESCOLA DO MAR",
+        "nome": "CETI RICARDO AUGUSTO VELOSO",
+        "rawFolder": "22014373 - LUÍS CORREIA - CETI RICARDO AUGUSTO VELOSO - ESCOLA DO MAR",
+        "driveFolderId": "1omLvdo1ezestj_Hj39LzwYY9rHoBaXHF",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014470",
+        "municipio": "LUÍS CORREIA",
+        "nome": "CETI ZULMIRA XAVIER",
+        "rawFolder": "22014470 - LUÍS CORREIA - CETI ZULMIRA XAVIER",
+        "driveFolderId": "12FeSlGtTCZeIOrF_CIFYB2JsKci3vSMp",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014500",
+        "municipio": "PARNAÍBA",
+        "nome": "CEJA JONAS CORREIA",
+        "rawFolder": "22014500 - PARNAÍBA - CEJA JONAS CORREIA",
+        "driveFolderId": "1jFpWu6S8rPwcAUu2qOOzP_Z_ttjrp1F2",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22014535",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI LIMA REBELO",
+        "rawFolder": "22014535 - PARNAÍBA - CETI LIMA REBELO",
+        "driveFolderId": "1Y1Xj0QAprsOpDV-eOfvLLXtP_E6wE8xw",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015159",
+        "municipio": "PARNAÍBA",
+        "nome": "U E FRANCISCO CORREIA",
+        "rawFolder": "22015159 - PARNAÍBA - U E FRANCISCO CORREIA",
+        "driveFolderId": "1kBXw6kFOdD8s8Vz38ez1Yb2w98XLwsQe",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015221",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI MINISTRO PETRONIO PORTELLA",
+        "rawFolder": "22015221 - PARNAÍBA - CETI MINISTRO PETRONIO PORTELLA",
+        "driveFolderId": "1ka8rLy0G_RxeK3A_5j1s52nGAmuXOy1s",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015469",
+        "municipio": "ILHA GRANDE",
+        "nome": "CETI JONAS CORREIA",
+        "rawFolder": "22015469 - ILHA GRANDE - CETI JONAS CORREIA",
+        "driveFolderId": "1-fRhxsYsbR8j08NxXe_sntCGsZ4mxvIP",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015736",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI DR JOÃO SILVA FILHO",
+        "rawFolder": "22015736 - CETI DR JOÃO SILVA FILHO - PARNAÍBA",
+        "driveFolderId": "1XFSBRQd91-Y7emV20TsJ-SFpEhStphny",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015752",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI JEANETE SOUSA",
+        "rawFolder": "22015752 - PARNAÍBA - CETI JEANETE SOUSA",
+        "driveFolderId": "1PWUgZdjXf726xN_hHc7rvMPGhvzaO-28",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015787",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI OZIAS CORREIA",
+        "rawFolder": "22015787 - PARNAÍBA - CETI OZIAS CORREIA",
+        "driveFolderId": "1sRh8mrHF70oEmGgihjpOlH1UHlW-d5f7",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015795",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI PADRE RAIMUNDO JOSÉ VIEIRA",
+        "rawFolder": "22015795 - CETI PADRE RAIMUNDO JOSÉ VIEIRA - PARNAÍBA",
+        "driveFolderId": "13RfbM392n29pkusSLSJKNYgNrxOLiUne",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015809",
+        "municipio": "PARNAIBA",
+        "nome": "CETI POLIVALENTE LIMA REBELO",
+        "rawFolder": "22015809 - CETI POLIVALENTE LIMA REBELO - PARNAIBA",
+        "driveFolderId": "1iird-Clcu_xpt9aRw6q9NOxEhw6ysiWT",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015841",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI CANDIDO OLIVEIRA",
+        "rawFolder": "22015841 - PARNAÍBA - CETI CANDIDO OLIVEIRA",
+        "driveFolderId": "1L4vYE0cg23YOhEBAYiMz5Y6ElVQEsDl7",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015876",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI EDSON DA PAZ CUNHA",
+        "rawFolder": "22015876 - PARNAÍBA - CETI EDSON DA PAZ CUNHA",
+        "driveFolderId": "1NS60Kn63JZguVm5Gk6ZHFfb2kLNRjvA8",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015884",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI EPAMINONDAS CASTELO BRANCO",
+        "rawFolder": "22015884 - PARNAÍBA - CETI EPAMINONDAS CASTELO BRANCO",
+        "driveFolderId": "1rzk0SwdRej2gM9W321WPVaZuUbU4VT_L",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015892",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI JOSÉ EUCLIDES DE MIRANDA",
+        "rawFolder": "22015892 - PARNAÍBA - CETI JOSÉ EUCLIDES DE MIRANDA",
+        "driveFolderId": "1oyt7Ql1lDX7XvYflMFYunLDSVvZdjO-X",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22015973",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI EDISON CUNHA",
+        "rawFolder": "22015973 - PARNAÍBA - CETI EDISON CUNHA",
+        "driveFolderId": "1ZSkcF-kPTNNNv4uQueMIxXSvrcwyVN2e",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22016040",
+        "municipio": "ILHA GRANDE",
+        "nome": "CETI MAROCAS LIMA",
+        "rawFolder": "22016040 - ILHA GRANDE - CETI MAROCAS LIMA",
+        "driveFolderId": "1NMAbASszNrRCepR4Gigq2u5fXBejjVCY",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22016082",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI PROFª RAQUEL MAGALHÃES",
+        "rawFolder": "22016082 - PARNAÍBA - CETI PROFª RAQUEL MAGALHÃES",
+        "driveFolderId": "1P7ycxftl-pvJjJONwjOeqkI5Lif8xyYT",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22129723",
+        "municipio": "BOM PRINCÍPIO DO PIAUÍ",
+        "nome": "CETI DARCY RIBEIRO",
+        "rawFolder": "22129723 - BOM PRINCÍPIO DO PIAUÍ - CETI DARCY RIBEIRO",
+        "driveFolderId": "1mmguSIdj8hU_7jOM8hD5XPDeRNqvLEoh",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22133070",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI SENADOR CHAGAS RODRIGUES",
+        "rawFolder": "22133070 - PARNAÍBA - CETI SENADOR CHAGAS RODRIGUES",
+        "driveFolderId": "1DLQ1QpE_8PkuXv8_gA7RPRMlMw9l5Vx8",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22135456",
+        "municipio": "PARNAÍBA",
+        "nome": "CETI LICEU PARNAIBANO",
+        "rawFolder": "22135456 - PARNAÍBA - CETI LICEU PARNAIBANO",
+        "driveFolderId": "1x7ycOBjHeDiAcPD8xUE6DlfWM3jOErOB",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22135782",
+        "municipio": "CAXINGÓ",
+        "nome": "CETI PROFª MARIA DO SOCORRO SAMPAIO MARTINS",
+        "rawFolder": "22135782 - CAXINGÓ - CETI PROFª MARIA DO SOCORRO SAMPAIO MARTINS",
+        "driveFolderId": "1W8bVVsG5tcpdVqGd2aglPWKkXYbrscur",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22135863",
+        "municipio": "CARAÚBAS DO PIAUÍ",
+        "nome": "CETI AMARO ALVES PORTELA",
+        "rawFolder": "22135863 - CARAÚBAS DO PIAUÍ - CETI AMARO ALVES PORTELA",
+        "driveFolderId": "1Hn8K02zO3Geve_JQdelxW3ruX-bkfzSX",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22135995",
+        "municipio": "MURICI DOS PORTELAS",
+        "nome": "CETI OTAVIO ESCORCIO GOMES",
+        "rawFolder": "22135995 - MURICI DOS PORTELAS - CETI OTAVIO ESCORCIO GOMES",
+        "driveFolderId": "16JCnvUiR22xLHdc7w1iZS9zWSzD9k6I9",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22136002",
+        "municipio": "COCAL DOS ALVES",
+        "nome": "CETI AUGUSTINHO BRANDÃO",
+        "rawFolder": "22136002 - COCAL DOS ALVES - CETI AUGUSTINHO BRANDÃO",
+        "driveFolderId": "15tQWld5PsQw-qGSGzWRs8S5I0uodO8Ug",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22136037",
+        "municipio": "COCAL",
+        "nome": "CETI PINHEIRO MACHADO",
+        "rawFolder": "22136037 - COCAL - CETI PINHEIRO MACHADO",
+        "driveFolderId": "1YsFA4Ja155beZyeppQsvKtmveJ55m8rc",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22137947",
+        "municipio": "BURITI DOS LOPES",
+        "nome": "CETI DEPUTADA FRANCISCA TRINDADE",
+        "rawFolder": "22137947 - BURITI DOS LOPES - CETI DEPUTADA FRANCISCA TRINDADE",
+        "driveFolderId": "1CD4RopcTlEZDfxgPXfJeejI-q1gnztn_",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22140115",
+        "municipio": "COCAL",
+        "nome": "CETI DEPUTADO RIBEIRO MAGALHÃES",
+        "rawFolder": "22140115 - COCAL - CETI DEPUTADO RIBEIRO MAGALHÃES",
+        "driveFolderId": "1EcrWp5_ol2aUhxNDZSbdD_FGYkMiA9fM",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22140123",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI PROFESSORA LUZIA SEIXAS DE OLIVEIRA AQUINO",
+        "rawFolder": "22140123 - CETI PROFESSORA LUZIA SEIXAS DE OLIVEIRA AQUINO",
+        "driveFolderId": "15i_MT7rtA41HOHtKbs1npBeqx6GqRgdJ",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22146504",
+        "municipio": "CENTRO CULTURAL DE LÍNGUAS MONSENHOR ANTÔNIO SAMPAIO",
+        "nome": "PARNAÍBA",
+        "rawFolder": "22146504 - CENTRO CULTURAL DE LÍNGUAS MONSENHOR ANTÔNIO SAMPAIO - PARNAÍBA",
+        "driveFolderId": "1QUBYWaFn6t7nVExyJHR-ujfTABge2atb",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22146628",
+        "municipio": "PARNAÍBA",
+        "nome": "CENTRO DE APOIO PEDAGOGICO PARA ATENDIMENTO AS PESSOAS COM DEFICIENCIA VISUAL - CAP",
+        "rawFolder": "22146628 - PARNAÍBA - CENTRO DE APOIO PEDAGOGICO PARA ATENDIMENTO AS PESSOAS COM DEFICIENCIA VISUAL - CAP",
+        "driveFolderId": "1gUpw60MD3pNab8I7da2N_ipLgqMuuOxO",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22162607",
+        "municipio": "BURITI DOS LOPES",
+        "nome": "CETI PEDRO MARIANO DE FREITAS",
+        "rawFolder": "22162607 - BURITI DOS LOPES - CETI PEDRO MARIANO DE FREITAS",
+        "driveFolderId": "19JCexB5mjOyhVT0SmaDGpqI68VyM8u3r",
+        "greKey": "01ª GRE"
+      },
+      {
+        "inep": "22162615",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI DEPUTADA FRANCISCA TRINDADE II",
+        "rawFolder": "22162615 - CETI DEPUTADA FRANCISCA TRINDADE II",
+        "driveFolderId": "1Cl_-PhEVVAeGDlXnLmbC6mgk2ngjKN3s",
+        "greKey": "01ª GRE"
+      }
+    ]
+  },
+  "02ª GRE": {
+    "folderId": "12KwlaG2NQskRqxbLc8Lnf8TK2_RulZI6",
+    "schoolsCount": 38,
+    "schools": [
+      {
+        "inep": "22000054",
+        "municipio": "BARRAS",
+        "nome": "CEJA PROF CONRADO AMORIM DE SOUSA",
+        "rawFolder": "22000054 - BARRAS - CEJA PROF CONRADO AMORIM DE SOUSA",
+        "driveFolderId": "1YdVCLuLS-KJxE52vWkCloJasx9dcLXcR",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22001530",
+        "municipio": "BARRAS",
+        "nome": "CETI GERVASIO COSTA",
+        "rawFolder": "22001530 - BARRAS - CETI GERVASIO COSTA",
+        "driveFolderId": "11dM2LOf4Co0NvqJAoeVRuBY6OBCoGc2F",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22001573",
+        "municipio": "BARRAS",
+        "nome": "CETI MATIAS OLIMPIO",
+        "rawFolder": "22001573 - BARRAS - CETI MATIAS OLIMPIO",
+        "driveFolderId": "1ak9s9uq0rsTy8YVgjAbyZXHMWwd0H5Wx",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22001603",
+        "municipio": "BARRAS",
+        "nome": "CETI NOSSA SENHORA DA CONCEIÇÃO",
+        "rawFolder": "22001603 - BARRAS - CETI NOSSA SENHORA DA CONCEIÇÃO",
+        "driveFolderId": "14R46QvFJ0hJ5yl5q6P6Aqyc-7WBeRUJR",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22002049",
+        "municipio": "BATALHA",
+        "nome": "CETI CONSELHEIRO SARAIVA",
+        "rawFolder": "22002049 - BATALHA - CETI CONSELHEIRO SARAIVA",
+        "driveFolderId": "16KUfatsKQczj-zDsOreiAWfMNav3r2Na",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22002391",
+        "municipio": "BATALHA",
+        "nome": "CETI DIRCEU ARCOVERDE",
+        "rawFolder": "22002391 - BATALHA - CETI DIRCEU ARCOVERDE",
+        "driveFolderId": "1alfvSQjANUCIKD1pwI1kNdOFyrqm4SH3",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22002588",
+        "municipio": "BARRAS - BATALHA",
+        "nome": "CETI GAYOSO E ALMENDRA",
+        "rawFolder": "22002588 - BARRAS - BATALHA - CETI GAYOSO E ALMENDRA",
+        "driveFolderId": "1sWYfM6tSPUf8bE01NClu9aViAJmbgn0E",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22002677",
+        "municipio": "BATALHA",
+        "nome": "CETI MARIA MELO",
+        "rawFolder": "22002677 - BATALHA - CETI MARIA MELO",
+        "driveFolderId": "1Ykb3Zd7dDke3w0w2sibn0LezDCB37nmZ",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22003452",
+        "municipio": "BARRAS - CABECEIRAS DO PIAUÍ",
+        "nome": "CETI VENANCIA LAGES VELOSO",
+        "rawFolder": "22003452 - BARRAS - CABECEIRAS DO PIAUÍ - CETI VENANCIA LAGES VELOSO",
+        "driveFolderId": "1eDobswlQEaJ3AqnWgHkbPko2j4mP80iI",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22004777",
+        "municipio": "ESPERANTINA",
+        "nome": "CETI PETRONIO PORTELA",
+        "rawFolder": "22004777 - ESPERANTINA - CETI PETRONIO PORTELA",
+        "driveFolderId": "1Q_qFKca_XzyMM69Y7yh8uEMX65EGkETK",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22004793",
+        "municipio": "ESPERANTINA",
+        "nome": "CETI ESTADO DA PARAIBA",
+        "rawFolder": "22004793 - ESPERANTINA - CETI ESTADO DA PARAIBA",
+        "driveFolderId": "1c5TJiEyRTtF6jtq9yT0Zs8nIt2kDDxJI",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22004815",
+        "municipio": "ESPERANTINA",
+        "nome": "CETI JOSÉ NOGUEIRA DE AGUIAR",
+        "rawFolder": "22004815 - ESPERANTINA - CETI JOSÉ NOGUEIRA DE AGUIAR",
+        "driveFolderId": "1vKhzlVqKZwPUokiDr3EJreIY1j8wVCE2",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22004823",
+        "municipio": "ESPERANTINA",
+        "nome": "CETI LEONARDO DAS DORES",
+        "rawFolder": "22004823 - ESPERANTINA - CETI LEONARDO DAS DORES",
+        "driveFolderId": "1gkllEDj30JoCLtyspDrX9qhRZ_sKwxY0",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22005242",
+        "municipio": "JOAQUIM PIRES",
+        "nome": "CETI DOROTEU SERTAO",
+        "rawFolder": "22005242 - JOAQUIM PIRES - CETI DOROTEU SERTAO",
+        "driveFolderId": "1qt5kksw1W6E2n_hOF1B23DcNVQEeyKLK",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22005315",
+        "municipio": "JOAQUIM PIRES",
+        "nome": "CETI JOSÉ MENDES VASCONCELOS",
+        "rawFolder": "22005315 - JOAQUIM PIRES - CETI JOSÉ MENDES VASCONCELOS",
+        "driveFolderId": "1ghnKpeaZum0tYePy4x4-RGhYR9JYlkAh",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22006184",
+        "municipio": "LUZILÂNDIA",
+        "nome": "CETI JOÃO FRANCISCO",
+        "rawFolder": "22006184 - LUZILÂNDIA - CETI JOÃO FRANCISCO",
+        "driveFolderId": "1BzEEXWkYmX64t4vo0QphUpRXmu55W7jB",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "22006249 (PARALISADO) - LUZILÂNDIA",
+        "nome": "CEJA JOSÉ LOPES DE ARAUJO",
+        "rawFolder": "22006249 (PARALISADO) - LUZILÂNDIA - CEJA JOSÉ LOPES DE ARAUJO",
+        "driveFolderId": "1VuUD9njBOl4wLdA-9A-SewPw4dc8Sf_3",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22006800",
+        "municipio": "LUZILÂNDIA",
+        "nome": "CETI JOÃO DE ASSIS MARQUES",
+        "rawFolder": "22006800 - LUZILÂNDIA - CETI JOÃO DE ASSIS MARQUES",
+        "driveFolderId": "1oxiGntgJ2Ii4kbyzrpm7hUA-W6G71ZqG",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22006850",
+        "municipio": "LUZILÂNDIA",
+        "nome": "CETI LUIS TEIXEIRA",
+        "rawFolder": "22006850 - LUZILÂNDIA - CETI LUIS TEIXEIRA",
+        "driveFolderId": "1y8roRZcWiwmlo0PgDiChE5VBQ4Sglg1L",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22007318",
+        "municipio": "MATIAS OLÍMPIO",
+        "nome": "CETI AUGUSTO CESAR MAIA",
+        "rawFolder": "22007318 - MATIAS OLÍMPIO - CETI AUGUSTO CESAR MAIA",
+        "driveFolderId": "1RwgOIwVRVRbGA4_l7mHl9M8HOTtyNsX-",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22007423",
+        "municipio": "SÃO JOÃO DO ARRAIAL",
+        "nome": "CETI FRANCISCO TOMAZ",
+        "rawFolder": "22007423 - SÃO JOÃO DO ARRAIAL - CETI FRANCISCO TOMAZ",
+        "driveFolderId": "1gMwlPkGi_sPvr9c5oFZAMBOQ5KuQ_Iyr",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22007431",
+        "municipio": "MATIAS OLÍMPIO",
+        "nome": "CETI JOSÉ AMAVEL",
+        "rawFolder": "22007431 - MATIAS OLÍMPIO - CETI JOSÉ AMAVEL",
+        "driveFolderId": "1C0_AH87YQc2SqKWHrSes-XH4eFQ_DhkY",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22009019",
+        "municipio": "NOSSA SENHORA DOS REMÉDIOS",
+        "nome": "CEJA PROF ARIMATHEA",
+        "rawFolder": "22009019 - NOSSA SENHORA DOS REMÉDIOS - CEJA PROF ARIMATHEA",
+        "driveFolderId": "1fqyyqQgSJ71CM7NrDv7igKrbi7zxMP4M",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22009035",
+        "municipio": "NOSSA SENHORA DOS REMÉDIOS",
+        "nome": "CETI SIGEFREDO PACHECO",
+        "rawFolder": "22009035 - NOSSA SENHORA DOS REMÉDIOS - CETI SIGEFREDO PACHECO",
+        "driveFolderId": "1mdo2tzODPJolfzmZufPSFYLbImbeONDY",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22011048",
+        "municipio": "PORTO",
+        "nome": "CETI OTAVIO FALCAO",
+        "rawFolder": "22011048 - PORTO - CETI OTAVIO FALCAO",
+        "driveFolderId": "1j2amqtibVjQrXDg1Q3p4MLvdXvEUkuSC",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22011145",
+        "municipio": "PORTO",
+        "nome": "CETI MIGUEL NUNES DE SALES",
+        "rawFolder": "22011145 - PORTO - CETI MIGUEL NUNES DE SALES",
+        "driveFolderId": "1-Fo_FXuyr-yDI8h8raTdkjZ5hgrxDkk2",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22011170",
+        "municipio": "CAMPO LARGO DO PIAUÍ",
+        "nome": "CETI SÃO JOSÉ",
+        "rawFolder": "22011170 - CAMPO LARGO DO PIAUÍ - CETI SÃO JOSÉ",
+        "driveFolderId": "1MlZP3vsK3LYeyxB61DYdzfBGkW9FziOt",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22126880",
+        "municipio": "MADEIRO",
+        "nome": "CETI SANTA TERESINHA",
+        "rawFolder": "22126880 - MADEIRO - CETI SANTA TERESINHA",
+        "driveFolderId": "1caDrD1xSfhTR-byDhNbzB5JavsBPvoeq",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22128760",
+        "municipio": "LUZILÂNDIA",
+        "nome": "CETI PROFª CLEONICE DE CASTRO TELES",
+        "rawFolder": "22128760 - LUZILÂNDIA - CETI PROFª CLEONICE DE CASTRO TELES",
+        "driveFolderId": "1opDAr9HIWxZdUM92cEGyAu42wrG8DNUp",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22131426",
+        "municipio": "JOCA MARQUES",
+        "nome": "CETI LEDA NAPOLEÃO",
+        "rawFolder": "22131426 - JOCA MARQUES - CETI LEDA NAPOLEÃO",
+        "driveFolderId": "1tB7POR_kJQtWULyWw7RDbHlNW2Zy28xz",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22134867",
+        "municipio": "NOSSA SENHORA DOS REMÉDIOS",
+        "nome": "CETI DEUSA ROCHA",
+        "rawFolder": "22134867 - NOSSA SENHORA DOS REMÉDIOS - CETI DEUSA ROCHA",
+        "driveFolderId": "17AI9vSEMw7Sl4U5JC56exJfJEjuJwU8c",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22136452",
+        "municipio": "MORRO DO CHAPEU DO PIAUÍ",
+        "nome": "CETI FRANCISCA MARLUCE NUNES QUEIROZ",
+        "rawFolder": "22136452 - MORRO DO CHAPEU DO PIAUÍ - CETI FRANCISCA MARLUCE NUNES QUEIROZ",
+        "driveFolderId": "1f3T7q30PLh_aFA09Pq5jsH-TaRu1xaLd",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22136703",
+        "municipio": "BARRAS",
+        "nome": "CETI FRANCISCA TRINDADE",
+        "rawFolder": "22136703 - BARRAS - CETI FRANCISCA TRINDADE",
+        "driveFolderId": "1g8rU4tD8bcNxztl1FCP8I5PcAY7IDBnI",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22136711",
+        "municipio": "BARRAS",
+        "nome": "CETI PROFESSORA MARIA DE JESUS CARVALHO ROCHA",
+        "rawFolder": "22136711 - BARRAS - CETI PROFESSORA MARIA DE JESUS CARVALHO ROCHA",
+        "driveFolderId": "1ORdc-vz97esjPVJv6DWJwwMfWGcVZzxi",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22240608",
+        "municipio": "SÃO JOÃO DO ARRAIAL",
+        "nome": "CETI FAMILIA AGRICOLA DOS COCAIS",
+        "rawFolder": "22240608 - SÃO JOÃO DO ARRAIAL - CETI FAMILIA AGRICOLA DOS COCAIS",
+        "driveFolderId": "15b_jRvuD72eXzSAWmUkaSxjw-ZPFI4RM",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "22253734",
+        "municipio": "ESPERANTINA",
+        "nome": "CETI MARIA DO AMPARO OLIVEIRA",
+        "rawFolder": "22253734 - ESPERANTINA - CETI MARIA DO AMPARO OLIVEIRA",
+        "driveFolderId": "1b3XQi-UzR6fLB-IchYk_ZJtGZ-v9gDLp",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI PATRICIO CLARINDO",
+        "rawFolder": "CETI PATRICIO CLARINDO",
+        "driveFolderId": "16_5qeCzBk1F1v19n2W2xb-SB3h-B9XPn",
+        "greKey": "02ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE 02ª GRE",
+        "rawFolder": "SEDE 02ª GRE",
+        "driveFolderId": "1nyXP5uAwOb2JvKlXfCUicZFPle2gh9Ee",
+        "greKey": "02ª GRE"
+      }
+    ]
+  },
+  "03ª GRE": {
+    "folderId": "1ZhUF76aIlu0abAAIwSqVKyNNZFstpPsz",
+    "schoolsCount": 30,
+    "schools": [
+      {
+        "inep": "22002790",
+        "municipio": "BRASILEIRA",
+        "nome": "CETI GOV ALBERTO TAVARES SILVA",
+        "rawFolder": "22002790 - BRASILEIRA - CETI GOV ALBERTO TAVARES SILVA",
+        "driveFolderId": "1FlKJWMtkWep2nK5e6OvuNHKT5wAVe-B8",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22003100",
+        "municipio": "BRASILEIRA",
+        "nome": "CETI MIGUEL ARCOVERDE",
+        "rawFolder": "22003100 - BRASILEIRA - CETI MIGUEL ARCOVERDE",
+        "driveFolderId": "1z0I6EJdRhhDQLC2zUNUWugrR4YqtE77X",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010254",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI JUDITH ALVES SANTANA",
+        "rawFolder": "22010254 - PIRIPIRI - CETI JUDITH ALVES SANTANA",
+        "driveFolderId": "1roUKkAewKMQWAi1jvH-E8rl9WLnwIpOE",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010467",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI JOSÉ NARCISO DA ROCHA FILHO",
+        "rawFolder": "22010467 - PIRIPIRI - CETI JOSÉ NARCISO DA ROCHA FILHO",
+        "driveFolderId": "1ht7QFciKHWi2ZilcBKc_uOdjHA5-kdyV",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010483",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI BAURELIO MANGABEIRA",
+        "rawFolder": "22010483 - PIRIPIRI - CETI BAURELIO MANGABEIRA",
+        "driveFolderId": "1pnrVENd8Xy3phSpPmAhcFdhAc-RVgGgc",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010505",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI DES JOSÉ DE ARIMATHEA TITO",
+        "rawFolder": "22010505 - PIRIPIRI - CETI DES JOSÉ DE ARIMATHEA TITO",
+        "driveFolderId": "1dnke1jtlYK6Lrd0L8r-eu_E-SGWxruDl",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010513",
+        "municipio": "PIRIPIRI",
+        "nome": "CEJA PROFESSORA COTA SAMPAIO",
+        "rawFolder": "22010513 - PIRIPIRI - CEJA PROFESSORA COTA SAMPAIO",
+        "driveFolderId": "123zBNusHvGFRAnWdi6oNmS2o7u5lNk3z",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010521",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI PROF NENEM CAVALCANTE",
+        "rawFolder": "22010521 - PIRIPIRI - CETI PROF NENEM CAVALCANTE",
+        "driveFolderId": "1y5Dutm_xUpDn-o4_-9DeCHDIAdk83tAZ",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010530",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI PROFESSORA SINHA CARVALHO",
+        "rawFolder": "22010530 - PIRIPIRI - CETI PROFESSORA SINHA CARVALHO",
+        "driveFolderId": "1B_cyLiy97AuHVps63VyB7mv_pw-fY5ty",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010556",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI CASSIANA ROCHA",
+        "rawFolder": "22010556 - PIRIPIRI - CETI CASSIANA ROCHA",
+        "driveFolderId": "1so-W2cQ8Z1OzMwMcO2iWNTUWBLPRt0Ax",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22010572",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI EMB ESPEDITO RESENDE",
+        "rawFolder": "22010572 - PIRIPIRI - CETI EMB ESPEDITO RESENDE",
+        "driveFolderId": "1vhzY8-MvYdfSQE1MH5hVYwwMpOsuhf-C",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22016694",
+        "municipio": "PIRACURUCA",
+        "nome": "CETI PATRONATO IRMÃOS DANTAS",
+        "rawFolder": "22016694 - PIRACURUCA - CETI PATRONATO IRMÃOS DANTAS",
+        "driveFolderId": "1sL01ALikOlWEoRtpF4taFII70RMkbTa9",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22016724",
+        "municipio": "PIRACURUCA",
+        "nome": "CETI HESICHIA DE SOUSA BRITO",
+        "rawFolder": "22016724 - PIRACURUCA - CETI HESICHIA DE SOUSA BRITO",
+        "driveFolderId": "1LBFOLeSrYD2bZmtqaFo9-2mGNBPQD-hP",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22016937",
+        "municipio": "PIRACURUCA",
+        "nome": "CETI ANISIO BRITO",
+        "rawFolder": "22016937 - PIRACURUCA - CETI ANISIO BRITO",
+        "driveFolderId": "1xhVgLax3GI4qddfO2mr0I8JuI4r-UVBc",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22017011",
+        "municipio": "PIRACURUCA",
+        "nome": "CETI INES DE MARIA SOUSA ROCHA",
+        "rawFolder": "22017011 - PIRACURUCA - CETI INES DE MARIA SOUSA ROCHA",
+        "driveFolderId": "1pWKNLoF15TjFdyVgtBYBptbaq4UER0aI",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22036369",
+        "municipio": "DOMINGOS MOURÃO",
+        "nome": "CETI MARIA ISAÍAS DE JESUS",
+        "rawFolder": "22036369 - DOMINGOS MOURÃO - CETI MARIA ISAÍAS DE JESUS",
+        "driveFolderId": "1olEo-RyqEvjBLK0zg3aD2Z_0sMh3Q-So",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22037772",
+        "municipio": "PEDRO II",
+        "nome": "CEJA DEPUTADO MILTON BRANDÃO",
+        "rawFolder": "22037772 - PEDRO II - CEJA DEPUTADO MILTON BRANDÃO",
+        "driveFolderId": "1VJabLyYB53y7sYM4uYWK7sPMs1iz4PBU",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22038124",
+        "municipio": "PEDRO II",
+        "nome": "CETI TERTULIANO SOLON BRANDÃO",
+        "rawFolder": "22038124 - PEDRO II - CETI TERTULIANO SOLON BRANDÃO",
+        "driveFolderId": "1UUjzJcGaQvToWOGG43PWMEVDzaXpd85E",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22038272",
+        "municipio": "PEDRO II",
+        "nome": "CETI MARIA MENDES MOURÃO",
+        "rawFolder": "22038272 - PEDRO II - CETI MARIA MENDES MOURÃO",
+        "driveFolderId": "1AfzJF1pX9iIstXx8Dot3jIG77zX-iBqz",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22038299",
+        "municipio": "PEDRO II",
+        "nome": "CETI TERTULIANO BRANDÃO FILHO",
+        "rawFolder": "22038299 - PEDRO II - CETI TERTULIANO BRANDÃO FILHO",
+        "driveFolderId": "1nnxGxxVGpYtKzsLoFFBrvZ5GQRj-yGwH",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22118330",
+        "municipio": "PEDRO II",
+        "nome": "CETI PROFESSORA ANGELINA MENDES BRAGA",
+        "rawFolder": "22118330 - PEDRO II - CETI PROFESSORA ANGELINA MENDES BRAGA",
+        "driveFolderId": "1mDu3s-vL9AH-WHUXheNEYjchH7pR1byP",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22123458",
+        "municipio": "PEDRO II",
+        "nome": "CETI FAMILIA AGRICOLA SANTA ANGELA",
+        "rawFolder": "22123458 - PEDRO II - CETI FAMILIA AGRICOLA SANTA ANGELA",
+        "driveFolderId": "1EXXMXkGrlyXBCzGv_fkadINxqqBR5OJo",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22131035",
+        "municipio": "SÃO JOÃO DA FRONTEIRA",
+        "nome": "CETI SÃO JOÃO BATISTA",
+        "rawFolder": "22131035 - SÃO JOÃO DA FRONTEIRA - CETI SÃO JOÃO BATISTA",
+        "driveFolderId": "1XRKc8mdhAckTJGJr7KFsGXfZ-GRFt94j",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22132597",
+        "municipio": "LAGOA DE SÃO FRANCISCO",
+        "nome": "CETI ARTUR GONÇALVES DE SOUSA",
+        "rawFolder": "22132597 - LAGOA DE SÃO FRANCISCO - CETI ARTUR GONÇALVES DE SOUSA",
+        "driveFolderId": "1TE85sCWMuPJfjrZUSZN5SJX-WDP7kSIN",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22137211",
+        "municipio": "PEDRO II",
+        "nome": "CETI PROF PEDRO SOARES",
+        "rawFolder": "22137211 - PEDRO II - CETI PROF PEDRO SOARES",
+        "driveFolderId": "1HVT-pyKh7Y7J_Kh6Qvh1z5VgU8HcMxkC",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22140700",
+        "municipio": "MILTON BRANDÃO",
+        "nome": "CETI PROF MARIA DE LOURDES LEAL NUNES DE ANDRADE BRANDÃO",
+        "rawFolder": "22140700 - MILTON BRANDÃO - CETI PROF MARIA DE LOURDES LEAL NUNES DE ANDRADE BRANDÃO",
+        "driveFolderId": "15WLy_8pHIk4oxihatF4kV2nkkp_sKbQ0",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22145770",
+        "municipio": "PIRIPIRI (POVOADO FORMOSA)",
+        "nome": "CETI ISABEL MOREIRA GOMES",
+        "rawFolder": "22145770 - PIRIPIRI (POVOADO FORMOSA) - CETI ISABEL MOREIRA GOMES",
+        "driveFolderId": "19OZcbQeUSVW4LsXISStLePVsCjUqiJK-",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22147403",
+        "municipio": "PIRACURUCA",
+        "nome": "CETI PROFESSOR ANTÔNIO DE BRITO FORTES",
+        "rawFolder": "22147403 - PIRACURUCA - CETI PROFESSOR ANTÔNIO DE BRITO FORTES",
+        "driveFolderId": "1GS8pPJh74WU80DXX6akZ3rOQhf-hBTq_",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22161805",
+        "municipio": "PIRIPIRI",
+        "nome": "CETI GOVERNADOR HUGO NAPOLEAO",
+        "rawFolder": "22161805 - PIRIPIRI - CETI GOVERNADOR HUGO NAPOLEAO",
+        "driveFolderId": "1qR8rhi4zk-FGRsjGIsQ9zC_-68AjVSxD",
+        "greKey": "03ª GRE"
+      },
+      {
+        "inep": "22306714",
+        "municipio": "SÃO JOSÉ DO DIVINO",
+        "nome": "CETI PEDRO MACHADO DE CERQUEIRA",
+        "rawFolder": "22306714 - SÃO JOSÉ DO DIVINO - CETI PEDRO MACHADO DE CERQUEIRA",
+        "driveFolderId": "1Tp3ISLDohUqmMxUkge8dXFCwFn2Tf1Md",
+        "greKey": "03ª GRE"
+      }
+    ]
+  },
+  "04ª GRE": {
+    "folderId": "1aeLheUr4wWb51APxRt51VQORwlYprqMi",
+    "schoolsCount": 46,
+    "schools": [
+      {
+        "inep": "4000000",
+        "municipio": "TERESINA",
+        "nome": "SEDE 04ª GRE",
+        "rawFolder": "4000000 - TERESINA - SEDE 04ª GRE",
+        "driveFolderId": "1ZBRu36uqq2zNNEcY3yicef3qZaWa20Mu",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22022040",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR JAMES AZEVEDO",
+        "rawFolder": "22022040 - TERESINA - CETI PROFESSOR JAMES AZEVEDO",
+        "driveFolderId": "15ykPJG30g2_lcjWu_PJQGqQZ3vp3IFbL",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22022147",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE HABILITAÇÃO ANA CORDEIRO - CHAC",
+        "rawFolder": "22022147 - TERESINA - CENTRO DE HABILITAÇÃO ANA CORDEIRO - CHAC",
+        "driveFolderId": "16ijpXDcLwSKLGw3fhwmUFU-mrNeiRiHK",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22022287",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROFESSOR ARTUR FURTADO",
+        "rawFolder": "22022287 - TERESINA - CEJA PROFESSOR ARTUR FURTADO",
+        "driveFolderId": "1mB9huA4CXWxJx07z_rNY7JIz8JXFo1yv",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22022295",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE FORMAÇÃO DE PROFESSORES MARCÍLIO FLÁVIO RANGEL DE FARIAS",
+        "rawFolder": "22022295 - TERESINA - CENTRO DE FORMAÇÃO DE PROFESSORES MARCÍLIO FLÁVIO RANGEL DE FARIAS",
+        "driveFolderId": "1WKkQhWyNGNenebuplwfvqwHGl0jIj9Sv",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22022376",
+        "municipio": "TERESINA",
+        "nome": "CETI ZACARIAS DE GOIS",
+        "rawFolder": "22022376 - TERESINA - CETI ZACARIAS DE GOIS",
+        "driveFolderId": "1f_sT8laOqU5fvb8vDLMEFM4FGNcahrXZ",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22023208",
+        "municipio": "TERESINA",
+        "nome": "CEJA GAYOSO E ALMENDRA",
+        "rawFolder": "22023208 - TERESINA - CEJA GAYOSO E ALMENDRA",
+        "driveFolderId": "1W4H-LtojuWB6eLCxIuzlQkx_Usyj4V5X",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22025324",
+        "municipio": "TERESINA",
+        "nome": "CETI PREFEITO JOÃO MENDES OLIMPIO DE MELO",
+        "rawFolder": "22025324 - TERESINA - CETI PREFEITO JOÃO MENDES OLIMPIO DE MELO",
+        "driveFolderId": "1pAw7SDqsEPe1FksvwF_s1Luy8YtMU2Sh",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22026487",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROFª MARIA RODRIGUES DAS MERCEDES",
+        "rawFolder": "22026487 - TERESINA - CEJA PROFª MARIA RODRIGUES DAS MERCEDES",
+        "driveFolderId": "1dKlc40XTH6JHDCEtfTpy4H4Z1WRtCXRn",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22026894",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR FELISMINO FREITAS",
+        "rawFolder": "22026894 - TERESINA - CETI PROFESSOR FELISMINO FREITAS",
+        "driveFolderId": "1MJGEv8xBVl7XODhBXhiPfdut37Tvho1b",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22026924",
+        "municipio": "TERESINA",
+        "nome": "CETI GOVERNADOR JOÃO CLIMACO DALMEIDA",
+        "rawFolder": "22026924 - TERESINA - CETI GOVERNADOR JOÃO CLIMACO DALMEIDA",
+        "driveFolderId": "1iLMzPaeHafH44N3TO0W-9ZNtM32Q5Zlk",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22026940",
+        "municipio": "TERESINA",
+        "nome": "CETI DESEMBARGADOR ROBERT CARVALHO FREITAS",
+        "rawFolder": "22026940 - TERESINA - CETI DESEMBARGADOR ROBERT CARVALHO FREITAS",
+        "driveFolderId": "1AOxOF8vFX50le_0t-piV_L88M5Bjswjw",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22026975",
+        "municipio": "TERESINA",
+        "nome": "CETI DOM SEVERINO",
+        "rawFolder": "22026975 - TERESINA - CETI DOM SEVERINO",
+        "driveFolderId": "1igQUs7B8yb2UJOgcYCVBKMBLNnctT4mP",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027432",
+        "municipio": "TERESINA",
+        "nome": "CETI DEPUTADO ALBERTO MONTEIRO",
+        "rawFolder": "22027432 - TERESINA - CETI DEPUTADO ALBERTO MONTEIRO",
+        "driveFolderId": "1uHxf0fLdXPlH1PDeeinP-wSfKZOv8Bu8",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027459",
+        "municipio": "TERESINA",
+        "nome": "CETI DESEMBARGADOR HELI SOBRAL",
+        "rawFolder": "22027459 - TERESINA - CETI DESEMBARGADOR HELI SOBRAL",
+        "driveFolderId": "1cCrSS8dZRbRA1akUNnWb8qgJa7lsrK7T",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027467",
+        "municipio": "MUNICÍPIO",
+        "nome": "CENTRO DE ATENDIMENTO ÀS PESSOAS EM SITUAÇÃO VULNERAVEL",
+        "rawFolder": "22027467 - CENTRO DE ATENDIMENTO ÀS PESSOAS EM SITUAÇÃO VULNERAVEL",
+        "driveFolderId": "1FAdMzlS9beUPipij-2ldgGmt-I9ZDvpH",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027564",
+        "municipio": "TERESINA",
+        "nome": "CETI MATIAS OLIMPIO",
+        "rawFolder": "22027564 - TERESINA - CETI MATIAS OLIMPIO",
+        "driveFolderId": "1T6XOVT-rvmJS1wnTtTeNVT9VFNANA3p1",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027602",
+        "municipio": "TERESINA",
+        "nome": "CETI PEQUENA RUBIM",
+        "rawFolder": "22027602 - TERESINA - CETI PEQUENA RUBIM",
+        "driveFolderId": "1aHRVOWNP5MCljaunhZdBBlqimG0wJigB",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027629",
+        "municipio": "TERESINA",
+        "nome": "CETI PREFEITO FREITAS NETO",
+        "rawFolder": "22027629 - TERESINA - CETI PREFEITO FREITAS NETO",
+        "driveFolderId": "1YANdAIAcTKycTMVW652T60EanMhs2ziA",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027700",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR EDGAR TITO",
+        "rawFolder": "22027700 - TERESINA - CETI PROFESSOR EDGAR TITO",
+        "driveFolderId": "1573oJyDsT0gHlGbs9SZZBpUAf2EspfpZ",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027742",
+        "municipio": "TERESINA",
+        "nome": "CETI PAULO FERRAZ",
+        "rawFolder": "22027742 - TERESINA - CETI PAULO FERRAZ",
+        "driveFolderId": "1UCwa7GPUOT54pEY4yTSW2lz98YLKonJo",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027904",
+        "municipio": "TERESINA",
+        "nome": "CETI BARAO DE GURGUEIA",
+        "rawFolder": "22027904 - TERESINA - CETI BARAO DE GURGUEIA",
+        "driveFolderId": "12W-5ndVseNodXKamn9vecuS3fUXydpbX",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22027939",
+        "municipio": "TERESINA",
+        "nome": "CETI BENJAMIN BAPTISTA",
+        "rawFolder": "22027939 - TERESINA - CETI BENJAMIN BAPTISTA",
+        "driveFolderId": "1_yAOgWxGKww1JaJCZANBwcxqj4x5s-mV",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028021",
+        "municipio": "TERESINA",
+        "nome": "CETI CRISTINO CASTELO BRANCO",
+        "rawFolder": "22028021 - TERESINA - CETI CRISTINO CASTELO BRANCO",
+        "driveFolderId": "1EIL7TY8HJBqOfplHZfOlrlbfF_BilIoh",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028188",
+        "municipio": "TERESINA",
+        "nome": "ESCOLA DE TECNOLOGIA ENGENHEIRO SAMPAIO",
+        "rawFolder": "22028188 - TERESINA - ESCOLA DE TECNOLOGIA ENGENHEIRO SAMPAIO",
+        "driveFolderId": "1AwTXLA_x2MjL7jMCu6B08IefJ3kudgmY",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028242",
+        "municipio": "TERESINA",
+        "nome": "CETI FIRMINA SOBREIRA",
+        "rawFolder": "22028242 - TERESINA - CETI FIRMINA SOBREIRA",
+        "driveFolderId": "1Fwdd-N3cGycdUDom-eLsHNI3LvDTYbBF",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028269",
+        "municipio": "TERESINA",
+        "nome": "CETI GABRIEL FERREIRA",
+        "rawFolder": "22028269 - TERESINA - CETI GABRIEL FERREIRA",
+        "driveFolderId": "1KGvPGRTzSthxWMVSbvBMx-ORcsIweX1K",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028366",
+        "municipio": "TERESINA",
+        "nome": "CETI HELVIDIO NUNES",
+        "rawFolder": "22028366 - TERESINA - CETI HELVIDIO NUNES",
+        "driveFolderId": "1n2zyhYfA40faeaFcY_i6uYqWi-kma1kZ",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22028439",
+        "municipio": "TERESINA",
+        "nome": "CETI JOEL RIBEIRO",
+        "rawFolder": "22028439 - TERESINA - CETI JOEL RIBEIRO",
+        "driveFolderId": "17q4EvMIj0pxfWfM_21c4llTVEFu6HAPm",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22029044",
+        "municipio": "TERESINA",
+        "nome": "CETI RAIMUNDO WALL FERRAZ",
+        "rawFolder": "22029044 - TERESINA - CETI RAIMUNDO WALL FERRAZ",
+        "driveFolderId": "1nmfuXVXK2xoFR10gjD3EXLQLCmvOGs2f",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22029079",
+        "municipio": "TERESINA",
+        "nome": "CETI SEVERIANO SOUSA",
+        "rawFolder": "22029079 - TERESINA - CETI SEVERIANO SOUSA",
+        "driveFolderId": "1J4NSBKQ27iDnWrzu_pSg5RrrQWd6OMN0",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22029117",
+        "municipio": "TERESINA",
+        "nome": "U E SINVAL DE CASTRO",
+        "rawFolder": "22029117 - TERESINA - U E SINVAL DE CASTRO",
+        "driveFolderId": "1iqOmSEhsmDrTihDoAMqQvX6zY8-MhY_H",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22104860",
+        "municipio": "TERESINA",
+        "nome": "CETI MUNDIM FERRAZ",
+        "rawFolder": "22104860 - TERESINA - CETI MUNDIM FERRAZ",
+        "driveFolderId": "1LEd4NL4jt0ML6_899AnAJzwMA4KAIdeI",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22115447",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA HELENA CARVALHO",
+        "rawFolder": "22115447 - TERESINA - CETI PROFESSORA HELENA CARVALHO",
+        "driveFolderId": "1JqHwyXp6qkmC5F58sfgqYDNlRgizDo4o",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22134310",
+        "municipio": "TERESINA",
+        "nome": "U E TENENTE ARAÚJO",
+        "rawFolder": "22134310 - TERESINA - U E TENENTE ARAÚJO",
+        "driveFolderId": "1M3E5OQyBG0laECUOSraRqihcLH7LSPSQ",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22135987",
+        "municipio": "TERESINA",
+        "nome": "CEJA DEPUTADA FRANCISCA TRINDADE",
+        "rawFolder": "22135987 - TERESINA - CEJA DEPUTADA FRANCISCA TRINDADE",
+        "driveFolderId": "11oI7O69I3xHc3074xltJ5I5ub6jLGV6r",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22140379",
+        "municipio": "TERESINA",
+        "nome": "CEJA CHAGAS RODRIGUES",
+        "rawFolder": "22140379 - TERESINA - CEJA CHAGAS RODRIGUES",
+        "driveFolderId": "1gkO9a8TF1Bw5X02ZE8r9TObkMVRRQ9Eu",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22140387",
+        "municipio": "TERESINA",
+        "nome": "CEJA ANTÔNIO DILSON FERNANDES",
+        "rawFolder": "22140387 - TERESINA - CEJA ANTÔNIO DILSON FERNANDES",
+        "driveFolderId": "1KOkYD_t7GiMSioyEM5aD2HAXx6TdgWGo",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22141162",
+        "municipio": "TERESINA",
+        "nome": "CETI CORINA MACHADO VIEIRA",
+        "rawFolder": "22141162 - TERESINA - CETI CORINA MACHADO VIEIRA",
+        "driveFolderId": "1YA-EenS8Xp5czzkWqESYslwJK4iAr2gx",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22146245",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE ARTESANATO TOINHA VIEIRA",
+        "rawFolder": "22146245 - TERESINA - CENTRO DE ARTESANATO TOINHA VIEIRA",
+        "driveFolderId": "10-mNc8YNRMB2MIJwNLaygPyplfgA-BpK",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22156801",
+        "municipio": "TERESINA",
+        "nome": "CENTRO TÉCNICO DE TEATRO PROFESSOR JOSÉ GOMES CAMPOS",
+        "rawFolder": "22156801 - TERESINA - CENTRO TÉCNICO DE TEATRO PROFESSOR JOSÉ GOMES CAMPOS",
+        "driveFolderId": "1OY-kQaSeXPkoSfeYG-JOV7knmf_6Y6Yh",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22161406",
+        "municipio": "TERESINA",
+        "nome": "CEJA SANTA MARIA DAS VASSOURAS",
+        "rawFolder": "22161406 - TERESINA - CEJA SANTA MARIA DAS VASSOURAS",
+        "driveFolderId": "157h8uYApBy1_LAHL1GI4x3WJmDfpaEOE",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22169601",
+        "municipio": "TERESINA",
+        "nome": "CENTRO INTEGRADO DE EDUCAÇÃO ESPECIAL - CIES TERESINA",
+        "rawFolder": "22169601 - TERESINA - CENTRO INTEGRADO DE EDUCAÇÃO ESPECIAL - CIES TERESINA",
+        "driveFolderId": "1kxPNOTLpg8Hrw-sKPNzIk0rkDLAUhRd2",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "22310754",
+        "municipio": "TERESINA",
+        "nome": "CETI JOSÉ PEREIRA DA SILVA",
+        "rawFolder": "22310754 - TERESINA - CETI JOSÉ PEREIRA DA SILVA",
+        "driveFolderId": "1Ua9HT2q2ROi-Tsubk9iigKudtdmtvilf",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "ALMOXARIFADO SEDUC",
+        "rawFolder": "ALMOXARIFADO SEDUC",
+        "driveFolderId": "1RqAjS9SwN_yIdxWgWh_c_Iqt2IlKuixf",
+        "greKey": "04ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "CONSELHO DE EDUCAÇÃO",
+        "rawFolder": "CONSELHO DE EDUCAÇÃO",
+        "driveFolderId": "16AWoE6t5T2anxO3yJ0pT-hI0QTYLe5J9",
+        "greKey": "04ª GRE"
+      }
+    ]
+  },
+  "05ª GRE": {
+    "folderId": "1NwXU4Bw1V3gQKLx89j_HkD0I-0ZucSec",
+    "schoolsCount": 30,
+    "schools": [
+      {
+        "inep": "5000000",
+        "municipio": "CAMPO MAIOR",
+        "nome": "SEDE 5GRE",
+        "rawFolder": "5000000 - CAMPO MAIOR - SEDE 5GRE",
+        "driveFolderId": "1em8aYE8Bb_SHMvBebfy0tg9z_bWae9gz",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22031804",
+        "municipio": "BURITI DOS MONTES",
+        "nome": "CETI ANTÔNIO DEROMI SOARES",
+        "rawFolder": "22031804 - BURITI DOS MONTES - CETI ANTÔNIO DEROMI SOARES",
+        "driveFolderId": "12ceGDKE7eciwK-asQfk2337ROWYQabBI",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22032339",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI RAIMUNDINHO ANDRADE",
+        "rawFolder": "22032339 - CAMPO MAIOR - CETI RAIMUNDINHO ANDRADE",
+        "driveFolderId": "1rxO1SWPqL-QrmIUc2aq_aAqDbass0n5V",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22033971",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CEJA PROFESSORA MULATA LIMA",
+        "rawFolder": "22033971 - CAMPO MAIOR - CEJA PROFESSORA MULATA LIMA",
+        "driveFolderId": "1FT8cVS-m4UfJHAv7EKVu5dRwlE55Wxy9",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22033998",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI CANDIDO BORGES CASTELO BRANCO",
+        "rawFolder": "22033998 - CAMPO MAIOR - CETI CANDIDO BORGES CASTELO BRANCO",
+        "driveFolderId": "1WRSUDaXtHM90B36Qa690SsOe3576fnjO",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034030",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI PATRONATO NOSSA SENHORA DE LOURDES",
+        "rawFolder": "22034030 - CAMPO MAIOR - CETI PATRONATO NOSSA SENHORA DE LOURDES",
+        "driveFolderId": "1xrhYwSjY5FNyFtUy0vuOjd1SRkAJFdqb",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034056",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI 13 DE MARÇO",
+        "rawFolder": "22034056 - CAMPO MAIOR - CETI 13 DE MARÇO",
+        "driveFolderId": "1J02_SsKBmBykrlY_PxSGZJdR1rCYvDGB",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034072",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI BRIOLANJA GENUÍNO DE OLIVEIRA",
+        "rawFolder": "22034072 - CAMPO MAIOR - CETI BRIOLANJA GENUÍNO DE OLIVEIRA",
+        "driveFolderId": "1QwYwE47osTLWreZ3YUkXGiluIewkJ8KB",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034102",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI LEOPOLDO PACHECO",
+        "rawFolder": "22034102 - CAMPO MAIOR - CETI LEOPOLDO PACHECO",
+        "driveFolderId": "15Lfrhq-KN1uR6XYehkADytCJFTBg3YpL",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034145",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI VALDIVINO TITO",
+        "rawFolder": "22034145 - CAMPO MAIOR - CETI VALDIVINO TITO",
+        "driveFolderId": "19Iy1v6EzfyD90iVDyGuGcImq7msa-QUi",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034218",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CEJA JOSÉ OLIMPIO DA PAZ",
+        "rawFolder": "22034218 - CAMPO MAIOR - CEJA JOSÉ OLIMPIO DA PAZ",
+        "driveFolderId": "1-fiigbi_0g_J2e8_O0MG7aFiJcN-dfwU",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034250",
+        "municipio": "CAMPO MAIOR",
+        "nome": "CETI PETRONIO PORTELA",
+        "rawFolder": "22034250 - CAMPO MAIOR - CETI PETRONIO PORTELA",
+        "driveFolderId": "1TIt9YuJDwZoOWVy8Vw4CBF3SDk8h09B5",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22034781",
+        "municipio": "CAPITÃO DE CAMPOS",
+        "nome": "CETI PAULO FERRAZ",
+        "rawFolder": "22034781 - CAPITÃO DE CAMPOS - CETI PAULO FERRAZ",
+        "driveFolderId": "1Zg5f7uc_mkgO43rIbIuhPuBJHTEspoad",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22035320",
+        "municipio": "JUAZEIRO DO PIAUÍ",
+        "nome": "CETI JOÃO ALVES DE MACEDO FILHO",
+        "rawFolder": "22035320 - JUAZEIRO DO PIAUÍ - CETI JOÃO ALVES DE MACEDO FILHO",
+        "driveFolderId": "1PxbfkA2R91JXwAmBWbVT6Ib7hk7wbBMa",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22035583",
+        "municipio": "CASTELO DO PIAUÍ",
+        "nome": "CETI FRANCISCO SALES MARTINS",
+        "rawFolder": "22035583 - CASTELO DO PIAUÍ - CETI FRANCISCO SALES MARTINS",
+        "driveFolderId": "1fAglKk85AzNn-eKBvJRLm2Z_WrhBStpX",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22035702",
+        "municipio": "CASTELO DO PIAUÍ",
+        "nome": "CEJA EULINA CAMPOS",
+        "rawFolder": "22035702 - CASTELO DO PIAUÍ - CEJA EULINA CAMPOS",
+        "driveFolderId": "1DR-zAPw0DbrJsVh-dD-o9WG0XAOZuT4u",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22035907",
+        "municipio": "CASTELO DO PIAUÍ",
+        "nome": "CETI CONEGO CARDOSO",
+        "rawFolder": "22035907 - CASTELO DO PIAUÍ - CETI CONEGO CARDOSO",
+        "driveFolderId": "1Rw5kuk5ffilJ_KfUe_9cjLxj0PiECM2C",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22038914",
+        "municipio": "SÃO JOÃO DA SERRA",
+        "nome": "U E JOÃO MARIANO RIBEIRO",
+        "rawFolder": "22038914 - SÃO JOÃO DA SERRA - U E JOÃO MARIANO RIBEIRO",
+        "driveFolderId": "10Z_B8W1jAyKvzGOxrt-48u5wOzUSVRgB",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22040358",
+        "municipio": "SÃO MIGUEL DO TAPUIO",
+        "nome": "CETI DONA ROSAURA MUNIZ BARRETO",
+        "rawFolder": "22040358 - SÃO MIGUEL DO TAPUIO - CETI DONA ROSAURA MUNIZ BARRETO",
+        "driveFolderId": "1yA8gpoCMI8pxaPg0NJ63qQ2xcPzFbqsP",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22040676",
+        "municipio": "SÃO MIGUEL DO TAPUIO",
+        "nome": "CETI LIMA REBELO",
+        "rawFolder": "22040676 - SÃO MIGUEL DO TAPUIO - CETI LIMA REBELO",
+        "driveFolderId": "1exQNZbCpbvCvqSGP9BPoVljP7Sxp8WgX",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22117806",
+        "municipio": "SÃO MIGUEL DO TAPUIO",
+        "nome": "CETI CÔNEGO CARDOSO",
+        "rawFolder": "22117806 - SÃO MIGUEL DO TAPUIO - CETI CÔNEGO CARDOSO",
+        "driveFolderId": "1ndWryQN_HNtx1RDXgJuqqol3BIg_GQgH",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22122044",
+        "municipio": "SIGEFREDO PACHECO",
+        "nome": "CETI DR JERONIMO DOS SANTOS E SILVA",
+        "rawFolder": "22122044 - SIGEFREDO PACHECO - CETI DR JERONIMO DOS SANTOS E SILVA",
+        "driveFolderId": "1RfJcGbbDGDK-wXaWwHHtisUblyQYaKXm",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22125787",
+        "municipio": "JATOBÁ DO PIAUÍ",
+        "nome": "CETI PROFESSOR FRANCISCO LUIS DE OLIVEIRA",
+        "rawFolder": "22125787 - JATOBÁ DO PIAUÍ - CETI PROFESSOR FRANCISCO LUIS DE OLIVEIRA",
+        "driveFolderId": "1y3lAQAI38JfjO0xWlL0Pf1t7LnTD-Qg7",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22126945",
+        "municipio": "COCAL DE TELHA",
+        "nome": "CETI JOB DE MACEDO BRITO",
+        "rawFolder": "22126945 - COCAL DE TELHA - CETI JOB DE MACEDO BRITO",
+        "driveFolderId": "1zrMtUUPxfETJEdvIUz9hHRWbEtbnYAGI",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22127020",
+        "municipio": "NOSSA SENHORA DE NAZARÉ",
+        "nome": "CETI DR JOSÉ RIBAMAR LOPES",
+        "rawFolder": "22127020 - NOSSA SENHORA DE NAZARÉ - CETI DR JOSÉ RIBAMAR LOPES",
+        "driveFolderId": "12p9YYCtmqbyK1z85SRAtv1JHhy2dPkad",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22127526",
+        "municipio": "BOQUEIRÃO DO PIAUÍ",
+        "nome": "CETI PROFESSOR ANTÔNIO DOS REIS E SILVA",
+        "rawFolder": "22127526 - BOQUEIRÃO DO PIAUÍ - CETI PROFESSOR ANTÔNIO DOS REIS E SILVA",
+        "driveFolderId": "1KuKkaTaVGtfhYeNmZZ2lTJcJ9LiHF4tJ",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22129650",
+        "municipio": "BOA HORA",
+        "nome": "CETI PEDRO COELHO DE RESENDE",
+        "rawFolder": "22129650 - BOA HORA - CETI PEDRO COELHO DE RESENDE",
+        "driveFolderId": "1mlyjglCxvFLrqT22KY0Ww2O0jahNOwpg",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22135065",
+        "municipio": "ASSUNÇÃO DO PIAUÍ",
+        "nome": "CETI SEBASTIAO ALVES DOS REIS",
+        "rawFolder": "22135065 - ASSUNÇÃO DO PIAUÍ - CETI SEBASTIAO ALVES DOS REIS",
+        "driveFolderId": "1SnGAPnStHuKfjVNXWcu_WJveBzVlXeWJ",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22135146",
+        "municipio": "CAPITÃO DE CAMPOS",
+        "nome": "CETI ARIMATHEIA TITO FILHO",
+        "rawFolder": "22135146 - CAPITÃO DE CAMPOS - CETI ARIMATHEIA TITO FILHO",
+        "driveFolderId": "1kPx50-h08ZR5in9y8Ou8ATemUcNX9skX",
+        "greKey": "05ª GRE"
+      },
+      {
+        "inep": "22135324",
+        "municipio": "SÃO JOÃO DA SERRA",
+        "nome": "CETI PROF UBIRACI CARVALHO",
+        "rawFolder": "22135324 - SÃO JOÃO DA SERRA - CETI PROF UBIRACI CARVALHO",
+        "driveFolderId": "19_NWWTgsZed6KQuJe3UKxIqUkyPvHRGY",
+        "greKey": "05ª GRE"
+      }
+    ]
+  },
+  "06ª GRE": {
+    "folderId": "1jeD1YmG79B2vLwk9jByyXWMx47qYSQvf",
+    "schoolsCount": 33,
+    "schools": [
+      {
+        "inep": "22021310",
+        "municipio": "MIGUEL LEÃO",
+        "nome": "CETI ESTADO DO ACRE",
+        "rawFolder": "22021310 - MIGUEL LEÃO - CETI ESTADO DO ACRE",
+        "driveFolderId": "1a3oFZAbHpMrLTEs6Et55ix1_NCA0f7wK",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22041222",
+        "municipio": "AGRICOLÂNDIA",
+        "nome": "CETI JOÃO FERRY",
+        "rawFolder": "22041222 - AGRICOLÂNDIA - CETI JOÃO FERRY",
+        "driveFolderId": "1c1q2BmY5UtsbsANwvb6xC7E4FSvPDQbW",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22041621",
+        "municipio": "ÁGUA BRANCA",
+        "nome": "CETI MONSENHOR BOSON",
+        "rawFolder": "22041621 - ÁGUA BRANCA - CETI MONSENHOR BOSON",
+        "driveFolderId": "1WPoaRW-l_uI4xFlYLnEA6M6yaZh3xYFE",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22041680",
+        "municipio": "ÁGUA BRANCA",
+        "nome": "CETI WALL FERRAZ",
+        "rawFolder": "22041680 - ÁGUA BRANCA - CETI WALL FERRAZ",
+        "driveFolderId": "1e848qAQ2g0qtABEMqo_KJU2U3eRj9iDS",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042130",
+        "municipio": "AMARANTE",
+        "nome": "CETI PROF ANTÔNIO CASTRO",
+        "rawFolder": "22042130 - AMARANTE - CETI PROF ANTÔNIO CASTRO",
+        "driveFolderId": "1b0Fqturs8jwTqv5GagvrwOgpd-XYM3rT",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042237",
+        "municipio": "AMARANTE",
+        "nome": "CETI DA COSTA E SILVA",
+        "rawFolder": "22042237 - AMARANTE - CETI DA COSTA E SILVA",
+        "driveFolderId": "1zdXIEnbCJbn8N4Namh06Zz4r4_n6sqB6",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042385",
+        "municipio": "AMARANTE",
+        "nome": "CETI POLIVALENTE",
+        "rawFolder": "22042385 - AMARANTE - CETI POLIVALENTE",
+        "driveFolderId": "1uzi2YYTvikkB42_tI4VeNmS5-nFK8QtC",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042660",
+        "municipio": "ANGICAL DO PIAUÍ",
+        "nome": "CETI ATILA LIRA",
+        "rawFolder": "22042660 - ANGICAL DO PIAUÍ - CETI ATILA LIRA",
+        "driveFolderId": "1PNiBRDqpu5v_licbcHaoCDAIcWC51X18",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042679",
+        "municipio": "ANGICAL DO PIAUÍ",
+        "nome": "CETI DEMERVAL LOBÃO",
+        "rawFolder": "22042679 - ANGICAL DO PIAUÍ - CETI DEMERVAL LOBÃO",
+        "driveFolderId": "1jz8DR7I1-4IajL73zetNDFkw0KqLLyoq",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22042954",
+        "municipio": "OLHO D&#39;ÁGUA DO PIAUÍ",
+        "nome": "CETI ADALBERTO CORREIA LIMA",
+        "rawFolder": "22042954 - OLHO D&#39;ÁGUA DO PIAUÍ - CETI ADALBERTO CORREIA LIMA",
+        "driveFolderId": "1bMLHLo_ymXF_g-WzbWmTZKJgtYFUlGRL",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22043128",
+        "municipio": "BARRO DURO",
+        "nome": "CEJA NOEMIA DO CARMO SANTANA",
+        "rawFolder": "22043128 - BARRO DURO - CEJA NOEMIA DO CARMO SANTANA",
+        "driveFolderId": "13XMlE2wtX6Z0VecgtQWuINaqcEQ3EEYR",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22043187",
+        "municipio": "BARRO DURO",
+        "nome": "CETI BENEDITO MARTINS NAPOLEAO",
+        "rawFolder": "22043187 - BARRO DURO - CETI BENEDITO MARTINS NAPOLEAO",
+        "driveFolderId": "1QgFkOezXxHvdPn5zaR4ur0jjshiKJJik",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22043659",
+        "municipio": "HUGO NAPOLEÃO",
+        "nome": "CETI ANTONIO FREITAS",
+        "rawFolder": "22043659 - HUGO NAPOLEÃO - CETI ANTONIO FREITAS",
+        "driveFolderId": "1fDZX9lvk-6MzJmsx2lq13O3MS88Ls883",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22043853",
+        "municipio": "JARDIM DO MULATO",
+        "nome": "CETI JOSÉ BORBA DE CARVALHO",
+        "rawFolder": "22043853 - JARDIM DO MULATO - CETI JOSÉ BORBA DE CARVALHO",
+        "driveFolderId": "13x3u0jkoyznCg9CeAIq_cNrzaTyJFGJ8",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22044752",
+        "municipio": "PALMEIRAIS",
+        "nome": "CETI SEBASTIAO SOARES RIBEIRO",
+        "rawFolder": "22044752 - PALMEIRAIS - CETI SEBASTIAO SOARES RIBEIRO",
+        "driveFolderId": "1aYHQYuxAoggDV7FmcInYbQoUWmispsw1",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045058",
+        "municipio": "PASSAGEM FRANCA",
+        "nome": "CETI COSTA E SILVA",
+        "rawFolder": "22045058 - PASSAGEM FRANCA - CETI COSTA E SILVA",
+        "driveFolderId": "1dK27bFlcGtqe5I5yciwcM_eBtf-JV1Fz",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045503",
+        "municipio": "REGENERAÇÃO",
+        "nome": "CEJA MARIA DO AMPARO MACEDO SILVA",
+        "rawFolder": "22045503 - REGENERAÇÃO - CEJA MARIA DO AMPARO MACEDO SILVA",
+        "driveFolderId": "1jQs8rpl2IdzoFNf4iLH1-MPEGkF1zhGS",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045686",
+        "municipio": "REGENERAÇÃO",
+        "nome": "CETI AURORA BARBOSA DE OLIVEIRA",
+        "rawFolder": "22045686 - REGENERAÇÃO - CETI AURORA BARBOSA DE OLIVEIRA",
+        "driveFolderId": "1cMPrVbJvHvmGYle7FTP_ARIMndV1oCaV",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045694",
+        "municipio": "REGENERAÇÃO",
+        "nome": "CETI ALBERTO LEAL NUNES",
+        "rawFolder": "22045694 - REGENERAÇÃO - CETI ALBERTO LEAL NUNES",
+        "driveFolderId": "12i490q_L-o9ivEgnJqvYHmy0LqRNWQZS",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045716",
+        "municipio": "REGENERAÇÃO",
+        "nome": "CETI ANTÔNIO DE NEIVA",
+        "rawFolder": "22045716 - REGENERAÇÃO - CETI ANTÔNIO DE NEIVA",
+        "driveFolderId": "1RZgXWWi5UiEadUuARnFae56miQjmyJNe",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22045910",
+        "municipio": "SÃO GONÇALO DO PIAUÍ",
+        "nome": "CETI FRANCISCO NUNES",
+        "rawFolder": "22045910 - SÃO GONÇALO DO PIAUÍ - CETI FRANCISCO NUNES",
+        "driveFolderId": "1dCasH8noE5duRlZxLwiYGIag6Mje9Kku",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22046046",
+        "municipio": "SÃO GONÇALO DO PIAUÍ",
+        "nome": "U E SEBASTIAO CRUZ",
+        "rawFolder": "22046046 - SÃO GONÇALO DO PIAUÍ - U E SEBASTIAO CRUZ",
+        "driveFolderId": "17BTj2OKnbo07-FsWTn8a3TsQjpAz-H8t",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22046445",
+        "municipio": "SÃO PEDRO DO PIAUÍ",
+        "nome": "CETI LANDRI SALES",
+        "rawFolder": "22046445 - SÃO PEDRO DO PIAUÍ - CETI LANDRI SALES",
+        "driveFolderId": "1DiBgBPzsO4Q_tFQU8R-WaBc7O40DqAxK",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22046461",
+        "municipio": "SÃO PEDRO DO PIAUÍ",
+        "nome": "U E MANOEL SOARES TEIXEIRA",
+        "rawFolder": "22046461 - SÃO PEDRO DO PIAUÍ - U E MANOEL SOARES TEIXEIRA",
+        "driveFolderId": "18LwoLFC9FsfK2Q9a9gYI3JIShblwFIfx",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22105559",
+        "municipio": "PALMEIRAIS",
+        "nome": "CETI OZANDIR TEIXEIRA",
+        "rawFolder": "22105559 - PALMEIRAIS - CETI OZANDIR TEIXEIRA",
+        "driveFolderId": "1vcVJa_KnAeFOi2V-3Iqf_0P6uoZde6uj",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22107055",
+        "municipio": "AMARANTE",
+        "nome": "CEJA OTACILIA RAMOS",
+        "rawFolder": "22107055 - AMARANTE - CEJA OTACILIA RAMOS",
+        "driveFolderId": "1R_T4k_u8d3Ak_qAN0jNURbmfZ8yfX8s9",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22109633",
+        "municipio": "ÁGUA BRANCA",
+        "nome": "CEJA LUIZ PADRE",
+        "rawFolder": "22109633 - ÁGUA BRANCA - CEJA LUIZ PADRE",
+        "driveFolderId": "1gY5xx-u7j90nRarMYyy0ugb-BdJnA8rj",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22117121",
+        "municipio": "REGENERAÇÃO",
+        "nome": "CETI QUILOMBOLA IIÊ OMO ORUN",
+        "rawFolder": "22117121 - REGENERAÇÃO - CETI QUILOMBOLA IIÊ OMO ORUN",
+        "driveFolderId": "1C1R5yam84h1P3WqVTvwU_O-b9YQPOCKS",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22131574",
+        "municipio": "SANTO ANTÔNIO DOS MILAGRES",
+        "nome": "CETI DEP ALBERTO DE MOURA MONTEIRO",
+        "rawFolder": "22131574 - SANTO ANTÔNIO DOS MILAGRES - CETI DEP ALBERTO DE MOURA MONTEIRO",
+        "driveFolderId": "11lgP-rYI06eR6lJ_YsKUgCpzKKdWYJLM",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22131590",
+        "municipio": "LAGOINHA DO PIAUÍ",
+        "nome": "CETI MOISANIEL ALVES DE SOUSA",
+        "rawFolder": "22131590 - LAGOINHA DO PIAUÍ - CETI MOISANIEL ALVES DE SOUSA",
+        "driveFolderId": "1e80MUwXd4DvugYV1ijOqIo-7zj23wr_I",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22142584",
+        "municipio": "SÃO PEDRO DO PIAUÍ",
+        "nome": "CETI FAMÍLIA AGRÍCOLA SÃO PEDRO DO PIAUÍ",
+        "rawFolder": "22142584 - SÃO PEDRO DO PIAUÍ - CETI FAMÍLIA AGRÍCOLA SÃO PEDRO DO PIAUÍ",
+        "driveFolderId": "16KFVH0DXKr5GMOBet0qMl394g09l_Z3e",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "22162216",
+        "municipio": "PALMEIRAIS",
+        "nome": "CETI LUIZ FERNANDES BORGES NASCIMENTO",
+        "rawFolder": "22162216 - PALMEIRAIS - CETI LUIZ FERNANDES BORGES NASCIMENTO",
+        "driveFolderId": "1cZCxfVFm8p3Eihx5mJBiwWp4IAMNMK_Q",
+        "greKey": "06ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "ARRAIAL",
+        "nome": "ANTIGO PRÉDIO CETI SILVESTRE ROCHA",
+        "rawFolder": "ARRAIAL - ANTIGO PRÉDIO CETI SILVESTRE ROCHA",
+        "driveFolderId": "1Ua2hkj9-4tQKcOZRyyIV_-nDewa61jXx",
+        "greKey": "06ª GRE"
+      }
+    ]
+  },
+  "07ª GRE": {
+    "folderId": "1RxFkpPB8ZNx7S8hEtNvlyc3iV8CwFOjy",
+    "schoolsCount": 26,
+    "schools": [
+      {
+        "inep": "22046925",
+        "municipio": "AROAZES",
+        "nome": "CETI JEREMIAS PEREIRA DA SILVA",
+        "rawFolder": "22046925 - AROAZES - CETI JEREMIAS PEREIRA DA SILVA",
+        "driveFolderId": "1msIB6s2i5FxgkeslfPIqjXTdVftuS8af",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22047484",
+        "municipio": "ELESBÃO VELOSO",
+        "nome": "CETI BENEDITO PORTELA LEAL",
+        "rawFolder": "22047484 - ELESBÃO VELOSO - CETI BENEDITO PORTELA LEAL",
+        "driveFolderId": "1StOBLrC0j9XIizuKz0q8OjEIJxnG8hoE",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22047590",
+        "municipio": "ELESBÃO VELOSO",
+        "nome": "CETI MOISES LIMA VERDE",
+        "rawFolder": "22047590 - ELESBÃO VELOSO - CETI MOISES LIMA VERDE",
+        "driveFolderId": "1WqEFA1Cm7I9fxPwMkU0cmnGgxgSBlgt4",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22047921",
+        "municipio": "FRANCINÓPOLIS",
+        "nome": "CETI LUIS DE CASTRO",
+        "rawFolder": "22047921 - FRANCINÓPOLIS - CETI LUIS DE CASTRO",
+        "driveFolderId": "1JL4WzcP9-emBQ6VPCkwwfvtc89z67GVr",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048340",
+        "municipio": "INHUMA",
+        "nome": "CETI MANOEL FERREIRA BARBOSA DE MACEDO",
+        "rawFolder": "22048340 - INHUMA - CETI MANOEL FERREIRA BARBOSA DE MACEDO",
+        "driveFolderId": "1to0-iH_v-fIvrHFJEFVVn1nCwQbm001F",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048413",
+        "municipio": "INHUMA",
+        "nome": "U E ANTÔNIO DE DEUS CARVALHO",
+        "rawFolder": "22048413 - INHUMA - U E ANTÔNIO DE DEUS CARVALHO",
+        "driveFolderId": "12A45b_flGJc2t51uDDAwKeiAviv3buQO",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048456",
+        "municipio": "INHUMA",
+        "nome": "CETI JOÃO DE DEUS CARVALHO",
+        "rawFolder": "22048456 - INHUMA - CETI JOÃO DE DEUS CARVALHO",
+        "driveFolderId": "1oz4yX4eZHzqGeb2MFRdc020oYCx2PJWI",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048766",
+        "municipio": "NOVO ORIENTE DO PIAUÍ",
+        "nome": "CEJA EUSTACHIO PORTELLA",
+        "rawFolder": "22048766 - NOVO ORIENTE DO PIAUÍ - CEJA EUSTACHIO PORTELLA",
+        "driveFolderId": "11ZtHnd4iE4_aZianJNQgFgAHo8liTsEz",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048928",
+        "municipio": "NOVO ORIENTE DO PIAUÍ",
+        "nome": "CETI SENADOR CHAGAS RODRIGUES",
+        "rawFolder": "22048928 - NOVO ORIENTE DO PIAUÍ - CETI SENADOR CHAGAS RODRIGUES",
+        "driveFolderId": "1Crm7YJv2YZckknjthpSaxVB6T-Z8jbAu",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22048995",
+        "municipio": "PIMENTEIRAS",
+        "nome": "CETI ANTONIO GENTIL DANTAS SOBRINHO",
+        "rawFolder": "22048995 - PIMENTEIRAS - CETI ANTONIO GENTIL DANTAS SOBRINHO",
+        "driveFolderId": "1SgFpjbmsjtGusWv95dFGjfp2EvHJozlo",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22049126",
+        "municipio": "PIMENTEIRAS",
+        "nome": "U E ENEAS NOGUEIRA",
+        "rawFolder": "22049126 - PIMENTEIRAS - U E ENEAS NOGUEIRA",
+        "driveFolderId": "1FO5ZglsJHSUYS4eNCa--i92ZgyXi6S0s",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22049690",
+        "municipio": "PRATA DO PIAUÍ",
+        "nome": "CETI AMANDO MOURA",
+        "rawFolder": "22049690 - PRATA DO PIAUÍ - CETI AMANDO MOURA",
+        "driveFolderId": "1hqj6g1H5fPjXGlW7QSaAJQNjH3XTvFyi",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22050027",
+        "municipio": "SANTA CRUZ DOS MILAGRES",
+        "nome": "CETI EUSTAQUIO PORTELA",
+        "rawFolder": "22050027 - SANTA CRUZ DOS MILAGRES - CETI EUSTAQUIO PORTELA",
+        "driveFolderId": "1DeQEx516RF5Ffr4aKVJdQAmud90E8mg4",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22050043",
+        "municipio": "SÃO MIGUEL DA BAIXA GRANDE",
+        "nome": "CETI RITINHA ROSA DE MOURA",
+        "rawFolder": "22050043 - SÃO MIGUEL DA BAIXA GRANDE - CETI RITINHA ROSA DE MOURA",
+        "driveFolderId": "1YVDRAEwv7CoDuiAHs1pU2wC4-ATVe_nG",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22050370",
+        "municipio": "SÃO FÉLIX DO PIAUÍ",
+        "nome": "CETI SATURNINO MOURA",
+        "rawFolder": "22050370 - SÃO FÉLIX DO PIAUÍ - CETI SATURNINO MOURA",
+        "driveFolderId": "1_QlzJloBAQNT24_5BtRFNULsQDx3RST1",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22050450",
+        "municipio": "VALENÇA",
+        "nome": "CETI SANTO ANTONIO",
+        "rawFolder": "22050450 - VALENÇA - CETI SANTO ANTONIO",
+        "driveFolderId": "1vPDdG02uOG47W2-gSQbtS37V3qpzFYjh",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22050922",
+        "municipio": "VALENÇA",
+        "nome": "CETI DONA MARIA ANTONIETA TORRES VELOSO",
+        "rawFolder": "22050922 - VALENÇA - CETI DONA MARIA ANTONIETA TORRES VELOSO",
+        "driveFolderId": "1KnihzbUoBtFFbXEraYtSfslSWsHl2SkQ",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22051066",
+        "municipio": "VALENÇA",
+        "nome": "CETI CONEGO ACILINO",
+        "rawFolder": "22051066 - VALENÇA - CETI CONEGO ACILINO",
+        "driveFolderId": "1RDwXOLCBocq9y8yxlF0VdlzY_g-c0m5G",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22051180",
+        "municipio": "VALENÇA",
+        "nome": "CEJA VITORIA DA COSTA LIMA",
+        "rawFolder": "22051180 - VALENÇA - CEJA VITORIA DA COSTA LIMA",
+        "driveFolderId": "1uEqshZVsvN572vtRRFYe_p4izU2SuVgN",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22051457",
+        "municipio": "VÁRZEA GRANDE",
+        "nome": "CETI MARIA CANDIDA",
+        "rawFolder": "22051457 - VÁRZEA GRANDE - CETI MARIA CANDIDA",
+        "driveFolderId": "1WTQdn3wOMMLPtVatUvp-t7GCqnCcBj6e",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22078690",
+        "municipio": "IPIRANGA DO PIAUÍ",
+        "nome": "CETI MANOEL RIBEIRO",
+        "rawFolder": "22078690 - IPIRANGA DO PIAUÍ - CETI MANOEL RIBEIRO",
+        "driveFolderId": "1SX27m47NbbCgWL4aOoGF9kQRIrYx5a2r",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22106790",
+        "municipio": "AROAZES",
+        "nome": "CETI FAMÍLIA AGRICOLA MONTES CLAROS",
+        "rawFolder": "22106790 - AROAZES - CETI FAMÍLIA AGRICOLA MONTES CLAROS",
+        "driveFolderId": "1ZBkiHM2KBkLqb0V39hUGnJQzCI8UJ2y-",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22118179",
+        "municipio": "IPIRANGA DO PIAUÍ",
+        "nome": "CETI DOM JOAQUIM R DO REGO",
+        "rawFolder": "22118179 - IPIRANGA DO PIAUÍ - CETI DOM JOAQUIM R DO REGO",
+        "driveFolderId": "1GHCuTNUx3vASDtOpHQfznhCDZ0Pd9DwL",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22132147",
+        "municipio": "LAGOA DO SÍTIO",
+        "nome": "CETI MARIANO RABELO DE SEPULVIDA",
+        "rawFolder": "22132147 - LAGOA DO SÍTIO - CETI MARIANO RABELO DE SEPULVIDA",
+        "driveFolderId": "1bTGNE9Kt3JiW0juJnQr_e2GDNsEOGOZ4",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "22132589",
+        "municipio": "BARRA D&#39;ALCANTARA",
+        "nome": "CETI FIRMO RODRIGUES SOBREIRA",
+        "rawFolder": "22132589 - BARRA D&#39;ALCANTARA - CETI FIRMO RODRIGUES SOBREIRA",
+        "driveFolderId": "1AV4FKuP51TAow7ETcSNdaABqk9Nn5hao",
+        "greKey": "07ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE",
+        "rawFolder": "SEDE",
+        "driveFolderId": "1PwAjSfsNoe2FNuSDPLZh_yPilgibw7-d",
+        "greKey": "07ª GRE"
+      }
+    ]
+  },
+  "08ª GRE": {
+    "folderId": "1g7ZOrTSiJf3x_O3P5B-QxL5wSbgKorsp",
+    "schoolsCount": 29,
+    "schools": [
+      {
+        "inep": "22061258",
+        "municipio": "SÃO MIGUEL DO FIDALGO",
+        "nome": "CETI MIGUEL MARINHO",
+        "rawFolder": "22061258 - SÃO MIGUEL DO FIDALGO - CETI MIGUEL MARINHO",
+        "driveFolderId": "18dtRwuKXt5cxWW7nm0pq3XNl_jf739CJ",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22078096",
+        "municipio": "COLÔNIA DO PIAUÍ",
+        "nome": "CETI DR JOSÉ GUSMÃO",
+        "rawFolder": "22078096 - COLÔNIA DO PIAUÍ - CETI DR JOSÉ GUSMÃO",
+        "driveFolderId": "1eNB2M7i5ymvQb7U-AAE0BcihSDrSYRpj",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080333",
+        "municipio": "OEIRAS",
+        "nome": "CETI DESEMBARGADOR PEDRO SÁ",
+        "rawFolder": "22080333 - OEIRAS - CETI DESEMBARGADOR PEDRO SÁ",
+        "driveFolderId": "184DWgwrq8QiySfGLO6lZd7nrY56JqIva",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080341",
+        "municipio": "OEIRAS",
+        "nome": "CEJA DR JOSÉ COELHO REIS",
+        "rawFolder": "22080341 - OEIRAS - CEJA DR JOSÉ COELHO REIS",
+        "driveFolderId": "1dX2e4On3-StAQmg_luZeJMClakm0K_Mw",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080392",
+        "municipio": "OEIRAS",
+        "nome": "CETI ARMANDO BURLAMAQUI",
+        "rawFolder": "22080392 - OEIRAS - CETI ARMANDO BURLAMAQUI",
+        "driveFolderId": "1fRurOtio9rhEqE-JozTvnTJEDnY0vX4U",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080422",
+        "municipio": "OEIRAS",
+        "nome": "CETI COSTA ALVARENGA",
+        "rawFolder": "22080422 - OEIRAS - CETI COSTA ALVARENGA",
+        "driveFolderId": "13FM1ZaarjLLcyrw5Z765DPX4X9LjuftL",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080449",
+        "municipio": "OEIRAS",
+        "nome": "CETI FARMACEUTICO JOÃO CARVALHO",
+        "rawFolder": "22080449 - OEIRAS - CETI FARMACEUTICO JOÃO CARVALHO",
+        "driveFolderId": "1wBwegceBesDd8BW2lgOwpP5wlM-n0BpV",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080465",
+        "municipio": "OEIRAS",
+        "nome": "CEJA NOGUEIRA TAPETY",
+        "rawFolder": "22080465 - OEIRAS - CEJA NOGUEIRA TAPETY",
+        "driveFolderId": "1jAlRnx9YYZAPs8Cy2MwlerGA9Sqm_lCg",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22080481",
+        "municipio": "OEIRAS",
+        "nome": "CETI ORLANDO CARVALHO",
+        "rawFolder": "22080481 - OEIRAS - CETI ORLANDO CARVALHO",
+        "driveFolderId": "19hdgANhyzlDUTEcG_PrKhs444zaHa8-w",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22083022",
+        "municipio": "SANTA CRUZ DO PIAUÍ",
+        "nome": "CETI SEVERO MARIA EULALIO",
+        "rawFolder": "22083022 - SANTA CRUZ DO PIAUÍ - CETI SEVERO MARIA EULALIO",
+        "driveFolderId": "1gozYYskndhGYfauCTrvHQ4ToSZthTk2w",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22083065",
+        "municipio": "WALL FERRAZ",
+        "nome": "CETI CLEMENTINO MARTINS",
+        "rawFolder": "22083065 - WALL FERRAZ - CETI CLEMENTINO MARTINS",
+        "driveFolderId": "1g6Eg4ZvOZ6XvTQxeldcNcnEImcXdFZfI",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22083480",
+        "municipio": "SANTA ROSA DO PIAUÍ",
+        "nome": "CETI DOM EDILBERTO DINKELBORG",
+        "rawFolder": "22083480 - SANTA ROSA DO PIAUÍ - CETI DOM EDILBERTO DINKELBORG",
+        "driveFolderId": "1iFJM4LwnhCrezkyWdotBj2OMXb59YwOz",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22083510",
+        "municipio": "TANQUE DO PIAUÍ",
+        "nome": "CETI SÃO SEBASTIAO",
+        "rawFolder": "22083510 - TANQUE DO PIAUÍ - CETI SÃO SEBASTIAO",
+        "driveFolderId": "1pNO-mFNrTmPmBx8JzST8K2T3IiyLUxyI",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22088024",
+        "municipio": "CAMPINAS DO PIAUÍ",
+        "nome": "CETI DR JOSÉ DE MOURA FE",
+        "rawFolder": "22088024 - CAMPINAS DO PIAUÍ - CETI DR JOSÉ DE MOURA FE",
+        "driveFolderId": "1JP1GQSy7WgPuQvJt67dLBYg3sHniWd9e",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22099476",
+        "municipio": "OEIRAS",
+        "nome": "SANTO INÁCIO DO PIAUÍ",
+        "rawFolder": "22099476 - OEIRAS - SANTO INÁCIO DO PIAUÍ",
+        "driveFolderId": "1IaJkzw1xZin1jpFlvPKaLHjOBSY2wsFV",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22099476",
+        "municipio": "SANTO INÁCIO DO PIAUÍ",
+        "nome": "CETI JOÃO DE SOUSA MOURA",
+        "rawFolder": "22099476 - SANTO INÁCIO DO PIAUÍ - CETI JOÃO DE SOUSA MOURA",
+        "driveFolderId": "1L2zGZ3cQYwCSet7j_BmVY6dwmJKyWfz2",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22111891",
+        "municipio": "OEIRAS",
+        "nome": "CETI PROF. BALDUINO BARBOSA DE DEUS",
+        "rawFolder": "22111891 - OEIRAS - CETI PROF. BALDUINO BARBOSA DE DEUS",
+        "driveFolderId": "1_WVD5ekHUO3LSm7ThZB8MvAPuUWT335F",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22124586",
+        "municipio": "SÃO JOÃO DA VARJOTA",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO II",
+        "rawFolder": "22124586 - SÃO JOÃO DA VARJOTA - CETI FAMILIA AGRICOLA DOM EDILBERTO II",
+        "driveFolderId": "1yMK5NcbFokF0e24QQYcG5rqPm5RGXUnz",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22133968",
+        "municipio": "OEIRAS",
+        "nome": "CETI ROCHA NETO",
+        "rawFolder": "22133968 - OEIRAS - CETI ROCHA NETO",
+        "driveFolderId": "1z9ZtwWNv4sQYVPx9CnAJ2o2y4So75Ml3",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22134018",
+        "municipio": "CAJAZEIRAS DO PIAUÍ",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO III",
+        "rawFolder": "22134018 - CAJAZEIRAS DO PIAUÍ - CETI FAMILIA AGRICOLA DOM EDILBERTO III",
+        "driveFolderId": "12_W8nVbWMdw2p9PczVFVTNsh4Ni8Mkal",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22134050",
+        "municipio": "SÃO JOÃO DA VARJOTA",
+        "nome": "CETI SÃO JOÃO BATISTA",
+        "rawFolder": "22134050 - CETI SÃO JOÃO BATISTA - SÃO JOÃO DA VARJOTA",
+        "driveFolderId": "13-cuP0dW3CGPEc_YPbsSmweCBjh1oAK7",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22134050",
+        "municipio": "SÃO JOÃO DA VARJOTA",
+        "nome": "CETI SÃO JOÃO BATISTA",
+        "rawFolder": "22134050 - SÃO JOÃO DA VARJOTA - CETI SÃO JOÃO BATISTA",
+        "driveFolderId": "1ey5du1deHklyi8oEbhBQg738hPIUAFPS",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22136045",
+        "municipio": "OEIRAS - EFADE IV",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO",
+        "rawFolder": "22136045 - OEIRAS - CETI FAMILIA AGRICOLA DOM EDILBERTO - EFADE IV",
+        "driveFolderId": "1wbypo6VzPal9zr8xNhNn2-vJJqX0WHdY",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22136886",
+        "municipio": "CAJAZEIRAS DO PIAUÍ",
+        "nome": "CETI FRANCIVAL RODRIGUES DO NASCIMENTO",
+        "rawFolder": "22136886 - CAJAZEIRAS DO PIAUÍ - CETI FRANCIVAL RODRIGUES DO NASCIMENTO",
+        "driveFolderId": "1_lBM6FzZKdIdak_lZPJR5fWdFcpn4s4I",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22141723",
+        "municipio": "SANTA CRUZ DO PIAUÍ - DONA JANDIRA NUNES MARTINS",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO VII",
+        "rawFolder": "22141723 - SANTA CRUZ DO PIAUÍ - CETI FAMILIA AGRICOLA DOM EDILBERTO VII - DONA JANDIRA NUNES MARTINS",
+        "driveFolderId": "1n_wOdCuKrXRHK9oUq0jC8q8ce79yVYB0",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22143963",
+        "municipio": "SANTA CRUZ DO PIAUÍ",
+        "nome": "CEJA SEVERO MARIA EULALIO",
+        "rawFolder": "22143963 - SANTA CRUZ DO PIAUÍ - CEJA SEVERO MARIA EULALIO",
+        "driveFolderId": "1-wf-RIs_301PqudAblU5uOSp8gjQimE5",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22155406",
+        "municipio": "OEIRAS",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO V",
+        "rawFolder": "22155406 - OEIRAS - CETI FAMILIA AGRICOLA DOM EDILBERTO V",
+        "driveFolderId": "1Yq_jZMI5WRoXzbgEsyUm-gjoenwXcOGw",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "22223606",
+        "municipio": "FLORESTA DO PIAUÍ",
+        "nome": "CETI WILSON NUNES MARTINS FILHO",
+        "rawFolder": "22223606 - CETI WILSON NUNES MARTINS FILHO - FLORESTA DO PIAUÍ",
+        "driveFolderId": "1nZQwLNpNM0hMrBOE5AhjsIYA0az1kvFm",
+        "greKey": "08ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE",
+        "rawFolder": "SEDE",
+        "driveFolderId": "1jc4h779udax-2l9gy0kBvEwXuYqFNDtO",
+        "greKey": "08ª GRE"
+      }
+    ]
+  },
+  "09ª GRE": {
+    "folderId": "1C_3bbKZ6xnzDYcYA7c5l4ruAlGYy7vtA",
+    "schoolsCount": 38,
+    "schools": [
+      {
+        "inep": "9000000",
+        "municipio": "PICOS",
+        "nome": "SEDE 09ª GRE",
+        "rawFolder": "9000000 - PICOS - SEDE 09ª GRE",
+        "driveFolderId": "1jPuLZhwWGyK1i-k3DUK8R5Fb2klkskmj",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22077693",
+        "municipio": "BOCAINA",
+        "nome": "CEJA ESTELA NUNES",
+        "rawFolder": "22077693 - BOCAINA - CEJA ESTELA NUNES",
+        "driveFolderId": "1vcCyW7JMQ3uLuZr9GK2VkALYf8p3Q4mM",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22077804",
+        "municipio": "BOCAINA",
+        "nome": "CETI JOMASIO DOS SANTOS BARROS",
+        "rawFolder": "22077804 - BOCAINA - CETI JOMASIO DOS SANTOS BARROS",
+        "driveFolderId": "1zF9PuUiFuC6ZDvGB4zWxC9y2Jk6rwQGm",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22078355",
+        "municipio": "DOM EXPEDITO LOPES",
+        "nome": "CETI DOUTOR JOÃO CARVALHO",
+        "rawFolder": "22078355 - DOM EXPEDITO LOPES - CETI DOUTOR JOÃO CARVALHO",
+        "driveFolderId": "1KYKYgB5Mx0aouA5I4FLtkxJjn3xpAgNe",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22080686",
+        "municipio": "GEMINIANO",
+        "nome": "CETI PEDRO EVANGELISTA CAMINHA",
+        "rawFolder": "22080686 - GEMINIANO - CETI PEDRO EVANGELISTA CAMINHA",
+        "driveFolderId": "13hftUJ8P3FXF7CNZvFrqfsBVIG0Ak0z0",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22081291",
+        "municipio": "PICOS",
+        "nome": "CETI NORMAL OFICIAL DE PICOS",
+        "rawFolder": "22081291 - PICOS - CETI NORMAL OFICIAL DE PICOS",
+        "driveFolderId": "1M12kNpQnjZ38VAcua5Qs9J_guAdWW1Ym",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22081348",
+        "municipio": "PICOS",
+        "nome": "CETI PETRONIO PORTELA",
+        "rawFolder": "22081348 - PICOS - CETI PETRONIO PORTELA",
+        "driveFolderId": "1ijVDf4Lf7bTHqDbfI-Ya14ET1xIVUscV",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22081380",
+        "municipio": "PICOS",
+        "nome": "CETI OZILDO ALBANO",
+        "rawFolder": "22081380 - PICOS - CETI OZILDO ALBANO",
+        "driveFolderId": "1AVNHVLw8tyHk9eu4RwULGbJyX_2lFpbG",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22081860",
+        "municipio": "PICOS",
+        "nome": "CEJA CEL FRANCISCO SANTOS",
+        "rawFolder": "22081860 - PICOS - CEJA CEL FRANCISCO SANTOS",
+        "driveFolderId": "1vnAxBHEO_eVLAQOBsqsKR19FAzMcrmiO",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082093",
+        "municipio": "PICOS",
+        "nome": "CETI LANDRI SALES",
+        "rawFolder": "22082093 - PICOS - CETI LANDRI SALES",
+        "driveFolderId": "1nDGzOGjGRuNSOxMGlttPD4RNX5nxoEVy",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082131",
+        "municipio": "PICOS",
+        "nome": "CETI MARIO MARTINS",
+        "rawFolder": "22082131 - PICOS - CETI MARIO MARTINS",
+        "driveFolderId": "12Me9oTvN5iuZRUdvQAsw0H-DoGLOC7aE",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082204",
+        "municipio": "PICOS",
+        "nome": "CETI DESEMBARGADOR VIDAL DE FREITAS",
+        "rawFolder": "22082204 - PICOS - CETI DESEMBARGADOR VIDAL DE FREITAS",
+        "driveFolderId": "1ZdJGR_BbdSB2EAnjC2qqDdl4PdriUc6Y",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082263",
+        "municipio": "PICOS",
+        "nome": "CETI ARAUJO LUZ",
+        "rawFolder": "22082263 - PICOS - CETI ARAUJO LUZ",
+        "driveFolderId": "1QuDhwn4ve1lsc6dW4k_p-NeZhiv-Grth",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082280",
+        "municipio": "PICOS",
+        "nome": "CETI COELHO RODRIGUES",
+        "rawFolder": "22082280 - PICOS - CETI COELHO RODRIGUES",
+        "driveFolderId": "1YMsoem6ewWi8q1nDvOEv3vhXLgrLd-yb",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082298",
+        "municipio": "PICOS",
+        "nome": "CETI DIRCEU MENDES ARCOVERDE",
+        "rawFolder": "22082298 - PICOS - CETI DIRCEU MENDES ARCOVERDE",
+        "driveFolderId": "1s7i0T700XmSe_bMH9K5f9EIducb1BvUx",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082336",
+        "municipio": "PICOS",
+        "nome": "CETI TERESINHA NUNES",
+        "rawFolder": "22082336 - PICOS - CETI TERESINHA NUNES",
+        "driveFolderId": "1no5Cw26gjeRCB1JWZURhA_RLAOU6ZdXJ",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082409",
+        "municipio": "PICOS",
+        "nome": "CETI MIGUEL LIDIANO",
+        "rawFolder": "22082409 - PICOS - CETI MIGUEL LIDIANO",
+        "driveFolderId": "1Gg3BEEZBqKjJnqhTjRs3ACkaBXbr6ows",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22082549",
+        "municipio": "PICOS",
+        "nome": "CETI MARCOS PARENTE",
+        "rawFolder": "22082549 - PICOS - CETI MARCOS PARENTE",
+        "driveFolderId": "1fvs1SvgOaLXO8FLSGneigKVlOwTgSJl5",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22083189",
+        "municipio": "SANTANA DO PIAUÍ",
+        "nome": "CETI JOAQUIM BORGES DE OLIVEIRA",
+        "rawFolder": "22083189 - SANTANA DO PIAUÍ - CETI JOAQUIM BORGES DE OLIVEIRA",
+        "driveFolderId": "1PMblhEiyNO9wAJipmpCSUEVYOkeDNiAB",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22084266",
+        "municipio": "SÃO JOSÉ DO PIAUÍ",
+        "nome": "U E JOÃO JOSÉ DE ALENCAR",
+        "rawFolder": "22084266 - SÃO JOSÉ DO PIAUÍ - U E JOÃO JOSÉ DE ALENCAR",
+        "driveFolderId": "1k1JecsvtXNwzCspe3imNgHmGBdGIfy1x",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22084304",
+        "municipio": "SÃO JOSÉ DO PIAUÍ",
+        "nome": "CETI HELVIDIO NUNES",
+        "rawFolder": "22084304 - SÃO JOSÉ DO PIAUÍ - CETI HELVIDIO NUNES",
+        "driveFolderId": "1oeyuocaxIB8rNlPoYqXLjzojF2MQP-IQ",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22086951",
+        "municipio": "SANTO ANTÔNIO DE LISBOA",
+        "nome": "CETI MARIA DE CARVALHO",
+        "rawFolder": "22086951 - SANTO ANTÔNIO DE LISBOA - CETI MARIA DE CARVALHO",
+        "driveFolderId": "1n7fo1-wF63mDnuCyYcim4X4MaFCC81LM",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22086978",
+        "municipio": "SANTO ANTÔNIO DE LISBOA",
+        "nome": "CEJA MIGUEL BORGES DE MOURA",
+        "rawFolder": "22086978 - SANTO ANTÔNIO DE LISBOA - CEJA MIGUEL BORGES DE MOURA",
+        "driveFolderId": "1VeEQCacxrOJJw5ujvvnPaOij9Ew655-x",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22091068",
+        "municipio": "ITAINÓPOLIS",
+        "nome": "CETI ALVARO RODRIGUES DE ARAUJO",
+        "rawFolder": "22091068 - ITAINÓPOLIS - CETI ALVARO RODRIGUES DE ARAUJO",
+        "driveFolderId": "1m9hgtN5qS-Q6blUn0rtxtXKAVvNNFtjD",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22091459",
+        "municipio": "ITAINÓPOLIS",
+        "nome": "CEJA PROFESSORA ALAYDE RODRIGUES",
+        "rawFolder": "22091459 - ITAINÓPOLIS - CEJA PROFESSORA ALAYDE RODRIGUES",
+        "driveFolderId": "1HRWVyDOFtEJSPUGX097P2qUrSc7FEDtc",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22093222",
+        "municipio": "JAICÓS",
+        "nome": "CETI LILI SILVEIRA",
+        "rawFolder": "22093222 - JAICÓS - CETI LILI SILVEIRA",
+        "driveFolderId": "1lfqm3YGKV5yXnhNvR4hZcEmIBn_RLeBt",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22093303",
+        "municipio": "JAICÓS",
+        "nome": "CEJA PROF MARIANO DA S NETO",
+        "rawFolder": "22093303 - JAICÓS - CEJA PROF MARIANO DA S NETO",
+        "driveFolderId": "1Ox0eeJ8Ho0xyj2aXrhLEvINdX0bkLvxA",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22093354",
+        "municipio": "JAICÓS",
+        "nome": "CETI ANISIO DE ABREU",
+        "rawFolder": "22093354 - JAICÓS - CETI ANISIO DE ABREU",
+        "driveFolderId": "1W4YvNznzwg6v8uQ8F_14LW9z2-C0dfqG",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22093427",
+        "municipio": "JAICÓS",
+        "nome": "CETI FRUTUOSO JUSSELINO",
+        "rawFolder": "22093427 - JAICÓS - CETI FRUTUOSO JUSSELINO",
+        "driveFolderId": "1CktLH3NfPPNjptBfnMK7ohHvSFr2UC1R",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22108009",
+        "municipio": "SÃO JOÃO DA CANABRAVA",
+        "nome": "CETI JOÃO JOSÉ BATISTA",
+        "rawFolder": "22108009 - SÃO JOÃO DA CANABRAVA - CETI JOÃO JOSÉ BATISTA",
+        "driveFolderId": "1uYb2nsSAC8VAMIw-LKjjfsnffEUcK6AL",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22111450",
+        "municipio": "MASSAPÊ DO PIAUÍ",
+        "nome": "CETI RAFAEL MANOEL DA COSTA",
+        "rawFolder": "22111450 - MASSAPÊ DO PIAUÍ - CETI RAFAEL MANOEL DA COSTA",
+        "driveFolderId": "1Dj0PafUcGw0i4rfiysgGy9tWnBn0hT27",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22134484",
+        "municipio": "SUSSUAPARA",
+        "nome": "CETI HELVIDIO NUNES",
+        "rawFolder": "22134484 - SUSSUAPARA - CETI HELVIDIO NUNES",
+        "driveFolderId": "1veUvB4H-uJMZNYH4JfhwIvfL3ZOvNpjM",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22136401",
+        "municipio": "ITAINÓPOLIS",
+        "nome": "CETI MARIANO BORGES LEAL",
+        "rawFolder": "22136401 - ITAINÓPOLIS - CETI MARIANO BORGES LEAL",
+        "driveFolderId": "1JvOG8zPiZno9XLCTgjmCUhT_HhWDYTkw",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22136410",
+        "municipio": "PAQUETÁ",
+        "nome": "CETI GERALDINO CLEVIS",
+        "rawFolder": "22136410 - PAQUETÁ - CETI GERALDINO CLEVIS",
+        "driveFolderId": "1M2KodjtLnijuYl2BzxYdmip2pN6MRsD8",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22136509",
+        "municipio": "VERA MENDES",
+        "nome": "CETI JOÃO ANTÔNIO DA VERA",
+        "rawFolder": "22136509 - VERA MENDES - CETI JOÃO ANTÔNIO DA VERA",
+        "driveFolderId": "1rU8sdspRTE4yT7Bdkt-JbggehhIgbxfp",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22136525",
+        "municipio": "SÃO LUIS DO PIAUÍ",
+        "nome": "CETI ANTÔNIO PEREIRA DE ARAUJO",
+        "rawFolder": "22136525 - SÃO LUIS DO PIAUÍ - CETI ANTÔNIO PEREIRA DE ARAUJO",
+        "driveFolderId": "1sPrxD6ASrlMiBg2jQnOjCc8sMzGcOQ25",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22136550",
+        "municipio": "AROEIRAS DO ITAIM",
+        "nome": "CETI SÃO JOSÉ",
+        "rawFolder": "22136550 - AROEIRAS DO ITAIM - CETI SÃO JOSÉ",
+        "driveFolderId": "1k-hzhokAyewBFynFm7EsCwHNn5ttHa0l",
+        "greKey": "09ª GRE"
+      },
+      {
+        "inep": "22177604",
+        "municipio": "PICOS",
+        "nome": "CEJA PROFESSOR JOSÉ DE SOUSA BISPO",
+        "rawFolder": "22177604 - PICOS - CEJA PROFESSOR JOSÉ DE SOUSA BISPO",
+        "driveFolderId": "1umZgsX8bHhZ0t5ltDSX_rJBCLNOIhasI",
+        "greKey": "09ª GRE"
+      }
+    ]
+  },
+  "10ª GRE": {
+    "folderId": "1wxugV8CZ2YV2KyGW1XeNAPVr9IlqY619",
+    "schoolsCount": 27,
+    "schools": [
+      {
+        "inep": "22042938",
+        "municipio": "ARRAIAL",
+        "nome": "CETI SILVESTRE ROCHA/CEJA GONÇALO NUNES",
+        "rawFolder": "22042938 - ARRAIAL - CETI SILVESTRE ROCHA/CEJA GONÇALO NUNES",
+        "driveFolderId": "17lkT0ybM95CNdzCZ0B2MIwBX8QDTiOxR",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22043438",
+        "municipio": "FRANCISCO AYRES",
+        "nome": "CETI JOÃO PEREIRA DE SOUSA",
+        "rawFolder": "22043438 - FRANCISCO AYRES - CETI JOÃO PEREIRA DE SOUSA",
+        "driveFolderId": "185cQC96GFIbCgIo1aasm6yd9F17v-pla",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22056564",
+        "municipio": "CANAVIEIRA",
+        "nome": "CETI MARIANO JOSÉ ROBERTO",
+        "rawFolder": "22056564 - CANAVIEIRA - CETI MARIANO JOSÉ ROBERTO",
+        "driveFolderId": "1GduZID0DXD5rMozWCSjAT7jsVUsTj-Y3",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22056866",
+        "municipio": "FLORES DO PIAUÍ",
+        "nome": "CETI SANTO ANTÔNIO",
+        "rawFolder": "22056866 - FLORES DO PIAUÍ - CETI SANTO ANTÔNIO",
+        "driveFolderId": "1KB8VUxZv25gCr2P61a5k-VmB3MBZhYh5",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22057498",
+        "municipio": "FLORIANO",
+        "nome": "CETI CALISTO LOBO",
+        "rawFolder": "22057498 - FLORIANO - CETI CALISTO LOBO",
+        "driveFolderId": "1O2puKRHKmOXYGVCE69eXnPg9QNmENhkW",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22057790",
+        "municipio": "FLORIANO",
+        "nome": "CEJA PROFESSORA SOCORRO MENDES",
+        "rawFolder": "22057790 - FLORIANO - CEJA PROFESSORA SOCORRO MENDES",
+        "driveFolderId": "1ghKpUscUfT1Pxg4WntlqifJcgnqXkCtW",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058060",
+        "municipio": "FLORIANO",
+        "nome": "CEJA MIRTES DEMES",
+        "rawFolder": "22058060 - FLORIANO - CEJA MIRTES DEMES",
+        "driveFolderId": "18axC5QO7eisfoYCxlYuDISZbqvJ2dV-u",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058095",
+        "municipio": "FLORIANO",
+        "nome": "CETI FAUZER BUCAR",
+        "rawFolder": "22058095 - FLORIANO - CETI FAUZER BUCAR",
+        "driveFolderId": "13QnXx7aZUduWB_UR94lA-eboWCAw9NWW",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058141",
+        "municipio": "FLORIANO",
+        "nome": "CETI BUCAR NETO",
+        "rawFolder": "22058141 - FLORIANO - CETI BUCAR NETO",
+        "driveFolderId": "1qA22W_Fyfvkx6qDPUiDuTeI30FtKtO_P",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058150",
+        "municipio": "FLORIANO",
+        "nome": "CETI DJALMA NUNES",
+        "rawFolder": "22058150 - FLORIANO - CETI DJALMA NUNES",
+        "driveFolderId": "1H3rbVpn9z4K9MQ2xWGTEDSOH6e6-sUpT",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058192",
+        "municipio": "FLORIANO",
+        "nome": "CETI JACOB DEMES",
+        "rawFolder": "22058192 - FLORIANO - CETI JACOB DEMES",
+        "driveFolderId": "1NSiwR29uvY8dACkiSs3JIZ22HfpyDcqM",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058230",
+        "municipio": "FLORIANO",
+        "nome": "CEJA MONSENHOR LINDOLFO UCHOA",
+        "rawFolder": "22058230 - FLORIANO - CEJA MONSENHOR LINDOLFO UCHOA",
+        "driveFolderId": "15JF_bQn860JZ4FcoVA1A6Y9vl8LGYi_u",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058265",
+        "municipio": "FLORIANO",
+        "nome": "CETI OSVALDO DA COSTA E SILVA",
+        "rawFolder": "22058265 - FLORIANO - CETI OSVALDO DA COSTA E SILVA",
+        "driveFolderId": "1qF9Z-CL6YATwC90Z5fuHxo22ZdC2Z0hF",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058273",
+        "municipio": "MUNICÍPIO",
+        "nome": "U. E PAULO FERRAZ",
+        "rawFolder": "22058273 - U. E PAULO FERRAZ",
+        "driveFolderId": "19gNUnSYipGSM4wr6CMkJa2-VJpSlCEAb",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058338",
+        "municipio": "FLORIANO",
+        "nome": "CEJA ZEZINHO VASCONCELOS",
+        "rawFolder": "22058338 - FLORIANO - CEJA ZEZINHO VASCONCELOS",
+        "driveFolderId": "17Bbia_7CeGNaDxf_8Ry5H19wdFeRwLjy",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058648",
+        "municipio": "GUADALUPE",
+        "nome": "CEJA CARLOS FRANCO",
+        "rawFolder": "22058648 - CEJA CARLOS FRANCO - GUADALUPE",
+        "driveFolderId": "1BpdXTUPw7LkBNiX3czd7hmnGD9JwLijB",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22058702",
+        "municipio": "GUADALUPE",
+        "nome": "CETI JOÃO PINHEIRO",
+        "rawFolder": "22058702 - GUADALUPE - CETI JOÃO PINHEIRO",
+        "driveFolderId": "176L-qk7nIvjiT7OQNVzCdvawJ8k2rfsl",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22059326",
+        "municipio": "ITAUEIRA",
+        "nome": "CETI MONSENHOR UCHOA",
+        "rawFolder": "22059326 - ITAUEIRA - CETI MONSENHOR UCHOA",
+        "driveFolderId": "1t3Khd1_jafbKsd38M3SAZ7ZTcI30Lrr8",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22059610",
+        "municipio": "JERUMENHA",
+        "nome": "CETI SEBASTIAO ROCHA LEAL",
+        "rawFolder": "22059610 - JERUMENHA - CETI SEBASTIAO ROCHA LEAL",
+        "driveFolderId": "1O4qAi5QvXNWb8Q__KZ24XoVejbrQya1q",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22059920",
+        "municipio": "NAZARÉ DO PIAUÍ",
+        "nome": "CETI JOÃO LEAL",
+        "rawFolder": "22059920 - NAZARÉ DO PIAUÍ - CETI JOÃO LEAL",
+        "driveFolderId": "1FF0_Q48KNeXgaz5yCef-XB2J--vf8hjZ",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22060596",
+        "municipio": "PAVUSSU",
+        "nome": "CETI JOSÉ SALUSTIANO DA SILVA",
+        "rawFolder": "22060596 - PAVUSSU - CETI JOSÉ SALUSTIANO DA SILVA",
+        "driveFolderId": "1BbUqgJD05nwjrd7rmoMivurBhfdt8pj-",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22060600",
+        "municipio": "RIO GRANDE DO PIAUÍ",
+        "nome": "U E RUI BARBOSA",
+        "rawFolder": "22060600 - RIO GRANDE DO PIAUÍ - U E RUI BARBOSA",
+        "driveFolderId": "1PyhK_ZanoXCbZJQ6eudd2-xOLXvpyIzQ",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22061010",
+        "municipio": "SÃO FRANCISCO DO PIAUÍ",
+        "nome": "CETI MARIO COELHO NETO",
+        "rawFolder": "22061010 - SÃO FRANCISCO DO PIAUÍ - CETI MARIO COELHO NETO",
+        "driveFolderId": "1RRPMAjCkWUdVYSnMUJXydDTe-d95y4w_",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22061320",
+        "municipio": "SÃO JOSÉ DO PEIXE",
+        "nome": "CETI LUIZ SOARES DA SILVA",
+        "rawFolder": "22061320 - SÃO JOSÉ DO PEIXE - CETI LUIZ SOARES DA SILVA",
+        "driveFolderId": "1NV7LxtwW4Vdi78heABJLQ1tkacs4MSlu",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22142240",
+        "municipio": "GUADALUPE",
+        "nome": "CETI FREI JOSÉ APICELLA",
+        "rawFolder": "22142240 - GUADALUPE - CETI FREI JOSÉ APICELLA",
+        "driveFolderId": "1eTlMLTSowpAAnWnkkOiclE-I765QWgi1",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "22159800",
+        "municipio": "RIO GRANDE DO PIAUÍ",
+        "nome": "CETI PADRE PEDRO DA SILVA OLIVEIRA",
+        "rawFolder": "22159800 - RIO GRANDE DO PIAUÍ - CETI PADRE PEDRO DA SILVA OLIVEIRA",
+        "driveFolderId": "18tZ-MXlmu9r4kLeuucqyqtfNfR-dSAFh",
+        "greKey": "10ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE 10º GRE",
+        "rawFolder": "SEDE 10º GRE",
+        "driveFolderId": "1f6jTBI9EXK3XNnBUXgh1PCRDcDgqXxtQ",
+        "greKey": "10ª GRE"
+      }
+    ]
+  },
+  "11ª GRE": {
+    "folderId": "1wJfXmdjwgV_9Wq936ZwNuY1hsxKznBQm",
+    "schoolsCount": 16,
+    "schools": [
+      {
+        "inep": "11000000",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE 11ª GRE",
+        "rawFolder": "11000000 - SEDE 11ª GRE",
+        "driveFolderId": "1EiXQC9AS8Sd_ieRrENestzouKtXS-GhA",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22051988",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI PRESIDENTE VARGAS",
+        "rawFolder": "22051988 - CETI PRESIDENTE VARGAS",
+        "driveFolderId": "1ybu3tB86kXTrqfzgny4rByrzVOUlHPeC",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22052585",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI CELSO ANTUNES DE SOUSA",
+        "rawFolder": "22052585 - CETI CELSO ANTUNES DE SOUSA",
+        "driveFolderId": "1C0ywne5rI6ysgb6vmLV8UfNN64hzbKM7",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22053484",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI MARIA PIRES LIMA",
+        "rawFolder": "22053484 - CETI MARIA PIRES LIMA",
+        "driveFolderId": "1VRDRxfwQZgbY1hWdy44IDGry_gdUlRSG",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22053620",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI CICERO COELHO",
+        "rawFolder": "22053620 - CETI CICERO COELHO",
+        "driveFolderId": "1WxqW0hkc2wvD0csQDhL1pOswhr62Tvqz",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22053778",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI JOSÉ PATRICIO FRANCO",
+        "rawFolder": "22053778 - CETI JOSÉ PATRICIO FRANCO",
+        "driveFolderId": "1EAW6WsKFGw-J6Lf1kgPi1NHJi6WprHv_",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22053832",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI MANOEL LEAL",
+        "rawFolder": "22053832 - CETI MANOEL LEAL",
+        "driveFolderId": "1zrQv9z57TKCOqQdKNNyZ8blFEYTLIPkW",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22054235",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI FRUTUOSO SILVA",
+        "rawFolder": "22054235 - CETI FRUTUOSO SILVA",
+        "driveFolderId": "1Idnbpef937ik-Xmc2FHhvkwdUwDS7W3j",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22054766",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI IRAPUA",
+        "rawFolder": "22054766 - CETI IRAPUA",
+        "driveFolderId": "1eWtVV3RL3t8nPk1IjXbqotQaRVRO0-iB",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22054820",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI FLORISA SILVA",
+        "rawFolder": "22054820 - CETI FLORISA SILVA",
+        "driveFolderId": "1YYmlBWL3Gcfdq88_UkWuiDg8mYdEMpdw",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22055380",
+        "municipio": "LANDRI SALES",
+        "nome": "CETI DR JOSÉ PINHEIRO MACHADO",
+        "rawFolder": "22055380 - LANDRI SALES - CETI DR JOSÉ PINHEIRO MACHADO",
+        "driveFolderId": "1RpEe5PbQqV5hmH57Vr4F4q58k42NGyH0",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22056297",
+        "municipio": "MARCOS PARENTE",
+        "nome": "CETI JOÃO MARTINS",
+        "rawFolder": "22056297 - MARCOS PARENTE - CETI JOÃO MARTINS",
+        "driveFolderId": "1-r588JsSlFcR3CKi6TYHFAcjTm7Eh6V1",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22128450",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI RAIMUNDO NEIVA DE SOUSA",
+        "rawFolder": "22128450 - CETI RAIMUNDO NEIVA DE SOUSA",
+        "driveFolderId": "1CLxrmcHWheIZa-y9GJsXRBgwSlG0kqDi",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22143432",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI DOS CERRADOS",
+        "rawFolder": "22143432 - CETI DOS CERRADOS",
+        "driveFolderId": "13xqs7uZJg5dp5g_aVReP0P56QR9mjhwC",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22143653",
+        "municipio": "MUNICÍPIO",
+        "nome": "CEJA CICERO COELHO",
+        "rawFolder": "22143653 - CEJA CICERO COELHO",
+        "driveFolderId": "1TWSrIpME4tRNOqD1khjEHe6xJZ2CcvnO",
+        "greKey": "11ª GRE"
+      },
+      {
+        "inep": "22162011",
+        "municipio": "MUNICÍPIO",
+        "nome": "CETI PROFESSORA MARIA AMALIA",
+        "rawFolder": "22162011 - CETI PROFESSORA MARIA AMALIA",
+        "driveFolderId": "1O40FLBi8jUVDBpcxJq6QHeV7eo8A1ROa",
+        "greKey": "11ª GRE"
+      }
+    ]
+  },
+  "12ª GRE": {
+    "folderId": "1_wAGPu_68vQ4GrMWAijipCDEFjTl7t9u",
+    "schoolsCount": 32,
+    "schools": [
+      {
+        "inep": "12000000",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "SEDE 12ª GRE",
+        "rawFolder": "12000000 - SÃO JOÃO DO PIAUÍ - SEDE 12ª GRE",
+        "driveFolderId": "1AfRnwShA_zD-9w15-_ov6QGUiwRAtH_b",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22067671",
+        "municipio": "CANTO DO BURITI",
+        "nome": "CETI BEIJA VALENTE",
+        "rawFolder": "22067671 - CANTO DO BURITI - CETI BEIJA VALENTE",
+        "driveFolderId": "1yybMDhK07Js4nupg85TYrcotknDtctLF",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22067710",
+        "municipio": "PAJEÚ DO PIAUÍ",
+        "nome": "CETI CIPRIANO VIEIRA DE SA",
+        "rawFolder": "22067710 - PAJEÚ DO PIAUÍ - CETI CIPRIANO VIEIRA DE SA",
+        "driveFolderId": "1ddmAgt8e2vIvoFgqNddkupSjw9zgf9nk",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22067752",
+        "municipio": "CANTO DO BURITI",
+        "nome": "CEJA FLORISA SILVA",
+        "rawFolder": "22067752 - CANTO DO BURITI - CEJA FLORISA SILVA",
+        "driveFolderId": "17uSRqlHwXPlS8qjYh3hlX4UIVfwNjKm2",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22067884",
+        "municipio": "CANTO DO BURITI",
+        "nome": "CETI MARIA CHAVES",
+        "rawFolder": "22067884 - CANTO DO BURITI - CETI MARIA CHAVES",
+        "driveFolderId": "1zHNKLRfxbdph6wbRvNsri-iwF7KCrYyx",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22068368",
+        "municipio": "CANTO DO BURITI",
+        "nome": "CETI NONATO VALENTE",
+        "rawFolder": "22068368 - CANTO DO BURITI - CETI NONATO VALENTE",
+        "driveFolderId": "1HcIeUAYIZtsZBdTdVTxDRc92U9PU1GqG",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22095225",
+        "municipio": "PAES LANDIM",
+        "nome": "CETI HELVIDIO NUNES",
+        "rawFolder": "22095225 - PAES LANDIM - CETI HELVIDIO NUNES",
+        "driveFolderId": "1s99xm0uEJZaUkAU8U385NtH690benAjA",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22100083",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "CETI SENADOR JOSÉ CANDIDO FERRAZ",
+        "rawFolder": "22100083 - SÃO JOÃO DO PIAUÍ - CETI SENADOR JOSÉ CANDIDO FERRAZ",
+        "driveFolderId": "1wNM83h0cZIHKbgS-9G0skJLtdod97TVH",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22100717",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "CETI DEP. FRANCISCO ANTÔNIO PAES LANDIM NETO",
+        "rawFolder": "22100717 - SÃO JOÃO DO PIAUÍ - CETI DEP. FRANCISCO ANTÔNIO PAES LANDIM NETO",
+        "driveFolderId": "1yjritLAiDeF-FKkj5AWVMt9GewVduB-d",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22100849",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "CEJA PROFESSOR ADAIL COELHO MAIA",
+        "rawFolder": "22100849 - SÃO JOÃO DO PIAUÍ - CEJA PROFESSOR ADAIL COELHO MAIA",
+        "driveFolderId": "181ge5cGRSeJHb9ITsJvCZMtYKLkySELs",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22104399",
+        "municipio": "SIMPLÍCIO MENDES",
+        "nome": "CETI NOEME MADEIRA MOURA FE",
+        "rawFolder": "22104399 - SIMPLÍCIO MENDES - CETI NOEME MADEIRA MOURA FE",
+        "driveFolderId": "1CPT3YYKK0oNXAFDuDiJ_pcBAMMTIwL0Z",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22104682",
+        "municipio": "SOCORRO DO PIAUÍ",
+        "nome": "CETI AMERICO JOSÉ DE SOUSA",
+        "rawFolder": "22104682 - SOCORRO DO PIAUÍ - CETI AMERICO JOSÉ DE SOUSA",
+        "driveFolderId": "1OdwuC4d_19U4lvxaPBD8VuNlhkaKEaxG",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22104712",
+        "municipio": "SOCORRO DO PIAUÍ",
+        "nome": "CEJA FRANCISCO TEIXEIRA",
+        "rawFolder": "22104712 - SOCORRO DO PIAUÍ - CEJA FRANCISCO TEIXEIRA",
+        "driveFolderId": "1G6njE3VG4dTI2caqtskRjSoUgvVGEb-s",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22118900",
+        "municipio": "SIMPLÍCIO MENDES",
+        "nome": "CETI JOSÉ ATANASIO DE SANTANA",
+        "rawFolder": "22118900 - SIMPLÍCIO MENDES - CETI JOSÉ ATANASIO DE SANTANA",
+        "driveFolderId": "1ntAWG9QIklrTGLdHIFRmyUDK2VezthLT",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22124470",
+        "municipio": "LAGOA DO BARRO DO PIAUÍ",
+        "nome": "CETI PROFESSORA ISABEL RIBEIRO DE JESUS",
+        "rawFolder": "22124470 - LAGOA DO BARRO DO PIAUÍ - CETI PROFESSORA ISABEL RIBEIRO DE JESUS",
+        "driveFolderId": "1p1QcZoeBJiohiYOg7--8JRAsCf_8Zg4E",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22133682",
+        "municipio": "ISAÍAS COELHO",
+        "nome": "CETI LUIZ UBIRACI DE CARVALHO",
+        "rawFolder": "22133682 - ISAÍAS COELHO - CETI LUIZ UBIRACI DE CARVALHO",
+        "driveFolderId": "1Xj_eAYzK480KSFtfyTs3V-A94indRCXV",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134360",
+        "municipio": "CAMPO ALEGRE DO FIDALGO",
+        "nome": "CETI VERÔNICA CELESTINA DIAS",
+        "rawFolder": "22134360 - CAMPO ALEGRE DO FIDALGO - CETI VERÔNICA CELESTINA DIAS",
+        "driveFolderId": "1H2_WBnq3yVsz5LV9vP9UwFUTT-TLGnQ-",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134549",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "CETI PAULO FREIRE",
+        "rawFolder": "22134549 - SÃO JOÃO DO PIAUÍ - CETI PAULO FREIRE",
+        "driveFolderId": "1zH5kImcxo86VoRH6_rk6JtwPkBYBH_Ck",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134565",
+        "municipio": "CAPITÃO GERVÁSIO OLIVEIRA",
+        "nome": "CETI ALFREDO CARLOS ALENCAR",
+        "rawFolder": "22134565 - CAPITÃO GERVÁSIO OLIVEIRA - CETI ALFREDO CARLOS ALENCAR",
+        "driveFolderId": "1urrlklSQfvA6vhQ-M4tcPGECumn5Tvdm",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134611",
+        "municipio": "JOÃO COSTA",
+        "nome": "CETI JOAQUIM MALAQUIAS",
+        "rawFolder": "22134611 - JOÃO COSTA -CETI JOAQUIM MALAQUIAS",
+        "driveFolderId": "1_sS4dSTYcrtQ8ZeVrvWlKWjjgDtjQSIQ",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134620",
+        "municipio": "RIBEIRA DO PIAUÍ",
+        "nome": "CETI EXPEDITO CRONEMBERGER DOS REIS",
+        "rawFolder": "22134620 - RIBEIRA DO PIAUÍ - CETI EXPEDITO CRONEMBERGER DOS REIS",
+        "driveFolderId": "1CoNTll5pIrX2R4zW9eGyC7-MIegNcnFg",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134727",
+        "municipio": "NOVA SANTA RITA",
+        "nome": "CETI TERESINHA DE JESUS SOARES AMORIM",
+        "rawFolder": "22134727 - NOVA SANTA RITA - CETI TERESINHA DE JESUS SOARES AMORIM",
+        "driveFolderId": "16CyZxOPJF-s_Gz06o7HXVbxHjMMVuP-O",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134832",
+        "municipio": "PEDRO LAURENTINO",
+        "nome": "CETI PROFESSORA MARIA BERONISIA DE SOUSA",
+        "rawFolder": "22134832 - PEDRO LAURENTINO - CETI PROFESSORA MARIA BERONISIA DE SOUSA",
+        "driveFolderId": "1EsVE7eSO3kUmbdkGgwgI3KLVkTVBeEZ_",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22134840",
+        "municipio": "BELA VISTA DO PIAUÍ",
+        "nome": "CETI OLEGARIO AURELIANO DE SOUSA",
+        "rawFolder": "22134840 - BELA VISTA DO PIAUÍ - CETI OLEGARIO AURELIANO DE SOUSA",
+        "driveFolderId": "1X-JrXgqtagzYmgRetfwmrEBTGUzzlLzV",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22135685",
+        "municipio": "BREJO DO PIAUÍ",
+        "nome": "CETI PROFESSOR ABELARDO PEREIRA",
+        "rawFolder": "22135685 - BREJO DO PIAUÍ - CETI PROFESSOR ABELARDO PEREIRA",
+        "driveFolderId": "10p8QoW4ef7m6dOXyaLDfN6xM6AnffQA9",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22135731",
+        "municipio": "SÃO JOÃO DO PIAUÍ",
+        "nome": "CETI AGENOR DA SILVA",
+        "rawFolder": "22135731 - SÃO JOÃO DO PIAUÍ -CETI AGENOR DA SILVA",
+        "driveFolderId": "1fOPzLm8OkJYxrzd40-HOxM-KBNsI5g47",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22137777",
+        "municipio": "CANTO DO BURITI",
+        "nome": "ANEXO U E LUCIA MARIA DE OLIVEIRA",
+        "rawFolder": "22137777 - CANTO DO BURITI - ANEXO U E LUCIA MARIA DE OLIVEIRA",
+        "driveFolderId": "1gHQmBcCeJ0R5rpvBevsjO4GuuFxkVzXo",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22137815",
+        "municipio": "SIMPLÍCIO MENDES",
+        "nome": "CETI PROFESSOR LUIZ UBIRACI DE CARVALHO",
+        "rawFolder": "22137815 - SIMPLÍCIO MENDES - CETI PROFESSOR LUIZ UBIRACI DE CARVALHO",
+        "driveFolderId": "1GuPMNiLOTmdpbhuOjNIkMOupHAAVmaeM",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22141570",
+        "municipio": "PAES LANDIM - DONA MORENA",
+        "nome": "CETI FAMILIA AGRICOLA DOM EDILBERTO VI",
+        "rawFolder": "22141570 - PAES LANDIM - CETI FAMILIA AGRICOLA DOM EDILBERTO VI - DONA MORENA",
+        "driveFolderId": "1sIS-TVemvXK3LvmfaV_R8Vy1e7GZdqbN",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22144315",
+        "municipio": "SIMPLÍCIO MENDES",
+        "nome": "CEJA ARNALDO FERREIRA DE CARVALHO",
+        "rawFolder": "22144315 - SIMPLÍCIO MENDES - CEJA ARNALDO FERREIRA DE CARVALHO",
+        "driveFolderId": "1KheAA2bzMu364BFml-eE84pwGXO75Ckn",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22160809",
+        "municipio": "SIMPLÍCIO MENDES",
+        "nome": "CETI ALCIDES VIEIRA DE MOURA",
+        "rawFolder": "22160809 - SIMPLÍCIO MENDES - CETI ALCIDES VIEIRA DE MOURA",
+        "driveFolderId": "1OAIk6TBDtWVEt78iKqbxqPbXe6fHvLbS",
+        "greKey": "12ª GRE"
+      },
+      {
+        "inep": "22165614",
+        "municipio": "CANTO DO BURITI",
+        "nome": "CEJA ALCIDES JOSÉ DE MOURA",
+        "rawFolder": "22165614 - CANTO DO BURITI - CEJA ALCIDES JOSÉ DE MOURA",
+        "driveFolderId": "135SYQn4UVbfN3MiDdqb-IyOPIAZqvt1W",
+        "greKey": "12ª GRE"
+      }
+    ]
+  },
+  "13ª GRE": {
+    "folderId": "1QYrvKu-7EkkSp5kZ9sqG936Nf9USBgul",
+    "schoolsCount": 21,
+    "schools": [
+      {
+        "inep": "13000000",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "SEDE DA 13ª GRE",
+        "rawFolder": "13000000 - SÃO RAIMUNDO NONATO - SEDE DA 13ª GRE",
+        "driveFolderId": "1swni3QVhgBUJlMMIRrElUXZeigh1ouiq",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22066535",
+        "municipio": "ANÍSIO DE ABREU",
+        "nome": "CETI LETICIA MACEDO",
+        "rawFolder": "22066535 - ANÍSIO DE ABREU - CETI LETICIA MACEDO",
+        "driveFolderId": "1lXH6Ero-RxOAf88sB3i23kP4Yf2p3Qrr",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22069330",
+        "municipio": "CARACOL",
+        "nome": "CETI ANTÔNIO SOARES ROCHA",
+        "rawFolder": "22069330 - CARACOL - CETI ANTÔNIO SOARES ROCHA",
+        "driveFolderId": "1efuGhM8qdAOBqY1ICiV81bbhE4ILNHOm",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22070354",
+        "municipio": "DIRCEU ARCOVERDE",
+        "nome": "CETI DR BARROSO",
+        "rawFolder": "22070354 - DIRCEU ARCOVERDE - CETI DR BARROSO",
+        "driveFolderId": "1zprSDvzv7b2cMbg5D0hBUjIJoZSn3M3n",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22071253",
+        "municipio": "FARTURA DO PIAUÍ",
+        "nome": "CETI AREOLINO FERNANDES BRAGA",
+        "rawFolder": "22071253 - FARTURA DO PIAUÍ - CETI AREOLINO FERNANDES BRAGA",
+        "driveFolderId": "1_cIHBWp4TRtBlH9jVaG7as9EV99-JLLY",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22071440",
+        "municipio": "SÃO BRAZ DO PIAUÍ",
+        "nome": "CETI FRANCISCO ANTÔNIO DA SILVA",
+        "rawFolder": "22071440 - SÃO BRAZ DO PIAUÍ - CETI FRANCISCO ANTÔNIO DA SILVA",
+        "driveFolderId": "1tTmExO0SOg9relZrE6GijjfvvG1Q22Vr",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22072292",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "CETI GERCILIO DE CASTRO MACEDO",
+        "rawFolder": "22072292 - SÃO RAIMUNDO NONATO - CETI GERCILIO DE CASTRO MACEDO",
+        "driveFolderId": "1nbzsgf-7iQox1_pNey4KcpSBG5RLZt61",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22072500",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "CETI EDITH NOBRE DE CASTRO",
+        "rawFolder": "22072500 - SÃO RAIMUNDO NONATO - CETI EDITH NOBRE DE CASTRO",
+        "driveFolderId": "1aO9HfC-91cf7O0aT5h2MiWE7j7UnRodq",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22072667",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "CETI MODERNA",
+        "rawFolder": "22072667 - SÃO RAIMUNDO NONATO - CETI MODERNA",
+        "driveFolderId": "12WjrLpXG47VBbG9vrv2QVkjfdWkzZqY2",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22072691",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "CETI PROF JOSÉ LEANDRO DEUSDARA",
+        "rawFolder": "22072691 - SÃO RAIMUNDO NONATO - CETI PROF JOSÉ LEANDRO DEUSDARA",
+        "driveFolderId": "1wq9Xf5AdvFkH0jFmoKsZBXGvUkAcx_FC",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22072985",
+        "municipio": "SÃO RAIMUNDO NONATO",
+        "nome": "CETI PROFESSORA MARIA DE CASTRO RIBEIRO",
+        "rawFolder": "22072985 - SÃO RAIMUNDO NONATO - CETI PROFESSORA MARIA DE CASTRO RIBEIRO",
+        "driveFolderId": "10uVVkZLogSpZqWfAqvRxpYHsOuRmlOGe",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22073418",
+        "municipio": "VÁRZEA BRANCA",
+        "nome": "CETI JOSÉ MARQUES",
+        "rawFolder": "22073418 - VÁRZEA BRANCA - CETI JOSÉ MARQUES",
+        "driveFolderId": "1_BleDC4xCRzdWSnMdGcfh7QJGGqN3vw6",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22116389",
+        "municipio": "SÃO LOURENÇO DO PIAUÍ",
+        "nome": "CETI MALAQUIAS RIBEIRO DAMASCENO",
+        "rawFolder": "22116389 - SÃO LOURENÇO DO PIAUÍ - CETI MALAQUIAS RIBEIRO DAMASCENO",
+        "driveFolderId": "1GRVGP2aJEHVs_0DdI3QzsyyZd-IQdZW7",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22122567",
+        "municipio": "BONFIM DO PIAUÍ",
+        "nome": "CETI GASPARINO FERREIRA",
+        "rawFolder": "22122567 -BONFIM DO PIAUÍ - CETI GASPARINO FERREIRA",
+        "driveFolderId": "158T3PYQMrYzvIAACB5I-_z1fgCQh4DWN",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22131450",
+        "municipio": "GUARIBAS",
+        "nome": "CETI PAULO FREIRE",
+        "rawFolder": "22131450 - GUARIBAS - CETI PAULO FREIRE",
+        "driveFolderId": "1boGMuWZK9snCaLKMS9f2HEb8wqD9xQ3s",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22134581",
+        "municipio": "TAMBORIL DO PIAUÍ",
+        "nome": "CETI MARIA DE SOUSA ANDRADE",
+        "rawFolder": "22134581 - TAMBORIL DO PIAUÍ - CETI MARIA DE SOUSA ANDRADE",
+        "driveFolderId": "1u1bw3xXcqH3wmFvHASRhr-7eZt6ShsZ0",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22135243",
+        "municipio": "CORONEL JOSÉ DIAS",
+        "nome": "CETI MARGARIDA DA SILVA COSTA",
+        "rawFolder": "22135243 - CORONEL JOSÉ DIAS - CETI MARGARIDA DA SILVA COSTA",
+        "driveFolderId": "11PeKFWFCMVJqtzgeae8aM_GNi5t6_Wur",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22135260",
+        "municipio": "JUREMA",
+        "nome": "CETI IRACI GOMES DE SÁ SOARES",
+        "rawFolder": "22135260 - JUREMA - CETI IRACI GOMES DE SÁ SOARES",
+        "driveFolderId": "1yrqFjqyXRX0-k01BJqxovY7OyZT0jXPW",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22138935",
+        "municipio": "DOM INOCÊNCIO",
+        "nome": "CEJA MARIA DE OLIVEIRA RODRIGUES",
+        "rawFolder": "22138935 - DOM INOCÊNCIO -CEJA MARIA DE OLIVEIRA RODRIGUES",
+        "driveFolderId": "1Hh3SqkbLgu5_1o1NZpYsbDhd6yuxh3Sl",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22141170",
+        "municipio": "SÃO LOURENÇO DO PIAUÍ",
+        "nome": "CETI FAMILIA AGRICOLA SERRA DA CAPIVARA",
+        "rawFolder": "22141170 - SÃO LOURENÇO DO PIAUÍ - CETI FAMILIA AGRICOLA SERRA DA CAPIVARA",
+        "driveFolderId": "1rdAv03cMSMAqS8eCJdytUXnCfW0Du0Rr",
+        "greKey": "13ª GRE"
+      },
+      {
+        "inep": "22143890",
+        "municipio": "DOM INOCÊNCIO",
+        "nome": "CETI PROFESSORA HILDERACI DA COSTA SILVA",
+        "rawFolder": "22143890 - DOM INOCÊNCIO - CETI PROFESSORA HILDERACI DA COSTA SILVA",
+        "driveFolderId": "1GlcmX-NJmSEltYI-Nx0ReUe-CWW8Q4z1",
+        "greKey": "13ª GRE"
+      }
+    ]
+  },
+  "14ª GRE": {
+    "folderId": "1HF8wHkC27uWPgUw58H2RyO3cLBXe09ky",
+    "schoolsCount": 24,
+    "schools": [
+      {
+        "inep": "14000000",
+        "municipio": "BOM JESUS",
+        "nome": "SEDE 14ª GRE",
+        "rawFolder": "14000000 - BOM JESUS - SEDE 14ª GRE",
+        "driveFolderId": "1SPBbW4XahWiBU5HmUkFBOhVemrvTK1PN",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22054987",
+        "municipio": "COLÔNIA DO GURGUÉIA",
+        "nome": "CETI AGOSTINHO REIS",
+        "rawFolder": "22054987 - COLÔNIA DO GURGUÉIA - CETI AGOSTINHO REIS",
+        "driveFolderId": "1ggMChMQ3OFDKziKG2J5QJS2-2oXq6can",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22055142",
+        "municipio": "ELIZEU MARTINS",
+        "nome": "CETI NOSSA SENHORA DE FATIMA",
+        "rawFolder": "22055142 - ELIZEU MARTINS - CETI NOSSA SENHORA DE FATIMA",
+        "driveFolderId": "1NAWaJEEta4F31UfMtS_G2X5aGqv05Bg5",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22056025",
+        "municipio": "MANOEL EMÍDIO",
+        "nome": "CETI ANTÔNIO BORGES LEAL",
+        "rawFolder": "22056025 - MANOEL EMÍDIO - CETI ANTÔNIO BORGES LEAL",
+        "driveFolderId": "1E2_vEHsLH6FenBLsippLHtlUly4SWQ7G",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062602",
+        "municipio": "BOM JESUS",
+        "nome": "CETI ARACI LUSTOSA",
+        "rawFolder": "22062602 - BOM JESUS - CETI ARACI LUSTOSA",
+        "driveFolderId": "1ina7si4VF7IhLTl4H89bzwTCuGANxIHe",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062610",
+        "municipio": "BOM JESUS",
+        "nome": "CETI FRANKLIN DORIA",
+        "rawFolder": "22062610 - BOM JESUS - CETI FRANKLIN DORIA",
+        "driveFolderId": "1uq53XwjzREermkNMpB2HeNpjRyFuJ-GW",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062661",
+        "municipio": "BOM JESUS",
+        "nome": "CETI JOAQUIM PARENTE",
+        "rawFolder": "22062661 - BOM JESUS - CETI JOAQUIM PARENTE",
+        "driveFolderId": "1hDCYUfKZiHEshc7iTdQa4gOXJrKpYCbx",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062670",
+        "municipio": "BOM JESUS",
+        "nome": "CETI JOSÉ LUSTOSA ELVAS FILHO",
+        "rawFolder": "22062670 - BOM JESUS - CETI JOSÉ LUSTOSA ELVAS FILHO",
+        "driveFolderId": "1AGuR56NcyJKqEKH6ixrTDsVpxQHbDGNw",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062700",
+        "municipio": "CRISTINO CASTRO",
+        "nome": "CETI INTEGRADO ADENAUER",
+        "rawFolder": "22062700 - CRISTINO CASTRO - CETI INTEGRADO ADENAUER",
+        "driveFolderId": "1DeyB8UIORELgBb37oyzQaMLxOydmdyrp",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22062726",
+        "municipio": "ALVORADA DO GURGUÉIA",
+        "nome": "CETI PETRÔNIO MARTINS FALCÃO",
+        "rawFolder": "22062726 - ALVORADA DO GURGUÉIA - CETI PETRÔNIO MARTINS FALCÃO",
+        "driveFolderId": "16hIRHilsM96Zl-AwpU2io6wCHQYNbLHx",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22063056",
+        "municipio": "CRISTINO CASTRO",
+        "nome": "CEJA JOSÉ FRANCISCO DE MIRANDA",
+        "rawFolder": "22063056 - CRISTINO CASTRO - CEJA JOSÉ FRANCISCO DE MIRANDA",
+        "driveFolderId": "1oOM4ZAQH6ws3dZYKrP3H3NeQa9mQPRsx",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22063170",
+        "municipio": "CRISTINO CASTRO",
+        "nome": "CETI JOAQUIM PARENTE",
+        "rawFolder": "22063170 - CRISTINO CASTRO - CETI JOAQUIM PARENTE",
+        "driveFolderId": "1Y8w5YTgCA2F6_S__dRyLLIx5wYZCf6Qh",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22065342",
+        "municipio": "PALMEIRA DO PIAUÍ",
+        "nome": "CETI MARTIN PINHEIRO",
+        "rawFolder": "22065342 - PALMEIRA DO PIAUÍ - CETI MARTIN PINHEIRO",
+        "driveFolderId": "19eqgoPIQTaJrjc9NVjzfh9MXK7rGXDXd",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22065350",
+        "municipio": "PALMEIRA DO PIAUÍ",
+        "nome": "CEJA MIGUEL OLIVEIRA",
+        "rawFolder": "22065350 - PALMEIRA DO PIAUÍ - CEJA MIGUEL OLIVEIRA",
+        "driveFolderId": "1EKA_SynbDlhTZfI5F_J5jHZIk8PgWfyH",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22065814",
+        "municipio": "REDENÇÃO DO GURGUÉIA",
+        "nome": "CETI PETRONIO PORTELA",
+        "rawFolder": "22065814 - REDENÇÃO DO GURGUÉIA - CETI PETRONIO PORTELA",
+        "driveFolderId": "1QLWbKIZWB3CI9jLBUTVMCoStaP09EwAD",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22065849",
+        "municipio": "REDENÇÃO DO GURGUÉIA",
+        "nome": "CEJA MARCOS PARENTE",
+        "rawFolder": "22065849 - REDENÇÃO DO GURGUÉIA - CEJA MARCOS PARENTE",
+        "driveFolderId": "1G_CZz98zLn4ZMG53FECWHtG6hl8ZXV4z",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22066144",
+        "municipio": "SANTA LUZ",
+        "nome": "CETI PROF IRACI BARROS PINTO",
+        "rawFolder": "22066144 - SANTA LUZ - CETI PROF IRACI BARROS PINTO",
+        "driveFolderId": "11XiGhRM86pmHbImAqO6lstWesnFqnYbI",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22066179",
+        "municipio": "SANTA LUZ",
+        "nome": "U E ARSENIO SANTOS",
+        "rawFolder": "22066179 - SANTA LUZ - U E ARSENIO SANTOS",
+        "driveFolderId": "1FHD4UlYs1JIGvogZisjHqXcpdqGKzw4E",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22133976",
+        "municipio": "REDENÇÃO DO GURGUÉIA",
+        "nome": "CETI JOSÉ SOARES",
+        "rawFolder": "22133976 - REDENÇÃO DO GURGUÉIA - CETI JOSÉ SOARES",
+        "driveFolderId": "171XOD0VI4cztjkEj64AVZWXT62yj_2sQ",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22138021",
+        "municipio": "CURRAIS",
+        "nome": "CETI HELIO FIGUEIREDO DA FONSECA",
+        "rawFolder": "22138021 - CURRAIS - CETI HELIO FIGUEIREDO DA FONSECA",
+        "driveFolderId": "1QhAp-fmwr7YqoW8lXjU-YFLsvG7KpWLS",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22163603",
+        "municipio": "CRISTINO CASTRO",
+        "nome": "CETI FAMILIA AGRICOLA VALE DO GURGUEIA",
+        "rawFolder": "22163603 - CRISTINO CASTRO - CETI FAMILIA AGRICOLA VALE DO GURGUEIA",
+        "driveFolderId": "1J7453GZF21ZZjLhH6Ktyk1GXfeqdzBwi",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22249753",
+        "municipio": "COLÔNIA DO GURGUÉIA",
+        "nome": "CETI PADRE JOSÉ DE ANCHIETA CORTEZ",
+        "rawFolder": "22249753 - COLÔNIA DO GURGUÉIA - CETI PADRE JOSÉ DE ANCHIETA CORTEZ",
+        "driveFolderId": "1Q908qw10mczRswt8E81f24Fx_6360Rcp",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "22319727",
+        "municipio": "ELIZEU MARTINS",
+        "nome": "CETI FAMILIA AGRICOLA DE ELIZEU MARTINS",
+        "rawFolder": "22319727 - ELIZEU MARTINS - CETI FAMILIA AGRICOLA DE ELIZEU MARTINS",
+        "driveFolderId": "1nUdVPVhgE6Kar5MwvamkU7iwPJRVDvyi",
+        "greKey": "14ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "PLANO DE INTERVENÇÃO - 14ª GRE",
+        "rawFolder": "Plano de Intervenção - 14ª GRE",
+        "driveFolderId": "1DDr4nY3QDrSLJPw1e3cg4eJ3iqNW3YvY",
+        "greKey": "14ª GRE"
+      }
+    ]
+  },
+  "15ª GRE": {
+    "folderId": "1b9OIw_r9svKmV122QUzPArpoO9gmvQMI",
+    "schoolsCount": 30,
+    "schools": [
+      {
+        "inep": "15000000",
+        "municipio": "CORRENTE",
+        "nome": "SEDE 15ª GRE",
+        "rawFolder": "15000000 - CORRENTE - SEDE 15ª GRE",
+        "driveFolderId": "18F6jpOyVJVnpZids1TT-_xdtS-MCqu9q",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22053182",
+        "municipio": "SANTA FILOMENA",
+        "nome": "CETI PROF LOURENCO FILHO",
+        "rawFolder": "22053182 - SANTA FILOMENA - CETI PROF LOURENCO FILHO",
+        "driveFolderId": "1-vuNAk0HlgewWV7rKzi7fWxD1dpXn1Ky",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22053190",
+        "municipio": "SANTA FILOMENA",
+        "nome": "CETI SÃO JOSÉ DA AÇÃO SOCIAL DIVINO CORAÇÃO DE JESUS",
+        "rawFolder": "22053190 - SANTA FILOMENA - CETI SÃO JOSÉ DA AÇÃO SOCIAL DIVINO CORAÇÃO DE JESUS",
+        "driveFolderId": "13j_XssEL8wRcsfm9v1Y8fKLRDyakFCj_",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22053204",
+        "municipio": "SANTA FILOMENA",
+        "nome": "CEJA PROFESSORA DELFINA SOBREIRA DE QUEIROZ",
+        "rawFolder": "22053204 - SANTA FILOMENA - CEJA PROFESSORA DELFINA SOBREIRA DE QUEIROZ",
+        "driveFolderId": "1q5b6v2SHj-_EO_mlE-sOiJviAR0j4Vqx",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22061690",
+        "municipio": "BARREIRAS DO PIAUÍ",
+        "nome": "CETI CRISTAN BARREIRA PARENTE",
+        "rawFolder": "22061690 - BARREIRAS DO PIAUÍ - CETI CRISTAN BARREIRA PARENTE",
+        "driveFolderId": "1nrMQTKaoolvL34-7i4ihK_Yi01cIyIML",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22061711",
+        "municipio": "BARREIRAS DO PIAUÍ",
+        "nome": "CEJA JOAQUIM DIAS PARENTE",
+        "rawFolder": "22061711 - BARREIRAS DO PIAUÍ - CEJA JOAQUIM DIAS PARENTE",
+        "driveFolderId": "18QE8O9tn0BRNtnigGPCjvhPjhhQsJqwh",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22064206",
+        "municipio": "GILBUÉS",
+        "nome": "CETI FAUSTO LUSTOSA",
+        "rawFolder": "22064206 - GILBUÉS - CETI FAUSTO LUSTOSA",
+        "driveFolderId": "1bhHiL4B6fYz5KbdTNzQz_qdjaWqTjnZq",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22064249",
+        "municipio": "GILBUÉS",
+        "nome": "CETI LUSTOSA SOBRINHO",
+        "rawFolder": "22064249 - GILBUÉS - CETI LUSTOSA SOBRINHO",
+        "driveFolderId": "1u1pUGSiVEgyOcI0nldZiMQh7KwQxdrYn",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22064834",
+        "municipio": "MONTE ALEGRE DO PIAUÍ",
+        "nome": "CETI PETRONIO PORTELA",
+        "rawFolder": "22064834 - MONTE ALEGRE DO PIAUÍ - CETI PETRONIO PORTELA",
+        "driveFolderId": "1ozftzSBXxEZENMpLVK3yK2VoE842c3kn",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22074210",
+        "municipio": "AVELINO LOPES",
+        "nome": "U E DIAMANTINO GAMA",
+        "rawFolder": "22074210 - AVELINO LOPES - U E DIAMANTINO GAMA",
+        "driveFolderId": "1LYuVyn-Y5yjhBjglM-oDllNixjg-YD1M",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22074236",
+        "municipio": "AVELINO LOPES",
+        "nome": "CETI DEPUTADO FERNANDO MONTEIRO",
+        "rawFolder": "22074236 - AVELINO LOPES - CETI DEPUTADO FERNANDO MONTEIRO",
+        "driveFolderId": "1F82yyMufQfR2OSFOqVJsZcZqrePDvZQh",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22075054",
+        "municipio": "CORRENTE",
+        "nome": "CETI CORONEL JUSTINO CAVALCANTE BARROS",
+        "rawFolder": "22075054 - CORRENTE - CETI CORONEL JUSTINO CAVALCANTE BARROS",
+        "driveFolderId": "1JPWDH0tdpVr7civXBUA2Msh6oalphhoq",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22075186",
+        "municipio": "CORRENTE",
+        "nome": "CEJA MANOEL DA CUNHA",
+        "rawFolder": "22075186 - CORRENTE - CEJA MANOEL DA CUNHA",
+        "driveFolderId": "1Bs-1zuQjKP3IbFuwgNXxpEF1eQisN0ja",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22075372",
+        "municipio": "CORRENTE",
+        "nome": "CETI DESEMBARGADOR JOÃO PACHECO CAVALCANTE",
+        "rawFolder": "22075372 - CORRENTE - CETI DESEMBARGADOR JOÃO PACHECO CAVALCANTE",
+        "driveFolderId": "1nA5_LhIHSW_dKpLlBZ3bRbZ2eTsHO5BX",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22075631",
+        "municipio": "CRISTALÂNDIA DO PIAUÍ",
+        "nome": "CETI OBERLIM DA CUNHA NOGUEIRA",
+        "rawFolder": "22075631 - CRISTALÂNDIA DO PIAUÍ - CETI OBERLIM DA CUNHA NOGUEIRA",
+        "driveFolderId": "1sWIZZedv1stEDsA9qq7CVKgM4CiuLoa0",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22075658",
+        "municipio": "CRISTALÂNDIA DO PIAUÍ",
+        "nome": "CEJA CORONEL JOSÉ NOGUEIRA",
+        "rawFolder": "22075658 - CRISTALÂNDIA DO PIAUÍ - CEJA CORONEL JOSÉ NOGUEIRA",
+        "driveFolderId": "1-UXgRwo_-XP3D7mijMqGEqZd92I0kzX_",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22076450",
+        "municipio": "CURIMATÁ",
+        "nome": "CETI DESEMBARGADOR AMARAL",
+        "rawFolder": "22076450 - CURIMATÁ - CETI DESEMBARGADOR AMARAL",
+        "driveFolderId": "1nj8EivUESnodAGlcr_V8-HX4R6dzY3BD",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22076581",
+        "municipio": "CURIMATÁ",
+        "nome": "CETI ALIRIO GUERRA DE MACEDO",
+        "rawFolder": "22076581 - CURIMATÁ - CETI ALIRIO GUERRA DE MACEDO",
+        "driveFolderId": "1ZG5EIvIEs7RZfBHbxnEBRY5he51SDpkd",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22076590",
+        "municipio": "JÚLIO BORGES",
+        "nome": "CETI BENEDITO OLIVEIRA",
+        "rawFolder": "22076590 - JÚLIO BORGES - CETI BENEDITO OLIVEIRA",
+        "driveFolderId": "1ldjXyn_2fyp3w5SJ9y1nlQJinel92_Wn",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22077421",
+        "municipio": "PARNAGUÁ",
+        "nome": "RAIMUNDO LUSTOSA NOGUEIRA",
+        "rawFolder": "22077421 - PARNAGUÁ - RAIMUNDO LUSTOSA NOGUEIRA",
+        "driveFolderId": "1GCEQN-X4As09AMIwmivjK6E0Y3bFXBkw",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22077456",
+        "municipio": "PARNAGUÁ",
+        "nome": "CETI ARISTIDES PEREIRA DE SOUSA",
+        "rawFolder": "22077456 - PARNAGUÁ - CETI ARISTIDES PEREIRA DE SOUSA",
+        "driveFolderId": "1_KGHmSZxSbc2O3GteXtqXCPH_jYVM-wI",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22105117",
+        "municipio": "MONTE ALEGRE DO PIAUÍ",
+        "nome": "CEJA SENADOR CHAGAS RODRIGUES",
+        "rawFolder": "22105117 - MONTE ALEGRE DO PIAUÍ - CEJA SENADOR CHAGAS RODRIGUES",
+        "driveFolderId": "1YVeaRctxLuPPYm76mK5b7oPS-FmcU23w",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22114882",
+        "municipio": "MONTE ALEGRE DO PIAUÍ",
+        "nome": "CETI HUGO NAPOLEAO",
+        "rawFolder": "22114882 - MONTE ALEGRE DO PIAUÍ - CETI HUGO NAPOLEAO",
+        "driveFolderId": "1d6AQzmvgAVylK6HJI1k6DkjOAymYNHmg",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22114904",
+        "municipio": "SEBASTIÃO BARROS",
+        "nome": "CETI RAIMUNDO DA PAZ NOGUEIRA",
+        "rawFolder": "22114904 - SEBASTIÃO BARROS - CETI RAIMUNDO DA PAZ NOGUEIRA",
+        "driveFolderId": "15cRLL_uhEOL9SlSzvwzjsvY9U7yzS367",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22120114",
+        "municipio": "CORRENTE",
+        "nome": "CETI DR DIONISIO RODRIGUES NOGUEIRA",
+        "rawFolder": "22120114 - CORRENTE - CETI DR DIONISIO RODRIGUES NOGUEIRA",
+        "driveFolderId": "14s1EeXmcFMlh9ZZAjhRLVWbXRfzINm0a",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22131060",
+        "municipio": "SÃO GONÇALO DO GURGUÉIA",
+        "nome": "CETI HERMINIO BARREIRA",
+        "rawFolder": "22131060 - SÃO GONÇALO DO GURGUÉIA - CETI HERMINIO BARREIRA",
+        "driveFolderId": "1C23l3CyfN68uTk-iAG0J8_6-FR6CLY2L",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22131078",
+        "municipio": "RIACHO FRIO",
+        "nome": "CETI ANTÔNIO MASCARENHAS",
+        "rawFolder": "22131078 - RIACHO FRIO - CETI ANTÔNIO MASCARENHAS",
+        "driveFolderId": "1l0v1Xc8Vda4judjmZQMKVGk0EqOKMPNS",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22134107",
+        "municipio": "MORRO CABEÇA NO TEMPO",
+        "nome": "CETI LEDA NAPOLEAO",
+        "rawFolder": "22134107 - MORRO CABEÇA NO TEMPO - CETI LEDA NAPOLEAO",
+        "driveFolderId": "1gy9FR4wdgZvNm0GMltCKwNxlRIouf_Dl",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "22138056",
+        "municipio": "CORRENTE",
+        "nome": "CETI JOAQUIM ANTÔNIO LUSTOSA",
+        "rawFolder": "22138056 - CORRENTE - CETI JOAQUIM ANTÔNIO LUSTOSA",
+        "driveFolderId": "1_tVM6vobaDMwLvA31q-72zw09ehdbqFJ",
+        "greKey": "15ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "REUNIÃO PLANO DE INTERVENÇÃO - 15ª GRE",
+        "rawFolder": "Reunião Plano de Intervenção - 15ª GRE",
+        "driveFolderId": "1pKM_E0njxxO4m45xPf4Yr_WYG-hMoSQA",
+        "greKey": "15ª GRE"
+      }
+    ]
+  },
+  "16ª GRE": {
+    "folderId": "1P5uLt5icTDmFMAcDl_7Xwb_LM_8OvWaR",
+    "schoolsCount": 27,
+    "schools": [
+      {
+        "inep": "22084320",
+        "municipio": "ALAGOINHA DO PIAUÍ",
+        "nome": "CETI ALENCAR MOTA",
+        "rawFolder": "22084320 - ALAGOINHA DO PIAUÍ - CETI ALENCAR MOTA",
+        "driveFolderId": "1_7mpXGdG3c5MjFg7thxW3S-pEE1hC98r",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22085068",
+        "municipio": "ALEGRETE DO PIAUÍ - PRÉDIO NOVO",
+        "nome": "CETI ANTÔNIA DE SOUSA ALENCAR / UAB",
+        "rawFolder": "22085068 - ALEGRETE DO PIAUÍ - CETI ANTÔNIA DE SOUSA ALENCAR / UAB - PRÉDIO NOVO",
+        "driveFolderId": "1IAdb6uNThQGUNQKwZ_pXEHtDXyXb1T6Z",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22085491",
+        "municipio": "FRANCISCO SANTOS",
+        "nome": "CETI PROFESSOR MARIANO DA SILVA NETO",
+        "rawFolder": "22085491 - FRANCISCO SANTOS - CETI PROFESSOR MARIANO DA SILVA NETO",
+        "driveFolderId": "1Nk1M6dE0UCGvY6IPBcKYUKnSpV3WAx9Z",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22085505",
+        "municipio": "FRANCISCO SANTOS",
+        "nome": "CETI FRANCO RODRIGUES",
+        "rawFolder": "22085505 - FRANCISCO SANTOS - CETI FRANCO RODRIGUES",
+        "driveFolderId": "1a8WquCR1Wd2OgGhCZ_Oxl2MMis5GOv_n",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22085777",
+        "municipio": "MONSENHOR HIPÓLITO",
+        "nome": "CETI JOSÉ ALVES BEZERRA",
+        "rawFolder": "22085777 - MONSENHOR HIPÓLITO - CETI JOSÉ ALVES BEZERRA",
+        "driveFolderId": "1f-mhbSP0ivDO7NI6mnD-UheI3DW5ehlC",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22086528",
+        "municipio": "PIO IX",
+        "nome": "CETI NOSSA SENHORA DO PATROCINIO",
+        "rawFolder": "22086528 - PIO IX - CETI NOSSA SENHORA DO PATROCINIO",
+        "driveFolderId": "1xRaDHsyQahfq-2kt7bm2pZwNeXMYSk-Q",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22086625",
+        "municipio": "PIO IX",
+        "nome": "U E FRANCISCO SUASSUNA DE MELO",
+        "rawFolder": "22086625 - PIO IX - U E FRANCISCO SUASSUNA DE MELO",
+        "driveFolderId": "1JD_PuQ2rfR1YHPlTosIRqXiWvfypl0pP",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22087095",
+        "municipio": "SÃO JULIÃO",
+        "nome": "CETI APRÍGIO PEREIRA BEZERRA",
+        "rawFolder": "22087095 - SÃO JULIÃO - CETI APRÍGIO PEREIRA BEZERRA",
+        "driveFolderId": "1p_hnoyYgTZFvvJJoV7zXRLhsm-FRfBmj",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22087354",
+        "municipio": "SÃO JULIÃO",
+        "nome": "U E ALICE ROCHA",
+        "rawFolder": "22087354 - SÃO JULIÃO - U E ALICE ROCHA",
+        "driveFolderId": "1XxPWZSfO4iebf0XWkgtPmEmDa5aY252A",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22087753",
+        "municipio": "CALDEIRÃO GRANDE DO PIAUÍ",
+        "nome": "CETI WALDEMAR DE MOURA SANTOS",
+        "rawFolder": "22087753 - CALDEIRÃO GRANDE DO PIAUÍ - CETI WALDEMAR DE MOURA SANTOS",
+        "driveFolderId": "1eDi2E5i4T-TXzh9fhxpBLd_upc02fyHU",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22088806",
+        "municipio": "FRONTEIRAS",
+        "nome": "CEJA CAROLINA MARIA BEZERRA",
+        "rawFolder": "22088806 - FRONTEIRAS - CEJA CAROLINA MARIA BEZERRA",
+        "driveFolderId": "1Gc0epwrWhCaYqFecTWbbb4zF1Qt3pWBR",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22088814",
+        "municipio": "FRONTEIRAS",
+        "nome": "CETI FRANCISCA PEREIRA DE SOUSA MORAIS",
+        "rawFolder": "22088814 - FRONTEIRAS - CETI FRANCISCA PEREIRA DE SOUSA MORAIS",
+        "driveFolderId": "1_Ox1v6lKpGCLTgO6TK6UfHkZ3FtKHtwB",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22088857",
+        "municipio": "FRONTEIRAS",
+        "nome": "CETI FRANCISCO ALVES DE SOUSA (CHICO ABÍLIO)",
+        "rawFolder": "22088857 - FRONTEIRAS - CETI FRANCISCO ALVES DE SOUSA (CHICO ABÍLIO)",
+        "driveFolderId": "1txhl3XrzUGdmMww6s-a8Mk0Oz7JE3PK1",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22093079",
+        "municipio": "CAMPO GRANDE DO PIAUÍ",
+        "nome": "CEJA JOÃO JOSÉ RAMOS",
+        "rawFolder": "22093079 - CAMPO GRANDE DO PIAUÍ - CEJA JOÃO JOSÉ RAMOS",
+        "driveFolderId": "1t1cUd5odVX-OqKPf8r8OiJpx05PEUjgm",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22093249",
+        "municipio": "CAMPO GRANDE DO PIAUÍ",
+        "nome": "CETI SERAFIM JOSÉ DE BRITO",
+        "rawFolder": "22093249 - CAMPO GRANDE DO PIAUÍ - CETI SERAFIM JOSÉ DE BRITO",
+        "driveFolderId": "1B8v7VBC52zZ1yuSGwaDCejzY_ITJjrn8",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22093834",
+        "municipio": "MARCOLANDIA",
+        "nome": "CETI COSMA RAMOS DE SOUSA",
+        "rawFolder": "22093834 - MARCOLANDIA - CETI COSMA RAMOS DE SOUSA",
+        "driveFolderId": "1Huoe521N-EZ-BymeO724lZlhNVG6kxIK",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22094750",
+        "municipio": "PADRE MARCOS",
+        "nome": "CETI DR FRANCISCO LUIZ DE MACEDO",
+        "rawFolder": "22094750 - PADRE MARCOS - CETI DR FRANCISCO LUIZ DE MACEDO",
+        "driveFolderId": "1rBKma-uNGjenjO7wu2G5FJ8BMMrMTeNP",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22094989",
+        "municipio": "PADRE MARCOS",
+        "nome": "CEJA CONSTANCIO CARVALHO",
+        "rawFolder": "22094989 - PADRE MARCOS - CEJA CONSTANCIO CARVALHO",
+        "driveFolderId": "1egsgwUZlInTotWlWTmFy5-RryN-1xKbu",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22102612",
+        "municipio": "SIMÕES",
+        "nome": "CETI RAUL SÉRGIO",
+        "rawFolder": "22102612 - SIMÕES - CETI RAUL SÉRGIO",
+        "driveFolderId": "1Wmc8CEfTogvmPmSiJqyG70h0it12l8eo",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22102876",
+        "municipio": "SIMÕES",
+        "nome": "CEJA LUIS LOPES DOS REIS",
+        "rawFolder": "22102876 - SIMÕES - CEJA LUIS LOPES DOS REIS",
+        "driveFolderId": "1p5VEl7BC-GTFVS6NL3q6QdTwkgWkfRPj",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22102906",
+        "municipio": "SIMÕES",
+        "nome": "CETI JOSÉ BENTO DE CARVALHO FILHO",
+        "rawFolder": "22102906 - SIMÕES - CETI JOSÉ BENTO DE CARVALHO FILHO",
+        "driveFolderId": "1F4GlHxCKG-QeQ42yDG6wje7EBlYz_21o",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22108378",
+        "municipio": "PIO IX",
+        "nome": "CEJA TERESA ROSADO SIMÕES",
+        "rawFolder": "22108378 - PIO IX - CEJA TERESA ROSADO SIMÕES",
+        "driveFolderId": "1nMD0QmqdStjlW-sj7OFMwCB6l1ri_yjL",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22127275",
+        "municipio": "VILA NOVA DO PIAUÍ",
+        "nome": "CETI LUIZ UBIRACI DE CARVALHO",
+        "rawFolder": "22127275 - VILA NOVA DO PIAUÍ - CETI LUIZ UBIRACI DE CARVALHO",
+        "driveFolderId": "1aB5Z6pDy4LfKSeWUxbVlBUassrVVM8Uf",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22135030",
+        "municipio": "BELÉM DO PIAUÍ",
+        "nome": "CETI SEBASTIÃO DE SOUSA",
+        "rawFolder": "22135030 - BELÉM DO PIAUÍ - CETI SEBASTIÃO DE SOUSA",
+        "driveFolderId": "1rtlGXpo-XKH-LuM99TnCdcrRWO4Lphdc",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22136983",
+        "municipio": "FRANCISCO MACEDO",
+        "nome": "CETI MARIA NEUSA DE SOUSA",
+        "rawFolder": "22136983 - FRANCISCO MACEDO - CETI MARIA NEUSA DE SOUSA",
+        "driveFolderId": "1ltRb-zEAdYTvBeiMC3C4ul7yeG9651vn",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22143947",
+        "municipio": "MONSENHOR HIPÓLITO",
+        "nome": "CEJA JOSÉ ALVES BEZERRA",
+        "rawFolder": "22143947 - MONSENHOR HIPÓLITO - CEJA JOSÉ ALVES BEZERRA",
+        "driveFolderId": "1wAKBnLJQ0-D0JdJ3GBAT3cg1DyxTwNWJ",
+        "greKey": "16ª GRE"
+      },
+      {
+        "inep": "22144293",
+        "municipio": "SIMÕES",
+        "nome": "CETI PROFESSORA MARIA AUZENI DE SOUSA",
+        "rawFolder": "22144293 - SIMÕES - CETI PROFESSORA MARIA AUZENI DE SOUSA",
+        "driveFolderId": "1EfKRfb8MKsMBmeN1VKdK0OO79e9SIYmf",
+        "greKey": "16ª GRE"
+      }
+    ]
+  },
+  "17ª GRE": {
+    "folderId": "1xfARy9Vh1Hs6iIYAD_Xpfm4nqscvYW0-",
+    "schoolsCount": 15,
+    "schools": [
+      {
+        "inep": "17000000",
+        "municipio": "PAULISTANA",
+        "nome": "SEDE 17ª GRE",
+        "rawFolder": "17000000 - PAULISTANA - SEDE 17ª GRE",
+        "driveFolderId": "1GRFVpsGGeI-n5tl0mqLFddo2c39MKWHo",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22088695",
+        "municipio": "CONCEIÇÃO DO CANINDÉ",
+        "nome": "CETI CELESTINO FILHO",
+        "rawFolder": "22088695 - CONCEIÇÃO DO CANINDÉ - CETI CELESTINO FILHO",
+        "driveFolderId": "1nkQsv7ZkUuQRvzf5Aklg9lZeMODAfbLi",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22095500",
+        "municipio": "PATOS DO PIAUÍ",
+        "nome": "CETI REUNIDA DE PATOS",
+        "rawFolder": "22095500 - PATOS DO PIAUÍ - CETI REUNIDA DE PATOS",
+        "driveFolderId": "1KiD-UFMVjn6wMi-9DEu5_lsisEE8hC1f",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22095608",
+        "municipio": "PATOS DO PIAUÍ",
+        "nome": "CETI MARTINHO VIEIRA",
+        "rawFolder": "22095608 - PATOS DO PIAUÍ - CETI MARTINHO VIEIRA",
+        "driveFolderId": "1P7wxRasVyd7Jd3iIuQduRiDd7rmiQWRB",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22095772",
+        "municipio": "BETÂNIA DO PIAUÍ",
+        "nome": "CETI PROFESSOR FRANCISCO JOSÉ TIBURCIO",
+        "rawFolder": "22095772 - BETÂNIA DO PIAUÍ - CETI PROFESSOR FRANCISCO JOSÉ TIBURCIO",
+        "driveFolderId": "1I8cE3Tr2eaFhEzja7sdrvgqWcr06EwNj",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22098704",
+        "municipio": "PAULISTANA",
+        "nome": "CETI PAULISTANA",
+        "rawFolder": "22098704 - PAULISTANA - CETI PAULISTANA",
+        "driveFolderId": "1M5UwanoL6giDq0hJvhKvV1nn0V3Zswmn",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22107019",
+        "municipio": "CURRAL NOVO DO PIAUÍ",
+        "nome": "CETI SÃO FRANCISCO DE ASSIS",
+        "rawFolder": "22107019 - CURRAL NOVO DO PIAUÍ - CETI SÃO FRANCISCO DE ASSIS",
+        "driveFolderId": "1MBaifNEcnM45B49FCuIZuSPzYTUaubWz",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22131043",
+        "municipio": "JACOBINA DO PIAUÍ",
+        "nome": "CETI SEVERO ROCHA",
+        "rawFolder": "22131043 - JACOBINA DO PIAUÍ - CETI SEVERO ROCHA",
+        "driveFolderId": "1vHJR1bjksv18SnWE_njxyohOceLt41I2",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22131825",
+        "municipio": "CARIDADE DO PIAUÍ",
+        "nome": "CETI MARIA JUSCELINA DE ALBUQUERQE E SILVA",
+        "rawFolder": "22131825 - CARIDADE DO PIAUÍ - CETI MARIA JUSCELINA DE ALBUQUERQE E SILVA",
+        "driveFolderId": "1N2MTY4DHT5QbpPRkuy1lGUZZnyyLVU3W",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22132902",
+        "municipio": "QUEIMADA NOVA",
+        "nome": "CETI TOMAZ FRANCISCO DE SOUSA",
+        "rawFolder": "22132902 - QUEIMADA NOVA - CETI TOMAZ FRANCISCO DE SOUSA",
+        "driveFolderId": "1756MePpmcOkABnljCIBhmxg2LQ1xcxs8",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22134646",
+        "municipio": "PAULISTANA",
+        "nome": "CETI LUCINETE SANTANA DA SILVA",
+        "rawFolder": "22134646 - PAULISTANA - CETI LUCINETE SANTANA DA SILVA",
+        "driveFolderId": "1ik_bNhmBTsottlp1o-0HnP6cQpXth8y7",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22134859",
+        "municipio": "SÃO FRANCISCO DE ASSIS DO PIAUÍ",
+        "nome": "CEJA PROF VICENTE GUALBERTO RIBEIRO",
+        "rawFolder": "22134859 - SÃO FRANCISCO DE ASSIS DO PIAUÍ - CEJA PROF VICENTE GUALBERTO RIBEIRO",
+        "driveFolderId": "1aT3rXYDntRW3ExKI2E4D-owSYYTVaCXJ",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22141405",
+        "municipio": "ACAUÃ",
+        "nome": "CETI ANTÔNIO RODRIGUES FILHO",
+        "rawFolder": "22141405 - ACAUÃ - CETI ANTÔNIO RODRIGUES FILHO",
+        "driveFolderId": "1s9_xKCrnr_EH2h40wIb1PR_iKv520ozt",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22142355",
+        "municipio": "PAULISTANA",
+        "nome": "CETI ELIAS RAIMUNDO DE LIMA",
+        "rawFolder": "22142355 - PAULISTANA - CETI ELIAS RAIMUNDO DE LIMA",
+        "driveFolderId": "1mlyOidOFll-vxxoUXkVShJVmSq0iRPpk",
+        "greKey": "17ª GRE"
+      },
+      {
+        "inep": "22143300",
+        "municipio": "SÃO FRANCISCO DE ASSIS DO PIAUÍ",
+        "nome": "CETI CIRILA MARIA DE JESUS",
+        "rawFolder": "22143300 - SÃO FRANCISCO DE ASSIS DO PIAUÍ - CETI CIRILA MARIA DE JESUS",
+        "driveFolderId": "15W3RRkBUO6GdhS2FrRdzP_aW7y0vR9ZW",
+        "greKey": "17ª GRE"
+      }
+    ]
+  },
+  "18ª GRE": {
+    "folderId": "1jQ57i7I0HPy0jKC6fedVb_DVrE8Q61la",
+    "schoolsCount": 46,
+    "schools": [
+      {
+        "inep": "18000000",
+        "municipio": "GRANDE TERESINA",
+        "nome": "SEDE (PRÉDIO ALUGADO)",
+        "rawFolder": "18000000 - GRANDE TERESINA - SEDE (PRÉDIO ALUGADO)",
+        "driveFolderId": "1ad2NC8k8pLsgbsmP9Xxyh1eXX2qMnsPI",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22008730",
+        "municipio": "MIGUEL ALVES",
+        "nome": "CETI CECILIA LACERDA",
+        "rawFolder": "22008730 - MIGUEL ALVES - CETI CECILIA LACERDA",
+        "driveFolderId": "1b6nDmhPI3iK2zM4LIQUoJ4RVZzpgrnyE",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22008780",
+        "municipio": "MIGUEL ALVES",
+        "nome": "CETI PIO XII",
+        "rawFolder": "22008780 - MIGUEL ALVES - CETI PIO XII",
+        "driveFolderId": "1Z_6MlKhMJl6cgy66PSsYaoWkr-0K5p_n",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22017771",
+        "municipio": "ALTOS",
+        "nome": "CETI CAZUZA BARBOSA",
+        "rawFolder": "22017771 - ALTOS - CETI CAZUZA BARBOSA",
+        "driveFolderId": "1dEbbs-pFzbP4SdFtJV0O46A73GKhLu7l",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22017992",
+        "municipio": "ALTOS",
+        "nome": "CETI AFONSO MAFRENSE",
+        "rawFolder": "22017992 - ALTOS - CETI AFONSO MAFRENSE",
+        "driveFolderId": "1HXEiUTNdg6M7-KeNmrqsE1G976LylFHg",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018026",
+        "municipio": "ALTOS",
+        "nome": "CETI ALTINA PESTANA",
+        "rawFolder": "22018026 - ALTOS - CETI ALTINA PESTANA",
+        "driveFolderId": "1TUu2M5e51wOEZEwyhuWCSQyteFuys7SP",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018042",
+        "municipio": "ALTOS",
+        "nome": "CEJA ANISIO LIMA",
+        "rawFolder": "22018042 - ALTOS - CEJA ANISIO LIMA",
+        "driveFolderId": "1eX4KuRUSe_xsuopG66z9bj2w6uKeD6Hd",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018107",
+        "municipio": "ALTOS",
+        "nome": "CETI HUGO NAPOLEAO",
+        "rawFolder": "22018107 - ALTOS - CETI HUGO NAPOLEAO",
+        "driveFolderId": "13faLK2mxoH5SfVq6B2xYT6ZZCpUv3zZy",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018174",
+        "municipio": "ALTOS",
+        "nome": "CETI MARIO RAULINO",
+        "rawFolder": "22018174 - ALTOS - CETI MARIO RAULINO",
+        "driveFolderId": "1Cvz1cnfTVHWoRo2xwmGbVSImvKboGGNm",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018204",
+        "municipio": "ALTOS",
+        "nome": "CETI PIO XII",
+        "rawFolder": "22018204 - ALTOS - CETI PIO XII",
+        "driveFolderId": "1JUq_JDSpD73qculZNOeXWCntYmhJjbi5",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018220",
+        "municipio": "ALTOS",
+        "nome": "CETI RAMA BOA",
+        "rawFolder": "22018220 - ALTOS - CETI RAMA BOA",
+        "driveFolderId": "173biAZNaVNsZFebnl5vVhvPz6syhNUg8",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22018654",
+        "municipio": "BENEDITINOS",
+        "nome": "CETI LUIZ ALVES DE ALMEIDA",
+        "rawFolder": "22018654 - BENEDITINOS - CETI LUIZ ALVES DE ALMEIDA",
+        "driveFolderId": "1BgChnpkf8gsDGemB0-xBnAxe21qERTwX",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019294",
+        "municipio": "COIVARAS",
+        "nome": "CETI RAIMUNDO MARTINS",
+        "rawFolder": "22019294 - COIVARAS - CETI RAIMUNDO MARTINS",
+        "driveFolderId": "1jReoXlHaC5orpP6FaWOVad-_MaJ7iW-J",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019740",
+        "municipio": "DEMERVAL LOBÃO",
+        "nome": "CETI ANTÔNIETA RIBEIRO MORAES",
+        "rawFolder": "22019740 - DEMERVAL LOBÃO - CETI ANTÔNIETA RIBEIRO MORAES",
+        "driveFolderId": "10ucoaye1X9aXOynS-27ccR1lPOiuv3BA",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019790",
+        "municipio": "DEMERVAL LOBÃO",
+        "nome": "CETI DOMINGOS ALVES DA COSTA",
+        "rawFolder": "22019790 - DEMERVAL LOBÃO - CETI DOMINGOS ALVES DA COSTA",
+        "driveFolderId": "1HwYIcZTfcm3Dw1ru40CW-cvmpME99WzC",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019804",
+        "municipio": "LAGOA DO PIAUÍ",
+        "nome": "CETI FRANCISCO LUIS DE MORAES",
+        "rawFolder": "22019804 - LAGOA DO PIAUÍ - CETI FRANCISCO LUIS DE MORAES",
+        "driveFolderId": "1-RUcmi9EjKbh7pdLf9V7Ci4UxR-MD2Js",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019839",
+        "municipio": "DEMERVAL LOBÃO",
+        "nome": "CETI JACOB BARBOSA",
+        "rawFolder": "22019839 - DEMERVAL LOBÃO - CETI JACOB BARBOSA",
+        "driveFolderId": "1YRt10jaQzCGkBAsJW0Vs54jH2X1ebQ_J",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22019952",
+        "municipio": "JOSÉ DE FREITAS",
+        "nome": "CETI FIRMO JOSÉ DA CUNHA",
+        "rawFolder": "22019952 - JOSÉ DE FREITAS - CETI FIRMO JOSÉ DA CUNHA",
+        "driveFolderId": "1bC4KVBTWeXsnypGzh76QbK3A4Xbgi_6d",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22020810",
+        "municipio": "JOSÉ DE FREITAS",
+        "nome": "CETI GOV PEDRO FREITAS",
+        "rawFolder": "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        "driveFolderId": "1xdDE1xtWR0vOApjzy8fjDsi-QB_uY7H6",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22020942",
+        "municipio": "JOSÉ DE FREITAS",
+        "nome": "CETI ANTÔNIO FREITAS",
+        "rawFolder": "22020942 - JOSÉ DE FREITAS - CETI ANTÔNIO FREITAS",
+        "driveFolderId": "1MX78g5XGedPsORgpI-y6iWCso5CcfUrL",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22020969",
+        "municipio": "JOSÉ DE FREITAS",
+        "nome": "CETI FERDINAND FREITAS",
+        "rawFolder": "22020969 - JOSÉ DE FREITAS - CETI FERDINAND FREITAS",
+        "driveFolderId": "137TOQT7K0t-v8rp3g7tYVOaQCxBCijsQ",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22021060",
+        "municipio": "LAGOA ALEGRE",
+        "nome": "CETI ELON MACHADO MOITA",
+        "rawFolder": "22021060 - LAGOA ALEGRE - CETI ELON MACHADO MOITA",
+        "driveFolderId": "12CNLhzFgluVKpy3zlbdJARDnwdIyfm__",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22021868",
+        "municipio": "MONSENHOR GIL",
+        "nome": "CETI DR NORONHA FILHO",
+        "rawFolder": "22021868 - MONSENHOR GIL - CETI DR NORONHA FILHO",
+        "driveFolderId": "1xXmC47S0bRBVIbfDxUYkL2md9CsFF_-Y",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22021922",
+        "municipio": "MONSENHOR GIL",
+        "nome": "CETI RAIMUNDO PESSOA",
+        "rawFolder": "22021922 - MONSENHOR GIL - CETI RAIMUNDO PESSOA",
+        "driveFolderId": "1kYBwsnPiFcZZpMrV1-cCcKFjTDg6L9DE",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22029435",
+        "municipio": "UNIÃO",
+        "nome": "CEJA LUIS CARLOS BOA VISTA R MONTEIRO",
+        "rawFolder": "22029435 - UNIÃO - CEJA LUIS CARLOS BOA VISTA R MONTEIRO",
+        "driveFolderId": "1B0NxiaKPOLbgyeSAAf5LBiCUdasD8N3P",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22029524",
+        "municipio": "UNIÃO",
+        "nome": "CETI BENEDITO MOURA",
+        "rawFolder": "22029524 - UNIÃO - CETI BENEDITO MOURA",
+        "driveFolderId": "19N6UMCbWFzgygTY_R-bVVbpyTrw4VtE9",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22029869",
+        "municipio": "UNIÃO",
+        "nome": "CETI PROFESSORA ELISA SOUSA",
+        "rawFolder": "22029869 - UNIÃO - CETI PROFESSORA ELISA SOUSA",
+        "driveFolderId": "1Q611bhEL9hzHhJlm8yy7Q6gn56HgHdKB",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22029982",
+        "municipio": "UNIÃO",
+        "nome": "CETI FENELON CASTELO BRANCO",
+        "rawFolder": "22029982 - UNIÃO - CETI FENELON CASTELO BRANCO",
+        "driveFolderId": "1X1BWGpr7czh8CpKRybRNGg7eCOPkmpNq",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22030123",
+        "municipio": "UNIÃO",
+        "nome": "CETI BARAO DE GURGUEIA",
+        "rawFolder": "22030123 - UNIÃO - CETI BARAO DE GURGUEIA",
+        "driveFolderId": "13TGZZDftgTLSP6hJIn9VUXcvJ0IaDVmd",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22030158",
+        "municipio": "UNIÃO",
+        "nome": "CETI FILINTO REGO",
+        "rawFolder": "22030158 - UNIÃO - CETI FILINTO REGO",
+        "driveFolderId": "1dAS_55PBvKes-lAAc1ruYD7JKu5eoIWF",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22030174",
+        "municipio": "UNIÃO",
+        "nome": "CETI IRMÃ MARIA SIMPLICIA",
+        "rawFolder": "22030174 - UNIÃO - CETI IRMÃ MARIA SIMPLICIA",
+        "driveFolderId": "1BoZYsNYYrP_YqhISUJLTyBSXuH-I-D9w",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22030204",
+        "municipio": "UNIÃO",
+        "nome": "CETI MARCOS PARENTE",
+        "rawFolder": "22030204 - UNIÃO - CETI MARCOS PARENTE",
+        "driveFolderId": "1zda_YL2zhOtOob1X2CtUKBvf8B2ls4RV",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22031405",
+        "municipio": "NOVO SANTO ANTÔNIO",
+        "nome": "CETI ANTÔNIO VITÓRIO DE SOUSA",
+        "rawFolder": "22031405 - NOVO SANTO ANTÔNIO - CETI ANTÔNIO VITÓRIO DE SOUSA",
+        "driveFolderId": "1sHIm2tqWSklP74VtTgXX7NKwSzh_NTUX",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22031570",
+        "municipio": "ALTO LONGÁ",
+        "nome": "CETI ACRISIO VERAS",
+        "rawFolder": "22031570 - ALTO LONGÁ - CETI ACRISIO VERAS",
+        "driveFolderId": "10mG2EpmJRei0jnRMWW6OpYFcqvZrrTjo",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22031596",
+        "municipio": "ALTO LONGÁ",
+        "nome": "CETI CANTIDIO SARAIVA",
+        "rawFolder": "22031596 - ALTO LONGÁ - CETI CANTIDIO SARAIVA",
+        "driveFolderId": "1-2sfFDkw-wgWstAnBibtzKV_JNM8dc02",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22043128",
+        "municipio": "BARRO DURO",
+        "nome": "CEJA NOEMIA DO CARMO SANTANA",
+        "rawFolder": "22043128 - BARRO DURO - CEJA NOEMIA DO CARMO SANTANA",
+        "driveFolderId": "1iZSVlpbIqJxsXQJpRVcwJZK8N6zAstWM",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22124136",
+        "municipio": "NAZÁRIA",
+        "nome": "CETI HILTON LEITE DE CARVALHO",
+        "rawFolder": "22124136 - NAZÁRIA - CETI HILTON LEITE DE CARVALHO",
+        "driveFolderId": "1DTn3F-zQFZpxgBQuqINytS7VybzQ5gdI",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22124411",
+        "municipio": "BENEDITINOS",
+        "nome": "CETI PROFESSOR MANOEL NASCIMENTO",
+        "rawFolder": "22124411- BENEDITINOS - CETI PROFESSOR MANOEL NASCIMENTO",
+        "driveFolderId": "1QTHYV1UbilIBXoZ_NkKJMtmDhVrEGU53",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22132740",
+        "municipio": "CURRALINHOS",
+        "nome": "CETI MENINO JOÃO PEDRO",
+        "rawFolder": "22132740 - CURRALINHOS - CETI MENINO JOÃO PEDRO",
+        "driveFolderId": "1MSPiLdq5WvjMr2QeNmmC1n2bGHpM-8SO",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22134794",
+        "municipio": "UNIÃO",
+        "nome": "CETI CELSA LEMOS",
+        "rawFolder": "22134794 - UNIÃO - CETI CELSA LEMOS",
+        "driveFolderId": "1pDjAMXOhorPgNXE7J4AVIRnDcw3ntHPx",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22135383",
+        "municipio": "BENEDITINOS",
+        "nome": "CETI PEDRO MENDES PESSOA",
+        "rawFolder": "22135383 - BENEDITINOS - CETI PEDRO MENDES PESSOA",
+        "driveFolderId": "1f_KAvC8waFJf38HbDlGw1Lh1AZRKLtvo",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22135901",
+        "municipio": "PAU D&#39;ARCO DO PIAUÍ",
+        "nome": "CETI CEZAR LEAL",
+        "rawFolder": "22135901 - PAU D&#39;ARCO DO PIAUÍ - CETI CEZAR LEAL",
+        "driveFolderId": "1an3WeSq3E4PMiv6Y1vv3LgUnERocVJ5X",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22144900",
+        "municipio": "LAGOA DO PIAUÍ",
+        "nome": "CEJA PAULO FREIRE",
+        "rawFolder": "22144900 - LAGOA DO PIAUÍ - CEJA PAULO FREIRE",
+        "driveFolderId": "1z_hGM3pGfwKiylwPdsYKodKN0R7H97EN",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22145753",
+        "municipio": "MIGUEL ALVES",
+        "nome": "CETI FAMILIA AGRICOLA JOSÉ NERY DOS SANTOS",
+        "rawFolder": "22145753 - MIGUEL ALVES - CETI FAMILIA AGRICOLA JOSÉ NERY DOS SANTOS",
+        "driveFolderId": "1W556ySCG0i4yhIW-aq4wT6wpd3spGuMm",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22147209",
+        "municipio": "UNIÃO",
+        "nome": "CETI MANOEL OTAVIO",
+        "rawFolder": "22147209 - UNIÃO - CETI MANOEL OTAVIO",
+        "driveFolderId": "1zXW0kV8szUKlG4HaOlS1wMGzgKnLY8n5",
+        "greKey": "18ª GRE"
+      },
+      {
+        "inep": "22149600",
+        "municipio": "UNIÃO",
+        "nome": "CETI DR EZEQUIAS COSTA",
+        "rawFolder": "22149600 - UNIÃO - CETI DR EZEQUIAS COSTA",
+        "driveFolderId": "10_wI6dX19Faf6VdUh0vNLBwa_sXU3rHT",
+        "greKey": "18ª GRE"
+      }
+    ]
+  },
+  "19ª GRE": {
+    "folderId": "1oFbz03fLHz1w1md2MP9etGB3P0H9_DuY",
+    "schoolsCount": 39,
+    "schools": [
+      {
+        "inep": "19000000",
+        "municipio": "SEDE",
+        "nome": "19ª",
+        "rawFolder": "19000000 - SEDE - 19ª",
+        "driveFolderId": "1vXoiVlrJwi2OvNegejnM9avPDiAU9q0y",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22022015",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR MELO MAGALHÃES",
+        "rawFolder": "22022015 - TERESINA - CETI PROFESSOR MELO MAGALHÃES",
+        "driveFolderId": "1DtgxpGR8kkdPQctZyG0qqOnqdYnm2N-o",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22025316",
+        "municipio": "TERESINA",
+        "nome": "CETI EM SAUDE MONSENHOR JOSÉ LUIS BARBOSA CORTEZ",
+        "rawFolder": "22025316 - TERESINA - CETI EM SAUDE MONSENHOR JOSÉ LUIS BARBOSA CORTEZ",
+        "driveFolderId": "1O3M1e3f6yGyAZnpTFjM31Qw__cMLmjVj",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22026495",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROFESSORA SHIRLEY COSTA E SILVA",
+        "rawFolder": "22026495 - TERESINA - CEJA PROFESSORA SHIRLEY COSTA E SILVA",
+        "driveFolderId": "1rr1KQpKb8ae1XV6oBFNgWi6nGZEzxPTR",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22026983",
+        "municipio": "TERESINA",
+        "nome": "CETI DOMICIO MAGALHÃES DE MELO",
+        "rawFolder": "22026983 - TERESINA - CETI DOMICIO MAGALHÃES DE MELO",
+        "driveFolderId": "1T87seGvA8PmwMaHz6uQwBofq2dqYjV3n",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027041",
+        "municipio": "TERESINA",
+        "nome": "CEJA GOV ALBERTO TAVARES E SILVA",
+        "rawFolder": "22027041 - TERESINA - CEJA GOV ALBERTO TAVARES E SILVA",
+        "driveFolderId": "1NngeuYQCuR5nIwnX0jklTGnE7qvFaF_o",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027092",
+        "municipio": "TERESINA",
+        "nome": "U E PROFESSOR JOÃO SOARES DA SILVA",
+        "rawFolder": "22027092 - TERESINA - U E PROFESSOR JOÃO SOARES DA SILVA",
+        "driveFolderId": "16Tq_i90DN0jTfj6JOgT_BONG-Ep15I7z",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027203",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR ANTÔNIO MARIA MADEIRA",
+        "rawFolder": "22027203 - TERESINA - CETI PROFESSOR ANTÔNIO MARIA MADEIRA",
+        "driveFolderId": "1n-BykZmnTuNsHYWISWWw3Ssg3npD5nkU",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027238",
+        "municipio": "TERESINA",
+        "nome": "U E PROFESSOR JOSÉ CAMILO DA SILVEIRA FILHO",
+        "rawFolder": "22027238 - TERESINA - U E PROFESSOR JOSÉ CAMILO DA SILVEIRA FILHO",
+        "driveFolderId": "1ityi-Li6lqauXPGdpNhlVT-0qMNeqFJL",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027262",
+        "municipio": "TERESINA",
+        "nome": "CETI MOACI MADEIRA CAMPOS",
+        "rawFolder": "22027262 - TERESINA - CETI MOACI MADEIRA CAMPOS",
+        "driveFolderId": "1ibcaCVRX-H7oI3GGVPph82eh1NGthwfs",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027483",
+        "municipio": "TERESINA",
+        "nome": "CETI ESTADO DE SÃO PAULO",
+        "rawFolder": "22027483 - TERESINA - CETI ESTADO DE SÃO PAULO",
+        "driveFolderId": "1A8hNT9pmFigXbGJyuPF-wae3hPrVwEzb",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027599",
+        "municipio": "TERESINA",
+        "nome": "CETI NAIR GONCALVES",
+        "rawFolder": "22027599 - TERESINA - CETI NAIR GONCALVES",
+        "driveFolderId": "1nJGAP3cgeuBGMTDVdUgHfXD0I5OF4s0X",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027726",
+        "municipio": "TERESINA",
+        "nome": "CETI DESEMBARGADOR HENRIQUE COUTO",
+        "rawFolder": "22027726 - TERESINA - CETI DESEMBARGADOR HENRIQUE COUTO",
+        "driveFolderId": "1nKU3F-5q6ZszT70D0gdSVNhVnG4RoL14",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027769",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA AUREA FREIRE",
+        "rawFolder": "22027769 - TERESINA - CETI PROFESSORA AUREA FREIRE",
+        "driveFolderId": "1NxFzINtkt5dJGBNUBpptg8GCWuXaUJZx",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22027874",
+        "municipio": "TERESINA",
+        "nome": "CETI PADRE ANTÔNIO JOSÉ DO REGO",
+        "rawFolder": "22027874 - TERESINA - CETI PADRE ANTÔNIO JOSÉ DO REGO",
+        "driveFolderId": "1dub3RgtM8sUfgK1rRUMu2eH9Mzr3IpMl",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028250",
+        "municipio": "TERESINA",
+        "nome": "CETI FLORISA SILVA",
+        "rawFolder": "22028250 - TERESINA - CETI FLORISA SILVA",
+        "driveFolderId": "1NaU-4amMnnLT7Elyix5CLON2HK5t4M-O",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028471",
+        "municipio": "TERESINA",
+        "nome": "CEJA JOSÉ CANDIDO FERRAZ",
+        "rawFolder": "22028471 - TERESINA - CEJA JOSÉ CANDIDO FERRAZ",
+        "driveFolderId": "17m_JjNlEbbY5BQPXrvnKj9BnwT2sern8",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028560",
+        "municipio": "TERESINA",
+        "nome": "CETI LOURIVAL PARENTE",
+        "rawFolder": "22028560 - TERESINA - CETI LOURIVAL PARENTE",
+        "driveFolderId": "1OnjuP_B0Pr5L-yKxKdWcAs7UJ4k7QtQk",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028609",
+        "municipio": "TERESINA",
+        "nome": "CETI MARIA DINA SOARES",
+        "rawFolder": "22028609 - TERESINA - CETI MARIA DINA SOARES",
+        "driveFolderId": "1M47I9smCJQ8rz-o58MAQr-weS6XD6qUk",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028650",
+        "municipio": "TERESINA",
+        "nome": "CETI MARTINS NAPOLEAO",
+        "rawFolder": "22028650 - TERESINA - CETI MARTINS NAPOLEAO",
+        "driveFolderId": "1xbVDobbECyAJ7wWV0mSnK2TqQdEnwE6E",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028676",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA MERCEDES COSTA",
+        "rawFolder": "22028676 - TERESINA - CETI PROFESSORA MERCEDES COSTA",
+        "driveFolderId": "1x6DIga4AQd_uhWolLbmVxD4m9Dt7D3j9",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028692",
+        "municipio": "TERESINA",
+        "nome": "CETI MONSENHOR CICERO PORTELA NUNES",
+        "rawFolder": "22028692 - TERESINA - CETI MONSENHOR CICERO PORTELA NUNES",
+        "driveFolderId": "1ZH8y0luLEIWCRwu62M-BtHqqgwsFDsSt",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028820",
+        "municipio": "TERESINA",
+        "nome": "CETI PADRE JOAQUIM NONATO GOMES",
+        "rawFolder": "22028820 - TERESINA - CETI PADRE JOAQUIM NONATO GOMES",
+        "driveFolderId": "1tLm8mF-e_IeVz2YhxVdu_6SNFwyihUtD",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22028951",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR AGRIPINO OLIVEIRA",
+        "rawFolder": "22028951 - TERESINA - CETI PROFESSOR AGRIPINO OLIVEIRA",
+        "driveFolderId": "1gRyg0ooUbVMxziBQQxqDZpt3D5MzgB5E",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22029010",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROFA OSMARINA",
+        "rawFolder": "22029010 - TERESINA - CEJA PROFA OSMARINA",
+        "driveFolderId": "1ZNJPicBN5yCq-gBJ38XuDn619P_9eQKB",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22029087",
+        "municipio": "TERESINA",
+        "nome": "CETI SIGEFREDO PACHECO",
+        "rawFolder": "22029087 - TERESINA - CETI SIGEFREDO PACHECO",
+        "driveFolderId": "14HuJHlx5Tc-wxX2nmDuwGAOhGZlmO0JB",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22029125",
+        "municipio": "TERESINA",
+        "nome": "CETI SOLANGE SINIMBU VIANA AREA LEAO",
+        "rawFolder": "22029125 - TERESINA - CETI SOLANGE SINIMBU VIANA AREA LEAO",
+        "driveFolderId": "1gFyAi90o8Itl58S0I1w4O0ny3ZJQ7pBy",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22127160",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA AURISTELA SOARES",
+        "rawFolder": "22127160 - TERESINA - CETI PROFESSORA AURISTELA SOARES",
+        "driveFolderId": "1lr0GnWSrKCTs6yM-as5sMGUfAVGnkVGX",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22128441",
+        "municipio": "TERESINA",
+        "nome": "CETI NOSSA SENHORA DO PERPETUO SOCORRO",
+        "rawFolder": "22128441 - TERESINA - CETI NOSSA SENHORA DO PERPETUO SOCORRO",
+        "driveFolderId": "1EKNmQ2thL-jq243ENzwYYIuul5KWF6iw",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22133674",
+        "municipio": "TERESINA",
+        "nome": "CETI INTEGRADO ANGELIM",
+        "rawFolder": "22133674 - TERESINA - CETI INTEGRADO ANGELIM",
+        "driveFolderId": "1qJ104mkjAMmePwnah_Cavsq8dQpY_QYF",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22135880",
+        "municipio": "TERESINA",
+        "nome": "CEJA JORNALISTA JOÃO EMILIO FALCAO",
+        "rawFolder": "22135880 - TERESINA - CEJA JORNALISTA JOÃO EMILIO FALCAO",
+        "driveFolderId": "1GbJS5YQAkX8tsh16GWRlouyRJpj_rw7M",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22138390",
+        "municipio": "TERESINA",
+        "nome": "CETI RESIDENCIAL ESPLANADA",
+        "rawFolder": "22138390 - TERESINA - CETI RESIDENCIAL ESPLANADA",
+        "driveFolderId": "1rGYqNUas2SAyrz1fG7mWy1kbt92kdbdL",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22138420",
+        "municipio": "TERESINA",
+        "nome": "CEJA DOM HELDER CAMARA",
+        "rawFolder": "22138420 - TERESINA - CEJA DOM HELDER CAMARA",
+        "driveFolderId": "1raALPdFwR7IiXR-1zGKq9XI5XZfujwKd",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22138455",
+        "municipio": "TERESINA",
+        "nome": "CETI SANTA FÉ",
+        "rawFolder": "22138455 - TERESINA - CETI SANTA FÉ",
+        "driveFolderId": "1mwTRhG3tVjEoKmQknw831Bqm4CeMAYGH",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22142762",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE ATIVIDADES DE ALTAS HABILIDADES E SUPERDOTAÇÃO - CAAHS",
+        "rawFolder": "22142762 - TERESINA - CENTRO DE ATIVIDADES DE ALTAS HABILIDADES E SUPERDOTAÇÃO - CAAHS",
+        "driveFolderId": "1djhkpvD4bF4zufOmT71pZ623hRC0Gc1W",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22145826",
+        "municipio": "TERESINA",
+        "nome": "CETI INDIGENA OKA KA INAMINANOKO",
+        "rawFolder": "22145826 - TERESINA - CETI INDIGENA OKA KA INAMINANOKO",
+        "driveFolderId": "1GiYckEURmpUKvGpWQR39_lomRksfybmk",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22161201",
+        "municipio": "TERESINA",
+        "nome": "CETI LUCAS MEIRELES",
+        "rawFolder": "22161201 - TERESINA - CETI LUCAS MEIRELES",
+        "driveFolderId": "1KxvqamM5S3L_rZQ6_PJQGtxd5cdjI9Ww",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22253726",
+        "municipio": "TERESINA",
+        "nome": "CEJA DEP PAULO HENRIQUE PAES LANDIM",
+        "rawFolder": "22253726 - TERESINA - CEJA DEP PAULO HENRIQUE PAES LANDIM",
+        "driveFolderId": "1zfpVHSkjjAwrE0KXrmGQVgHxmFp_W-Pw",
+        "greKey": "19ª GRE"
+      },
+      {
+        "inep": "22256725",
+        "municipio": "TERESINA",
+        "nome": "CETI JOÃO HENRIQUE DE ALMEIDA SOUSA",
+        "rawFolder": "22256725 - TERESINA - CETI JOÃO HENRIQUE DE ALMEIDA SOUSA",
+        "driveFolderId": "1Fes6LPSJztctrVroMS_q3Y_9sCFcyuPq",
+        "greKey": "19ª GRE"
+      }
+    ]
+  },
+  "20ª GRE": {
+    "folderId": "1HJRGsB6WMkkTuyFxw9XpViZ39uiFp1Rf",
+    "schoolsCount": 28,
+    "schools": [
+      {
+        "inep": "22022007",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR BALDUINO BARBOSA DE DEUS",
+        "rawFolder": "22022007 - TERESINA - CETI PROFESSOR BALDUINO BARBOSA DE DEUS",
+        "driveFolderId": "1fUgzJdazA_lqpPaC4RahurEBntOHIDCb",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22022120",
+        "municipio": "TERESINA",
+        "nome": "CETI GOVERNADOR FREITAS NETO",
+        "rawFolder": "22022120 - TERESINA - CETI GOVERNADOR FREITAS NETO",
+        "driveFolderId": "1JgxyGoWqIIaF3to9CHIvnTfkCY9OCJw8",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22025308",
+        "municipio": "TERESINA",
+        "nome": "CETI GOVERNADOR DIRCEU MENDES ARCOVERDE",
+        "rawFolder": "22025308 - TERESINA - CETI GOVERNADOR DIRCEU MENDES ARCOVERDE",
+        "driveFolderId": "1VuvR7J3TA9Ndocr9KYS5KGh4I-2cN2N8",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22026878",
+        "municipio": "TERESINA",
+        "nome": "CETI MONSENHOR RAIMUNDO NONATO MELO",
+        "rawFolder": "22026878 - TERESINA - CETI MONSENHOR RAIMUNDO NONATO MELO",
+        "driveFolderId": "1gGXLlAowVU884kcvFhIhbUp-dRUZDEsB",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027190",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROF ANGELINA DE MOURA LEAL",
+        "rawFolder": "22027190 - TERESINA - CEJA PROF ANGELINA DE MOURA LEAL",
+        "driveFolderId": "19PVR-ElgaOfU9lt3IBZ_9rSXYqcT5Whz",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027319",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR DARCY ARAUJO",
+        "rawFolder": "22027319 - TERESINA - CETI PROFESSOR DARCY ARAUJO",
+        "driveFolderId": "1_hkRUSHcX-HV7Pyfe2DJKZKa-NVJGq0L",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027327",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR JOCA VIEIRA",
+        "rawFolder": "22027327 - TERESINA - CETI PROFESSOR JOCA VIEIRA",
+        "driveFolderId": "1fiiD3Ft-SeQiW_4d_dxOcHBIYup0hZRs",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027440",
+        "municipio": "TERESINA",
+        "nome": "CETI DEP JOAQUIM GOMES CALADO",
+        "rawFolder": "22027440 - TERESINA - CETI DEP JOAQUIM GOMES CALADO",
+        "driveFolderId": "18itTy8rwR3FTM_GQGUgXOEx3LiMJ4JhS",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027548",
+        "municipio": "TERESINA",
+        "nome": "U E MARECHAL RONDON",
+        "rawFolder": "22027548 - TERESINA - U E MARECHAL RONDON",
+        "driveFolderId": "1i_TKhsPaSXgeOe233qKaSH0As3SW_3rJ",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027670",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR RAIMUNDO PORTELA",
+        "rawFolder": "22027670 - TERESINA - CETI PROFESSOR RAIMUNDO PORTELA",
+        "driveFolderId": "1SLxe0rW2da_BylTg98FYK2qUUdsENCY5",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22027963",
+        "municipio": "TERESINA",
+        "nome": "CETI CALUZINHA FREIRE",
+        "rawFolder": "22027963 - TERESINA - CETI CALUZINHA FREIRE",
+        "driveFolderId": "1XUsvg3Q5_IDXuCTsm6HL--gW2DKzcitm",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22028307",
+        "municipio": "TERESINA",
+        "nome": "CETI GERVÁSIO COSTA",
+        "rawFolder": "22028307 - TERESINA - CETI GERVÁSIO COSTA",
+        "driveFolderId": "1oy6ADZK4SZi7FWSCSF1N2o1-Oh40sA4r",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22028455",
+        "municipio": "TERESINA",
+        "nome": "CETI PROF JOSÉ AMAVEL",
+        "rawFolder": "22028455 - TERESINA - CETI PROF JOSÉ AMAVEL",
+        "driveFolderId": "1mOik23RQMJBlvqqkmand5C2JE2M_W7aq",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22028668",
+        "municipio": "TERESINA",
+        "nome": "CETI MELVIN JONES",
+        "rawFolder": "22028668 - TERESINA - CETI MELVIN JONES",
+        "driveFolderId": "1ppEczms0frbIbXGeFigP3sIWd_6hvCgM",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22028960",
+        "municipio": "TERESINA",
+        "nome": "CETI MARIA MELO",
+        "rawFolder": "22028960 - TERESINA - CETI MARIA MELO",
+        "driveFolderId": "14yDEoJMGKTnORl2mXargiyaNbsGCHVRZ",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22029028",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA MARIA DE LOURDES REBELO",
+        "rawFolder": "22029028 - TERESINA - CETI PROFESSORA MARIA DE LOURDES REBELO",
+        "driveFolderId": "1A-az9SzD7liHb3rAVDwa39LaqmnREGEO",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22115544",
+        "municipio": "TERESINA",
+        "nome": "CETI FAMILIA AGRICOLA DO SOINHO",
+        "rawFolder": "22115544 - TERESINA - CETI FAMILIA AGRICOLA DO SOINHO",
+        "driveFolderId": "1-uLuFtRBWElgpngjkb4vwjIDM5qwykmh",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22124810",
+        "municipio": "TERESINA",
+        "nome": "CETI FAMILIA AGRICOLA BAIXAO DO CARLOS",
+        "rawFolder": "22124810 - TERESINA - CETI FAMILIA AGRICOLA BAIXAO DO CARLOS",
+        "driveFolderId": "13E2mz8O_43tCqePRsVWspJD3JJpe6Q-D",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22128468",
+        "municipio": "TERESINA",
+        "nome": "CETI MARCOS RODRIGUES COELHO",
+        "rawFolder": "22128468 - TERESINA - CETI MARCOS RODRIGUES COELHO",
+        "driveFolderId": "1fZbggQAnYi953xrcF94iM3KMHFl_6u8R",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22131159",
+        "municipio": "TERESINA",
+        "nome": "CETI PEDRA MOLE",
+        "rawFolder": "22131159 - TERESINA - CETI PEDRA MOLE",
+        "driveFolderId": "1zSKjEd78M2fhtJp17-uxsZUw1oc7rdNM",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22135499",
+        "municipio": "TERESINA",
+        "nome": "CETI PROF ANTÔNIO TARCISO PEREIRA E SILVA",
+        "rawFolder": "22135499 - TERESINA - CETI PROF ANTÔNIO TARCISO PEREIRA E SILVA",
+        "driveFolderId": "1PtEcdutewDsJ4_PWEMBtAlxw3DtY5wkH",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22140360",
+        "municipio": "TERESINA",
+        "nome": "CEJA CAMPESTRE NORTE",
+        "rawFolder": "22140360 - TERESINA - CEJA CAMPESTRE NORTE",
+        "driveFolderId": "1liP973NDnzfnFnf6s4jjDzTTAji17_uH",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22142770",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE CAPACITAÇÃO DE PROFISSIONAIS DA EDUCAÇÃO E ATENDIMENTO ÀS PESSOAS COM SURDEZ - CAS",
+        "rawFolder": "22142770 - TERESINA - CENTRO DE CAPACITAÇÃO DE PROFISSIONAIS DA EDUCAÇÃO E ATENDIMENTO ÀS PESSOAS COM SURDEZ - CAS",
+        "driveFolderId": "1kgBz-5Zoc9UE1UsjaYJPCUPVdpMu-mH8",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22143050",
+        "municipio": "TERESINA - EFTUR",
+        "nome": "CETI FAMILIA DE TURISMO",
+        "rawFolder": "22143050 - TERESINA - CETI FAMILIA DE TURISMO - EFTUR",
+        "driveFolderId": "16ueLbrC6qSg_bwXaBW46ptrF6mL3B2SM",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22143394",
+        "municipio": "TERESINA",
+        "nome": "CETI PORTAL DA ESPERANÇA",
+        "rawFolder": "22143394 - TERESINA - CETI PORTAL DA ESPERANÇA",
+        "driveFolderId": "1cNA9FI-ru1ozQ_-eHCEC7Uaa-uySpBrp",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22143416",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR PAULO MACHADO DE RESENDE",
+        "rawFolder": "22143416 - TERESINA - CETI PROFESSOR PAULO MACHADO DE RESENDE",
+        "driveFolderId": "1UwkGU-te6UB6p2uJmil2opxBP_fA0ksB",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "22168605",
+        "municipio": "TERESINA",
+        "nome": "CENTRO CULTURAL DE LÍNGUAS PADRE RAIMUNDO JOSÉ AIREMORAES SOARES",
+        "rawFolder": "22168605 - TERESINA - CENTRO CULTURAL DE LÍNGUAS PADRE RAIMUNDO JOSÉ AIREMORAES SOARES",
+        "driveFolderId": "1qM8wh6fuAzPg1tqDM0uVL5__wFtLn4qS",
+        "greKey": "20ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "200000000 - TERESINA - SEDE 20ª",
+        "rawFolder": "200000000 - TERESINA - SEDE 20ª",
+        "driveFolderId": "1Xgl6paG-BVLiwgeibqDMlwW2UKwmbsGI",
+        "greKey": "20ª GRE"
+      }
+    ]
+  },
+  "21ª GRE": {
+    "folderId": "1sZlu-Cz9x_4JlF1r6EcuODIjRDUnJDoE",
+    "schoolsCount": 30,
+    "schools": [
+      {
+        "inep": "22021990",
+        "municipio": "TERESINA",
+        "nome": "CETI JOÃO MENDES OLIMPIO DE MELO",
+        "rawFolder": "22021990 - TERESINA - CETI JOÃO MENDES OLIMPIO DE MELO",
+        "driveFolderId": "1ym_H1ChYYe_hI8NP9FaDiKF_8PV3gcvV",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22022112",
+        "municipio": "TERESINA",
+        "nome": "CETI DEP ATILA LIRA",
+        "rawFolder": "22022112 - TERESINA - CETI DEP ATILA LIRA",
+        "driveFolderId": "1VJzFLZwV-7maj1o4AbLlS11i21nNIBSd",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22026908",
+        "municipio": "TERESINA",
+        "nome": "CETI ANTÔNIO DE ALMENDRA FREITAS",
+        "rawFolder": "22026908 - TERESINA - CETI ANTÔNIO DE ALMENDRA FREITAS",
+        "driveFolderId": "1hpERZ6AEb1YNjOJkZnVoQiN62V1kdm-f",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22026932",
+        "municipio": "TERESINA",
+        "nome": "CETI DEPUTADO TERTULIANO MILTON BRANDÃO",
+        "rawFolder": "22026932 - TERESINA - CETI DEPUTADO TERTULIANO MILTON BRANDÃO",
+        "driveFolderId": "1SQJRQ9jwsVNdY3gfr3L9hHie2M5iR-mD",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22026991",
+        "municipio": "TERESINA",
+        "nome": "CETI DR AGNELO PEREIRA DA SILVA",
+        "rawFolder": "22026991 - TERESINA - CETI DR AGNELO PEREIRA DA SILVA",
+        "driveFolderId": "10ebtFwEgvt6JpQJ77dyLZjovnk03R3af",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027297",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR RALDIR CAVALCANTE BASTOS",
+        "rawFolder": "22027297 - TERESINA - CETI PROFESSOR RALDIR CAVALCANTE BASTOS",
+        "driveFolderId": "1uqfE2nEe7FEEN54DnpPGfM7y20E6aMeW",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027335",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFA ADAMIR LEAL",
+        "rawFolder": "22027335 - TERESINA - CETI PROFA ADAMIR LEAL",
+        "driveFolderId": "1oS5B1vTqzi7ijP5FY1_mf3DWJ2PG-dJO",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027343",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFª MARIA DA CONCEICAO SALOME",
+        "rawFolder": "22027343 - TERESINA - CETI PROFª MARIA DA CONCEICAO SALOME",
+        "driveFolderId": "10EhuOuYKg0MS8WGd2IgG6bZmt_22QVdi",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027360",
+        "municipio": "TERESINA",
+        "nome": "CETI SANTA INES",
+        "rawFolder": "22027360 - TERESINA - CETI SANTA INES",
+        "driveFolderId": "1iW1ZNcGnz9KWbjgf8Jw3DXy2Exldt5o7",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027475",
+        "municipio": "TERESINA",
+        "nome": "CETI DIDACIO SILVA",
+        "rawFolder": "22027475 - TERESINA - CETI DIDACIO SILVA",
+        "driveFolderId": "1D9SnpYkA5RirfZNbFYiBDKQZIeD9kkM_",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027505",
+        "municipio": "TERESINA",
+        "nome": "CEJA FRANCISCO CESAR DE ARAUJO",
+        "rawFolder": "22027505 - TERESINA - CEJA FRANCISCO CESAR DE ARAUJO",
+        "driveFolderId": "1HyL8Dm5NDDgTX7onEGaeedQ-Cm1Zj5U6",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027513",
+        "municipio": "TERESINA",
+        "nome": "CETI FREI HELIODORIO",
+        "rawFolder": "22027513 - TERESINA - CETI FREI HELIODORIO",
+        "driveFolderId": "1vjdh2QtqPhGYVxsqrJzwDnHSEubn6B_Q",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027556",
+        "municipio": "TERESINA",
+        "nome": "CETI MARIA MODESTINA BEZERRA",
+        "rawFolder": "22027556 - TERESINA - CETI MARIA MODESTINA BEZERRA",
+        "driveFolderId": "13q-VreZFvFy1LSj3LFU86tQ3Sj-V2f9m",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027610",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR PIRES DE CASTRO",
+        "rawFolder": "22027610 - TERESINA - CETI PROFESSOR PIRES DE CASTRO",
+        "driveFolderId": "1tVmEAVEQqS2mBQm0gY98ErU2ajy2Cp4v",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027653",
+        "municipio": "TERESINA",
+        "nome": "CETI PROF MILTON AGUIAR",
+        "rawFolder": "22027653 - TERESINA - CETI PROF MILTON AGUIAR",
+        "driveFolderId": "1dgFBiBopDiQ_ke8FEnA85ITUvqJOaJhy",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027661",
+        "municipio": "TERESINA",
+        "nome": "CETI PROF PINHEIRO MACHADO",
+        "rawFolder": "22027661 - TERESINA - CETI PROF PINHEIRO MACHADO",
+        "driveFolderId": "1QhnisrEsmU_kOvC3AZI-4ygNHyxZ2YvF",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22027777",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSORA JULIA NUNES ALVES",
+        "rawFolder": "22027777 - TERESINA - CETI PROFESSORA JULIA NUNES ALVES",
+        "driveFolderId": "1DrsqwOKWW9d719Bb7Xji1nN0UESYIhuO",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22028137",
+        "municipio": "TERESINA",
+        "nome": "CETI DR FONTES IBIAPINA",
+        "rawFolder": "22028137 - TERESINA - CETI DR FONTES IBIAPINA",
+        "driveFolderId": "1sC5BXGe4sgIlVwZpz6ImHAUbhch32vB4",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22028145",
+        "municipio": "TERESINA",
+        "nome": "CETI DUQUE DE CAXIAS",
+        "rawFolder": "22028145 - TERESINA - CETI DUQUE DE CAXIAS",
+        "driveFolderId": "1vL5sBOO08thN11eJMQ7i-ZYGAw-Y2tom",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22028579",
+        "municipio": "TERESINA",
+        "nome": "CETI LUCIDIO PORTELLA",
+        "rawFolder": "22028579 - TERESINA - CETI LUCIDIO PORTELLA",
+        "driveFolderId": "1VeXI-os5SQhaKuZvlVEDQGuR1IvLOrju",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22028625",
+        "municipio": "TERESINA",
+        "nome": "CEJA PROFESSORA MARIA DO CARMO REVERDOSA DA CRUZ",
+        "rawFolder": "22028625 - TERESINA - CEJA PROFESSORA MARIA DO CARMO REVERDOSA DA CRUZ",
+        "driveFolderId": "1HTDebNG-XtT5FGfpj56b_BRvrg6KVjgA",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22121935",
+        "municipio": "TERESINA",
+        "nome": "CETI NOSSA SENHORA DA PAZ",
+        "rawFolder": "22121935 - TERESINA - CETI NOSSA SENHORA DA PAZ",
+        "driveFolderId": "1toT1hhrO5r21Xt9cxXt8g-mnCD9UjFWA",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22124985",
+        "municipio": "TERESINA",
+        "nome": "CEJA SÃO SEBASTIAO",
+        "rawFolder": "22124985 - TERESINA - CEJA SÃO SEBASTIAO",
+        "driveFolderId": "1u2zc2dfNNxSspZVw33RhNHAtmjp0eOCq",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22136215",
+        "municipio": "TERESINA",
+        "nome": "CEJA JOÃO ADROALDO PIRES SOARES",
+        "rawFolder": "22136215 - TERESINA - CEJA JOÃO ADROALDO PIRES SOARES",
+        "driveFolderId": "1ZsVa0-fY6NKwGd_087MsZQ1-TnStXJ13",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22139923",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR FLORESTAN FERNANDES",
+        "rawFolder": "22139923 - TERESINA - CETI PROFESSOR FLORESTAN FERNANDES",
+        "driveFolderId": "1QvkTsEoM1hLZjasRbHtAvz8gpiLlfMS3",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22140662",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR RUY LEITE BERGER FILHO",
+        "rawFolder": "22140662 - TERESINA - CETI PROFESSOR RUY LEITE BERGER FILHO",
+        "driveFolderId": "1X9K0jk1JjHSrusEBmxp-H_2lBfD9RU_W",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22142746",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE ESTIMULAÇÃO PARA CRIANCAS COM DEFICIÊNCIA SENSORIAL AUDITIVA E VISUAL - CES",
+        "rawFolder": "22142746 - TERESINA - CENTRO DE ESTIMULAÇÃO PARA CRIANCAS COM DEFICIÊNCIA SENSORIAL AUDITIVA E VISUAL- CES",
+        "driveFolderId": "1M9klNd5KUhI2E3tgFVo5j_XSh4X8fXgd",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22142754",
+        "municipio": "TERESINA",
+        "nome": "CENTRO DE APOIO PEDAGÓGICO PARA ATENDIMENTO ÀS PESSOAS COM DEFICIÊNCIA VISUAL - CAP",
+        "rawFolder": "22142754 - TERESINA - CENTRO DE APOIO PEDAGÓGICO PARA ATENDIMENTO ÀS PESSOAS COM DEFICIÊNCIA VISUAL - CAP",
+        "driveFolderId": "19gN32Ph9qSWbsXqhgK4jbQON2ghYZLqA",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "22143017",
+        "municipio": "TERESINA",
+        "nome": "CETI PROFESSOR JOSÉ PACIFICO DE MOURA NETO",
+        "rawFolder": "22143017 - TERESINA - CETI PROFESSOR JOSÉ PACIFICO DE MOURA NETO",
+        "driveFolderId": "1ZL8OvzNmTv0Mg-prRfDrnCufhaFnUgs4",
+        "greKey": "21ª GRE"
+      },
+      {
+        "inep": "",
+        "municipio": "MUNICÍPIO",
+        "nome": "SEDE 21ª",
+        "rawFolder": "SEDE 21ª",
+        "driveFolderId": "1EagUS02I1rLlBTMeZ7t9YwWGIhNbToru",
+        "greKey": "21ª GRE"
+      }
+    ]
+  }
+}

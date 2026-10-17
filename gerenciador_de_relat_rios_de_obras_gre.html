@@ -64,6 +64,7 @@
       animation: spin-sync 0.8s linear infinite;
     }
   </style>
+  <script src="acervo_drive_data.js"></script>
 </head>
 <body class="bg-brand-dark text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200">
 
@@ -1082,6 +1083,18 @@
           <p class="text-[10px] text-slate-400">Este link serve como a pasta base para a visualização dos projetos de arquitetura e engenharia.</p>
         </div>
 
+        
+          <!-- Botão Sincronizar Acervo Google Drive -->
+          <div class="pt-2">
+            <button 
+              type="button" 
+              onclick="syncAcervoGoogleDrive()" 
+              class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-purple-900/40 flex items-center justify-center gap-2 border border-purple-400/50 transition-all active:scale-[0.99]"
+            >
+              <span>⚡ Sincronizar Acervo do Google Drive (Processar Fotos e PDFs)</span>
+            </button>
+          </div>
+
         <!-- Botões de Ação de Projetos -->
         <div class="flex items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
           <button 
@@ -2029,7 +2042,80 @@
     // =========================================================================
     // DATASET INICIAL DE PROJETOS DE ENGENHARIA & ARQUITETURA (PDFS E PLANTAS)
     // =========================================================================
-    const INITIAL_PROJETOS_DATA = [
+    
+    // =========================================================================
+    // INTEGRAÇÃO COM O ACERVO OFICIAL GOOGLE DRIVE (648 ESCOLAS DO PIAUÍ)
+    // =========================================================================
+    function buildAcervoDataFromDrive() {
+      const projs = [];
+      const fotos = [];
+      const rawData = (typeof window !== 'undefined' && window.ACERVO_DRIVE_DATA) ? window.ACERVO_DRIVE_DATA : null;
+      if (!rawData || typeof rawData !== 'object') {
+        return { projs, fotos };
+      }
+
+      for (const [folderId, item] of Object.entries(rawData)) {
+        const greKey = item.greKey || '1ª GRE';
+        const escola = item.nome || item.rawFolder;
+        const inep = item.inep || '';
+        const municipio = (item.municipio || 'MUNICÍPIO').toUpperCase();
+
+        // 1. Processamento de Arquivos PDF (Aba Projetos)
+        if (Array.isArray(item.pdfs)) {
+          item.pdfs.forEach(pdf => {
+            let disc = 'Arquitetura';
+            const upper = pdf.name.toUpperCase();
+            if (upper.includes('ESTRUT') || upper.includes('COBERTURA')) disc = 'Estrutural';
+            else if (upper.includes('ELET') || upper.includes('CLIMAT')) disc = 'Elétrico';
+            else if (upper.includes('HIDR') || upper.includes('SANIT')) disc = 'Hidrossanitário';
+            else if (upper.includes('INC') || upper.includes('SPDA') || upper.includes('PANICO')) disc = 'Incêndio';
+            else if (upper.includes('ORC') || upper.includes('MEMO') || upper.includes('PLANILHA')) disc = 'Orçamento';
+
+            projs.push({
+              id: 'proj-drive-' + pdf.id,
+              greKey: greKey,
+              escola: escola,
+              inep: inep,
+              municipio: municipio,
+              titulo: pdf.name.replace(/\.pdf$/i, ''),
+              disciplina: disc,
+              status: 'Disponível',
+              versao: 'Acervo Drive',
+              data: '17/10/2026',
+              url: 'https://drive.google.com/file/d/' + pdf.id + '/view',
+              driveFileId: pdf.id,
+              driveFolderId: folderId
+            });
+          });
+        }
+
+        // 2. Processamento de Imagens Soltas (Triagem: Aguardando seleção de ambiente)
+        if (Array.isArray(item.images)) {
+          item.images.forEach(img => {
+            fotos.push({
+              id: 'foto-drive-' + img.id,
+              greKey: greKey,
+              escola: escola,
+              inep: inep,
+              municipio: municipio,
+              pasta: '', // Aguardando seleção de ambiente
+              url: 'https://lh3.googleusercontent.com/d/' + img.id + '=w1200',
+              titulo: img.name,
+              data: '17/10/2026',
+              descricao: 'Foto avulsa do acervo Google Drive (' + item.rawFolder + ')',
+              driveFileId: img.id,
+              driveFolderId: folderId
+            });
+          });
+        }
+      }
+
+      return { projs, fotos };
+    }
+
+    const _acervoSeed = buildAcervoDataFromDrive();
+
+    const INITIAL_PROJETOS_DATA = (_acervoSeed.projs.length > 0) ? _acervoSeed.projs : [
       {
         id: "proj-1",
         greKey: "1ª GRE",
@@ -2200,7 +2286,7 @@
     // =========================================================================
     // DATASET INICIAL DE FOTOS ORGANIZADAS POR GRE, ESCOLA E SUBPASTAS
     // =========================================================================
-    const INITIAL_FOTOS_DATA = [
+    const INITIAL_FOTOS_DATA = (_acervoSeed.fotos.length > 0) ? _acervoSeed.fotos : [
       // CETI MARIA MELO - 1ª GRE
       {
         id: "foto-1",
@@ -2659,6 +2745,7 @@
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
 
+        const DEFAULT_GOOGLE_DRIVE_BASE_URL = 'https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link';
     const STORAGE_KEY_PROJETOS_FOLDER = 'seduc_projetos_folder_url';
     const STORAGE_KEY_FOTOS_FOLDER = 'seduc_fotos_folder_url';
     const STORAGE_KEY_PROJETOS_DATA = 'seduc_projetos_items_data';
@@ -2684,8 +2771,19 @@
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
-    let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, INITIAL_PROJETOS_DATA);
-    let fotosData = loadStoredData(STORAGE_KEY_FOTOS_DATA, INITIAL_FOTOS_DATA);
+    
+    let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, null);
+    if (!projetosData || projetosData.length < 50) {
+      projetosData = INITIAL_PROJETOS_DATA;
+      saveStoredData(STORAGE_KEY_PROJETOS_DATA, projetosData);
+    }
+
+    let fotosData = loadStoredData(STORAGE_KEY_FOTOS_DATA, null);
+    if (!fotosData || fotosData.length < 50) {
+      fotosData = INITIAL_FOTOS_DATA;
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+    }
+
 
     let activeFilter = 'TODAS'; // GRE selecionada em Obras
     let activeStatusFilter = 'TODOS'; // Status da obra selecionado
@@ -3027,6 +3125,25 @@
       const map = new Map();
       const normGre = normalizeGreKey(greKey);
 
+      // 0. Extrai do Acervo Geral Google Drive (648 escolas oficiais do Piauí)
+      if (typeof window !== 'undefined' && window.ACERVO_DRIVE_DATA && typeof window.ACERVO_DRIVE_DATA === 'object') {
+        Object.values(window.ACERVO_DRIVE_DATA).forEach(item => {
+          if (greKey === 'TODAS' || normalizeGreKey(item.greKey) === normGre) {
+            const cleanName = item.nome || item.rawFolder;
+            if (cleanName && !map.has(cleanName)) {
+              map.set(cleanName, {
+                nome: cleanName,
+                municipio: (item.municipio || 'MUNICÍPIO').toUpperCase(),
+                inep: item.inep || '',
+                greKey: item.greKey || greKey,
+                rawName: item.rawFolder || cleanName,
+                driveFolderId: item.driveFolderId || ''
+              });
+            }
+          }
+        });
+      }
+
       // 1. Extrai das obras de Contratos e PACTUE
       [...contractsData, ...pactueData].forEach(w => {
         if (greKey === 'TODAS' || normalizeGreKey(w.greKey) === normGre || normalizeGreKey(w.gre) === normGre) {
@@ -3249,7 +3366,7 @@
           >
             <div class="flex items-center gap-2 min-w-0">
               <span class="text-base shrink-0">${isSelected ? '📌' : '🏫'}</span>
-              <div class="flex flex-col min-w-0">
+              <div class="flex flex-col min-w-0 flex-1">
                 <span class="text-xs font-bold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-200'}">
                   ${s.nome}
                 </span>
@@ -3258,6 +3375,17 @@
                 </span>
               </div>
             </div>
+            ${s.driveFolderId ? `
+              <a 
+                href="https://drive.google.com/drive/folders/${s.driveFolderId}" 
+                target="_blank" 
+                onclick="event.stopPropagation()" 
+                class="text-[9px] px-1.5 py-0.5 rounded bg-purple-950/80 border border-purple-500/40 text-purple-300 hover:text-white hover:bg-purple-800 transition-colors shrink-0 flex items-center gap-0.5" 
+                title="Abrir pasta no Google Drive"
+              >
+                <span>📁</span> Drive ↗
+              </a>
+            ` : ''}
             ${count > 0 ? `
               <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-bold ${
                 isSelected ? 'bg-purple-500 text-white' : 'bg-brand-card text-purple-300 border border-brand-cardBorder'
@@ -3993,7 +4121,7 @@
             }"
             title="${s.nome} – ${s.municipio} (${count > 0 ? count + ' fotos' : 'Sem fotos'})"
           >
-            <div class="flex flex-col min-w-0">
+            <div class="flex flex-col min-w-0 flex-1">
               <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-white' : 'text-slate-100'}">
                 ${s.nome}
               </span>
@@ -4001,7 +4129,20 @@
                 📍 ${s.municipio}${s.inep ? ` • INEP: ${s.inep}` : ''}
               </span>
             </div>
-            ${badgeHtml}
+            <div class="flex items-center gap-1 shrink-0">
+              ${badgeHtml}
+              ${s.driveFolderId ? `
+                <a 
+                  href="https://drive.google.com/drive/folders/${s.driveFolderId}" 
+                  target="_blank" 
+                  onclick="event.stopPropagation()" 
+                  class="text-[9px] px-1.5 py-0.5 rounded ${isSelected ? 'bg-black/30 border border-white/30 text-white' : 'bg-emerald-950/80 border border-emerald-500/40 text-emerald-300'} hover:scale-105 transition-all shrink-0 flex items-center gap-0.5" 
+                  title="Abrir pasta no Google Drive"
+                >
+                  <span>📁</span> ↗
+                </a>
+              ` : ''}
+            </div>
           </button>
         `;
       }).join('');
@@ -4134,13 +4275,14 @@
 
       if (isNoCategorySelected) {
         if (folderIcon) folderIcon.textContent = '🏛️';
-        if (folderTitle) folderTitle.textContent = 'Aguardando seleção de ambiente';
-        if (badgeCount) badgeCount.textContent = 'Aguardando seleção de ambiente (' + allSchoolPhotos.length + ' fotos)';
+        if (folderTitle) folderTitle.textContent = 'Fotos de Aguardando seleção de ambiente';
+        const unclassified = allSchoolPhotos.filter(f => !f.pasta || f.pasta === '' || f.pasta.includes('Aguardando'));
+        currentLightboxPhotos = (unclassified.length > 0) ? unclassified : allSchoolPhotos;
+        if (badgeCount) badgeCount.textContent = 'Aguardando seleção de ambiente (' + currentLightboxPhotos.length + ' fotos)';
         const upTarget = document.getElementById('fotosUploadTargetLabel');
         const upSchool = document.getElementById('fotosUploadSchoolLabel');
         if (upTarget) upTarget.textContent = 'Aguardando seleção';
         if (upSchool) upSchool.textContent = fotosActiveSchool || 'Escola Ativa';
-        currentLightboxPhotos = allSchoolPhotos;
       } else {
         if (folderIcon) folderIcon.textContent = catObj ? catObj.icon : '📁';
         if (folderTitle) folderTitle.textContent = catObj ? catObj.label : fotosActiveCategory;
@@ -4228,6 +4370,7 @@
                     class="bg-brand-dark hover:bg-slate-800 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 rounded-xl px-2.5 py-1.5 text-xs font-bold outline-none cursor-pointer w-full transition-colors truncate shadow-inner"
                     title="Mover esta foto para outro ambiente/balãozinho"
                   >
+                    <option value="" ${!photo.pasta ? 'selected' : ''}>⏳ Aguardando seleção de ambiente</option>
                     ${FOTOS_MOVABLE_CATEGORIES.map(c => `
                       <option value="${c.key}" ${photo.pasta === c.key ? 'selected' : ''}>
                         ${c.icon} #${c.label}
@@ -5302,6 +5445,72 @@
       showToastNotification(`✓ Configurações e abas atualizadas!`);
     }
 
+    
+    // =========================================================================
+    // SINCRONIZAÇÃO AUTOMATIZADA DO ACERVO GOOGLE DRIVE
+    // =========================================================================
+    async function syncAcervoGoogleDrive() {
+      showFeedback('⚡ Sincronizando Acervo do Google Drive (GDI - Acervo de Fotos e Plantas)...', 'loading');
+      showToastNotification('Conectando ao Acervo do Google Drive...');
+
+      try {
+        // Tenta buscar atualização fresca do arquivo json se disponível
+        try {
+          const resp = await fetch('acervo_arquivos_piaui.json');
+          if (resp.ok) {
+            window.ACERVO_DRIVE_DATA = await resp.json();
+          }
+        } catch (e) {
+          // Utiliza os dados já carregados no script
+        }
+
+        const { projs, fotos } = buildAcervoDataFromDrive();
+        if (projs.length === 0 && fotos.length === 0) {
+          showFeedback('Nenhum dado encontrado no Acervo.', 'error');
+          showToastNotification('Nenhum dado retornado do Acervo.');
+          return;
+        }
+
+        // Preserva classificações manuais já feitas pelo usuário
+        const userCategories = new Map();
+        fotosData.forEach(f => {
+          if (f.driveFileId && f.pasta) {
+            userCategories.set(f.driveFileId, f.pasta);
+          }
+        });
+
+        fotos.forEach(f => {
+          if (f.driveFileId && userCategories.has(f.driveFileId)) {
+            f.pasta = userCategories.get(f.driveFileId);
+          }
+        });
+
+        projetosData = projs;
+        fotosData = fotos;
+
+        localStorage.setItem(STORAGE_KEY_PROJETOS_DATA, JSON.stringify(projetosData));
+        localStorage.setItem(STORAGE_KEY_FOTOS_DATA, JSON.stringify(fotosData));
+
+        updateModuleBadges();
+        renderProjetosGreGrid();
+        renderProjetosSchools();
+        renderProjetosDisciplines();
+        renderProjetosList();
+
+        renderFotosGreGrid();
+        renderFotosSchools();
+        renderFotosCategories();
+        renderFotosGallery();
+
+        showFeedback('✓ Sucesso! ' + projs.length + ' projetos em PDF e ' + fotos.length + ' fotos importadas de todas as 21 GREs.', 'success');
+        showToastNotification('✓ Acervo Google Drive sincronizado com sucesso!');
+      } catch (err) {
+        console.error('Erro na sincronização:', err);
+        showFeedback('Erro ao sincronizar acervo: ' + err.message, 'error');
+        showToastNotification('Erro ao sincronizar com Google Drive.');
+      }
+    }
+  
     function openSheetModal() {
       const modal = document.getElementById('sheetModal');
       const inputMain = document.getElementById('sheetUrlMainInput');
@@ -5319,8 +5528,8 @@
       const savedUrlMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
       const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
       const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
-      const savedUrlProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || '';
-      const savedUrlFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || '';
+      const savedUrlProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
+      const savedUrlFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
       const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
 
