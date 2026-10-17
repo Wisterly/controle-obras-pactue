@@ -682,8 +682,25 @@
                 <span>🗂️</span> Pastas / Ambientes desta Escola:
               </span>
               <span id="fotosActiveFolderCountBadge" class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                Mostrando Fachadas (0 fotos)
+                Aguardando seleção de ambiente
               </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button 
+                onclick="triggerDirectCameraCapture()"
+                class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
+                title="Tirar foto diretamente da câmera do celular/computador"
+              >
+                <span class="text-sm">📸</span> <span>Tirar Foto</span>
+              </button>
+              <button 
+                onclick="triggerDirectFileAttach()"
+                class="px-3.5 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder hover:border-slate-500 text-xs font-bold shadow flex items-center gap-1.5 transition-all active:scale-95"
+                title="Anexar foto(s) do dispositivo para esta pasta"
+              >
+                <span class="text-sm">📁</span> <span>Anexar Foto</span>
+              </button>
             </div>
           </div>
 
@@ -702,7 +719,7 @@
           <div class="flex items-center justify-between">
             <h4 class="text-sm font-bold text-white flex items-center gap-2">
               <span id="fotosCurrentFolderIcon">🏛️</span>
-              Fotos de: <span id="fotosCurrentFolderTitle" class="text-emerald-400">Fachadas</span>
+              Fotos de: <span id="fotosCurrentFolderTitle" class="text-emerald-400">Aguardando seleção de ambiente</span>
             </h4>
             <span id="fotosGalleryStatus" class="text-xs text-slate-400">Clique na miniatura para ampliar em tela cheia</span>
           </div>
@@ -2530,7 +2547,7 @@
     // Estado do Módulo de Fotos
     let fotosActiveGre = '1ª GRE';
     let fotosActiveSchool = 'CETI MARIA MELO';
-    let fotosActiveCategory = 'Fachadas';
+    let fotosActiveCategory = '';
     let currentLightboxPhotos = [];
     let currentLightboxIndex = 0;
 
@@ -3711,13 +3728,13 @@
       fotosActiveGre = greKey;
       renderFotosGreGrid();
       
-      // Ao mudar de GRE, seleciona a primeira escola disponível
       const schools = getSchoolsForGre(greKey);
       if (schools.length > 0) {
         fotosActiveSchool = schools[0].nome;
       } else {
         fotosActiveSchool = '';
       }
+      fotosActiveCategory = ''; // Inicia sem ambiente selecionado
       
       renderFotosSchools();
       renderFotosCategories();
@@ -3814,6 +3831,7 @@
 
     function setFotosActiveSchool(schoolName) {
       fotosActiveSchool = schoolName;
+      fotosActiveCategory = ''; // Inicia sem ambiente selecionado (Aguardando seleção de ambiente)
       renderFotosSchools();
       renderFotosCategories();
       renderFotosGallery();
@@ -3909,48 +3927,59 @@
       renderFotosGallery();
     }
 
-    function renderFotosGallery() {
+        function renderFotosGallery() {
       const grid = document.getElementById('fotosGalleryGrid');
       const folderIcon = document.getElementById('fotosCurrentFolderIcon');
       const folderTitle = document.getElementById('fotosCurrentFolderTitle');
       const badgeCount = document.getElementById('fotosActiveFolderCountBadge');
       if (!grid) return;
 
-      const catObj = FOTOS_DEFAULT_CATEGORIES.find(c => c.key === fotosActiveCategory) || { icon: '📁', label: fotosActiveCategory };
-      if (folderIcon) folderIcon.textContent = catObj.icon;
-      if (folderTitle) folderTitle.textContent = catObj.label;
-
       const normGre = normalizeGreKey(fotosActiveGre);
       const cleanSchool = extractCleanSchoolName(fotosActiveSchool).toUpperCase();
 
-      currentLightboxPhotos = fotosData.filter(f => {
+      // Todas as fotos válidas desta escola nesta GRE
+      const allSchoolPhotos = fotosData.filter(f => {
         const matchG = (fotosActiveGre === 'TODAS') || normalizeGreKey(f.greKey) === normGre;
         const matchS = extractCleanSchoolName(f.escola).toUpperCase() === cleanSchool;
-        const matchC = (fotosActiveCategory === 'TODAS') || f.pasta === fotosActiveCategory;
         const isPdf = (f.url && f.url.toLowerCase().endsWith('.pdf')) || 
                       (f.formato && f.formato.toLowerCase() === 'pdf') || 
                       (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
-        return matchG && matchS && matchC && !isPdf;
+        return matchG && matchS && !isPdf;
       });
 
-      if (badgeCount) {
-        badgeCount.textContent = `Mostrando ${catObj.label} (${currentLightboxPhotos.length} fotos)`;
+      // Se nenhum ambiente estiver selecionado
+      const isNoCategorySelected = !fotosActiveCategory;
+      const catObj = FOTOS_DEFAULT_CATEGORIES.find(c => c.key === fotosActiveCategory);
+
+      if (isNoCategorySelected) {
+        if (folderIcon) folderIcon.textContent = '🏛️';
+        if (folderTitle) folderTitle.textContent = 'Aguardando seleção de ambiente';
+        if (badgeCount) badgeCount.textContent = 'Aguardando seleção de ambiente (' + allSchoolPhotos.length + ' fotos)';
+        currentLightboxPhotos = allSchoolPhotos;
+      } else {
+        if (folderIcon) folderIcon.textContent = catObj ? catObj.icon : '📁';
+        if (folderTitle) folderTitle.textContent = catObj ? catObj.label : fotosActiveCategory;
+        currentLightboxPhotos = allSchoolPhotos.filter(f => f.pasta === fotosActiveCategory);
+        if (badgeCount) badgeCount.textContent = 'Mostrando ' + (catObj ? catObj.label : fotosActiveCategory) + ' (' + currentLightboxPhotos.length + ' fotos)';
       }
 
       if (currentLightboxPhotos.length === 0) {
+        const titleLabel = isNoCategorySelected ? 'Aguardando seleção de ambiente' : (catObj ? catObj.label : fotosActiveCategory);
+        const iconLabel = isNoCategorySelected ? '🏛️' : (catObj ? catObj.icon : '📁');
+        grid.className = 'grid grid-cols-1 gap-4';
         grid.innerHTML = `
           <div class="col-span-full bg-brand-dark/60 border border-brand-cardBorder rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3">
-            <span class="text-3xl">${catObj.icon}</span>
+            <span class="text-3xl">${iconLabel}</span>
             <div class="flex flex-col gap-1 items-center">
               <h4 class="text-base font-extrabold text-white">Sem fotos existentes</h4>
-              <p class="text-xs text-amber-400 font-semibold">Sem fotos existentes em "${catObj.label}" para ${fotosActiveSchool || 'esta escola'}</p>
+              <p class="text-xs text-amber-400 font-semibold">Sem fotos existentes em "${titleLabel}" para ${fotosActiveSchool || 'esta escola'}</p>
             </div>
             <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui fotos ou imagens registradas (PNG, JPEG, etc.). Use os botões abaixo para tirar uma foto ou anexar imagens para esta pasta.</p>
             <div class="flex flex-wrap items-center justify-center gap-2 mt-2">
-              <button onclick="triggerDirectCameraCapture('${fotosActiveCategory}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-700/30 flex items-center gap-1.5">
+              <button onclick="triggerDirectCameraCapture('${fotosActiveCategory || 'Fachadas'}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-700/30 flex items-center gap-1.5">
                 <span>📸</span> Tirar Foto Agora
               </button>
-              <button onclick="triggerDirectFileAttach('${fotosActiveCategory}')" class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold transition-all shadow flex items-center gap-1.5">
+              <button onclick="triggerDirectFileAttach('${fotosActiveCategory || 'Fachadas'}')" class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold transition-all shadow flex items-center gap-1.5">
                 <span>📁</span> Anexar Foto
               </button>
             </div>
@@ -3959,14 +3988,14 @@
         return;
       }
 
+      // Grade de cards horizontais (estilo exato do print do usuário)
+      grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4';
       grid.innerHTML = currentLightboxPhotos.map((photo, index) => {
         return `
-          <div 
-            class="bg-brand-panel border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg group transition-all flex flex-col justify-between"
-          >
-            <!-- Imagem Thumbnail -->
+          <div class="bg-brand-panel border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl p-3 shadow-lg group transition-all flex flex-col sm:flex-row items-stretch gap-3">
+            <!-- Imagem Miniatura com Hashtag e Data -->
             <div 
-              class="relative h-28 sm:h-32 w-full bg-brand-dark overflow-hidden cursor-pointer"
+              class="relative w-full sm:w-48 h-36 bg-brand-dark rounded-xl overflow-hidden cursor-pointer shrink-0 border border-brand-cardBorder/60"
               onclick="openPhotoLightboxByIndex(${index})"
               title="Clique para ampliar esta foto"
             >
@@ -3977,15 +4006,15 @@
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 onerror="this.src='https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=600&q=80'"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
-                <span class="text-xs text-white font-bold flex items-center gap-1.5">
-                  <span>🔍</span> Clique para Ampliar
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                <span class="text-[10px] text-white font-bold flex items-center gap-1">
+                  <span>🔍</span> Ampliar
                 </span>
               </div>
 
               <!-- Hashtag da Categoria Atual da Foto -->
               <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-emerald-950/85 backdrop-blur-md text-[10px] font-black text-emerald-300 border border-emerald-500/40 shadow flex items-center gap-1">
-                <span>#${photo.pasta || 'SemPasta'}</span>
+                <span>#${photo.pasta || 'SemAmbiente'}</span>
               </span>
 
               <span class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white border border-white/20">
@@ -3993,22 +4022,22 @@
               </span>
             </div>
 
-            <!-- Legenda e Mover para Pasta com Hashtag -->
-            <div class="p-2 flex flex-col justify-between flex-1 gap-1.5">
+            <!-- Título e Seletor Mover para (Estilo exato da imagem enviada) -->
+            <div class="flex flex-col justify-between flex-1 py-1 gap-3 min-w-0">
               <div>
-                <h5 class="text-[11px] font-bold text-white line-clamp-1 leading-snug group-hover:text-emerald-300 transition-colors">
+                <h5 class="text-sm font-bold text-white line-clamp-2 leading-snug group-hover:text-emerald-300 transition-colors" title="${photo.titulo}">
                   ${photo.titulo}
                 </h5>
               </div>
 
               <!-- Controle Mover para Categoria Específica -->
-              <div class="pt-2 border-t border-brand-cardBorder/60 flex items-center justify-between gap-1.5" onclick="event.stopPropagation()">
-                <div class="flex items-center gap-1.5 min-w-0 flex-1">
-                  <span class="text-[10px] text-slate-400 font-bold shrink-0">Mover:</span>
+              <div class="pt-2 border-t border-brand-cardBorder/60 flex items-center justify-between gap-2" onclick="event.stopPropagation()">
+                <div class="flex items-center gap-2 min-w-0 flex-1">
+                  <span class="text-xs text-slate-400 font-bold shrink-0">Mover:</span>
                   <select 
                     onchange="movePhotoToCategory('${photo.id}', this.value)" 
-                    class="bg-brand-dark hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 hover:border-emerald-400 rounded-lg px-2 py-1 text-[10px] font-bold outline-none cursor-pointer w-full transition-colors truncate"
-                    title="Mover esta foto para outra pasta/ilha"
+                    class="bg-brand-dark hover:bg-slate-800 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 rounded-xl px-2.5 py-1.5 text-xs font-bold outline-none cursor-pointer w-full transition-colors truncate shadow-inner"
+                    title="Mover esta foto para outro ambiente/balãozinho"
                   >
                     ${FOTOS_MOVABLE_CATEGORIES.map(c => `
                       <option value="${c.key}" ${photo.pasta === c.key ? 'selected' : ''}>
@@ -4020,7 +4049,7 @@
 
                 <button 
                   onclick="event.stopPropagation(); deleteFoto('${photo.id}')"
-                  class="text-slate-500 hover:text-rose-400 p-1 transition-colors shrink-0"
+                  class="text-slate-500 hover:text-rose-400 p-1.5 transition-colors shrink-0 text-sm"
                   title="Excluir foto"
                 >
                   🗑️
