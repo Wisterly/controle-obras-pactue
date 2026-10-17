@@ -1178,7 +1178,7 @@
       </div>
 
       <!-- Abas Internas de Navegação do Modal de Ajustes -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-brand-dark/90 border border-brand-cardBorder rounded-xl text-xs font-bold">
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1 bg-brand-dark/90 border border-brand-cardBorder rounded-xl text-xs font-bold">
         <button 
           id="modalTabBtnPlanilha"
           type="button"
@@ -1187,6 +1187,15 @@
         >
           <span>📊</span>
           <span class="truncate">Planilha &amp; Abas</span>
+        </button>
+        <button 
+          id="modalTabBtnMedicoes"
+          type="button"
+          onclick="switchSettingsModalTab('MEDICOES')"
+          class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-cyan-300 border border-transparent text-center"
+        >
+          <span>📑</span>
+          <span class="truncate">Medições</span>
         </button>
         <button 
           id="modalTabBtnProjetos"
@@ -1213,7 +1222,7 @@
           class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-amber-300 border border-transparent text-center"
         >
           <span>📱</span>
-          <span class="truncate">Sincronizar Celular</span>
+          <span class="truncate">Celular</span>
         </button>
       </div>
 
@@ -1283,7 +1292,7 @@
               type="button"
               onclick="applyMainSheetUrlToBothTabs()"
               class="px-3 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 text-xs font-bold whitespace-nowrap transition-colors"
-              title="Aplica este link principal nas duas abas"
+              title="Aplica este link principal nas abas"
             >
               Aplicar nas Abas
             </button>
@@ -1329,23 +1338,38 @@
           />
         </div>
 
-        <!-- Campo Aba 3: Medições (Ciano) -->
-        <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
-          <label class="text-xs font-bold text-cyan-300 uppercase tracking-wide flex items-center justify-between">
-            <span class="flex items-center gap-1.5">
-              <span>📊</span> Link da Aba: Medições
-            </span>
-            <a id="modalOpenMedicoesTab" href="#" target="_blank" class="hidden text-[10px] text-cyan-400 underline">
-              Abrir aba no Google ↗
-            </a>
-          </label>
-          <input 
-            type="url" 
-            id="sheetUrlMedicoesInput" 
-            oninput="handleSettingInputImmediate('sheetUrlMedicoes', this.value)"
-            placeholder="Ex: https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing"
-            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-          />
+        <!-- Campo Aba 3: Medições (Ciano) com Acesso Rápido à Configuração de Contratos -->
+        <div class="flex flex-col gap-2 bg-brand-dark/50 border border-cyan-500/30 p-3.5 rounded-xl">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-cyan-300 uppercase tracking-wide flex items-center gap-1.5">
+              <span>📊</span> Link Geral da Planilha de Medições
+            </label>
+            <button 
+              type="button"
+              onclick="switchSettingsModalTab('MEDICOES')" 
+              class="text-[11px] text-cyan-400 hover:text-cyan-300 underline font-bold flex items-center gap-1"
+            >
+              <span>⚙️</span> Abrir Configuração de Contratos ↗
+            </button>
+          </div>
+          <div class="flex gap-2">
+            <input 
+              type="url" 
+              id="sheetUrlMedicoesInput" 
+              oninput="handleSettingInputImmediate('sheetUrlMedicoes', this.value)"
+              placeholder="Ex: https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing"
+              class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+            />
+            <button 
+              type="button"
+              onclick="switchSettingsModalTab('MEDICOES')" 
+              class="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1"
+              title="Ir para a aba onde você vincula cada contrato"
+            >
+              <span>📑</span> Abas de Contratos
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400">Cole aqui o link geral ou acesse a aba <strong>Medições</strong> acima para colocar o link específico da aba de cada contrato (R MELO, ASSERTIVA, DESENVOLVE).</p>
         </div>
 
         <!-- Configurações de Auto-Sincronização -->
@@ -1403,6 +1427,127 @@
               class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
             >
               <span>Salvar &amp; Sincronizar Tudo</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- ABA DEDICADA: MEDIÇÕES DE OBRAS POR CONTRATO (CIANO)           -->
+      <!-- ============================================================== -->
+      <div id="settingsTabContentMedicoes" class="hidden flex-col gap-4">
+
+        <!-- Banner Didático e Instruções -->
+        <div class="bg-gradient-to-r from-cyan-950/70 via-brand-dark to-cyan-950/70 border border-cyan-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-[10px] border border-cyan-500/40 uppercase tracking-wide">
+              CONEXÃO COM AS ABAS DE CONTRATOS DO GOOGLE SHEETS
+            </span>
+            <span class="text-xs text-cyan-400 font-extrabold flex items-center gap-1">
+              <span>🏢</span> Setor GPR / SEDUC
+            </span>
+          </div>
+          <p class="text-slate-300 leading-relaxed text-xs">
+            1. Cole abaixo o <strong>Link Geral da Planilha Base de Medições</strong>.<br/>
+            2. Abaixo dela, você tem os locais separados para colar o link da <strong>aba respectiva de cada contrato</strong> (ex: <strong>R MELO</strong>, <strong>ASSERTIVA</strong>, <strong>DESENVOLVE</strong>, etc.).<br/>
+            3. Para pegar o link de cada contrato: abra a planilha no navegador, clique na aba da empresa, copie a URL do topo do navegador (ela possui o <code>#gid=...</code> daquela aba) e cole no espaço do contrato.
+          </p>
+        </div>
+
+        <!-- 1. Campo: Link Geral da Planilha Base de Medições -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-cyan-500/40 p-3.5 rounded-xl">
+          <label class="text-xs font-extrabold text-cyan-300 uppercase tracking-wide flex items-center justify-between flex-wrap gap-1">
+            <span class="flex items-center gap-1.5">
+              <span>🌐</span> Link Geral da Planilha Base de Medições
+            </span>
+            <a 
+              id="medicoesOpenBaseSheetLink" 
+              href="https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing" 
+              target="_blank" 
+              class="text-[10px] text-cyan-400 hover:text-cyan-300 underline font-medium flex items-center gap-1"
+            >
+              <span>Abrir Planilha Base no Google Sheets</span> ↗
+            </a>
+          </label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input 
+              type="url" 
+              id="medicoesBaseSheetUrlInput" 
+              oninput="handleSettingInputImmediate('sheetUrlMedicoes', this.value); updateMedicoesBaseSheetLink(this.value);"
+              placeholder="Ex: https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing"
+              class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+            />
+            <button 
+              type="button" 
+              onclick="applyMedicoesBaseSheetUrlToAll()" 
+              class="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold whitespace-nowrap transition-colors flex items-center justify-center gap-1.5 shrink-0"
+              title="Aplica a URL base aos contratos que ainda não possuem link"
+            >
+              <span>⚡ Replicar Base</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400">Link raiz onde estão agrupadas todas as abas de contratos das medições.</p>
+        </div>
+
+        <!-- 2. Espaço Dedicado para Cada Contrato e Link da Respectiva Aba -->
+        <div class="flex flex-col gap-2.5">
+          <div class="flex items-center justify-between px-1">
+            <div>
+              <h4 class="text-xs font-black text-white flex items-center gap-1.5">
+                <span>📑</span> Abas de Cada Contrato (Google Sheets)
+              </h4>
+              <p class="text-[10px] text-slate-400">Cole o link copiado diretamente da aba correspondente (com #gid=...):</p>
+            </div>
+            <button 
+              type="button" 
+              onclick="addNewMedicaoContratoSlot()" 
+              class="px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[11px] font-bold transition-all flex items-center gap-1 active:scale-95 cursor-pointer shadow-sm"
+              title="Adicionar mais um contrato à lista"
+            >
+              <span>➕</span> Adicionar Contrato
+            </button>
+          </div>
+
+          <!-- Lista Dinâmica de Contratos com Seus Respectivos Links -->
+          <div id="medicoesContratosConfigList" class="flex flex-col gap-2.5 max-h-[38vh] overflow-y-auto pr-1">
+            <!-- Injetado dinamicamente via JS (Contrato R MELO, Contrato ASSERTIVA, Contrato DESENVOLVE, etc.) -->
+          </div>
+        </div>
+
+        <!-- Feedback e Barra de Sincronização de Medições -->
+        <div id="medicoesSyncFeedbackBox" class="hidden p-3 rounded-xl border text-xs"></div>
+
+        <!-- Rodapé de Ações de Medições -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
+          <div class="flex items-center gap-2">
+            <button 
+              type="button"
+              onclick="openCurrentMedicoesSheet()" 
+              class="px-3.5 py-1.5 rounded-xl border border-cyan-500/40 bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-cyan-300 hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>🔗</span>
+              <span>Abrir Planilha Base ↗</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button 
+              type="button"
+              onclick="closeSheetModal()" 
+              class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+            >
+              Fechar
+            </button>
+
+            <button 
+              type="button" 
+              id="saveAndSyncMedicoesBtn"
+              onclick="saveAndSyncMedicoesModal()" 
+              class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-xs font-bold text-white shadow-md shadow-cyan-950/40 flex items-center gap-1.5 active:scale-95"
+            >
+              <span id="saveMedicoesBtnSpinner" class="hidden animate-spin">🔄</span>
+              <span>💾 Salvar &amp; Sincronizar Medições</span>
             </button>
           </div>
         </div>
@@ -3437,8 +3582,8 @@
     // =========================================================================
     const INITIAL_MEDICOES_DATA = [
       {
-        id: "med-ct01-1",
-        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        id: "med-rmelo-1",
+        contrato: "Contrato R MELO",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
         medicao: "1ª Medição",
         gre: "4ª GRE – TERESINA",
@@ -3452,8 +3597,8 @@
         municipio: "TERESINA"
       },
       {
-        id: "med-ct01-2",
-        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        id: "med-rmelo-2",
+        contrato: "Contrato R MELO",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
         medicao: "2ª Medição",
         gre: "1ª GRE – PARNAÍBA",
@@ -3467,8 +3612,8 @@
         municipio: "BATALHA"
       },
       {
-        id: "med-ct01-3",
-        contrato: "Contrato 01/2024 - Manutenção Escolar",
+        id: "med-rmelo-3",
+        contrato: "Contrato R MELO",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
         medicao: "3ª Medição",
         gre: "10ª GRE – FLORIANO",
@@ -3482,8 +3627,8 @@
         municipio: "FLORIANO"
       },
       {
-        id: "med-ct02-1",
-        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        id: "med-assertiva-1",
+        contrato: "Contrato ASSERTIVA",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
         medicao: "1ª Medição",
         gre: "18ª GRE – VALENÇA",
@@ -3497,8 +3642,8 @@
         municipio: "VALENÇA DO PIAUÍ"
       },
       {
-        id: "med-ct02-2",
-        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        id: "med-assertiva-2",
+        contrato: "Contrato ASSERTIVA",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
         medicao: "2ª Medição",
         gre: "21ª GRE – TERESINA",
@@ -3512,8 +3657,8 @@
         municipio: "TERESINA"
       },
       {
-        id: "med-ct02-3",
-        contrato: "Contrato 02/2024 - Reforma de CETIs",
+        id: "med-assertiva-3",
+        contrato: "Contrato ASSERTIVA",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1",
         medicao: "3ª Medição",
         gre: "4ª GRE – TERESINA",
@@ -3527,8 +3672,8 @@
         municipio: "TERESINA"
       },
       {
-        id: "med-ct03-1",
-        contrato: "Contrato 15/2023 - Climatização e Quadras",
+        id: "med-desenvolve-1",
+        contrato: "Contrato DESENVOLVE",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=2",
         medicao: "1ª Medição",
         gre: "7ª GRE – VALENÇA",
@@ -3542,8 +3687,8 @@
         municipio: "PAULISTANA"
       },
       {
-        id: "med-ct03-2",
-        contrato: "Contrato 15/2023 - Climatização e Quadras",
+        id: "med-desenvolve-2",
+        contrato: "Contrato DESENVOLVE",
         contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=2",
         medicao: "2ª Medição",
         gre: "1ª GRE – PARNAÍBA",
@@ -3570,10 +3715,16 @@
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
     const SHEET_URL_MEDICOES_KEY = 'seduc_sheet_url_medicoes';
     const DEFAULT_MEDICOES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing';
+    const STORAGE_KEY_MEDICOES_CONTRATOS = 'seduc_medicoes_contratos_list';
+    const DEFAULT_MEDICOES_CONTRATOS = [
+      { id: 'ct-rmelo', name: 'Contrato R MELO', url: '' },
+      { id: 'ct-assertiva', name: 'Contrato ASSERTIVA', url: '' },
+      { id: 'ct-desenvolve', name: 'Contrato DESENVOLVE', url: '' }
+    ];
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
 
-        const DEFAULT_GOOGLE_DRIVE_BASE_URL = 'https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link';
+    const DEFAULT_GOOGLE_DRIVE_BASE_URL = 'https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link';
     const STORAGE_KEY_PROJETOS_FOLDER = 'seduc_projetos_folder_url';
     const STORAGE_KEY_FOTOS_FOLDER = 'seduc_fotos_folder_url';
     const STORAGE_KEY_PROJETOS_DATA = 'seduc_projetos_items_data';
@@ -3584,6 +3735,7 @@
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
       const inputMed = document.getElementById('sheetUrlMedicoesInput');
+      const baseMed = document.getElementById('medicoesBaseSheetUrlInput');
       if (!inputMain || !inputMain.value.trim()) {
         showToastNotification('Por favor, cole primeiro o link geral da planilha.');
         return;
@@ -3604,6 +3756,9 @@
         inputMed.value = raw;
         handleSettingInputImmediate('sheetUrlMedicoes', raw);
       }
+      if (baseMed && !baseMed.value.trim()) {
+        baseMed.value = raw;
+      }
       showToastNotification('✓ Link principal aplicado às abas e salvo com sucesso!');
     }
 
@@ -3612,7 +3767,7 @@
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
-    if (!medicoesData || !Array.isArray(medicoesData) || medicoesData.length === 0) {
+    if (!medicoesData || !Array.isArray(medicoesData) || medicoesData.length === 0 || !medicoesData.some(m => String(m.contrato).includes('MELO') || String(m.contrato).includes('ASSERTIVA'))) {
       medicoesData = INITIAL_MEDICOES_DATA;
       saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
     }
@@ -7185,7 +7340,7 @@
       });
     }
 
-    function parseCsvToMedicoes(csvText, prefix, sheetUrl) {
+    function parseCsvToMedicoes(csvText, prefix, sheetUrl, explicitContractName = '') {
       return new Promise((resolve, reject) => {
         Papa.parse(csvText, {
           header: false,
@@ -7248,8 +7403,8 @@
             if (colEntrada === -1) colEntrada = 5;
 
             // Extrai o nome do contrato a partir da URL se houver parâmetro
-            let defaultContrato = 'Contrato 01/2024';
-            if (sheetUrl && sheetUrl.includes('sheet=')) {
+            let defaultContrato = explicitContractName || 'Contrato R MELO';
+            if (!explicitContractName && sheetUrl && sheetUrl.includes('sheet=')) {
               const m = sheetUrl.match(/sheet=([^&]+)/);
               if (m) defaultContrato = decodeURIComponent(m[1]);
             }
@@ -7275,7 +7430,7 @@
               const greKey = normalizeGreKey(rawGre) || '4ª GRE';
               const valorNum = parseMoedaToNumber(rawVal);
               const setorNorm = normalizeSetorMedicao(rawSetor);
-              const contratoFinal = rawContrato ? rawContrato.trim() : defaultContrato;
+              const contratoFinal = explicitContractName ? explicitContractName.trim() : (rawContrato ? rawContrato.trim() : defaultContrato);
 
               parsed.push({
                 id: `med-${rowIdx}-${Date.now().toString(36)}`,
@@ -7304,7 +7459,7 @@
       });
     }
 
-    async function fetchSingleTab(rawUrl, prefix) {
+    async function fetchSingleTab(rawUrl, prefix, explicitContractName = '') {
       if (!rawUrl) return null;
       console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar:`, rawUrl);
 
@@ -7385,7 +7540,7 @@
       }
 
       if (prefix === 'med') {
-        return await parseCsvToMedicoes(text, prefix, rawUrl);
+        return await parseCsvToMedicoes(text, prefix, rawUrl, explicitContractName);
       }
 
       return await parseCsvToWorks(text, prefix);
@@ -7506,7 +7661,44 @@
       }
 
       let syncedOnline = false;
-      if (url && (url.includes('spreadsheets') || url.includes('export') || url.includes('pub') || url.includes('csv'))) {
+      if (currentModule === 'MEDICOES') {
+        const contracts = getMedicoesContratosConfig();
+        let allParsedMedicoes = [];
+        for (const ct of contracts) {
+          const ctUrl = (ct.url && ct.url.trim()) ? ct.url.trim() : '';
+          if (ctUrl && (ctUrl.includes('spreadsheets') || ctUrl.includes('csv') || ctUrl.includes('pub') || ctUrl.includes('export') || ctUrl.includes('gviz'))) {
+            try {
+              const rows = await fetchSingleTab(ctUrl, 'med', ct.name);
+              if (rows && rows.length > 0) {
+                rows.forEach(r => {
+                  r.contrato = ct.name;
+                  r.contratoLink = ctUrl;
+                });
+                allParsedMedicoes = allParsedMedicoes.concat(rows);
+              }
+            } catch (eErr) {}
+          }
+        }
+
+        if (allParsedMedicoes.length === 0 && url && (url.includes('spreadsheets') || url.includes('export') || url.includes('pub') || url.includes('csv'))) {
+          try {
+            const parsed = await fetchSingleTab(url, 'med');
+            if (parsed && parsed.length > 0) allParsedMedicoes = parsed;
+          } catch (err) {}
+        }
+
+        if (allParsedMedicoes.length > 0) {
+          setActiveDataset(allParsedMedicoes);
+          syncedOnline = true;
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          localStorage.setItem(LAST_SYNC_KEY, timeStr);
+          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          if (syncText) syncText.textContent = `Online (${timeStr})`;
+          refreshAllViewsAfterSync();
+          showToastNotification(`✓ Aba Medições sincronizada com sucesso! (${allParsedMedicoes.length} registros)`);
+        }
+      } else if (url && (url.includes('spreadsheets') || url.includes('export') || url.includes('pub') || url.includes('csv'))) {
         try {
           const parsed = await fetchSingleTab(url, prefix);
 
@@ -7622,19 +7814,44 @@
         }
       }
 
-      // 3. Sincronizar Medições
-      if (urlMed) {
+      // 3. Sincronizar Medições (Individualmente por cada contrato configurado)
+      const contracts = getMedicoesContratosConfig();
+      let allParsedMedicoes = [];
+      let medSuccessCount = 0;
+      for (const ct of contracts) {
+        const ctUrl = (ct.url && ct.url.trim()) ? ct.url.trim() : '';
+        if (ctUrl && (ctUrl.includes('spreadsheets') || ctUrl.includes('csv') || ctUrl.includes('pub') || ctUrl.includes('export') || ctUrl.includes('gviz'))) {
+          try {
+            const rows = await fetchSingleTab(ctUrl, 'med', ct.name);
+            if (rows && rows.length > 0) {
+              rows.forEach(r => {
+                r.contrato = ct.name;
+                r.contratoLink = ctUrl;
+              });
+              allParsedMedicoes = allParsedMedicoes.concat(rows);
+              medSuccessCount++;
+            }
+          } catch (eErr) {}
+        }
+      }
+
+      if (allParsedMedicoes.length === 0 && urlMed) {
         try {
           const resMed = await fetchSingleTab(urlMed, 'med');
           if (resMed && resMed.length > 0) {
-            medicoesData = resMed;
-            saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
-            summaryMsgs.push(`✓ Obras de Medições: ${resMed.length} registros carregados.`);
+            allParsedMedicoes = resMed;
+            medSuccessCount++;
           }
         } catch (e) {
           hasError = true;
           summaryMsgs.push(`❌ Erro na aba Medições: Verifique se está pública no Google Sheets ("Qualquer pessoa com link").`);
         }
+      }
+
+      if (allParsedMedicoes.length > 0) {
+        medicoesData = allParsedMedicoes;
+        saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+        summaryMsgs.push(`✓ Obras de Medições: ${allParsedMedicoes.length} medições carregadas (${medSuccessCount} contrato(s)).`);
       }
 
       if (urlProj) summaryMsgs.push('✓ Link da Pasta de Projetos salvo.');
@@ -7745,13 +7962,280 @@
       }
     }
 
+    // =========================================================================
+    // GERENCIAMENTO DAS ABAS DE CONTRATOS DE MEDIÇÕES NO MODAL DE AJUSTES
+    // =========================================================================
+    function getMedicoesContratosConfig() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_MEDICOES_CONTRATOS);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return JSON.parse(JSON.stringify(DEFAULT_MEDICOES_CONTRATOS));
+    }
+
+    function saveMedicoesContratosConfig(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY_MEDICOES_CONTRATOS, JSON.stringify(list));
+        localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
+        syncLocalConfigToServer(false);
+      } catch (e) {}
+    }
+
+    function renderMedicoesContratosConfigInputs() {
+      const container = document.getElementById('medicoesContratosConfigList');
+      if (!container) return;
+
+      const baseVal = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL;
+      const baseInp = document.getElementById('medicoesBaseSheetUrlInput');
+      if (baseInp && (!baseInp.value || baseInp.value === DEFAULT_MEDICOES_SHEET_URL)) {
+        baseInp.value = baseVal;
+      }
+      const baseLink = document.getElementById('medicoesOpenBaseSheetLink');
+      if (baseLink) baseLink.href = baseVal;
+
+      const list = getMedicoesContratosConfig();
+      let html = '';
+
+      list.forEach((item, index) => {
+        const hasUrl = item.url && item.url.trim().length > 0;
+        html += `
+          <div class="bg-brand-dark/90 border border-brand-cardBorder hover:border-cyan-500/50 rounded-xl p-3 flex flex-col gap-2.5 transition-all shadow-sm">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <div class="flex items-center gap-2 flex-1 min-w-[180px]">
+                <span class="text-cyan-400 font-black text-sm">📑</span>
+                <input 
+                  type="text" 
+                  value="${(item.name || '').replace(/"/g, '&quot;')}" 
+                  placeholder="Nome do Contrato (Ex: Contrato R MELO)"
+                  onchange="updateMedicaoContratoName(${index}, this.value)"
+                  class="bg-brand-panel/60 border border-transparent focus:border-cyan-400 rounded px-2 py-0.5 font-bold text-xs text-white placeholder-slate-500 outline-none flex-1 min-w-0"
+                  title="Clique para editar o nome do contrato"
+                />
+              </div>
+
+              <div class="flex items-center gap-1.5 shrink-0">
+                ${hasUrl ? `
+                  <a 
+                    href="${item.url}" 
+                    target="_blank" 
+                    class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[10px] font-bold hover:bg-cyan-500/30 transition-colors flex items-center gap-1"
+                    title="Abrir esta aba diretamente no Google Sheets"
+                  >
+                    <span>🔗</span> Abrir Aba ↗
+                  </a>
+                ` : `
+                  <span class="text-[10px] text-slate-500 font-medium px-2 py-0.5 rounded bg-slate-800 border border-slate-700">Sem link da aba</span>
+                `}
+
+                ${list.length > 1 ? `
+                  <button 
+                    type="button"
+                    onclick="removeMedicaoContratoSlot(${index})" 
+                    class="p-1 rounded text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors text-xs"
+                    title="Remover este contrato da lista"
+                  >
+                    ✕
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input 
+                type="url" 
+                value="${(item.url || '').replace(/"/g, '&quot;')}" 
+                placeholder="Cole o link da aba desta empresa (ex: https://docs.google.com/spreadsheets/d/.../edit#gid=...)"
+                oninput="updateMedicaoContratoUrl(${index}, this.value)"
+                class="w-full bg-brand-panel border border-brand-cardBorder focus:border-cyan-400 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 outline-none transition-colors"
+              />
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function updateMedicaoContratoName(index, newName) {
+      const list = getMedicoesContratosConfig();
+      if (list[index]) {
+        list[index].name = (newName || '').trim() || `Contrato ${index + 1}`;
+        saveMedicoesContratosConfig(list);
+      }
+    }
+
+    function updateMedicaoContratoUrl(index, newUrl) {
+      const list = getMedicoesContratosConfig();
+      if (list[index]) {
+        list[index].url = (newUrl || '').trim();
+        saveMedicoesContratosConfig(list);
+      }
+    }
+
+    function addNewMedicaoContratoSlot() {
+      const list = getMedicoesContratosConfig();
+      const num = list.length + 1;
+      list.push({
+        id: `ct-${Date.now()}`,
+        name: `Contrato 0${num}`,
+        url: ''
+      });
+      saveMedicoesContratosConfig(list);
+      renderMedicoesContratosConfigInputs();
+      showToastNotification('✓ Novo espaço para contrato adicionado!');
+    }
+
+    function removeMedicaoContratoSlot(index) {
+      const list = getMedicoesContratosConfig();
+      if (list.length <= 1) {
+        showToastNotification('É necessário manter pelo menos um contrato.');
+        return;
+      }
+      list.splice(index, 1);
+      saveMedicoesContratosConfig(list);
+      renderMedicoesContratosConfigInputs();
+      showToastNotification('Contrato removido da lista.');
+    }
+
+    function applyMedicoesBaseSheetUrlToAll() {
+      const baseInp = document.getElementById('medicoesBaseSheetUrlInput');
+      const baseVal = baseInp ? baseInp.value.trim() : '';
+      if (!baseVal) {
+        showToastNotification('Por favor, informe primeiro o Link Geral da Planilha Base.');
+        return;
+      }
+      localStorage.setItem(SHEET_URL_MEDICOES_KEY, baseVal);
+      const mainMedInp = document.getElementById('sheetUrlMedicoesInput');
+      if (mainMedInp) mainMedInp.value = baseVal;
+      updateMedicoesBaseSheetLink(baseVal);
+
+      const list = getMedicoesContratosConfig();
+      let filled = 0;
+      list.forEach(ct => {
+        if (!ct.url || !ct.url.trim()) {
+          ct.url = baseVal;
+          filled++;
+        }
+      });
+      saveMedicoesContratosConfig(list);
+      renderMedicoesContratosConfigInputs();
+      showToastNotification(`✓ Base replicada para ${filled} contrato(s). Agora basta colar o #gid de cada aba!`);
+    }
+
+    function updateMedicoesBaseSheetLink(val) {
+      const link = document.getElementById('medicoesOpenBaseSheetLink');
+      if (link) {
+        link.href = val || DEFAULT_MEDICOES_SHEET_URL;
+      }
+    }
+
+    function openCurrentMedicoesSheet() {
+      const baseInp = document.getElementById('medicoesBaseSheetUrlInput');
+      const val = (baseInp ? baseInp.value.trim() : '') || localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL;
+      window.open(val, '_blank');
+    }
+
+    async function saveAndSyncMedicoesModal() {
+      const baseInp = document.getElementById('medicoesBaseSheetUrlInput');
+      const baseVal = baseInp ? baseInp.value.trim() : '';
+      if (baseVal) {
+        localStorage.setItem(SHEET_URL_MEDICOES_KEY, baseVal);
+        const mainMedInp = document.getElementById('sheetUrlMedicoesInput');
+        if (mainMedInp) mainMedInp.value = baseVal;
+        updateMedicoesBaseSheetLink(baseVal);
+      }
+
+      const contracts = getMedicoesContratosConfig();
+      const saveBtn = document.getElementById('saveAndSyncMedicoesBtn');
+      const spinner = document.getElementById('saveMedicoesBtnSpinner');
+      const feedbackBox = document.getElementById('medicoesSyncFeedbackBox');
+
+      if (saveBtn) saveBtn.disabled = true;
+      if (spinner) spinner.classList.remove('hidden');
+
+      if (feedbackBox) {
+        feedbackBox.classList.remove('hidden', 'bg-rose-950/60', 'text-rose-300', 'border-rose-800', 'bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800', 'bg-amber-950/60', 'text-amber-300', 'border-amber-800');
+        feedbackBox.classList.add('bg-cyan-950/60', 'text-cyan-300', 'border-cyan-800');
+        feedbackBox.textContent = '⏳ Sincronizando abas de contratos do Google Sheets...';
+      }
+
+      let allParsedMedicoes = [];
+      let successCount = 0;
+      let errorMsgs = [];
+
+      for (const ct of contracts) {
+        const ctUrl = (ct.url && ct.url.trim()) ? ct.url.trim() : '';
+        if (ctUrl && (ctUrl.includes('spreadsheets') || ctUrl.includes('csv') || ctUrl.includes('pub') || ctUrl.includes('export') || ctUrl.includes('gviz'))) {
+          try {
+            const rows = await fetchSingleTab(ctUrl, 'med', ct.name);
+            if (rows && rows.length > 0) {
+              rows.forEach(r => {
+                r.contrato = ct.name;
+                r.contratoLink = ctUrl;
+              });
+              allParsedMedicoes = allParsedMedicoes.concat(rows);
+              successCount++;
+            }
+          } catch (eErr) {
+            console.warn(`[Sync Contrato ${ct.name}] Falha:`, eErr.message);
+            errorMsgs.push(`${ct.name}: ${eErr.message}`);
+          }
+        }
+      }
+
+      // Se nenhum contrato específico retornou linhas, mas há link base geral:
+      if (allParsedMedicoes.length === 0 && baseVal) {
+        try {
+          const rows = await fetchSingleTab(baseVal, 'med');
+          if (rows && rows.length > 0) {
+            allParsedMedicoes = rows;
+            successCount++;
+          }
+        } catch (eBase) {
+          console.warn('[Sync Base Medições] Falha:', eBase.message);
+        }
+      }
+
+      if (allParsedMedicoes.length > 0) {
+        medicoesData = allParsedMedicoes;
+        saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+        refreshAllViewsAfterSync();
+
+        if (feedbackBox) {
+          feedbackBox.classList.remove('bg-cyan-950/60', 'text-cyan-300', 'border-cyan-800');
+          feedbackBox.classList.add('bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
+          feedbackBox.textContent = `✓ Sucesso! ${allParsedMedicoes.length} medições carregadas de ${successCount} contrato(s).`;
+        }
+        showToastNotification(`✓ ${allParsedMedicoes.length} medições sincronizadas com sucesso!`);
+      } else {
+        // Fallback local caso a planilha esteja privada no Google Drive
+        refreshAllViewsAfterSync();
+        if (feedbackBox) {
+          feedbackBox.classList.remove('bg-cyan-950/60', 'text-cyan-300', 'border-cyan-800');
+          feedbackBox.classList.add('bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
+          feedbackBox.textContent = `✓ Links dos contratos salvos com sucesso! Certifique-se de que a planilha no Google Sheets esteja compartilhada com "Qualquer pessoa com o link" (Leitor).`;
+        }
+        showToastNotification(`✓ Links de contratos salvos!`);
+      }
+
+      syncLocalConfigToServer(false);
+
+      if (saveBtn) saveBtn.disabled = false;
+      if (spinner) spinner.classList.add('hidden');
+    }
+
     function switchSettingsModalTab(tabKey) {
       const btnPlanilha = document.getElementById('modalTabBtnPlanilha');
+      const btnMedicoes = document.getElementById('modalTabBtnMedicoes');
       const btnProjetos = document.getElementById('modalTabBtnProjetos');
       const btnFotos = document.getElementById('modalTabBtnFotos');
       const btnCelular = document.getElementById('modalTabBtnCelular');
 
       const secPlanilha = document.getElementById('settingsTabContentPlanilha');
+      const secMedicoes = document.getElementById('settingsTabContentMedicoes');
       const secProjetos = document.getElementById('settingsTabContentProjetos');
       const secFotos = document.getElementById('settingsTabContentFotos');
       const secCelular = document.getElementById('settingsTabContentCelular');
@@ -7759,16 +8243,22 @@
       const inactiveClass = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 border border-transparent text-center';
 
       if (btnPlanilha) btnPlanilha.className = inactiveClass;
+      if (btnMedicoes) btnMedicoes.className = inactiveClass;
       if (btnProjetos) btnProjetos.className = inactiveClass;
       if (btnFotos) btnFotos.className = inactiveClass;
       if (btnCelular) btnCelular.className = inactiveClass;
 
       if (secPlanilha) { secPlanilha.classList.add('hidden'); secPlanilha.classList.remove('flex'); }
+      if (secMedicoes) { secMedicoes.classList.add('hidden'); secMedicoes.classList.remove('flex'); }
       if (secProjetos) { secProjetos.classList.add('hidden'); secProjetos.classList.remove('flex'); }
       if (secFotos) { secFotos.classList.add('hidden'); secFotos.classList.remove('flex'); }
       if (secCelular) { secCelular.classList.add('hidden'); secCelular.classList.remove('flex'); }
 
-      if (tabKey === 'PROJETOS') {
+      if (tabKey === 'MEDICOES') {
+        if (btnMedicoes) btnMedicoes.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-cyan-400 border border-cyan-500/40 shadow text-center';
+        if (secMedicoes) { secMedicoes.classList.remove('hidden'); secMedicoes.classList.add('flex'); }
+        renderMedicoesContratosConfigInputs();
+      } else if (tabKey === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-purple-400 border border-purple-500/40 shadow text-center';
         if (secProjetos) { secProjetos.classList.remove('hidden'); secProjetos.classList.add('flex'); }
       } else if (tabKey === 'FOTOS') {
@@ -9552,6 +10042,12 @@
         if (savedMed) { linkMed.href = savedMed; linkMed.classList.remove('hidden'); }
         else { linkMed.classList.add('hidden'); }
       }
+      const baseMedInp = document.getElementById('medicoesBaseSheetUrlInput');
+      if (baseMedInp) baseMedInp.value = savedMed;
+      const baseMedLink = document.getElementById('medicoesOpenBaseSheetLink');
+      if (baseMedLink) baseMedLink.href = savedMed;
+      renderMedicoesContratosConfigInputs();
+
       if (linkProj) {
         if (savedProj) { linkProj.href = savedProj; linkProj.classList.remove('hidden'); }
         else { linkProj.classList.add('hidden'); }
@@ -9593,6 +10089,12 @@
           if (trimmed) { linkMed.href = trimmed; linkMed.classList.remove('hidden'); }
           else { linkMed.classList.add('hidden'); }
         }
+        const baseMedInp = document.getElementById('medicoesBaseSheetUrlInput');
+        if (baseMedInp && baseMedInp.value !== trimmed) baseMedInp.value = trimmed;
+        const mainMedInp = document.getElementById('sheetUrlMedicoesInput');
+        if (mainMedInp && mainMedInp.value !== trimmed) mainMedInp.value = trimmed;
+        const baseMedLink = document.getElementById('medicoesOpenBaseSheetLink');
+        if (baseMedLink) baseMedLink.href = trimmed || DEFAULT_MEDICOES_SHEET_URL;
       } else if (field === 'projetosFolderUrl') {
         const finalUrl = trimmed || DEFAULT_GOOGLE_DRIVE_BASE_URL;
         localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, finalUrl);
@@ -9656,6 +10158,14 @@
       if (cfg.fotosFolderUrl && typeof cfg.fotosFolderUrl === 'string' && cfg.fotosFolderUrl.trim()) {
         localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, cfg.fotosFolderUrl.trim());
       }
+      if (cfg.medicoesContratos) {
+        try {
+          const parsed = typeof cfg.medicoesContratos === 'string' ? JSON.parse(cfg.medicoesContratos) : cfg.medicoesContratos;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            localStorage.setItem(STORAGE_KEY_MEDICOES_CONTRATOS, JSON.stringify(parsed));
+          }
+        } catch (eCt) {}
+      }
       if (cfg.autoSyncInterval) {
         localStorage.setItem(AUTO_SYNC_KEY, String(cfg.autoSyncInterval));
       }
@@ -9676,6 +10186,7 @@
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
         sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
+        medicoesContratos: getMedicoesContratosConfig(),
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -9700,6 +10211,7 @@
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
         sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
+        medicoesContratos: getMedicoesContratosConfig(),
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -9750,7 +10262,7 @@
         if (search.get('proj')) parsed.projetosFolderUrl = search.get('proj');
         if (search.get('foto')) parsed.fotosFolderUrl = search.get('foto');
 
-        const hasAnyParsedUrl = !!(parsed.sheetUrlMain || parsed.sheetUrlContracts || parsed.sheetUrlPactue || parsed.sheetUrlMedicoes || parsed.projetosFolderUrl || parsed.fotosFolderUrl);
+        const hasAnyParsedUrl = !!(parsed.sheetUrlMain || parsed.sheetUrlContracts || parsed.sheetUrlPactue || parsed.sheetUrlMedicoes || parsed.projetosFolderUrl || parsed.fotosFolderUrl || parsed.medicoesContratos);
         if (hasAnyParsedUrl) {
           applyConfigToStorageAndUI(parsed, false);
           localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
@@ -9775,7 +10287,7 @@
         }
 
         if (serverCfg && typeof serverCfg === 'object') {
-          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue || serverCfg.sheetUrlMedicoes);
+          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue || serverCfg.sheetUrlMedicoes || serverCfg.medicoesContratos);
           const localCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
           const localPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
           const localMed = localStorage.getItem(SHEET_URL_MEDICOES_KEY);
@@ -9811,6 +10323,7 @@
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
         sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
+        medicoesContratos: getMedicoesContratosConfig(),
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
