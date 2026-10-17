@@ -2157,20 +2157,20 @@
           let section = `${g.header}\n\n`;
           const schoolEntries = schools.map(s => {
             if (currentModule === 'PACTUE') {
-              return `ESCOLA: _*${s.escola}*_\n` +
-                     `MUNICÍPIO: ${s.municipio}\n` +
-                     (s.objeto ? `OBJETO: ${s.objeto}\n` : '') +
-                     (s.descritivo ? `DESCRITIVO DOS SERVIÇOS: ${s.descritivo}\n` : '') +
-                     `EMPRESA: ${s.construtora}\n` +
+              return `* ESCOLA: _*${s.escola}*_\n` +
+                     `* MUNICÍPIO: ${s.municipio}\n` +
+                     (s.objeto ? `* OBJETO: ${s.objeto}\n` : '') +
+                     (s.descritivo ? `* DESCRITIVO DOS SERVIÇOS: ${s.descritivo}\n` : '') +
+                     `* EMPRESA: ${s.construtora}\n` +
                      `🔹 STATUS: _*${s.status}*_\n` +
-                     (s.situacao ? `SITUAÇÃO: _${s.situacao}_\n` : '') +
+                     (s.situacao ? `* SITUAÇÃO: _${s.situacao}_\n` : '') +
                      `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
             } else {
-              return `ESCOLA: _*${s.escola}*_\n` +
-                     `MUNICÍPIO: ${s.municipio}\n` +
-                     `EMPRESA: ${s.construtora}\n` +
+              return `* ESCOLA: _*${s.escola}*_\n` +
+                     `* MUNICÍPIO: ${s.municipio}\n` +
+                     `* EMPRESA: ${s.construtora}\n` +
                      `🔹 STATUS: _*${s.status}*_\n` +
-                     `SITUAÇÃO: _${s.situacao}_\n` +
+                     `* SITUAÇÃO: _${s.situacao}_\n` +
                      `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
             }
           });
