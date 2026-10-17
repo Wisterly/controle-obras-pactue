@@ -853,11 +853,11 @@
     ];
 
     // =========================================================================
-    // CHAVES DE ARMAZENAMENTO & ESTADO GLOBAL
+    // CHAVES DE ARMAZENAMENTO PERMANENTES & IMUTÁVEIS (NUNCA SÃO RESETADAS)
     // =========================================================================
     const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
-    const STORAGE_KEY_CONTRACTS = 'seduc_obras_contracts_data_v4';
-    const STORAGE_KEY_PACTUE = 'seduc_obras_pactue_data_v4';
+    const STORAGE_KEY_CONTRACTS = 'seduc_obras_contracts_data';
+    const STORAGE_KEY_PACTUE = 'seduc_obras_pactue_data';
     const SHEET_URL_CONTRACTS_KEY = 'seduc_sheet_url_contracts';
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
@@ -886,9 +886,23 @@
       }
     }
 
+    // Carrega dados persistidos preservando e migrando de qualquer versão anterior
     function loadStoredData(key, fallback) {
       try {
-        const saved = localStorage.getItem(key);
+        let saved = localStorage.getItem(key);
+
+        // Migração retrocompatível automática para não perder nenhum dado
+        if (!saved && key === 'seduc_obras_contracts_data') {
+          saved = localStorage.getItem('seduc_obras_contracts_data_v4') || 
+                  localStorage.getItem('seduc_obras_gre_ct_data_v3') || 
+                  localStorage.getItem('seduc_obras_gre_ct_data_v2');
+          if (saved) localStorage.setItem(key, saved);
+        }
+        if (!saved && key === 'seduc_obras_pactue_data') {
+          saved = localStorage.getItem('seduc_obras_pactue_data_v4');
+          if (saved) localStorage.setItem(key, saved);
+        }
+
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
@@ -2083,18 +2097,22 @@
       showToastNotification("✓ Dados originais restaurados!");
     }
 
-    // Inicialização da Página
+    // Inicialização da Página: Abre com dados sincronizados automaticamente
     window.onload = function() {
       switchModule(currentModule);
 
       const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
       const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
+      
       if (savedUrlCt || savedUrlPac) {
         const sheetBadge = document.getElementById('sheetBadge');
         if (sheetBadge) sheetBadge.classList.remove('hidden');
         const syncText = document.getElementById('syncStatusText');
         const lastSync = localStorage.getItem(LAST_SYNC_KEY);
         if (syncText && lastSync) syncText.textContent = `Online (${lastSync})`;
+
+        // Sincronização automática na inicialização para abrir sempre atualizado!
+        syncActiveModuleSheet();
       }
 
       startAutoSyncTimer();
