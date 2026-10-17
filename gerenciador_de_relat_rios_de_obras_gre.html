@@ -992,13 +992,28 @@
     }
 
     function normalizeGreKey(greString) {
-      if (!greString) return '8ª GRE';
-      const clean = greString.toUpperCase().trim();
-      const match = clean.match(/([0-9]+)\s*ª?\s*GRE/);
-      if (match) {
-        return `${match[1]}ª GRE`;
+      if (greString === undefined || greString === null) return '';
+      const str = String(greString).trim();
+      if (!str) return '';
+
+      // 1. Tenta achar o número da GRE (ex: "1", "01", "2ª", "2a", "2°", "2ª GRE", "GRE 02", "02 - BARRAS", "2ª GRE - BARRAS")
+      const numMatch = str.match(/\b0*([1-9]|1[0-9]|2[0-1])\b/) || str.match(/([0-9]+)/);
+      if (numMatch && numMatch[1]) {
+        const num = parseInt(numMatch[1], 10);
+        return `${num}ª GRE`;
       }
-      return clean;
+
+      // 2. Se não achou número explícito, tenta pelo nome do polo/cidade
+      const normStr = normalizeHeaderName(str);
+      for (const s of SEDUC_PI_GRES) {
+        const normPolo = normalizeHeaderName(s.polo);
+        const normName = normalizeHeaderName(s.name);
+        if (normStr.includes(normPolo) || normPolo.includes(normStr) || normStr.includes(normName)) {
+          return s.key;
+        }
+      }
+
+      return str.toUpperCase();
     }
 
     function normalizeHeaderName(name) {
@@ -1034,6 +1049,22 @@
             let idxStatusDiarios = -1;
             let colStatus = null;
 
+            // Prioridade 1: Identificar a coluna específica que tem o nome "GRE"
+            headers.forEach(h => {
+              const norm = normalizeHeaderName(h);
+              if (norm === 'gre') {
+                colGre = h;
+              }
+            });
+            if (!colGre) {
+              headers.forEach(h => {
+                const norm = normalizeHeaderName(h);
+                if (!colGre && (norm.startsWith('gre') || norm.endsWith('gre') || norm.includes('gerencia regional') || norm.includes('gerência regional'))) {
+                  colGre = h;
+                }
+              });
+            }
+
             // 1. Mapeamento por correspondência de nomes
             headers.forEach((h, idx) => {
               const norm = normalizeHeaderName(h);
@@ -1055,11 +1086,6 @@
               // Município
               if (norm.includes('municipio') || norm.includes('cidade')) {
                 colMunicipio = h;
-              }
-
-              // GRE / Regional
-              if (norm.includes('gre') || norm.includes('regional') || norm.includes('gerencia')) {
-                colGre = h;
               }
 
               // Término / Previsão
@@ -1377,38 +1403,37 @@
       document.body.removeChild(link);
     }
 
-    // =========================================================================
-    // SELETOR DINÂMICO DE GRES (PARA O MÓDULO ATIVO)
-    // =========================================================================
     function getAvailableGresForActiveDataset() {
       const dataset = getActiveDataset();
       const greMap = new Map();
 
+      // Mapeia e conta apenas obras válidas
       dataset.forEach(item => {
         const k = item.greKey || normalizeGreKey(item.gre);
-        greMap.set(k, (greMap.get(k) || 0) + 1);
+        if (k) {
+          greMap.set(k, (greMap.get(k) || 0) + 1);
+        }
       });
 
+      // Retorna APENAS as GREs com dados reais (count > 0). GREs zeradas são 100% excluídas!
       const list = [];
-      SEDUC_PI_GRES.forEach(s => {
-        const count = greMap.get(s.key) || 0;
-        list.push({
-          key: s.key,
-          name: s.name,
-          polo: s.polo,
-          count: count
-        });
-      });
-
-      greMap.forEach((cnt, k) => {
-        if (!list.some(item => item.key === k)) {
+      greMap.forEach((count, k) => {
+        if (count > 0) {
+          const ref = SEDUC_PI_GRES.find(s => s.key === k);
           list.push({
             key: k,
-            name: `${k}`,
-            polo: 'Regional',
-            count: cnt
+            name: ref ? ref.name : k,
+            polo: ref ? ref.polo : 'Regional',
+            count: count
           });
         }
+      });
+
+      // Ordena numericamente: 1ª GRE, 2ª GRE, ..., 21ª GRE
+      list.sort((a, b) => {
+        const numA = parseInt(a.key.replace(/\D/g, '') || '999', 10);
+        const numB = parseInt(b.key.replace(/\D/g, '') || '999', 10);
+        return numA - numB;
       });
 
       return list;
@@ -1432,6 +1457,11 @@
       const dataset = getActiveDataset();
       const availableGres = getAvailableGresForActiveDataset();
 
+      // Se o filtro ativo não existir nas GREs disponíveis, reseta para TODAS
+      if (activeFilter !== 'TODAS' && !availableGres.some(g => g.key === activeFilter)) {
+        activeFilter = 'TODAS';
+      }
+
       // Label do Botão Principal
       if (greSelectLabel) {
         if (activeFilter === 'TODAS') {
@@ -1442,10 +1472,8 @@
         }
       }
 
-      // Quick Chips Horizontais
+      // Quick Chips Horizontais (Apenas GREs que têm obras)
       if (quickChipsContainer) {
-        const activeGresWithWorks = availableGres.filter(g => g.count > 0);
-
         let chipsHtml = `
           <button 
             onclick="setFilter('TODAS')"
@@ -1459,7 +1487,7 @@
           </button>
         `;
 
-        activeGresWithWorks.forEach(g => {
+        availableGres.forEach(g => {
           const isSelected = activeFilter === g.key;
           chipsHtml += `
             <button 
@@ -1481,33 +1509,38 @@
         quickChipsContainer.innerHTML = chipsHtml;
       }
 
-      // Grid Completo no Drawer
+      // Grid Completo no Drawer (Apenas GREs com obras)
       if (allGrid) {
-        allGrid.innerHTML = availableGres.map(g => {
-          const isSelected = activeFilter === g.key;
-          const hasWorks = g.count > 0;
-
-          return `
-            <button 
-              onclick="setFilter('${g.key}'); toggleGreDrawer();"
-              class="p-2 rounded-xl text-left border text-xs transition-all flex flex-col justify-between ${
-                isSelected 
-                  ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400' 
-                  : hasWorks 
-                    ? 'bg-brand-dark border-brand-cardBorder hover:border-slate-500 text-slate-200' 
-                    : 'bg-brand-dark/40 border-brand-cardBorder/40 text-slate-500 hover:text-slate-300'
-              }"
-            >
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-xs ${isSelected ? 'text-amber-300' : 'text-white'}">${g.key}</span>
-                <span class="text-[10px] px-1.5 py-0.2 rounded-full ${hasWorks ? 'bg-emerald-500/20 text-emerald-300 font-bold' : 'bg-slate-800 text-slate-500'}">
-                  ${g.count}
-                </span>
-              </div>
-              <span class="text-[10px] text-slate-400 truncate mt-0.5">${g.polo}</span>
-            </button>
+        if (availableGres.length === 0) {
+          allGrid.innerHTML = `
+            <div class="col-span-full p-4 text-center text-xs text-slate-400">
+              Nenhuma GRE com obras ativas cadastrada nesta demanda.
+            </div>
           `;
-        }).join('');
+        } else {
+          allGrid.innerHTML = availableGres.map(g => {
+            const isSelected = activeFilter === g.key;
+
+            return `
+              <button 
+                onclick="setFilter('${g.key}'); toggleGreDrawer();"
+                class="p-2.5 rounded-xl text-left border text-xs transition-all flex flex-col justify-between ${
+                  isSelected 
+                    ? 'bg-amber-500/20 border-amber-400 text-amber-300 shadow-md ring-1 ring-amber-400 scale-[1.02]' 
+                    : 'bg-brand-dark border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card/70'
+                }"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-xs ${isSelected ? 'text-amber-300' : 'text-white'}">${g.key}</span>
+                  <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                    ${g.count}
+                  </span>
+                </div>
+                <span class="text-[10px] text-slate-400 truncate mt-1">${g.polo}</span>
+              </button>
+            `;
+          }).join('');
+        }
       }
 
       updateSummaryBanner();
