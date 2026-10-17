@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciador de Relatórios de Obras GRE - SEDUC-PI</title>
+  <title>Gerenciador de Relatórios de Obras GRE & PACTUE - SEDUC-PI</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +28,8 @@
               amber: '#f59e0b',
               emerald: '#10b981',
               rose: '#f43f5e',
+              purple: '#8b5cf6',
+              cyan: '#06b6d4',
               whatsapp: '#25D366',
             }
           }
@@ -73,7 +75,7 @@
     <span id="toastMessage" class="text-sm font-semibold">Texto copiado para o WhatsApp com sucesso!</span>
   </div>
 
-  <!-- Header -->
+  <!-- Header Principal -->
   <header class="border-b border-brand-cardBorder/80 bg-brand-panel/95 backdrop-blur-md sticky top-0 z-40 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
       
@@ -85,41 +87,41 @@
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">
-              Relatório de Obras GRE
+              Controle de Obras &amp; PACTUE
             </h1>
             <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30">SEDUC-PI</span>
           </div>
-          <p class="text-xs text-slate-400">Pactuação, sincronização online e gerador WhatsApp</p>
+          <p class="text-xs text-slate-400">Monitoramento por GRE, abas online e gerador WhatsApp</p>
         </div>
       </div>
 
-      <!-- Action Bar -->
+      <!-- Action Bar Superior -->
       <div class="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
         
         <!-- Status de Sincronização / Planilha -->
         <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-brand-dark/80 border border-brand-cardBorder text-xs text-slate-300">
           <span id="syncStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span id="syncStatusText" class="text-emerald-400 font-medium">Dados locais carregados</span>
+          <span id="syncStatusText" class="text-emerald-400 font-medium">Dados carregados</span>
         </div>
 
-        <!-- Botão Conectar Planilha Online -->
+        <!-- Botão Conectar Planilhas & Abas -->
         <button 
           onclick="openSheetModal()" 
           id="sheetModalBtn"
           class="flex items-center gap-2 px-3.5 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 hover:text-white border border-brand-cardBorder hover:border-brand-accent/50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95"
-          title="Conectar ou gerenciar planilha Google Sheets online"
+          title="Configurar links e abas da planilha Google Sheets"
         >
           <span class="text-emerald-400 font-bold">📊</span>
-          <span>Planilha Online</span>
-          <span id="sheetBadge" class="hidden px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">CONECTADA</span>
+          <span>Abas da Planilha</span>
+          <span id="sheetBadge" class="hidden px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">ONLINE</span>
         </button>
 
         <!-- Botão Rápido Sincronizar -->
         <button 
-          onclick="syncFromOnlineSheet()" 
+          onclick="syncActiveModuleSheet()" 
           id="quickSyncBtn"
           class="flex items-center gap-1.5 px-3 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 border border-brand-cardBorder rounded-xl text-xs sm:text-sm font-semibold transition-all active:scale-95"
-          title="Puxar atualizações da planilha online agora"
+          title="Puxar atualizações da planilha da aba ativa"
         >
           <svg id="syncIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -143,10 +145,60 @@
     </div>
   </header>
 
+  <!-- Sub-Header: SELETOR DE MÓDULO / ABA DA DEMANDA (CONTRATOS vs PACTUE) -->
+  <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      
+      <!-- Seletor em Segmented Control Chamativo -->
+      <div class="flex items-center gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
+        <button 
+          id="moduleBtnContracts"
+          onclick="switchModule('CONTRATOS')" 
+          class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]"
+        >
+          <span>🏗️</span>
+          <span>Obras de Contratos</span>
+          <span id="contractsBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-black/30 text-white font-bold">
+            0
+          </span>
+        </button>
+
+        <button 
+          id="moduleBtnPactue"
+          onclick="switchModule('PACTUE')" 
+          class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+        >
+          <span>🤝</span>
+          <span>Obras PACTUE</span>
+          <span id="pactueBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
+            0
+          </span>
+        </button>
+      </div>
+
+      <!-- Informação da Aba e Atalho Direto -->
+      <div class="flex items-center gap-2 text-xs text-slate-400 w-full sm:w-auto justify-between sm:justify-end">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-brand-accent"></span>
+          <span>Aba ativa: <strong id="activeTabNameDisplay" class="text-slate-200">Aba Contratos</strong></span>
+        </span>
+        <button 
+          onclick="openActiveSheetTabDirect()" 
+          id="openActiveTabExternalBtn"
+          class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-brand-card hover:bg-slate-800 text-brand-accent hover:text-blue-300 border border-brand-cardBorder text-xs font-semibold transition-colors"
+          title="Abrir diretamente esta aba na planilha Google Sheets"
+        >
+          <span>🔗 Abrir Aba no Google</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
     
-    <!-- Left Column: GRE Selector, Filters, Cards -->
+    <!-- Left Column: GRE Selector, Status Filters, Cards -->
     <section class="lg:col-span-7 flex flex-col gap-4">
       
       <!-- ============================================== -->
@@ -162,15 +214,15 @@
           
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div class="flex items-center gap-2.5">
-              <span class="w-8 h-8 rounded-xl bg-brand-accent/20 border border-brand-accent/30 text-brand-accent flex items-center justify-center text-base font-black shadow-inner">
+              <span class="w-9 h-9 rounded-xl bg-brand-accent/20 border border-brand-accent/30 text-brand-accent flex items-center justify-center text-lg font-black shadow-inner">
                 📍
               </span>
               <div>
                 <span class="text-[11px] uppercase font-extrabold tracking-wider text-amber-400">
-                  Controle por Região
+                  Gerência Regional de Educação
                 </span>
                 <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2">
-                  Escolher Gerência Regional (GRE)
+                  Escolher GRE <span id="greDemandTag" class="text-xs font-normal text-slate-400">(Obras de Contratos)</span>
                 </h2>
               </div>
             </div>
@@ -179,7 +231,7 @@
             <button 
               id="toggleGreDrawerBtn"
               onclick="toggleGreDrawer()"
-              class="flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-xl bg-brand-accent text-white hover:bg-blue-600 font-bold text-xs shadow-md shadow-brand-accent/30 active:scale-95 transition-all"
+              class="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-brand-accent text-white hover:bg-blue-600 font-bold text-xs shadow-md shadow-brand-accent/30 active:scale-95 transition-all"
             >
               <span id="greSelectLabel">Todas as GREs</span>
               <svg id="greChevron" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,12 +240,12 @@
             </button>
           </div>
 
-          <!-- Quick Horizontal Scroll Chips (As GREs mais ativas) -->
+          <!-- Quick Horizontal Scroll Chips (GREs ativas nesta demanda) -->
           <div class="flex items-center gap-2 overflow-x-auto pb-1 pt-1 scrollbar-none" id="quickGreChips">
             <!-- Injected via JS -->
           </div>
 
-          <!-- Drawer expansível com busca e lista completa de todas as GREs -->
+          <!-- Drawer expansível com busca e lista completa de todas as 21 GREs -->
           <div id="greDrawer" class="hidden pt-3 border-t border-brand-cardBorder/80 flex flex-col gap-3">
             
             <div class="flex items-center gap-2">
@@ -201,7 +253,7 @@
                 <input 
                   type="text" 
                   id="greSearchInput" 
-                  placeholder="Pesquisar número da GRE ou município polo..." 
+                  placeholder="Pesquisar GRE (ex: 2ª GRE, Barras, Oeiras, Corrente, Teresina)..." 
                   oninput="filterGreDrawer(this.value)"
                   class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent"
                 />
@@ -213,49 +265,42 @@
                 onclick="setFilter('TODAS')" 
                 class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
               >
-                Limpar / Ver Todas
+                Ver Todas
               </button>
             </div>
 
-            <!-- Grade com todas as GREs -->
+            <!-- Grade com todas as 21 GREs -->
             <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-56 overflow-y-auto p-1">
               <!-- Injected via JS -->
-            </div>
-          </div>
-
-          <!-- Banner Informativo da GRE Selecionada -->
-          <div id="greSummaryBanner" class="mt-1 bg-brand-dark/70 border border-brand-cardBorder rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <div class="flex items-center gap-2">
-              <span id="greSummaryBadge" class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30 text-[11px]">
-                TODAS AS GRES
-              </span>
-              <span id="greSummaryCount" class="text-slate-300 font-medium">17 obras listadas</span>
-            </div>
-            
-            <!-- Mini contadores de status da GRE selecionada -->
-            <div class="flex items-center gap-2 text-[11px]">
-              <span class="text-emerald-400 font-semibold flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span id="countExec">0</span> em execução
-              </span>
-              <span class="text-rose-400 font-semibold flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-                <span id="countParada">0</span> paradas
-              </span>
-              <span class="text-orange-400 font-semibold flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-orange-400"></span>
-                <span id="countLento">0</span> ritmo lento
-              </span>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- Search and Filter Bar -->
+      <!-- ============================================== -->
+      <!-- FILTRO MULTI-STATUS DAS OBRAS (CHAMATIVO)     -->
+      <!-- ============================================== -->
+      <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-3.5 sm:p-4 flex flex-col gap-2.5 shadow-lg">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] uppercase font-bold text-slate-300 flex items-center gap-1.5">
+            <span>🎯</span> Filtrar por Status da Obra:
+          </span>
+          <span id="statusFilterActiveCount" class="text-xs text-amber-400 font-semibold">
+            Mostrando todos
+          </span>
+        </div>
+
+        <!-- Barra Dinâmica de Filtros de Status (Em Execução, Concluída, A Iniciar, Parada, Cancelada, etc.) -->
+        <div id="statusFilterBar" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- Search Bar por Texto -->
       <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div class="flex items-center gap-2 text-xs text-slate-400 w-full sm:w-auto">
-          <span>Filtrar por nome:</span>
+          <span>Busca textual:</span>
         </div>
 
         <!-- Search Input -->
@@ -273,6 +318,19 @@
         </div>
       </div>
 
+      <!-- Resumo Informativo da Combinação de Filtros -->
+      <div id="greSummaryBanner" class="bg-brand-dark/70 border border-brand-cardBorder rounded-xl p-3 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span id="greSummaryBadge" class="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30 text-[11px]">
+            TODAS AS GRES
+          </span>
+          <span id="statusSummaryBadge" class="px-2 py-0.5 rounded-md bg-brand-accent/20 text-brand-accent font-bold border border-brand-accent/30 text-[11px]">
+            TODOS OS STATUS
+          </span>
+          <span id="greSummaryCount" class="text-slate-300 font-medium">0 obras</span>
+        </div>
+      </div>
+
       <!-- Lista de Cards -->
       <div id="cardsList" class="flex flex-col gap-4">
         <!-- Injected via JavaScript -->
@@ -287,7 +345,7 @@
           <div class="flex items-center gap-2">
             <span class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50"></span>
             <span class="text-xs font-bold text-slate-200 tracking-wide uppercase">
-              Relatório Formatado para WhatsApp
+              Relatório WhatsApp Formatado
             </span>
           </div>
           <button 
@@ -302,10 +360,13 @@
           </button>
         </div>
 
-        <!-- Indicação da GRE no preview -->
-        <div class="px-4 py-1.5 bg-brand-dark/90 border-b border-brand-cardBorder/60 flex items-center justify-between text-[11px] text-slate-400">
-          <span id="whatsappGreScope">Foco atual: Todas as GREs</span>
-          <span class="text-emerald-400 font-mono text-[10px]">Pronto para envio</span>
+        <!-- Indicação do Escopo no preview -->
+        <div class="px-4 py-2 bg-brand-dark/90 border-b border-brand-cardBorder/60 flex flex-col gap-1 text-[11px] text-slate-400">
+          <div class="flex items-center justify-between">
+            <span id="whatsappModuleScope" class="font-bold text-amber-300">DEMANDA: OBRAS DE CONTRATOS</span>
+            <span class="text-emerald-400 font-mono text-[10px]">Pronto para envio</span>
+          </div>
+          <span id="whatsappGreScope">Foco: Todas as GREs | Todos os status</span>
         </div>
 
         <div class="p-4 bg-[#0a101d] max-h-[65vh] overflow-y-auto">
@@ -328,10 +389,10 @@
   </main>
 
   <!-- ============================================================== -->
-  <!-- MODAL: CONECTAR PLANILHA ONLINE (GOOGLE SHEETS / CSV)          -->
+  <!-- MODAL: CONECTAR PLANILHA ONLINE & ABAS (CONTRATOS & PACTUE)    -->
   <!-- ============================================================== -->
   <div id="sheetModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
+    <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
       
       <div class="flex items-start justify-between gap-3 border-b border-brand-cardBorder pb-3">
         <div class="flex items-center gap-3">
@@ -339,34 +400,61 @@
             📊
           </div>
           <div>
-            <h3 class="text-base font-bold text-white">Conectar Planilha Online</h3>
-            <p class="text-xs text-slate-400">Alimente o sistema em tempo real direto do Google Sheets</p>
+            <h3 class="text-base font-bold text-white">Configurar Planilha &amp; Abas Online</h3>
+            <p class="text-xs text-slate-400">Vincule as abas de Contratos e PACTUE do Google Sheets</p>
           </div>
         </div>
         <button onclick="closeSheetModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
       </div>
 
-      <!-- Formulário de Link -->
-      <div class="flex flex-col gap-2">
-        <label class="text-xs font-bold text-slate-300 uppercase tracking-wide flex items-center justify-between">
-          <span>Link da Planilha (Google Sheets ou CSV)</span>
-          <span class="text-[10px] text-amber-400 lowercase font-normal">Qualquer link público de leitura</span>
-        </label>
-        <div class="flex gap-2">
-          <input 
-            type="url" 
-            id="sheetUrlInput" 
-            placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiM.../edit?usp=sharing"
-            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-          />
-        </div>
-        <p class="text-[11px] text-slate-400">
-          💡 <strong>Como compartilhar no Google Sheets:</strong> Abra a planilha &gt; <em>Compartilhar</em> &gt; mude para <strong>"Qualquer pessoa com o link pode ler"</strong> e cole o link acima. O sistema converte automaticamente!
+      <!-- Instrução Amigável -->
+      <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3 text-xs text-slate-300 flex flex-col gap-1">
+        <p class="font-semibold text-amber-300">💡 Como pegar o link de cada aba no Google Sheets:</p>
+        <p class="text-slate-400 leading-relaxed">
+          1. Abra a sua planilha no Google Drive e clique em <strong>Compartilhar &gt; "Qualquer pessoa com o link pode ler"</strong>.<br/>
+          2. No rodapé do Google Sheets, clique na aba <strong>Contratos</strong> e copie a URL do navegador (ela termina com <code>#gid=...</code>). Cole no campo de Contratos.<br/>
+          3. Depois clique na aba <strong>PACTUE</strong> e copie a URL (o <code>#gid=...</code> mudará). Cole no campo de PACTUE!
         </p>
       </div>
 
+      <!-- Campo Aba 1: Obras de Contratos -->
+      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
+        <label class="text-xs font-bold text-blue-300 uppercase tracking-wide flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>🏗️</span> Link da Aba: Obras de Contratos
+          </span>
+          <a id="modalOpenContractsTab" href="#" target="_blank" class="hidden text-[10px] text-brand-accent underline">
+            Abrir aba no Google ↗
+          </a>
+        </label>
+        <input 
+          type="url" 
+          id="sheetUrlContractsInput" 
+          placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=0"
+          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+        />
+      </div>
+
+      <!-- Campo Aba 2: Obras PACTUE -->
+      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
+        <label class="text-xs font-bold text-amber-300 uppercase tracking-wide flex items-center justify-between">
+          <span class="flex items-center gap-1.5">
+            <span>🤝</span> Link da Aba: Obras PACTUE
+          </span>
+          <a id="modalOpenPactueTab" href="#" target="_blank" class="hidden text-[10px] text-amber-400 underline">
+            Abrir aba no Google ↗
+          </a>
+        </label>
+        <input 
+          type="url" 
+          id="sheetUrlPactueInput" 
+          placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=18492049"
+          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+        />
+      </div>
+
       <!-- Configurações de Auto-Sincronização -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3">
           <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
             ⏱️ Atualização Automática
@@ -399,16 +487,6 @@
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
         
         <div class="flex items-center gap-2">
-          <!-- Abrir Planilha Base -->
-          <a 
-            id="openSheetExternalBtn" 
-            href="#" 
-            target="_blank" 
-            class="hidden px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors items-center gap-1.5"
-          >
-            🔗 <span>Abrir Planilha no Google</span>
-          </a>
-
           <!-- Baixar Modelo CSV -->
           <button 
             onclick="downloadCsvTemplate()" 
@@ -427,10 +505,10 @@
           </button>
 
           <button 
-            onclick="saveAndSyncSheetModal()" 
+            onclick="saveAndSyncAllModal()" 
             class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
           >
-            <span>Salvar &amp; Sincronizar Agora</span>
+            <span>Salvar &amp; Sincronizar Tudo</span>
           </button>
         </div>
 
@@ -490,10 +568,12 @@
       { key: "21ª GRE", polo: "Teresina", name: "21ª GRE – TERESINA" }
     ];
 
-    // Dataset Inicial Padrão (Base das obras iniciais 8ª e 15ª GRE)
-    const INITIAL_DATA = [
+    // =========================================================================
+    // DATASETS INICIAIS (CONTRATOS & PACTUE)
+    // =========================================================================
+    const INITIAL_CONTRACTS_DATA = [
       {
-        id: "oeiras-1",
+        id: "ct-oeiras-1",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI ORLANDO CARVALHO",
@@ -504,7 +584,7 @@
         termino: "13/09/2026"
       },
       {
-        id: "oeiras-2",
+        id: "ct-oeiras-2",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI ARMANDO BURLAMAQUI",
@@ -515,7 +595,7 @@
         termino: "15/09/2026"
       },
       {
-        id: "oeiras-3",
+        id: "ct-oeiras-3",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI FARMACÊUTICO JOÃO CARVALHO",
@@ -526,7 +606,7 @@
         termino: "08/10/2026"
       },
       {
-        id: "oeiras-4",
+        id: "ct-oeiras-4",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI SÃO JOÃO BATISTA",
@@ -537,7 +617,7 @@
         termino: "24/09/2026"
       },
       {
-        id: "oeiras-5",
+        id: "ct-oeiras-5",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CEJA NOGUEIRA TAPETY",
@@ -548,7 +628,7 @@
         termino: "26/10/2026"
       },
       {
-        id: "oeiras-6",
+        id: "ct-oeiras-6",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI JOÃO DE SOUSA MOURA",
@@ -559,7 +639,7 @@
         termino: "29/09/2026"
       },
       {
-        id: "oeiras-7",
+        id: "ct-oeiras-7",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "SEDE GRE",
@@ -570,7 +650,7 @@
         termino: "10/08/2026"
       },
       {
-        id: "oeiras-8",
+        id: "ct-oeiras-8",
         gre: "8ª GRE – OEIRAS",
         greKey: "8ª GRE",
         escola: "CETI ORLANDO CARVALHO (CT 050/2024)",
@@ -581,7 +661,29 @@
         termino: "10/08/2026"
       },
       {
-        id: "corrente-1",
+        id: "ct-barras-1",
+        gre: "2ª GRE – BARRAS",
+        greKey: "2ª GRE",
+        escola: "CETI NOSSA SENHORA DA CONCEIÇÃO",
+        municipio: "BARRAS",
+        construtora: "CONSTRUTORA NORTE PIAUÍ",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "18/11/2026"
+      },
+      {
+        id: "ct-barras-2",
+        gre: "2ª GRE – BARRAS",
+        greKey: "2ª GRE",
+        escola: "UNIDADE ESCOLAR MONSENHOR BOSON",
+        municipio: "ÁGUA BRANCA / BARRAS",
+        construtora: "ENGENHARIA VALE LTDA",
+        status: "CONCLUÍDO",
+        situacao: "CONCLUÍDO",
+        termino: "10/05/2026"
+      },
+      {
+        id: "ct-corrente-1",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI PROF LOURENÇO FILHO",
@@ -592,7 +694,7 @@
         termino: "14/10/2026"
       },
       {
-        id: "corrente-2",
+        id: "ct-corrente-2",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI PETRÔNIO PORTELA",
@@ -603,7 +705,7 @@
         termino: "14/10/2026"
       },
       {
-        id: "corrente-3",
+        id: "ct-corrente-3",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI FAUSTO LUSTOSA",
@@ -614,7 +716,7 @@
         termino: "15/10/2026"
       },
       {
-        id: "corrente-4",
+        id: "ct-corrente-4",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI LUSTOSA SOBRINHO",
@@ -625,7 +727,7 @@
         termino: "16/10/2026"
       },
       {
-        id: "corrente-5",
+        id: "ct-corrente-5",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI JOAQUIM ANTÔNIO LUSTOSA",
@@ -636,7 +738,7 @@
         termino: "09/10/2026"
       },
       {
-        id: "corrente-6",
+        id: "ct-corrente-6",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CEJA JOAQUIM DIAS PARENTE",
@@ -647,7 +749,7 @@
         termino: "13/10/2026"
       },
       {
-        id: "corrente-7",
+        id: "ct-corrente-7",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CEJA SENADOR CHAGAS RODRIGUES",
@@ -658,7 +760,7 @@
         termino: "27/09/2026"
       },
       {
-        id: "corrente-8",
+        id: "ct-corrente-8",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI HUGO NAPOLEÃO",
@@ -669,7 +771,7 @@
         termino: "27/09/2026"
       },
       {
-        id: "corrente-9",
+        id: "ct-corrente-9",
         gre: "15ª GRE – CORRENTE",
         greKey: "15ª GRE",
         escola: "CETI ANTONIO MASCARENHAS",
@@ -681,21 +783,112 @@
       }
     ];
 
-    // Chaves de armazenamento
-    const STORAGE_KEY = 'seduc_obras_gre_ct_data_v3';
-    const SHEET_URL_KEY = 'seduc_obras_gre_sheet_url';
-    const AUTO_SYNC_KEY = 'seduc_obras_gre_auto_sync_interval';
-    const LAST_SYNC_KEY = 'seduc_obras_gre_last_sync_time';
+    const INITIAL_PACTUE_DATA = [
+      {
+        id: "pac-barras-1",
+        gre: "2ª GRE – BARRAS",
+        greKey: "2ª GRE",
+        escola: "PACTUE: REFORMA POLIESPORTIVA CETI BARRAS",
+        municipio: "BARRAS",
+        construtora: "CONSTRUTORA IMPACTO PIAUÍ",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "30/11/2026"
+      },
+      {
+        id: "pac-barras-2",
+        gre: "2ª GRE – BARRAS",
+        greKey: "2ª GRE",
+        escola: "PACTUE: COBERTURA QUADRA U.E. MATIAS OLÍMPIO",
+        municipio: "MATIAS OLÍMPIO",
+        construtora: "ENGELOC CONSTRUÇÕES",
+        status: "A INICIAR",
+        situacao: "A INICIAR",
+        termino: "15/12/2026"
+      },
+      {
+        id: "pac-oeiras-1",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "PACTUE: CLIMATIZAÇÃO E SUBESTAÇÃO CETI OEIRAS",
+        municipio: "OEIRAS",
+        construtora: "SOLAR ENGENHARIA",
+        status: "CONCLUÍDO",
+        situacao: "CONCLUÍDO",
+        termino: "05/08/2026"
+      },
+      {
+        id: "pac-oeiras-2",
+        gre: "8ª GRE – OEIRAS",
+        greKey: "8ª GRE",
+        escola: "PACTUE: AMPLIAÇÃO DE SALAS U.E. TANCREDO NEVES",
+        municipio: "COLÔNIA DO PIAUÍ",
+        construtora: "CONSTRUTORA VALE DO CANINDÉ",
+        status: "EM EXECUÇÃO",
+        situacao: "RITMO LENTO",
+        termino: "20/10/2026"
+      },
+      {
+        id: "pac-corrente-1",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "PACTUE: BLOCO PEDAGÓGICO CETI CORRENTE",
+        municipio: "CORRENTE",
+        construtora: "PROJETAR ENGENHARIA LTDA",
+        status: "EM EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "12/12/2026"
+      },
+      {
+        id: "pac-corrente-2",
+        gre: "15ª GRE – CORRENTE",
+        greKey: "15ª GRE",
+        escola: "PACTUE: REFORMA GERAL U.E. GILBUÉS",
+        municipio: "GILBUÉS",
+        construtora: "CONSTRUTORA SUL PIAUÍ",
+        status: "CANCELADA",
+        situacao: "PARADA",
+        termino: "A DEFINIR"
+      }
+    ];
 
-    let worksData = loadPersistedData();
-    let activeFilter = 'TODAS';
+    // =========================================================================
+    // CHAVES DE ARMAZENAMENTO & ESTADO GLOBAL
+    // =========================================================================
+    const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
+    const STORAGE_KEY_CONTRACTS = 'seduc_obras_contracts_data_v4';
+    const STORAGE_KEY_PACTUE = 'seduc_obras_pactue_data_v4';
+    const SHEET_URL_CONTRACTS_KEY = 'seduc_sheet_url_contracts';
+    const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
+    const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
+    const LAST_SYNC_KEY = 'seduc_last_sync_time';
+
+    let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
+    let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
+    let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
+
+    let activeFilter = 'TODAS'; // GRE selecionada
+    let activeStatusFilter = 'TODOS'; // Status da obra selecionado
     let searchQuery = '';
     let autoSyncTimer = null;
 
-    // Carrega dados salvos
-    function loadPersistedData() {
+    function getActiveDataset() {
+      return (currentModule === 'CONTRATOS') ? contractsData : pactueData;
+    }
+
+    function setActiveDataset(newData) {
+      if (currentModule === 'CONTRATOS') {
+        contractsData = newData;
+        saveStoredData(STORAGE_KEY_CONTRACTS, contractsData);
+      } else {
+        pactueData = newData;
+        saveStoredData(STORAGE_KEY_PACTUE, pactueData);
+      }
+    }
+
+    function loadStoredData(key, fallback) {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved = localStorage.getItem(key);
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
@@ -705,21 +898,78 @@
       } catch (e) {
         console.warn('LocalStorage indisponível:', e);
       }
-      return JSON.parse(JSON.stringify(INITIAL_DATA));
+      return JSON.parse(JSON.stringify(fallback));
     }
 
-    function persistData() {
+    function saveStoredData(key, data) {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(worksData));
+        localStorage.setItem(key, JSON.stringify(data));
         showSavedIndicator();
       } catch (e) {
         console.warn('Erro ao salvar no localStorage:', e);
       }
     }
 
+    function persistCurrentData() {
+      setActiveDataset(getActiveDataset());
+    }
+
     function showSavedIndicator() {
       const footer = document.getElementById('saveStatusIndicator');
       if (footer) footer.textContent = 'Modificações salvas';
+    }
+
+    // =========================================================================
+    // ALTERNÂNCIA DE MÓDULO (CONTRATOS vs PACTUE)
+    // =========================================================================
+    function switchModule(moduleName) {
+      currentModule = moduleName;
+      localStorage.setItem(STORAGE_KEY_MODULE, currentModule);
+
+      const btnContracts = document.getElementById('moduleBtnContracts');
+      const btnPactue = document.getElementById('moduleBtnPactue');
+      const activeTabName = document.getElementById('activeTabNameDisplay');
+      const greDemandTag = document.getElementById('greDemandTag');
+      const whatsappModuleScope = document.getElementById('whatsappModuleScope');
+
+      if (currentModule === 'CONTRATOS') {
+        btnContracts.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]';
+        btnPactue.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+        if (activeTabName) activeTabName.textContent = 'Aba Contratos';
+        if (greDemandTag) greDemandTag.textContent = '(Obras de Contratos)';
+        if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS DE CONTRATOS';
+      } else {
+        btnPactue.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.02]';
+        btnContracts.className = 'flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+        if (activeTabName) activeTabName.textContent = 'Aba PACTUE';
+        if (greDemandTag) greDemandTag.textContent = '(Obras PACTUE)';
+        if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS PACTUE';
+      }
+
+      // Reinicia filtro de status para ver tudo ao trocar de aba, ou mantém se aplicável
+      activeStatusFilter = 'TODOS';
+      
+      updateModuleBadges();
+      renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+    }
+
+    function updateModuleBadges() {
+      const bCt = document.getElementById('contractsBadgeCount');
+      const bPac = document.getElementById('pactueBadgeCount');
+      if (bCt) bCt.textContent = contractsData.length;
+      if (bPac) bPac.textContent = pactueData.length;
+    }
+
+    function openActiveSheetTabDirect() {
+      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
+      const url = localStorage.getItem(key);
+      if (url) {
+        window.open(url, '_blank');
+      } else {
+        openSheetModal();
+      }
     }
 
     // =========================================================================
@@ -729,7 +979,6 @@
       if (!rawUrl) return '';
       let url = rawUrl.trim();
 
-      // Se for link do Google Sheets
       if (url.includes('docs.google.com/spreadsheets')) {
         const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
         if (idMatch && idMatch[1]) {
@@ -760,45 +1009,18 @@
         .trim();
     }
 
-    // Sincroniza a partir da planilha online
-    async function syncFromOnlineSheet(isAuto = false) {
-      const savedUrl = localStorage.getItem(SHEET_URL_KEY);
-      if (!savedUrl) {
-        if (!isAuto) openSheetModal();
-        return;
-      }
-
-      const csvUrl = convertToCsvUrl(savedUrl);
-      const syncIcon = document.getElementById('syncIcon');
-      const syncDot = document.getElementById('syncStatusDot');
-      const syncText = document.getElementById('syncStatusText');
-      const modalLastSync = document.getElementById('modalLastSyncText');
-
-      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-      if (syncText) syncText.textContent = 'Sincronizando...';
-
-      try {
-        const response = await fetch(csvUrl, { cache: 'no-store' });
-        if (!response.ok) {
-          throw new Error(`Erro HTTP ${response.status} ao acessar a planilha.`);
-        }
-
-        const csvText = await response.text();
-        if (!csvText || csvText.trim().length === 0) {
-          throw new Error('A planilha retornou vazia.');
-        }
-
+    function parseCsvToWorks(csvText, prefix) {
+      return new Promise((resolve, reject) => {
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           complete: function(results) {
             const rows = results.data;
             if (!rows || rows.length === 0) {
-              showFeedback('Não foram encontradas linhas de dados na planilha.', 'error');
+              resolve([]);
               return;
             }
 
-            // Identificar colunas de forma inteligente
             const firstRow = rows[0];
             const headers = Object.keys(firstRow);
             const colMap = {};
@@ -806,18 +1028,18 @@
             headers.forEach(h => {
               const norm = normalizeHeaderName(h);
               if (norm.includes('gre') || norm.includes('regional') || norm.includes('gerencia')) colMap.gre = h;
-              else if (norm.includes('escola') || norm.includes('unidade') || norm.includes('colegio')) colMap.escola = h;
+              else if (norm.includes('escola') || norm.includes('unidade') || norm.includes('colegio') || norm.includes('objeto')) colMap.escola = h;
               else if (norm.includes('municipio') || norm.includes('cidade')) colMap.municipio = h;
-              else if (norm.includes('construtora') || norm.includes('empresa')) colMap.construtora = h;
+              else if (norm.includes('construtora') || norm.includes('empresa') || norm.includes('responsavel')) colMap.construtora = h;
               else if (norm.includes('status') || norm.includes('fase')) colMap.status = h;
               else if (norm.includes('situacao') || norm.includes('condicao')) colMap.situacao = h;
-              else if (norm.includes('termino') || norm.includes('previsao') || norm.includes('data')) colMap.termino = h;
+              else if (norm.includes('termino') || norm.includes('previsao') || norm.includes('data') || norm.includes('prazo')) colMap.termino = h;
             });
 
-            const parsedWorks = rows.map((r, idx) => {
+            const parsed = rows.map((r, idx) => {
               const rawGre = (colMap.gre ? r[colMap.gre] : '') || '8ª GRE';
               const greKey = normalizeGreKey(rawGre);
-              const escola = (colMap.escola ? r[colMap.escola] : '') || `Escola #${idx + 1}`;
+              const escola = (colMap.escola ? r[colMap.escola] : '') || `Demanda #${idx + 1}`;
               const municipio = (colMap.municipio ? r[colMap.municipio] : '') || 'MUNICÍPIO';
               const construtora = (colMap.construtora ? r[colMap.construtora] : '') || 'A DEFINIR';
               let status = (colMap.status ? r[colMap.status] : '') || 'EM EXECUÇÃO';
@@ -825,7 +1047,7 @@
               let termino = (colMap.termino ? r[colMap.termino] : '') || 'A DEFINIR';
 
               return {
-                id: `online-${idx}-${Date.now().toString(36)}`,
+                id: `${prefix}-${idx}-${Date.now().toString(36)}`,
                 gre: rawGre.toUpperCase().trim(),
                 greKey: greKey,
                 escola: escola.toUpperCase().trim(),
@@ -837,75 +1059,176 @@
               };
             });
 
-            if (parsedWorks.length > 0) {
-              worksData = parsedWorks;
-              persistData();
-
-              const now = new Date();
-              const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-              localStorage.setItem(LAST_SYNC_KEY, timeStr);
-
-              if (syncDot) {
-                syncDot.classList.remove('bg-amber-400');
-                syncDot.classList.add('bg-emerald-400');
-              }
-              if (syncText) syncText.textContent = `Online (${timeStr})`;
-              if (modalLastSync) modalLastSync.textContent = `Sincronizado hoje às ${timeStr} (${parsedWorks.length} obras)`;
-
-              const sheetBadge = document.getElementById('sheetBadge');
-              if (sheetBadge) sheetBadge.classList.remove('hidden');
-
-              renderGreSelector();
-              renderCards();
-
-              showToastNotification(`✓ Sincronizado com sucesso! ${parsedWorks.length} obras atualizadas.`);
-              showFeedback(`✓ Conexão bem-sucedida! ${parsedWorks.length} obras e ${getAvailableGres().length} GREs carregadas.`, 'success');
-            }
+            resolve(parsed);
           },
           error: function(err) {
-            console.error('Erro PapaParse:', err);
-            showFeedback('Erro ao processar as colunas da planilha.', 'error');
+            reject(err);
           }
         });
+      });
+    }
 
-      } catch (err) {
-        console.error('Erro ao sincronizar:', err);
-        if (syncDot) {
-          syncDot.classList.remove('bg-emerald-400');
-          syncDot.classList.add('bg-amber-400');
+    async function fetchSingleTab(rawUrl, prefix) {
+      if (!rawUrl) return null;
+      const csvUrl = convertToCsvUrl(rawUrl);
+      const resp = await fetch(csvUrl, { cache: 'no-store' });
+      if (!resp.ok) throw new Error(`Erro HTTP ${resp.status}`);
+      const text = await resp.text();
+      return await parseCsvToWorks(text, prefix);
+    }
+
+    async function syncActiveModuleSheet() {
+      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
+      const url = localStorage.getItem(key);
+      if (!url) {
+        openSheetModal();
+        return;
+      }
+
+      const syncIcon = document.getElementById('syncIcon');
+      const syncDot = document.getElementById('syncStatusDot');
+      const syncText = document.getElementById('syncStatusText');
+
+      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+      if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
+
+      try {
+        const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
+        const parsed = await fetchSingleTab(url, prefix);
+
+        if (parsed && parsed.length > 0) {
+          setActiveDataset(parsed);
+          const now = new Date();
+          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          localStorage.setItem(LAST_SYNC_KEY, timeStr);
+
+          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+          if (syncText) syncText.textContent = `Online (${timeStr})`;
+
+          updateModuleBadges();
+          renderGreSelector();
+          renderStatusFilters();
+          renderCards();
+
+          showToastNotification(`✓ Aba ${currentModule} sincronizada com sucesso! (${parsed.length} obras)`);
         }
+      } catch (err) {
+        console.error(err);
+        if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
         if (syncText) syncText.textContent = 'Erro ao sincronizar';
-        showToastNotification('⚠️ Erro ao puxar dados da planilha. Verifique o compartilhamento.');
-        showFeedback(`Erro ao acessar planilha: certifique-se de que ela está como "Qualquer pessoa com o link pode ler".`, 'error');
+        showToastNotification('⚠️ Erro ao puxar dados da aba. Verifique o link no Google Sheets.');
       } finally {
         if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
       }
     }
 
-    // Modal de Planilha
+    async function saveAndSyncAllModal() {
+      const inputCt = document.getElementById('sheetUrlContractsInput');
+      const inputPac = document.getElementById('sheetUrlPactueInput');
+      const feedbackBox = document.getElementById('syncFeedbackBox');
+
+      const urlCt = inputCt ? inputCt.value.trim() : '';
+      const urlPac = inputPac ? inputPac.value.trim() : '';
+
+      if (!urlCt && !urlPac) {
+        showFeedback('Por favor, informe pelo menos uma URL de aba do Google Sheets.', 'error');
+        return;
+      }
+
+      if (urlCt) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, urlCt);
+      if (urlPac) localStorage.setItem(SHEET_URL_PACTUE_KEY, urlPac);
+
+      showFeedback('⏳ Sincronizando abas informadas do Google Sheets...', 'loading');
+
+      let summaryMsgs = [];
+      let hasError = false;
+
+      // 1. Sincronizar Contratos
+      if (urlCt) {
+        try {
+          const resCt = await fetchSingleTab(urlCt, 'ct');
+          if (resCt && resCt.length > 0) {
+            contractsData = resCt;
+            saveStoredData(STORAGE_KEY_CONTRACTS, contractsData);
+            summaryMsgs.push(`✓ Obras de Contratos: ${resCt.length} registros carregados.`);
+          }
+        } catch (e) {
+          hasError = true;
+          summaryMsgs.push(`❌ Erro na aba de Contratos: Verifique se está pública ("Qualquer pessoa com link").`);
+        }
+      }
+
+      // 2. Sincronizar PACTUE
+      if (urlPac) {
+        try {
+          const resPac = await fetchSingleTab(urlPac, 'pac');
+          if (resPac && resPac.length > 0) {
+            pactueData = resPac;
+            saveStoredData(STORAGE_KEY_PACTUE, pactueData);
+            summaryMsgs.push(`✓ Obras PACTUE: ${resPac.length} registros carregados.`);
+          }
+        } catch (e) {
+          hasError = true;
+          summaryMsgs.push(`❌ Erro na aba PACTUE: Verifique se está pública ("Qualquer pessoa com link").`);
+        }
+      }
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      localStorage.setItem(LAST_SYNC_KEY, timeStr);
+
+      const modalLastSync = document.getElementById('modalLastSyncText');
+      if (modalLastSync) modalLastSync.textContent = `Sincronizado hoje às ${timeStr}`;
+
+      const sheetBadge = document.getElementById('sheetBadge');
+      if (sheetBadge) sheetBadge.classList.remove('hidden');
+
+      const syncText = document.getElementById('syncStatusText');
+      if (syncText) syncText.textContent = `Online (${timeStr})`;
+
+      updateModuleBadges();
+      renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+
+      showFeedback(summaryMsgs.join('\n'), hasError ? 'error' : 'success');
+      showToastNotification(`✓ Abas atualizadas com sucesso!`);
+    }
+
     function openSheetModal() {
       const modal = document.getElementById('sheetModal');
-      const input = document.getElementById('sheetUrlInput');
-      const openBtn = document.getElementById('openSheetExternalBtn');
+      const inputCt = document.getElementById('sheetUrlContractsInput');
+      const inputPac = document.getElementById('sheetUrlPactueInput');
       const select = document.getElementById('autoSyncIntervalSelect');
       const lastSync = document.getElementById('modalLastSyncText');
+      const linkCt = document.getElementById('modalOpenContractsTab');
+      const linkPac = document.getElementById('modalOpenPactueTab');
 
-      const savedUrl = localStorage.getItem(SHEET_URL_KEY) || '';
+      const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
+      const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
       const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
       const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
 
-      if (input) input.value = savedUrl;
+      if (inputCt) inputCt.value = savedUrlCt;
+      if (inputPac) inputPac.value = savedUrlPac;
       if (select) select.value = savedInterval;
       if (lastSync && lastSyncTime) lastSync.textContent = `Última sincronização às ${lastSyncTime}`;
 
-      if (openBtn) {
-        if (savedUrl) {
-          openBtn.href = savedUrl;
-          openBtn.classList.remove('hidden');
-          openBtn.classList.add('flex');
+      if (linkCt) {
+        if (savedUrlCt) {
+          linkCt.href = savedUrlCt;
+          linkCt.classList.remove('hidden');
         } else {
-          openBtn.classList.add('hidden');
-          openBtn.classList.remove('flex');
+          linkCt.classList.add('hidden');
+        }
+      }
+
+      if (linkPac) {
+        if (savedUrlPac) {
+          linkPac.href = savedUrlPac;
+          linkPac.classList.remove('hidden');
+        } else {
+          linkPac.classList.add('hidden');
         }
       }
 
@@ -923,26 +1246,6 @@
       }
     }
 
-    function saveAndSyncSheetModal() {
-      const input = document.getElementById('sheetUrlInput');
-      const url = input ? input.value.trim() : '';
-
-      if (!url) {
-        showFeedback('Por favor, cole um link válido da planilha do Google Sheets.', 'error');
-        return;
-      }
-
-      localStorage.setItem(SHEET_URL_KEY, url);
-      const openBtn = document.getElementById('openSheetExternalBtn');
-      if (openBtn) {
-        openBtn.href = url;
-        openBtn.classList.remove('hidden');
-        openBtn.classList.add('flex');
-      }
-
-      syncFromOnlineSheet();
-    }
-
     function updateAutoSyncSetting(val) {
       localStorage.setItem(AUTO_SYNC_KEY, val);
       startAutoSyncTimer();
@@ -954,7 +1257,7 @@
       const val = parseInt(localStorage.getItem(AUTO_SYNC_KEY) || '5', 10);
       if (val > 0) {
         autoSyncTimer = setInterval(() => {
-          syncFromOnlineSheet(true);
+          syncActiveModuleSheet();
         }, val * 60 * 1000);
       }
     }
@@ -962,47 +1265,47 @@
     function showFeedback(msg, type) {
       const box = document.getElementById('syncFeedbackBox');
       if (!box) return;
-      box.classList.remove('hidden', 'bg-rose-950/60', 'text-rose-300', 'border-rose-800', 'bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
+      box.classList.remove('hidden', 'bg-rose-950/60', 'text-rose-300', 'border-rose-800', 'bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800', 'bg-blue-950/60', 'text-blue-300', 'border-blue-800');
+      
       if (type === 'error') {
         box.classList.add('bg-rose-950/60', 'text-rose-300', 'border-rose-800');
+      } else if (type === 'loading') {
+        box.classList.add('bg-blue-950/60', 'text-blue-300', 'border-blue-800');
       } else {
         box.classList.add('bg-emerald-950/60', 'text-emerald-300', 'border-emerald-800');
       }
       box.textContent = msg;
     }
 
-    // Baixa Modelo CSV
     function downloadCsvTemplate() {
       const csvContent = "data:text/csv;charset=utf-8," + 
         "GRE,MUNICIPIO,ESCOLA,CONSTRUTORA,STATUS,SITUACAO,TERMINO\n" +
+        "2ª GRE,BARRAS,CETI NOSSA SENHORA DA CONCEICAO,CONSTRUTORA EXEMPLO,EM EXECUÇÃO,EM ANDAMENTO,18/11/2026\n" +
+        "2ª GRE,BARRAS,UNIDADE ESCOLAR BARRAS,CONSTRUTORA EXEMPLO,CONCLUÍDO,CONCLUÍDO,10/05/2026\n" +
         "8ª GRE,OEIRAS,CETI ORLANDO CARVALHO,R MELO CONSTRUTORA LTDA,EM EXECUÇÃO,PARADA,13/09/2026\n" +
-        "8ª GRE,OEIRAS,CETI ARMANDO BURLAMAQUI,R MELO CONSTRUTORA LTDA,A INICIAR,A INICIAR,15/09/2026\n" +
-        "15ª GRE,CORRENTE,CETI JOAQUIM ANTÔNIO LUSTOSA,DESENVOLVA EMPREENDIMENTOS,EM EXECUÇÃO,PARADA,09/10/2026\n" +
-        "1ª GRE,PARNAÍBA,CETI POLIVALENTE,CONSTRUTORA EXEMPLO,EM EXECUÇÃO,EM ANDAMENTO,20/12/2026\n";
+        "15ª GRE,CORRENTE,CETI JOAQUIM ANTONIO LUSTOSA,DESENVOLVA EMPREENDIMENTOS,EM EXECUÇÃO,PARADA,09/10/2026\n";
 
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", "modelo_obras_gre_seduc.csv");
+      link.setAttribute("download", `modelo_${currentModule.toLowerCase()}_gre_seduc.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
 
     // =========================================================================
-    // SELETOR DINÂMICO DE GRES (TODAS AS GRES)
+    // SELETOR DINÂMICO DE GRES (PARA O MÓDULO ATIVO)
     // =========================================================================
-    function getAvailableGres() {
-      // Combina as GREs presentes nos dados com a lista de referência
+    function getAvailableGresForActiveDataset() {
+      const dataset = getActiveDataset();
       const greMap = new Map();
 
-      // Primeiro, conta as obras de cada GRE nos dados
-      worksData.forEach(item => {
+      dataset.forEach(item => {
         const k = item.greKey || normalizeGreKey(item.gre);
         greMap.set(k, (greMap.get(k) || 0) + 1);
       });
 
-      // Lista final ordenada
       const list = [];
       SEDUC_PI_GRES.forEach(s => {
         const count = greMap.get(s.key) || 0;
@@ -1014,7 +1317,6 @@
         });
       });
 
-      // Inclui GREs extras que possam ter vindo da planilha e não estão no padrão
       greMap.forEach((cnt, k) => {
         if (!list.some(item => item.key === k)) {
           list.push({
@@ -1044,33 +1346,33 @@
       const quickChipsContainer = document.getElementById('quickGreChips');
       const allGrid = document.getElementById('allGresGrid');
       const greSelectLabel = document.getElementById('greSelectLabel');
-      const availableGres = getAvailableGres();
+      const dataset = getActiveDataset();
+      const availableGres = getAvailableGresForActiveDataset();
 
       // Label do Botão Principal
       if (greSelectLabel) {
         if (activeFilter === 'TODAS') {
-          greSelectLabel.textContent = `Todas as GREs (${worksData.length})`;
+          greSelectLabel.textContent = `Todas as GREs (${dataset.length})`;
         } else {
-          const found = availableGres.find(g => g.key === activeFilter);
-          const count = worksData.filter(w => w.greKey === activeFilter).length;
+          const count = dataset.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter)).length;
           greSelectLabel.textContent = `${activeFilter} (${count} obras)`;
         }
       }
 
-      // Quick Chips (Todas + as que têm obras)
+      // Quick Chips Horizontais
       if (quickChipsContainer) {
         const activeGresWithWorks = availableGres.filter(g => g.count > 0);
 
         let chipsHtml = `
           <button 
             onclick="setFilter('TODAS')"
-            class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-sm ${
+            class="px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shadow-sm ${
               activeFilter === 'TODAS' 
                 ? 'bg-brand-accent text-white shadow-brand-accent/30 scale-105' 
                 : 'bg-brand-card text-slate-300 hover:text-white border border-brand-cardBorder'
             }"
           >
-            ✨ Todas (${worksData.length})
+            ✨ Todas (${dataset.length})
           </button>
         `;
 
@@ -1144,38 +1446,153 @@
       });
     }
 
-    function updateSummaryBanner() {
-      const badge = document.getElementById('greSummaryBadge');
-      const count = document.getElementById('greSummaryCount');
-      const cExec = document.getElementById('countExec');
-      const cParada = document.getElementById('countParada');
-      const cLento = document.getElementById('countLento');
-      const whatsAppScope = document.getElementById('whatsappGreScope');
-
-      const subset = (activeFilter === 'TODAS') 
-        ? worksData 
-        : worksData.filter(w => w.greKey === activeFilter);
-
-      const nExec = subset.filter(w => (w.status === 'EM EXECUÇÃO' || w.situacao === 'EM ANDAMENTO')).length;
-      const nParada = subset.filter(w => w.situacao === 'PARADA').length;
-      const nLento = subset.filter(w => w.situacao === 'RITMO LENTO').length;
-
-      if (badge) badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
-      if (count) count.textContent = `${subset.length} obra(s) encontrada(s)`;
-      if (cExec) cExec.textContent = nExec;
-      if (cParada) cParada.textContent = nParada;
-      if (cLento) cLento.textContent = nLento;
-
-      if (whatsAppScope) {
-        whatsAppScope.textContent = (activeFilter === 'TODAS') 
-          ? 'Foco atual: Todas as GREs (' + subset.length + ' obras)' 
-          : `Foco atual: ${activeFilter} (${subset.length} obras)`;
-      }
-    }
-
     function setFilter(greKey) {
       activeFilter = greKey;
       renderGreSelector();
+      renderStatusFilters();
+      renderCards();
+    }
+
+    // =========================================================================
+    // SELETOR DINÂMICO DE STATUS DAS OBRAS (EM EXECUÇÃO, CONCLUÍDA, ETC.)
+    // =========================================================================
+    function getStatusStyles(statusName) {
+      const s = statusName.toUpperCase();
+      if (s.includes('EXECUCAO') || s.includes('EXECUÇÃO') || s.includes('ANDAMENTO')) {
+        return {
+          bg: 'bg-emerald-500/20',
+          text: 'text-emerald-400',
+          border: 'border-emerald-500/40',
+          activeBg: 'bg-emerald-600 text-white',
+          dot: 'bg-emerald-400'
+        };
+      } else if (s.includes('CONCLU') || s.includes('FINALIZ')) {
+        return {
+          bg: 'bg-blue-500/20',
+          text: 'text-blue-400',
+          border: 'border-blue-500/40',
+          activeBg: 'bg-blue-600 text-white',
+          dot: 'bg-blue-400'
+        };
+      } else if (s.includes('INICIAR') || s.includes('LICIT')) {
+        return {
+          bg: 'bg-amber-500/20',
+          text: 'text-amber-400',
+          border: 'border-amber-500/40',
+          activeBg: 'bg-amber-500 text-brand-dark',
+          dot: 'bg-amber-400'
+        };
+      } else if (s.includes('PARADA') || s.includes('PARALIS')) {
+        return {
+          bg: 'bg-rose-500/20',
+          text: 'text-rose-400',
+          border: 'border-rose-500/40',
+          activeBg: 'bg-rose-600 text-white',
+          dot: 'bg-rose-400'
+        };
+      } else if (s.includes('CANCEL')) {
+        return {
+          bg: 'bg-slate-700/40',
+          text: 'text-slate-400',
+          border: 'border-slate-600',
+          activeBg: 'bg-slate-600 text-white',
+          dot: 'bg-slate-400'
+        };
+      }
+      return {
+        bg: 'bg-indigo-500/20',
+        text: 'text-indigo-400',
+        border: 'border-indigo-500/40',
+        activeBg: 'bg-indigo-600 text-white',
+        dot: 'bg-indigo-400'
+      };
+    }
+
+    function renderStatusFilters() {
+      const bar = document.getElementById('statusFilterBar');
+      if (!bar) return;
+
+      const dataset = getActiveDataset();
+      // Filtra pelo escopo da GRE selecionada
+      const greSubset = (activeFilter === 'TODAS') 
+        ? dataset 
+        : dataset.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter));
+
+      // Extrai todos os status únicos presentes nesta GRE / demanda
+      const statusCounts = new Map();
+      greSubset.forEach(w => {
+        const st = (w.status || 'EM EXECUÇÃO').toUpperCase().trim();
+        statusCounts.set(st, (statusCounts.get(st) || 0) + 1);
+      });
+
+      // Lista ordenada com os status mais comuns primeiro
+      const knownOrder = ['EM EXECUÇÃO', 'CONCLUÍDO', 'CONCLUIDA', 'CONCLUÍDA', 'A INICIAR', 'PARADA', 'CANCELADA'];
+      const uniqueStatuses = Array.from(statusCounts.keys()).sort((a, b) => {
+        const ia = knownOrder.indexOf(a);
+        const ib = knownOrder.indexOf(b);
+        if (ia !== -1 && ib !== -1) return ia - ib;
+        if (ia !== -1) return -1;
+        if (ib !== -1) return 1;
+        return a.localeCompare(b);
+      });
+
+      let html = `
+        <button 
+          onclick="setStatusFilter('TODOS')"
+          class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            activeStatusFilter === 'TODOS'
+              ? 'bg-brand-accent text-white shadow-md shadow-brand-accent/30'
+              : 'bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder'
+          }"
+        >
+          <span>🌟 Todos os Status</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded-full ${activeStatusFilter === 'TODOS' ? 'bg-black/30 text-white' : 'bg-brand-card text-slate-400'} font-bold">
+            ${greSubset.length}
+          </span>
+        </button>
+      `;
+
+      uniqueStatuses.forEach(st => {
+        const count = statusCounts.get(st) || 0;
+        const isSelected = activeStatusFilter === st;
+        const style = getStatusStyles(st);
+
+        html += `
+          <button 
+            onclick="setStatusFilter('${st}')"
+            class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              isSelected 
+                ? style.activeBg + ' font-extrabold shadow-md scale-105' 
+                : 'bg-brand-dark text-slate-300 hover:text-white border ' + style.border
+            }"
+          >
+            <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-white' : style.dot}"></span>
+            <span>${st}</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-black/20 text-white' : 'bg-brand-card text-slate-300'} font-bold">
+              ${count}
+            </span>
+          </button>
+        `;
+      });
+
+      bar.innerHTML = html;
+
+      const activeCountLabel = document.getElementById('statusFilterActiveCount');
+      if (activeCountLabel) {
+        if (activeStatusFilter === 'TODOS') {
+          activeCountLabel.textContent = `Mostrando todos (${greSubset.length} obras)`;
+        } else {
+          const c = statusCounts.get(activeStatusFilter) || 0;
+          activeCountLabel.textContent = `${activeStatusFilter}: ${c} obra(s)`;
+        }
+      }
+
+      updateSummaryBanner();
+    }
+
+    function setStatusFilter(statusVal) {
+      activeStatusFilter = statusVal;
+      renderStatusFilters();
       renderCards();
     }
 
@@ -1184,24 +1601,40 @@
       renderCards();
     }
 
+    function updateSummaryBanner() {
+      const badge = document.getElementById('greSummaryBadge');
+      const stBadge = document.getElementById('statusSummaryBadge');
+      const count = document.getElementById('greSummaryCount');
+      const whatsAppScope = document.getElementById('whatsappGreScope');
+
+      const dataset = getActiveDataset();
+      const filtered = dataset.filter(item => {
+        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (item.status && item.status.toUpperCase().trim() === activeStatusFilter));
+        return matchesGre && matchesStatus;
+      });
+
+      if (badge) badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
+      if (stBadge) stBadge.textContent = (activeStatusFilter === 'TODOS') ? 'TODOS OS STATUS' : activeStatusFilter;
+      if (count) count.textContent = `${filtered.length} obra(s) filtrada(s)`;
+
+      if (whatsAppScope) {
+        whatsAppScope.textContent = `Foco: ${activeFilter} | Status: ${activeStatusFilter} (${filtered.length} obras)`;
+      }
+    }
+
     // =========================================================================
     // RENDERIZAÇÃO DOS CARDS DE OBRAS
     // =========================================================================
     function getStatusBadge(status) {
       const s = (status || '').toUpperCase();
-      if (s === 'EM EXECUÇÃO') {
-        return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM EXECUÇÃO</span>`;
-      } else if (s === 'A INICIAR') {
-        return `<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold">A INICIAR</span>`;
-      } else if (s === 'CONCLUÍDO' || s === 'CONCLUIDA' || s === 'CONCLUÍDA') {
-        return `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">CONCLUÍDO</span>`;
-      }
-      return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${s}</span>`;
+      const st = getStatusStyles(s);
+      return `<span class="px-2 py-0.5 rounded-full ${st.bg} ${st.text} border ${st.border} text-[10px] font-bold">${s}</span>`;
     }
 
     function getSituacaoBadge(sit) {
       const s = (sit || '').toUpperCase();
-      if (s === 'PARADA') {
+      if (s === 'PARADA' || s === 'PARALISADA') {
         return `<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-bold">PARADA</span>`;
       } else if (s === 'RITMO LENTO') {
         return `<span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 text-[10px] font-bold">RITMO LENTO</span>`;
@@ -1209,11 +1642,12 @@
         return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold">EM ANDAMENTO</span>`;
       } else if (s === 'A INICIAR') {
         return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">A INICIAR</span>`;
+      } else if (s.includes('CONCLU')) {
+        return `<span class="px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30 text-[10px] font-bold">CONCLUÍDO</span>`;
       }
       return `<span class="px-2 py-0.5 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 text-[10px] font-bold">${s}</span>`;
     }
 
-    // Conversões de Data
     function dmaToYmd(dma) {
       if (!dma || dma === 'A DEFINIR') return '';
       const parts = dma.split('/');
@@ -1247,10 +1681,12 @@
     }
 
     function updateField(id, field, value) {
-      const item = worksData.find(w => w.id === id);
+      const dataset = getActiveDataset();
+      const item = dataset.find(w => w.id === id);
       if (item) {
         item[field] = value.toUpperCase().trim();
-        persistData();
+        persistCurrentData();
+        renderStatusFilters();
         updateWhatsAppOutput();
         updateSummaryBanner();
       }
@@ -1260,23 +1696,26 @@
       const list = document.getElementById('cardsList');
       if (!list) return;
 
-      const filtered = worksData.filter(item => {
-        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter);
+      const dataset = getActiveDataset();
+
+      const filtered = dataset.filter(item => {
+        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (item.status && item.status.toUpperCase().trim() === activeStatusFilter));
         const q = searchQuery.toLowerCase();
         const matchesSearch = !q || 
           (item.escola && item.escola.toLowerCase().includes(q)) || 
           (item.municipio && item.municipio.toLowerCase().includes(q)) ||
           (item.construtora && item.construtora.toLowerCase().includes(q));
-        return matchesGre && matchesSearch;
+        return matchesGre && matchesStatus && matchesSearch;
       });
 
       if (filtered.length === 0) {
         list.innerHTML = `
           <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl p-8 text-center text-slate-400 text-sm flex flex-col items-center gap-2">
             <span class="text-3xl">🔍</span>
-            <p>Nenhuma obra encontrada para o filtro atual.</p>
-            <button onclick="setFilter('TODAS'); handleSearch(''); document.getElementById('searchInput').value='';" class="text-xs text-brand-accent underline">
-              Ver todas as obras
+            <p>Nenhuma obra encontrada para os filtros selecionados.</p>
+            <button onclick="setFilter('TODAS'); setStatusFilter('TODOS'); handleSearch(''); document.getElementById('searchInput').value='';" class="text-xs text-brand-accent underline">
+              Limpar todos os filtros
             </button>
           </div>
         `;
@@ -1298,7 +1737,7 @@
                 <p class="text-xs text-slate-400 flex flex-wrap items-center gap-1.5 mt-0.5">
                   <span class="text-slate-300 font-medium">📍 ${item.municipio}</span>
                   <span class="text-slate-600">•</span>
-                  <span class="text-slate-400">Construtora: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
+                  <span class="text-slate-400">Empresa: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
                 </p>
               </div>
               <div class="flex flex-col items-end gap-1.5 shrink-0">
@@ -1312,14 +1751,16 @@
               
               <!-- Seletor de Status -->
               <div>
-                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Status da Obra</label>
+                <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Status da Demanda</label>
                 <select 
                   onchange="updateField('${item.id}', 'status', this.value); renderCards();"
                   class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
                 >
                   <option value="EM EXECUÇÃO" ${item.status === 'EM EXECUÇÃO' ? 'selected' : ''}>EM EXECUÇÃO</option>
+                  <option value="CONCLUÍDO" ${(item.status === 'CONCLUÍDO' || item.status === 'CONCLUIDA') ? 'selected' : ''}>CONCLUÍDO</option>
                   <option value="A INICIAR" ${item.status === 'A INICIAR' ? 'selected' : ''}>A INICIAR</option>
-                  <option value="CONCLUÍDO" ${item.status === 'CONCLUÍDO' ? 'selected' : ''}>CONCLUÍDO</option>
+                  <option value="PARALISADA" ${item.status === 'PARALISADA' ? 'selected' : ''}>PARALISADA</option>
+                  <option value="CANCELADA" ${item.status === 'CANCELADA' ? 'selected' : ''}>CANCELADA</option>
                 </select>
               </div>
 
@@ -1330,9 +1771,10 @@
                   onchange="updateField('${item.id}', 'situacao', this.value); renderCards();"
                   class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
                 >
+                  <option value="EM ANDAMENTO" ${item.situacao === 'EM ANDAMENTO' ? 'selected' : ''}>EM ANDAMENTO</option>
                   <option value="PARADA" ${item.situacao === 'PARADA' ? 'selected' : ''}>PARADA</option>
                   <option value="RITMO LENTO" ${item.situacao === 'RITMO LENTO' ? 'selected' : ''}>RITMO LENTO</option>
-                  <option value="EM ANDAMENTO" ${item.situacao === 'EM ANDAMENTO' ? 'selected' : ''}>EM ANDAMENTO</option>
+                  <option value="CONCLUÍDO" ${item.situacao === 'CONCLUÍDO' ? 'selected' : ''}>CONCLUÍDO</option>
                   <option value="A INICIAR" ${item.situacao === 'A INICIAR' ? 'selected' : ''}>A INICIAR</option>
                 </select>
               </div>
@@ -1340,7 +1782,7 @@
               <!-- Seletor de Data Interativo -->
               <div>
                 <div class="flex items-center justify-between mb-1">
-                  <label class="block text-[10px] uppercase font-bold text-amber-400">📅 Término / Previsão</label>
+                  <label class="block text-[10px] uppercase font-bold text-amber-400">📅 Previsão / Término</label>
                   <button 
                     onclick="setDateIndefinida('${item.id}')"
                     class="text-[10px] text-slate-400 hover:text-amber-400 underline transition-colors"
@@ -1373,15 +1815,16 @@
     }
 
     // =========================================================================
-    // GERADOR DE MENSAGEM DO WHATSAPP (FOCADO NA GRE SELECIONADA OU TODAS)
+    // GERADOR DE MENSAGEM DO WHATSAPP
     // =========================================================================
     function generateWhatsAppMessage() {
-      // Se tiver uma GRE selecionada, gera o relatório exclusivamente para ela
-      // Se estiver em 'TODAS', gera agrupado por todas as GREs presentes
+      const dataset = getActiveDataset();
+
+      // Identifica GREs únicas presentes
       const uniqueGres = [];
       const seen = new Set();
 
-      worksData.forEach(w => {
+      dataset.forEach(w => {
         const k = w.greKey || normalizeGreKey(w.gre);
         if (!seen.has(k)) {
           seen.add(k);
@@ -1389,7 +1832,6 @@
         }
       });
 
-      // Ordenar GREs
       uniqueGres.sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
 
       const targetGres = (activeFilter === 'TODAS') 
@@ -1397,15 +1839,22 @@
         : uniqueGres.filter(g => g.key === activeFilter);
 
       let blocks = [];
+      const titleMod = (currentModule === 'CONTRATOS') ? '📋 *RELATÓRIO DE OBRAS - CONTRATOS (SEDUC-PI)*' : '🤝 *RELATÓRIO DE OBRAS - PACTUE (SEDUC-PI)*';
+      blocks.push(titleMod);
 
       targetGres.forEach(g => {
-        const schools = worksData.filter(w => (w.greKey === g.key || normalizeGreKey(w.gre) === g.key));
+        const schools = dataset.filter(w => {
+          const matchesGre = (w.greKey === g.key || normalizeGreKey(w.gre) === g.key);
+          const matchesStatus = (activeStatusFilter === 'TODOS' || (w.status && w.status.toUpperCase().trim() === activeStatusFilter));
+          return matchesGre && matchesStatus;
+        });
+
         if (schools.length > 0) {
           let section = `${g.header}\n\n`;
           const schoolEntries = schools.map(s => {
             return `ESCOLA: ${s.escola}\n` +
                    `MUNICÍPIO: ${s.municipio}\n` +
-                   `CONSTRUTORA: ${s.construtora}\n` +
+                   `EMPRESA: ${s.construtora}\n` +
                    `🔹 STATUS: ${s.status}\n` +
                    `SITUAÇÃO: ${s.situacao}\n` +
                    `📅 TÉRMINO/PREVISÃO: ${s.termino}`;
@@ -1414,6 +1863,10 @@
           blocks.push(section);
         }
       });
+
+      if (blocks.length === 1) {
+        return `${titleMod}\n\nNenhuma obra encontrada para os filtros selecionados (${activeFilter} / Status: ${activeStatusFilter}).`;
+      }
 
       return blocks.join('\n\n---\n\n');
     }
@@ -1425,7 +1878,6 @@
       }
     }
 
-    // Copiar Texto para o WhatsApp
     function copyWhatsAppText() {
       const text = generateWhatsAppMessage();
       
@@ -1472,7 +1924,6 @@
       }, 2500);
     }
 
-    // Modal de Reset
     function openResetModal() {
       const modal = document.getElementById('resetModal');
       if (modal) {
@@ -1491,21 +1942,28 @@
 
     function confirmReset() {
       try {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEY_CONTRACTS);
+        localStorage.removeItem(STORAGE_KEY_PACTUE);
       } catch (e) {
         console.warn(e);
       }
-      worksData = JSON.parse(JSON.stringify(INITIAL_DATA));
+      contractsData = JSON.parse(JSON.stringify(INITIAL_CONTRACTS_DATA));
+      pactueData = JSON.parse(JSON.stringify(INITIAL_PACTUE_DATA));
       closeResetModal();
+      updateModuleBadges();
       renderGreSelector();
+      renderStatusFilters();
       renderCards();
-      showToastNotification("✓ Dados padrão restaurados!");
+      showToastNotification("✓ Dados originais restaurados!");
     }
 
     // Inicialização da Página
     window.onload = function() {
-      const savedSheetUrl = localStorage.getItem(SHEET_URL_KEY);
-      if (savedSheetUrl) {
+      switchModule(currentModule);
+
+      const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
+      const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
+      if (savedUrlCt || savedUrlPac) {
         const sheetBadge = document.getElementById('sheetBadge');
         if (sheetBadge) sheetBadge.classList.remove('hidden');
         const syncText = document.getElementById('syncStatusText');
@@ -1513,9 +1971,6 @@
         if (syncText && lastSync) syncText.textContent = `Online (${lastSync})`;
       }
 
-      renderGreSelector();
-      renderCards();
-      showSavedIndicator();
       startAutoSyncTimer();
     };
   </script>
