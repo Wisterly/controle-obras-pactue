@@ -339,8 +339,8 @@
             </div>
           </div>
 
-          <!-- Grade de balões de GREs com rolagem (Scroll) idêntica a Projetos e Fotos -->
-          <div id="allGresGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-2 max-h-60 overflow-y-auto p-1.5">
+          <!-- Grade de balões de GREs: Mobile com rolagem de 2 colunas; Desktop compacto com todas as GREs completas sem precisar rolar -->
+          <div id="allGresGrid" class="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto lg:max-h-none lg:overflow-visible lg:grid-cols-4 xl:grid-cols-5 lg:gap-1.5 p-1">
             <!-- Injetado via JS -->
           </div>
 
@@ -6133,27 +6133,27 @@
         }
       }
 
-      // Grade de Balões com Rolagem Padronizada (Padrão idêntico a Projetos e Fotos)
+      // Grade de Balões: Compacto, ajustável e completo no Desktop; Rolagem fluida no Mobile
       if (allGrid) {
         let html = `
           <button 
             onclick="setFilter('TODAS')"
-            class="px-3 py-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 h-full min-h-[50px] ${
+            class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
               isAllSelected 
                 ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
                 : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
             }"
             title="Ver todas as obras de todas as GREs (${totalCount} obras)"
           >
-            <div class="flex flex-col min-w-0">
-              <span class="text-xs sm:text-sm font-black whitespace-nowrap leading-tight ${isAllSelected ? 'text-brand-dark' : 'text-slate-100'}">
+            <div class="flex flex-col min-w-0 pr-0.5">
+              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? 'text-brand-dark font-black' : 'text-slate-100'}">
                 TODAS AS GRES
               </span>
-              <span class="text-[10px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
                 Geral Piauí
               </span>
             </div>
-            <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? 'bg-black/25 text-brand-dark font-black' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">
+            <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? 'bg-black/25 text-brand-dark font-black' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">
               ${totalCount}
             </span>
           </button>
@@ -6166,22 +6166,22 @@
           html += `
             <button 
               onclick="setFilter('${g.key}')"
-              class="px-3 py-2.5 rounded-xl text-left border transition-all flex items-center justify-between gap-2 h-full min-h-[50px] ${
+              class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
                 isSelected 
                   ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
                   : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
               }"
               title="${g.key} – ${g.polo} (${count} obras)"
             >
-              <div class="flex flex-col min-w-0">
-                <span class="text-xs sm:text-sm font-black whitespace-nowrap leading-tight ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
+              <div class="flex flex-col min-w-0 pr-0.5">
+                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
                   ${g.key}
                 </span>
-                <span class="text-[10px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
                   ${g.polo}
                 </span>
               </div>
-              <span class="text-[10px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ${
+              <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
                 isSelected 
                   ? 'bg-black/25 text-brand-dark font-black' 
                   : (count > 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-500 border border-slate-700/50')
