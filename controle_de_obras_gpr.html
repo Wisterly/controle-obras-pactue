@@ -297,26 +297,26 @@
       <!-- ============================================== -->
       <!-- SELETOR DE GRE POR ROLAGEM (PADRÃO PROJETOS/FOTOS) -->
       <!-- ============================================== -->
-      <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-brand-accent/40 hover:border-brand-accent/80 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
+      <div id="worksGreContainer" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
         
         <!-- Glow decorativo -->
-        <div class="absolute -right-8 -top-8 w-32 h-32 bg-brand-accent/10 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -left-8 -bottom-8 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div id="worksGreGlow1" class="absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div id="worksGreGlow2" class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="flex flex-col gap-3 relative z-10">
           
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-1">
             <div class="flex items-center gap-2.5">
-              <span class="w-9 h-9 rounded-xl bg-brand-accent/20 border border-brand-accent/30 text-brand-accent flex items-center justify-center text-lg font-black shadow-inner">
+              <span id="worksGreIconBox" class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg font-black shadow-inner">
                 📍
               </span>
               <div>
-                <span class="text-[11px] uppercase font-extrabold tracking-wider text-amber-400">
+                <span id="worksGreStepLabel" class="text-[11px] uppercase font-extrabold tracking-wider text-blue-400">
                   1º Passo: Escolha a GRE
                 </span>
                 <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
-                  Filtrar Obras por GRE: <span id="greSelectLabel" class="text-xs text-amber-400 font-semibold">Todas as GREs</span>
-                  <span id="greDemandTag" class="text-xs font-normal text-slate-400">(Obras de Contratos)</span>
+                  Filtrar Obras por GRE: <span id="greSelectLabel" class="text-xs text-blue-400 font-semibold">Todas as GREs</span>
+                  <span id="greDemandTag" class="text-xs font-semibold text-blue-400">(Obras de Contratos)</span>
                 </h2>
               </div>
             </div>
@@ -3482,10 +3482,28 @@
         if (btnContracts) btnContracts.className = activeCt;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
         if (activeTabName) activeTabName.textContent = 'Aba Contratos';
-        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-blue-500';
+        if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/50';
         if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
-        if (greDemandTag) greDemandTag.textContent = '(Obras de Contratos)';
-        if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS DE CONTRATOS';
+        if (greDemandTag) {
+          greDemandTag.textContent = '(Obras de Contratos)';
+          greDemandTag.className = 'text-xs font-semibold text-blue-400';
+        }
+        if (whatsappModuleScope) {
+          whatsappModuleScope.textContent = 'DEMANDA: OBRAS DE CONTRATOS';
+          whatsappModuleScope.className = 'font-extrabold text-blue-400';
+        }
+
+        // Atualiza temas visuais do container da GRE para Azul (Contratos)
+        const worksGreBox = document.getElementById('worksGreContainer');
+        const worksGreIcon = document.getElementById('worksGreIconBox');
+        const worksGreStep = document.getElementById('worksGreStepLabel');
+        const worksGreGlow1 = document.getElementById('worksGreGlow1');
+        const worksGreGlow2 = document.getElementById('worksGreGlow2');
+        if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
+        if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg font-black shadow-inner';
+        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-blue-400';
+        if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none';
+        if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none';
         
         activeStatusFilter = 'TODOS';
         renderGreSelector();
@@ -3496,10 +3514,28 @@
         if (btnPactue) btnPactue.className = activePac;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
         if (activeTabName) activeTabName.textContent = 'Aba PACTUE';
-        if (activeColorDot) activeColorDot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm shadow-amber-400/50';
         if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
-        if (greDemandTag) greDemandTag.textContent = '(Obras PACTUE)';
-        if (whatsappModuleScope) whatsappModuleScope.textContent = 'DEMANDA: OBRAS PACTUE';
+        if (greDemandTag) {
+          greDemandTag.textContent = '(Obras PACTUE)';
+          greDemandTag.className = 'text-xs font-semibold text-amber-400';
+        }
+        if (whatsappModuleScope) {
+          whatsappModuleScope.textContent = 'DEMANDA: OBRAS PACTUE';
+          whatsappModuleScope.className = 'font-extrabold text-amber-400';
+        }
+
+        // Atualiza temas visuais do container da GRE para Laranja/Âmbar (PACTUE)
+        const worksGreBox = document.getElementById('worksGreContainer');
+        const worksGreIcon = document.getElementById('worksGreIconBox');
+        const worksGreStep = document.getElementById('worksGreStepLabel');
+        const worksGreGlow1 = document.getElementById('worksGreGlow1');
+        const worksGreGlow2 = document.getElementById('worksGreGlow2');
+        if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-amber-500/30 hover:border-amber-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
+        if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 text-amber-400 flex items-center justify-center text-lg font-black shadow-inner';
+        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-amber-400';
+        if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-amber-500/10 rounded-full blur-2xl pointer-events-none';
+        if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none';
         
         activeStatusFilter = 'TODOS';
         renderGreSelector();
@@ -7137,6 +7173,7 @@
       const allGrid = document.getElementById('allGresGrid');
       const greSelectLabel = document.getElementById('greSelectLabel');
       const dataset = getActiveDataset();
+      const isContratos = (currentModule === 'CONTRATOS');
 
       // Mapeia e conta obras válidas por GRE na demanda ativa (Contratos ou PACTUE)
       const greCounts = new Map();
@@ -7152,6 +7189,10 @@
 
       // Atualiza o Label Principal do Seletor
       if (greSelectLabel) {
+        greSelectLabel.className = isContratos
+          ? 'text-xs text-blue-400 font-semibold truncate'
+          : 'text-xs text-amber-400 font-semibold truncate';
+
         if (isAllSelected) {
           greSelectLabel.textContent = `Todas as GREs (${totalCount})`;
         } else {
@@ -7162,6 +7203,19 @@
         }
       }
 
+      // Estilos temáticos para balões ativos e emblemas
+      const activeBtnClass = isContratos
+        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400'
+        : 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
+
+      const activeBadgeClass = isContratos
+        ? 'bg-black/25 text-white font-black'
+        : 'bg-black/25 text-brand-dark font-black';
+
+      const inactiveAllBadgeClass = isContratos
+        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+        : 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+
       // Grade de Balões: Compacto, ajustável e completo no Desktop; Rolagem fluida no Mobile
       if (allGrid) {
         let html = `
@@ -7169,20 +7223,20 @@
             onclick="setFilter('TODAS')"
             class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
               isAllSelected 
-                ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
+                ? activeBtnClass 
                 : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
             }"
             title="Ver todas as obras de todas as GREs (${totalCount} obras)"
           >
             <div class="flex flex-col min-w-0 pr-0.5">
-              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? 'text-brand-dark font-black' : 'text-slate-100'}">
+              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-slate-100'}">
                 TODAS AS GRES
               </span>
-              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
                 Geral Piauí
               </span>
             </div>
-            <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? 'bg-black/25 text-brand-dark font-black' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'}">
+            <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
               ${totalCount}
             </span>
           </button>
@@ -7192,28 +7246,32 @@
           const count = greCounts.get(g.key) || 0;
           const isSelected = (activeFilter === g.key);
 
+          const inactiveBadgeClass = count > 0 
+            ? (isContratos ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30')
+            : 'bg-slate-800 text-slate-500 border border-slate-700/50';
+
           html += `
             <button 
               onclick="setFilter('${g.key}')"
               class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
                 isSelected 
-                  ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400' 
+                  ? activeBtnClass 
                   : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
               }"
               title="${g.key} – ${g.polo} (${count} obras)"
             >
               <div class="flex flex-col min-w-0 pr-0.5">
-                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? 'text-brand-dark font-black' : 'text-white'}">
+                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-white'}">
                   ${g.key}
                 </span>
-                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
                   ${g.polo}
                 </span>
               </div>
               <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
                 isSelected 
-                  ? 'bg-black/25 text-brand-dark font-black' 
-                  : (count > 0 ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-500 border border-slate-700/50')
+                  ? activeBadgeClass 
+                  : inactiveBadgeClass
               }">
                 ${count}
               </span>
@@ -7362,30 +7420,43 @@
         return (statusCounts.get(b) || 0) - (statusCounts.get(a) || 0);
       });
 
+      const isContratos = (currentModule === 'CONTRATOS');
       const isAllSelected = (activeStatusFilter === 'TODOS');
+
+      const activeTodosBtnClass = isContratos
+        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400'
+        : 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
+
+      const activeTodosBadgeClass = isContratos
+        ? 'bg-black/25 text-white font-black'
+        : 'bg-black/25 text-brand-dark font-black';
+
+      const inactiveTodosBadgeClass = isContratos
+        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
 
       let html = `
         <button 
           onclick="setStatusFilter('TODOS')"
           class="px-3.5 sm:px-4 py-2 rounded-xl text-left border transition-all inline-flex items-center justify-between gap-3 min-h-[48px] w-auto shrink-0 ${
             isAllSelected
-              ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400'
+              ? activeTodosBtnClass
               : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
           }"
           title="Todos os Status (${greSubset.length} obras)"
         >
           <div class="flex flex-col min-w-0">
-            <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? 'text-brand-dark font-black' : 'text-white'}">
+            <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-white'}">
               🌟 TODOS STATUS
             </span>
-            <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+            <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
               Visão Geral
             </span>
           </div>
           <span class="text-[9px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-1.5 ${
             isAllSelected
-              ? 'bg-black/25 text-brand-dark font-black'
-              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+              ? activeTodosBadgeClass
+              : inactiveTodosBadgeClass
           }">
             ${greSubset.length}
           </span>
@@ -7433,6 +7504,10 @@
 
       const activeCountLabel = document.getElementById('statusFilterActiveCount');
       if (activeCountLabel) {
+        activeCountLabel.className = isContratos 
+          ? 'text-xs text-blue-400 font-semibold' 
+          : 'text-xs text-amber-400 font-semibold';
+
         if (activeStatusFilter === 'TODOS') {
           activeCountLabel.textContent = `Mostrando todos (${greSubset.length} obras)`;
         } else {
@@ -7460,6 +7535,7 @@
       const stBadge = document.getElementById('statusSummaryBadge');
       const count = document.getElementById('greSummaryCount');
       const whatsAppScope = document.getElementById('whatsappGreScope');
+      const isContratos = (currentModule === 'CONTRATOS');
 
       const dataset = getActiveDataset();
       const filtered = dataset.filter(item => {
@@ -7468,8 +7544,22 @@
         return matchesGre && matchesStatus;
       });
 
-      if (badge) badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
-      if (stBadge) stBadge.textContent = (activeStatusFilter === 'TODOS') ? 'TODOS OS STATUS' : activeStatusFilter;
+      if (badge) {
+        badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
+        if (isContratos) {
+          badge.className = 'px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center gap-1.5 shadow-sm';
+        } else {
+          badge.className = 'px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center gap-1.5 shadow-sm';
+        }
+      }
+      if (stBadge) {
+        stBadge.textContent = (activeStatusFilter === 'TODOS') ? 'TODOS OS STATUS' : activeStatusFilter;
+        if (isContratos) {
+          stBadge.className = 'px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs flex items-center gap-1.5';
+        } else {
+          stBadge.className = 'px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center gap-1.5';
+        }
+      }
       if (count) count.textContent = `${filtered.length} obra(s) filtrada(s)`;
 
       if (whatsAppScope) {
@@ -7604,6 +7694,7 @@
       if (!list) return;
 
       const dataset = getActiveDataset();
+      const isContratos = (currentModule === 'CONTRATOS');
 
       const filtered = dataset.filter(item => {
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
@@ -7639,7 +7730,7 @@
             <!-- Header do Card -->
             <div class="flex items-start justify-between gap-3">
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400/90">${item.gre}</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider ${isContratos ? 'text-blue-400/90' : 'text-amber-400/90'}">${item.gre}</span>
                 <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
                 <p class="text-xs text-slate-400 flex flex-wrap items-center gap-1.5 mt-0.5">
                   <span class="text-slate-300 font-medium">📍 ${item.municipio}</span>
@@ -7657,7 +7748,7 @@
               <div class="bg-brand-dark/90 border border-brand-cardBorder rounded-xl p-3 flex flex-col gap-2 text-xs">
                 ${item.objeto ? `
                   <div class="flex items-start gap-1.5">
-                    <span class="text-amber-400 font-bold shrink-0">📦 Objeto:</span>
+                    <span class="${isContratos ? 'text-blue-400' : 'text-amber-400'} font-bold shrink-0">📦 Objeto:</span>
                     <span class="text-slate-100 font-medium">${item.objeto}</span>
                   </div>
                 ` : ''}
@@ -7678,7 +7769,7 @@
                 <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Status da Demanda</label>
                 <select 
                   onchange="updateField('${item.id}', 'status', this.value); renderCards();"
-                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
+                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${isContratos ? 'focus:border-blue-400' : 'focus:border-amber-400'} transition-colors"
                 >
                   <option value="EM EXECUÇÃO" ${item.status === 'EM EXECUÇÃO' ? 'selected' : ''}>EM EXECUÇÃO</option>
                   <option value="CONCLUÍDO" ${(item.status === 'CONCLUÍDO' || item.status === 'CONCLUIDA' || item.status === 'CONCLUÍDA') ? 'selected' : ''}>CONCLUÍDO</option>
@@ -7695,7 +7786,7 @@
                 <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Situação Diária</label>
                 <select 
                   onchange="updateField('${item.id}', 'situacao', this.value); renderCards();"
-                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-amber-400 transition-colors"
+                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${isContratos ? 'focus:border-blue-400' : 'focus:border-amber-400'} transition-colors"
                 >
                   <option value="EM ANDAMENTO" ${item.situacao === 'EM ANDAMENTO' ? 'selected' : ''}>EM ANDAMENTO</option>
                   <option value="PARADA" ${item.situacao === 'PARADA' ? 'selected' : ''}>PARADA</option>
@@ -7708,17 +7799,17 @@
               <!-- Seletor de Data Interativo -->
               <div>
                 <div class="flex items-center justify-between mb-1">
-                  <label class="block text-[10px] uppercase font-bold text-amber-400">📅 Previsão / Término</label>
+                  <label class="block text-[10px] uppercase font-bold ${isContratos ? 'text-blue-400' : 'text-amber-400'}">📅 Previsão / Término</label>
                   <button 
                     onclick="setDateIndefinida('${item.id}')"
-                    class="text-[10px] text-slate-400 hover:text-amber-400 underline transition-colors"
+                    class="text-[10px] text-slate-400 ${isContratos ? 'hover:text-blue-400' : 'hover:text-amber-400'} underline transition-colors"
                     title="Definir data como A DEFINIR"
                   >
                     Indefinir
                   </button>
                 </div>
-                <div class="flex items-center gap-2 bg-brand-dark border border-amber-500/40 rounded-xl px-2 py-1 focus-within:border-amber-400">
-                  <span class="text-xs font-mono font-bold text-amber-300 min-w-[76px]">
+                <div class="flex items-center gap-2 bg-brand-dark border ${isContratos ? 'border-blue-500/40 focus-within:border-blue-400' : 'border-amber-500/40 focus-within:border-amber-400'} rounded-xl px-2 py-1">
+                  <span class="text-xs font-mono font-bold ${isContratos ? 'text-blue-300' : 'text-amber-300'} min-w-[76px]">
                     ${item.termino}
                   </span>
                   <input 
