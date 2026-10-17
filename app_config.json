@@ -4,19 +4,55 @@
   "sheetUrlPactue": "https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=1717732222#gid=1717732222",
   "sheetUrlMedicoes": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing",
   "medicoesContratos": [
-    { "id": "ct-rmelo", "name": "RMELO", "url": "" },
-    { "id": "ct-rodrigues-e-rodrigues", "name": "RODRIGUES E RODRIGUES", "url": "" },
-    { "id": "ct-cp-engenharia", "name": "CP ENGENHARIA", "url": "" },
-    { "id": "ct-fel-engemax", "name": "F E L / ENGEMAX", "url": "" },
-    { "id": "ct-pavcon", "name": "PAVCON", "url": "" },
-    { "id": "ct-desenvolva", "name": "DESENVOLVA", "url": "" },
-    { "id": "ct-oasis", "name": "OASIS", "url": "" },
-    { "id": "ct-assertiva", "name": "ASSERTIVA", "url": "" },
-    { "id": "ct-monte-claro", "name": "MONTE CLARO", "url": "" }
+    {
+      "id": "ct-rmelo",
+      "name": "RMELO",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1656782521#gid=1656782521"
+    },
+    {
+      "id": "ct-rodrigues-e-rodrigues",
+      "name": "RODRIGUES E RODRIGUES",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1686909159#gid=1686909159"
+    },
+    {
+      "id": "ct-cp-engenharia",
+      "name": "CP ENGENHARIA",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=670888626#gid=670888626"
+    },
+    {
+      "id": "ct-fel-engemax",
+      "name": "F E L / ENGEMAX",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1912665049#gid=1912665049"
+    },
+    {
+      "id": "ct-pavcon",
+      "name": "PAVCON",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=701250826#gid=701250826"
+    },
+    {
+      "id": "ct-desenvolva",
+      "name": "DESENVOLVA",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1776695116#gid=1776695116"
+    },
+    {
+      "id": "ct-oasis",
+      "name": "OASIS",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=956198080#gid=956198080"
+    },
+    {
+      "id": "ct-assertiva",
+      "name": "ASSERTIVA",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=956198080#gid=956198080"
+    },
+    {
+      "id": "ct-monte-claro",
+      "name": "MONTE CLARO",
+      "url": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1113761868#gid=1113761868"
+    }
   ],
   "projetosFolderUrl": "https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link",
   "fotosFolderUrl": "https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link",
   "autoSyncInterval": "5",
-  "lastSyncTime": "19:45",
-  "updatedAt": "2026-10-17T22:45:00.000Z"
+  "lastSyncTime": "19:49",
+  "updatedAt": "2026-10-17T22:53:36.302Z"
 }
