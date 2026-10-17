@@ -286,8 +286,8 @@
           </span>
         </div>
 
-        <!-- Barra Dinâmica de Filtros de Status (Em Execução, Concluída, A Iniciar, Parada, Cancelada, etc.) -->
-        <div id="statusFilterBar" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <!-- Grade Dinâmica de Filtros de Status (Execução, Concluída, A Iniciar, Parada, Cancelada, etc.) -->
+        <div id="statusFilterBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 pt-1">
           <!-- Injected via JS -->
         </div>
       </div>
@@ -1683,62 +1683,83 @@
     // SELETOR DINÂMICO DE STATUS DAS OBRAS (EM EXECUÇÃO, CONCLUÍDA, ETC.)
     // =========================================================================
     function getStatusStyles(statusName) {
-      const s = statusName.toUpperCase();
+      const s = (statusName || '').toUpperCase();
       if (s.includes('EXECUCAO') || s.includes('EXECUÇÃO') || s.includes('ANDAMENTO')) {
         return {
-          bg: 'bg-emerald-500/20',
-          text: 'text-emerald-400',
-          border: 'border-emerald-500/40',
-          activeBg: 'bg-emerald-600 text-white',
-          dot: 'bg-emerald-400'
+          bg: 'bg-emerald-500/10 hover:bg-emerald-500/20',
+          text: 'text-emerald-300',
+          border: 'border-emerald-500/40 hover:border-emerald-400',
+          activeBg: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 scale-[1.02] border-emerald-400 ring-2 ring-emerald-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+          dot: 'bg-emerald-400',
+          subtitle: 'Em andamento'
         };
       } else if (s.includes('CONCLU') || s.includes('FINALIZ')) {
         return {
-          bg: 'bg-blue-500/20',
-          text: 'text-blue-400',
-          border: 'border-blue-500/40',
-          activeBg: 'bg-blue-600 text-white',
-          dot: 'bg-blue-400'
+          bg: 'bg-blue-500/10 hover:bg-blue-500/20',
+          text: 'text-blue-300',
+          border: 'border-blue-500/40 hover:border-blue-400',
+          activeBg: 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 ring-2 ring-blue-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+          dot: 'bg-blue-400',
+          subtitle: 'Obra entregue'
         };
       } else if (s.includes('INICIAR') || s.includes('LICIT')) {
         return {
-          bg: 'bg-amber-500/20',
-          text: 'text-amber-400',
-          border: 'border-amber-500/40',
-          activeBg: 'bg-amber-500 text-brand-dark',
-          dot: 'bg-amber-400'
+          bg: 'bg-amber-500/10 hover:bg-amber-500/20',
+          text: 'text-amber-300',
+          border: 'border-amber-500/40 hover:border-amber-400',
+          activeBg: 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-300 ring-2 ring-amber-300',
+          activeBadge: 'bg-black/25 text-brand-dark font-black',
+          badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+          dot: 'bg-amber-400',
+          subtitle: 'Aguardando início'
         };
-      } else if (s.includes('PARADA') || s.includes('PARALIS')) {
+      } else if (s.includes('PARADA') || s.includes('PARALIS') || s.includes('SUSPENS')) {
         return {
-          bg: 'bg-rose-500/20',
-          text: 'text-rose-400',
-          border: 'border-rose-500/40',
-          activeBg: 'bg-rose-600 text-white',
-          dot: 'bg-rose-400'
+          bg: 'bg-rose-500/10 hover:bg-rose-500/20',
+          text: 'text-rose-300',
+          border: 'border-rose-500/40 hover:border-rose-400',
+          activeBg: 'bg-rose-600 text-white shadow-md shadow-rose-600/30 scale-[1.02] border-rose-400 ring-2 ring-rose-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-rose-500/20 text-rose-300 border border-rose-500/30',
+          dot: 'bg-rose-400',
+          subtitle: 'Obra suspensa'
         };
       } else if (s.includes('SALDO') || s.includes('AGUARDANDO SALDO') || s.includes('ESPERANDO SALDO')) {
         return {
-          bg: 'bg-purple-500/20',
+          bg: 'bg-purple-500/10 hover:bg-purple-500/20',
           text: 'text-purple-300',
-          border: 'border-purple-500/40',
-          activeBg: 'bg-purple-600 text-white',
-          dot: 'bg-purple-400'
+          border: 'border-purple-500/40 hover:border-purple-400',
+          activeBg: 'bg-purple-600 text-white shadow-md shadow-purple-600/30 scale-[1.02] border-purple-400 ring-2 ring-purple-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-purple-500/20 text-purple-300 border border-purple-500/30',
+          dot: 'bg-purple-400',
+          subtitle: 'Aguardando saldo'
         };
       } else if (s.includes('CANCEL')) {
         return {
-          bg: 'bg-slate-700/40',
-          text: 'text-slate-400',
-          border: 'border-slate-600',
-          activeBg: 'bg-slate-600 text-white',
-          dot: 'bg-slate-400'
+          bg: 'bg-slate-700/25 hover:bg-slate-700/45',
+          text: 'text-slate-300',
+          border: 'border-slate-600 hover:border-slate-500',
+          activeBg: 'bg-slate-600 text-white shadow-md shadow-slate-600/30 scale-[1.02] border-slate-400 ring-2 ring-slate-400',
+          activeBadge: 'bg-black/25 text-white font-black',
+          badge: 'bg-slate-700/50 text-slate-300 border border-slate-600',
+          dot: 'bg-slate-400',
+          subtitle: 'Cancelada'
         };
       }
       return {
-        bg: 'bg-indigo-500/20',
-        text: 'text-indigo-400',
-        border: 'border-indigo-500/40',
-        activeBg: 'bg-indigo-600 text-white',
-        dot: 'bg-indigo-400'
+        bg: 'bg-indigo-500/10 hover:bg-indigo-500/20',
+        text: 'text-indigo-300',
+        border: 'border-indigo-500/40 hover:border-indigo-400',
+        activeBg: 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-[1.02] border-indigo-400 ring-2 ring-indigo-400',
+        activeBadge: 'bg-black/25 text-white font-black',
+        badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
+        dot: 'bg-indigo-400',
+        subtitle: 'Status da Obra'
       };
     }
 
@@ -1770,17 +1791,31 @@
         return (statusCounts.get(b) || 0) - (statusCounts.get(a) || 0);
       });
 
+      const isAllSelected = (activeStatusFilter === 'TODOS');
+
       let html = `
         <button 
           onclick="setStatusFilter('TODOS')"
-          class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-            activeStatusFilter === 'TODOS'
-              ? 'bg-brand-accent text-white shadow-md shadow-brand-accent/30'
-              : 'bg-brand-dark text-slate-300 hover:text-white border border-brand-cardBorder'
+          class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[48px] ${
+            isAllSelected
+              ? 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400'
+              : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
           }"
+          title="Todos os Status (${greSubset.length} obras)"
         >
-          <span>🌟 Todos os Status</span>
-          <span class="text-[10px] px-1.5 py-0.2 rounded-full ${activeStatusFilter === 'TODOS' ? 'bg-black/30 text-white' : 'bg-brand-card text-slate-400'} font-bold">
+          <div class="flex flex-col min-w-0">
+            <span class="text-[11px] font-extrabold truncate leading-tight ${isAllSelected ? 'text-brand-dark font-black' : 'text-white'}">
+              🌟 TODOS STATUS
+            </span>
+            <span class="text-[9px] truncate leading-tight mt-0.5 ${isAllSelected ? 'text-black/80 font-bold' : 'text-slate-400 font-medium'}">
+              Visão Geral
+            </span>
+          </div>
+          <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+            isAllSelected
+              ? 'bg-black/25 text-brand-dark font-black'
+              : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+          }">
             ${greSubset.length}
           </span>
         </button>
@@ -1788,21 +1823,35 @@
 
       uniqueStatuses.forEach(st => {
         const count = statusCounts.get(st) || 0;
-        const isSelected = activeStatusFilter === st;
+        const isSelected = (activeStatusFilter === st);
         const style = getStatusStyles(st);
 
         html += `
           <button 
             onclick="setStatusFilter('${st}')"
-            class="px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+            class="px-2.5 py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[48px] ${
               isSelected 
-                ? style.activeBg + ' font-extrabold shadow-md scale-105' 
-                : 'bg-brand-dark text-slate-300 hover:text-white border ' + style.border
+                ? style.activeBg + ' font-extrabold' 
+                : style.bg + ' ' + style.border + ' ' + style.text
             }"
+            title="${st} (${count} obras)"
           >
-            <span class="w-2 h-2 rounded-full ${isSelected ? 'bg-white' : style.dot}"></span>
-            <span>${st}</span>
-            <span class="text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-black/20 text-white' : 'bg-brand-card text-slate-300'} font-bold">
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="w-2 h-2 rounded-full shrink-0 ${isSelected ? 'bg-white' : style.dot}"></span>
+                <span class="text-[11px] font-extrabold truncate leading-tight ${isSelected ? 'text-inherit font-black' : style.text}">
+                  ${st}
+                </span>
+              </div>
+              <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'opacity-85 font-bold' : 'text-slate-400 font-medium'}">
+                ${style.subtitle || 'Status da Obra'}
+              </span>
+            </div>
+            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+              isSelected 
+                ? (style.activeBadge || 'bg-black/25 text-inherit font-black') 
+                : style.badge
+            }">
               ${count}
             </span>
           </button>
