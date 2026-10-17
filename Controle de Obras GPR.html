@@ -427,35 +427,14 @@
             </div>
           </button>
 
-          <!-- Card Informativo 3: Na UGF -->
+          <!-- Card Informativo 3: No FIM (Setor FIM) -->
           <button 
-            onclick="setStatusFilter('UGF')"
-            class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-amber-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
-            title="Clique para filtrar o setor UGF"
-          >
-            <div class="flex items-center justify-between gap-3 text-slate-400">
-              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-amber-300 whitespace-nowrap">Na UGF</span>
-              <span class="text-amber-400 text-xs">🏛️</span>
-            </div>
-            <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
-              <span id="medicoesKpiUgfVal" class="text-xs sm:text-[13px] font-mono font-black text-amber-400 whitespace-nowrap">
-                R$ 0,00
-              </span>
-              <span class="text-slate-500 text-[10px]">•</span>
-              <span id="medicoesKpiUgfCount" class="text-[10px] sm:text-[11px] text-amber-300/90 font-semibold whitespace-nowrap">
-                0 processos
-              </span>
-            </div>
-          </button>
-
-          <!-- Card Informativo 4: No UFIM (Pagamento) -->
-          <button 
-            onclick="setStatusFilter('UFIM')"
+            onclick="setStatusFilter('FIM')"
             class="flex-auto min-w-fit bg-brand-card/90 border border-brand-cardBorder hover:border-indigo-500/70 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow-md transition-all hover:scale-[1.01] text-left cursor-pointer"
-            title="Clique para filtrar o setor UFIM"
+            title="Clique para filtrar o setor FIM"
           >
             <div class="flex items-center justify-between gap-3 text-slate-400">
-              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-indigo-300 whitespace-nowrap">No UFIM</span>
+              <span class="text-[10px] sm:text-[11px] uppercase font-bold tracking-wider text-indigo-300 whitespace-nowrap">No FIM</span>
               <span class="text-indigo-400 text-xs">🏦</span>
             </div>
             <div class="flex items-baseline gap-2 mt-1 whitespace-nowrap">
@@ -3726,7 +3705,7 @@
         processo: "00025.013210/2024-55",
         valor: "R$ 88.000,00",
         valorNumerico: 88000.00,
-        setor: "UGF",
+        setor: "FIM",
         dataEntrada: "08/10/2026",
         escola: "CETI LÍDIA MAGALHÃES",
         municipio: "TERESINA"
@@ -8890,17 +8869,6 @@
           dot: 'bg-cyan-400 animate-pulse',
           subtitle: 'Na GPR (UGERF)'
         };
-      } else if (s === 'UGF') {
-        return {
-          bg: 'bg-amber-500/10 hover:bg-amber-500/20',
-          text: 'text-amber-300',
-          border: 'border-amber-500/40 hover:border-amber-400',
-          activeBg: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-300 ring-2 ring-amber-300',
-          activeBadge: 'bg-black/25 text-brand-dark font-black',
-          badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-          dot: 'bg-amber-400',
-          subtitle: 'Na UGF'
-        };
       } else if (s === 'UFIM' || s === 'FIM') {
         return {
           bg: 'bg-indigo-500/10 hover:bg-indigo-500/20',
@@ -8910,7 +8878,7 @@
           activeBadge: 'bg-black/25 text-white font-black',
           badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30',
           dot: 'bg-indigo-400',
-          subtitle: 'No UFIM (Pagamento)'
+          subtitle: 'No FIM'
         };
       } else if (s.includes('PARCIAL')) {
         return {
@@ -9021,7 +8989,7 @@
       const isMed = (currentModule === 'MEDICOES');
       const titleEl = document.getElementById('statusFilterTitleText');
       if (titleEl) {
-        titleEl.textContent = isMed ? 'Filtrar por Setor de Processo (GPR, UGF, UFIM, Pago, Parcial):' : 'Filtrar por Status da Obra:';
+        titleEl.textContent = isMed ? 'Filtrar por Setor do Processo (GPR, FIM, Pago, Parcial):' : 'Filtrar por Status da Obra:';
       }
 
       if (isMed && activeContratoFilter !== 'TODOS') {
@@ -9048,7 +9016,7 @@
 
       // Ordena pelos status prioritários
       const priorityOrder = isMed 
-        ? ['GPR', 'UGF', 'UFIM', 'PAGO PARCIAL', 'PAGO']
+        ? ['GPR', 'FIM', 'PAGO PARCIAL', 'PAGO']
         : ['EM EXECUÇÃO', 'EXECUÇÃO', 'CONCLUÍDA', 'A INICIAR', 'PARALISADA'];
 
       const uniqueStatuses = Array.from(statusCounts.keys()).sort((a, b) => {
@@ -9381,9 +9349,8 @@
       const s = String(rawSetor).trim().toUpperCase();
       if (s.includes('PARCIAL')) return 'PAGO PARCIAL';
       if (s.includes('PAGO') || s.includes('PAGA') || s.includes('QUITAD') || s.includes('LIQUIDAD')) return 'PAGO';
-      if (s.includes('UGERF') || s.includes('GPR') || s.includes('PROJETO') || s.includes('ENGENHARIA') || s.includes('OBRA')) return 'GPR';
-      if (s.includes('UGF')) return 'UGF';
-      if (s.includes('UFIM') || s.includes('FIM') || s.includes('FINANCE') || s.includes('PAGAMENTO') || s.includes('TESOUR') || s.includes('CONTAB')) return 'UFIM';
+      if (s.includes('UGERF') || s.includes('GPR')) return 'GPR';
+      if (s.includes('UFIM') || s.includes('FIM')) return 'FIM';
       return s;
     }
 
@@ -9577,13 +9544,11 @@
 
       const totalVal = subset.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
       const gprItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'GPR');
-      const ugfItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'UGF');
-      const fimItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'UFIM' || normalizeSetorMedicao(m.setor) === 'FIM');
+      const fimItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'FIM');
       const parcialItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'PAGO PARCIAL');
       const pagoItems = subset.filter(m => normalizeSetorMedicao(m.setor) === 'PAGO');
 
       const gprVal = gprItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
-      const ugfVal = ugfItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
       const fimVal = fimItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
       const parcialVal = parcialItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
       const pagoVal = pagoItems.reduce((acc, m) => acc + (m.valorNumerico || parseMoedaToNumber(m.valor)), 0);
@@ -9610,8 +9575,6 @@
       const elTotalCount = document.getElementById('medicoesKpiTotalCount');
       const elGprCount = document.getElementById('medicoesKpiGprCount');
       const elGprVal = document.getElementById('medicoesKpiGprVal');
-      const elUgfCount = document.getElementById('medicoesKpiUgfCount');
-      const elUgfVal = document.getElementById('medicoesKpiUgfVal');
       const elFimCount = document.getElementById('medicoesKpiFimCount');
       const elFimVal = document.getElementById('medicoesKpiFimVal');
       const elParcialCount = document.getElementById('medicoesKpiParcialCount');
@@ -9625,8 +9588,6 @@
       if (elTotalCount) elTotalCount.textContent = `${subset.length} mediç${subset.length === 1 ? 'ão' : 'ões'}`;
       if (elGprCount) elGprCount.textContent = `${gprItems.length} processo${gprItems.length === 1 ? '' : 's'}`;
       if (elGprVal) elGprVal.textContent = formatNumberToMoeda(gprVal);
-      if (elUgfCount) elUgfCount.textContent = `${ugfItems.length} processo${ugfItems.length === 1 ? '' : 's'}`;
-      if (elUgfVal) elUgfVal.textContent = formatNumberToMoeda(ugfVal);
       if (elFimCount) elFimCount.textContent = `${fimItems.length} processo${fimItems.length === 1 ? '' : 's'}`;
       if (elFimVal) elFimVal.textContent = formatNumberToMoeda(fimVal);
       if (elParcialCount) elParcialCount.textContent = `${parcialItems.length} processo${parcialItems.length === 1 ? '' : 's'}`;
@@ -9658,8 +9619,7 @@
       const isPago = (normalizeSetorMedicao(item.setor) === 'PAGO');
       const isParcial = (normalizeSetorMedicao(item.setor) === 'PAGO PARCIAL');
       const isGpr = (normalizeSetorMedicao(item.setor) === 'GPR');
-      const isUgf = (normalizeSetorMedicao(item.setor) === 'UGF');
-      const isFim = (normalizeSetorMedicao(item.setor) === 'UFIM' || normalizeSetorMedicao(item.setor) === 'FIM');
+      const isFim = (normalizeSetorMedicao(item.setor) === 'FIM');
 
       const tram = calculateDiasTramitacao(item.dataEntrada, isPago);
       const valorStr = formatNumberToMoeda(item.valorNumerico || parseMoedaToNumber(item.valor));
@@ -9672,18 +9632,11 @@
             🏢 GPR (UGERF)
           </span>
         `;
-      } else if (isUgf) {
-        setorBadgeHtml = `
-          <span class="px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/50 text-[11px] font-black shadow-sm flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-            🏛️ UGF
-          </span>
-        `;
       } else if (isFim) {
         setorBadgeHtml = `
           <span class="px-2.5 sm:px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/50 text-[11px] font-black shadow-sm flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
-            🏦 UFIM (Pagamento)
+            🏦 FIM
           </span>
         `;
       } else if (isParcial) {
@@ -9830,8 +9783,7 @@
                 class="bg-brand-dark border border-brand-cardBorder rounded-lg px-2 py-1 text-xs text-cyan-300 font-bold focus:outline-none focus:border-cyan-400 transition-colors"
               >
                 <option value="GPR" ${normalizeSetorMedicao(item.setor) === 'GPR' ? 'selected' : ''}>🏢 GPR (UGERF)</option>
-                <option value="UGF" ${normalizeSetorMedicao(item.setor) === 'UGF' ? 'selected' : ''}>🏛️ UGF</option>
-                <option value="UFIM" ${(normalizeSetorMedicao(item.setor) === 'UFIM' || normalizeSetorMedicao(item.setor) === 'FIM') ? 'selected' : ''}>🏦 UFIM (Pagamento)</option>
+                <option value="FIM" ${normalizeSetorMedicao(item.setor) === 'FIM' ? 'selected' : ''}>🏦 FIM</option>
                 <option value="PAGO PARCIAL" ${normalizeSetorMedicao(item.setor) === 'PAGO PARCIAL' ? 'selected' : ''}>🟠 PAGO PARCIAL</option>
                 <option value="PAGO" ${normalizeSetorMedicao(item.setor) === 'PAGO' ? 'selected' : ''}>✅ PAGO / QUITADO</option>
               </select>
@@ -10110,7 +10062,6 @@
         // Calcula totalizadores financeiros
         let totalValor = 0;
         let totalGpr = 0;
-        let totalUgf = 0;
         let totalFim = 0;
         let totalParcial = 0;
         let totalPago = 0;
@@ -10120,8 +10071,7 @@
           totalValor += val;
           const s = normalizeSetorMedicao(it.setor);
           if (s === 'GPR') totalGpr += val;
-          else if (s === 'UGF') totalUgf += val;
-          else if (s === 'UFIM' || s === 'FIM') totalFim += val;
+          else if (s === 'FIM') totalFim += val;
           else if (s === 'PAGO PARCIAL') totalParcial += val;
           else if (s === 'PAGO') totalPago += val;
         });
@@ -10142,8 +10092,7 @@
         msg += `\n💵 *RESUMO FINANCEIRO:*`;
         msg += `\n• *Total Medido:* ${formatNumberToMoeda(totalValor)} (${items.length} medições)`;
         if (totalGpr > 0) msg += `\n• *Na GPR (UGERF):* ${formatNumberToMoeda(totalGpr)}`;
-        if (totalUgf > 0) msg += `\n• *Na UGF:* ${formatNumberToMoeda(totalUgf)}`;
-        if (totalFim > 0) msg += `\n• *No UFIM (Pagamento):* ${formatNumberToMoeda(totalFim)}`;
+        if (totalFim > 0) msg += `\n• *No FIM:* ${formatNumberToMoeda(totalFim)}`;
         if (totalParcial > 0) msg += `\n• *Pago Parcial:* ${formatNumberToMoeda(totalParcial)}`;
         if (totalPago > 0) msg += `\n• *Pago / Quitado:* ${formatNumberToMoeda(totalPago)}\n`;
         msg += `\n━━━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -10157,8 +10106,7 @@
             const sNorm = normalizeSetorMedicao(m.setor);
             if (sNorm === 'PAGO') setorIcon = '✅';
             else if (sNorm === 'PAGO PARCIAL') setorIcon = '🟠';
-            else if (sNorm === 'UGF') setorIcon = '🏛️';
-            else if (sNorm === 'UFIM' || sNorm === 'FIM') setorIcon = '🏦';
+            else if (sNorm === 'FIM') setorIcon = '🏦';
             else if (sNorm === 'GPR') setorIcon = '🏢';
 
             msg += `\n🔹 *${m.medicao || 'Medição'}* (${m.gre || 'GRE'}${m.escola ? ' - ' + m.escola : ''})`;
