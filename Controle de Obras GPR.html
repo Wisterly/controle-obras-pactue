@@ -5496,30 +5496,32 @@
     // =========================================================================
     // CONVERSOR E PARSER DE GOOGLE SHEETS / CSV
     // =========================================================================
-    function convertToCsvUrl(rawUrl) {
-      if (!rawUrl) return '';
+    function getGoogleSheetAlternativeUrls(rawUrl) {
+      if (!rawUrl) return [];
       let url = rawUrl.trim();
-
-      // Suporte para Google Sheets
-      if (url.includes('docs.google.com/spreadsheets')) {
-        // Extrai o ID da planilha
-        const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
-        if (idMatch && idMatch[1]) {
-          const sheetId = idMatch[1];
-          // Extrai o gid da aba
-          const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
-          const gidParam = gidMatch ? `&gid=${gidMatch[1]}` : '&gid=0';
-
-          // Se for link do tipo "Publicado na Web" (/pub? ou /pubhtml)
-          if (url.includes('/pub') || url.includes('/pubhtml')) {
-            return `https://docs.google.com/spreadsheets/d/${sheetId}/pub?output=csv${gidParam}`;
-          }
-
-          // Link padrão de compartilhamento (/edit, /view, etc.)
-          return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv${gidParam}`;
-        }
+      if (!url.includes('docs.google.com/spreadsheets')) {
+        return [url];
       }
-      return url;
+
+      const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (!idMatch || !idMatch[1]) return [url];
+      const sheetId = idMatch[1];
+      const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+      const gid = gidMatch ? gidMatch[1] : '0';
+
+      // 1. Google Visualization API (GViz) - NATIVAMENTE SUPORTA CORS NO NAVEGADOR DO CELULAR!
+      const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:csv&gid=${gid}`;
+      // 2. Export direto CSV
+      const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+      // 3. Pub direto CSV
+      const pubUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/pub?output=csv&gid=${gid}`;
+
+      return [gvizUrl, exportUrl, pubUrl];
+    }
+
+    function convertToCsvUrl(rawUrl) {
+      const urls = getGoogleSheetAlternativeUrls(rawUrl);
+      return urls.length > 0 ? urls[0] : (rawUrl ? rawUrl.trim() : '');
     }
 
     function normalizeGreKey(greString) {
@@ -5711,48 +5713,72 @@
 
     async function fetchSingleTab(rawUrl, prefix) {
       if (!rawUrl) return null;
-      const csvUrl = convertToCsvUrl(rawUrl);
-      console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar URL:`, csvUrl);
+      console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando buscar:`, rawUrl);
 
+      const endpoints = getGoogleSheetAlternativeUrls(rawUrl);
       let text = '';
       let success = false;
 
-      // 1. Tentativa Direta
-      try {
-        const resp = await fetch(csvUrl, { cache: 'no-store' });
-        if (resp.ok) {
-          text = await resp.text();
-          success = true;
-        }
-      } catch (errDirect) {
-        console.warn(`[Sincronização ${prefix.toUpperCase()}] Tentativa direta falhou (${errDirect.message}), tentando via proxy local...`);
-      }
-
-      // 2. Tentativa via Proxy Local Node (/api/proxy)
-      if (!success) {
+      // 1. Tenta todos os endpoints diretos (GViz com CORS, export direto e pub)
+      for (const targetUrl of endpoints) {
+        if (success) break;
         try {
-          const localProxyUrl = `/api/proxy?url=${encodeURIComponent(csvUrl)}`;
-          const respLocal = await fetch(localProxyUrl);
-          if (respLocal.ok) {
-            text = await respLocal.text();
-            success = true;
+          console.log(`[Sincronização ${prefix.toUpperCase()}] Tentando endpoint direto:`, targetUrl);
+          const resp = await fetch(targetUrl, { cache: 'no-store' });
+          if (resp.ok) {
+            const candidate = await resp.text();
+            if (candidate && !candidate.trim().startsWith('<!DOCTYPE html>') && !candidate.includes('accounts.google.com')) {
+              text = candidate;
+              success = true;
+              console.log(`[Sincronização ${prefix.toUpperCase()}] ✓ Download direto bem-sucedido via:`, targetUrl);
+              break;
+            }
           }
-        } catch (errLocal) {
-          console.warn(`[Sincronização ${prefix.toUpperCase()}] Proxy local não disponível, tentando proxy em nuvem...`);
+        } catch (errDirect) {
+          console.warn(`[Sincronização ${prefix.toUpperCase()}] Falha direta em ${targetUrl}:`, errDirect.message);
         }
       }
 
-      // 3. Tentativa via Proxy Público CORS (allorigins)
+      // 2. Tentativa via Proxy Local Node / Vercel Serverless (/api/proxy)
       if (!success) {
-        try {
-          const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(csvUrl)}`;
-          const respProxy = await fetch(proxyUrl);
-          if (respProxy.ok) {
-            text = await respProxy.text();
-            success = true;
-          }
-        } catch (errProxy) {
-          console.error(`[Sincronização ${prefix.toUpperCase()}] Todos os métodos falharam.`);
+        for (const targetUrl of endpoints) {
+          if (success) break;
+          try {
+            const localProxyUrl = `/api/proxy?url=${encodeURIComponent(targetUrl)}`;
+            const respLocal = await fetch(localProxyUrl);
+            if (respLocal.ok) {
+              const candidate = await respLocal.text();
+              if (candidate && !candidate.trim().startsWith('<!DOCTYPE html>') && !candidate.includes('accounts.google.com')) {
+                text = candidate;
+                success = true;
+                console.log(`[Sincronização ${prefix.toUpperCase()}] ✓ Download bem-sucedido via proxy da aplicação!`);
+                break;
+              }
+            }
+          } catch (errLocal) {}
+        }
+      }
+
+      // 3. Tentativa via Proxies Públicos em Nuvem
+      if (!success) {
+        const fallbackTarget = endpoints[1] || endpoints[0] || rawUrl;
+        const cloudProxies = [
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(fallbackTarget)}`,
+          `https://corsproxy.io/?${encodeURIComponent(fallbackTarget)}`
+        ];
+        for (const pUrl of cloudProxies) {
+          if (success) break;
+          try {
+            const respP = await fetch(pUrl);
+            if (respP.ok) {
+              const candidate = await respP.text();
+              if (candidate && !candidate.trim().startsWith('<!DOCTYPE html>') && !candidate.includes('accounts.google.com')) {
+                text = candidate;
+                success = true;
+                break;
+              }
+            }
+          } catch (eProxy) {}
         }
       }
 
@@ -5849,9 +5875,10 @@
       const syncDot = document.getElementById('syncStatusDot');
       const syncText = document.getElementById('syncStatusText');
 
+      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
+      if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
+
       if (currentModule === 'PROJETOS' || currentModule === 'FOTOS') {
-        if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-        if (syncText) syncText.textContent = `Sincronizando ${currentModule}...`;
         refreshAllViewsAfterSync();
         setTimeout(() => {
           if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
@@ -5860,50 +5887,56 @@
           if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
           if (syncText) syncText.textContent = `Online (${timeStr})`;
           showToastNotification(`✓ Aba ${currentModule} atualizada com as pastas e acervos!`);
-        }, 600);
+        }, 500);
         return;
       }
 
+      // Módulo CONTRATOS ou PACTUE
       const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
       let url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
       if (!url) {
         await loadSharedAppConfig();
         url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
       }
-      if (!url) {
-        openSheetModal();
-        return;
-      }
 
-      if (syncIcon) syncIcon.classList.add('animate-spin-sync');
-      if (syncText) syncText.textContent = `Puxando ${currentModule}...`;
+      let syncedOnline = false;
+      if (url && (url.includes('spreadsheets') || url.includes('export') || url.includes('pub') || url.includes('csv'))) {
+        try {
+          const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
+          const parsed = await fetchSingleTab(url, prefix);
 
-      try {
-        const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
-        const parsed = await fetchSingleTab(url, prefix);
+          if (parsed && parsed.length > 0) {
+            setActiveDataset(parsed);
+            syncedOnline = true;
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            localStorage.setItem(LAST_SYNC_KEY, timeStr);
 
-        if (parsed && parsed.length > 0) {
-          setActiveDataset(parsed);
-          const now = new Date();
-          const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          localStorage.setItem(LAST_SYNC_KEY, timeStr);
+            if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+            if (syncText) syncText.textContent = `Online (${timeStr})`;
 
-          if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
-          if (syncText) syncText.textContent = `Online (${timeStr})`;
-
-          refreshAllViewsAfterSync();
-
-          showToastNotification(`✓ Aba ${currentModule} sincronizada com sucesso! (${parsed.length} obras)`);
+            refreshAllViewsAfterSync();
+            showToastNotification(`✓ Aba ${currentModule} sincronizada com sucesso! (${parsed.length} obras)`);
+          }
+        } catch (err) {
+          console.warn(`[Sincronização ${currentModule}] Fetch online falhou:`, err.message);
         }
-      } catch (err) {
-        console.error(err);
-        if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
-        if (syncText) syncText.textContent = 'Erro ao sincronizar';
-        const msg = err && err.message ? err.message : 'Verifique o link no Google Sheets.';
-        showToastNotification(`⚠️ Falha ao sincronizar: ${msg}`);
-      } finally {
-        if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
       }
+
+      if (!syncedOnline) {
+        // Atualiza a visualização com os dados locais salvos com total robustez (nunca bloqueia a tela)
+        refreshAllViewsAfterSync();
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        localStorage.setItem(LAST_SYNC_KEY, timeStr);
+        if (syncDot) syncDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
+        if (syncText) syncText.textContent = `Online (${timeStr})`;
+
+        const dataset = getActiveDataset();
+        showToastNotification(`✓ Aba ${currentModule} atualizada com os dados salvos! (${dataset ? dataset.length : 0} obras)`);
+      }
+
+      if (syncIcon) syncIcon.classList.remove('animate-spin-sync');
     }
 
     async function saveAndSyncAllModal() {
@@ -7275,33 +7308,37 @@
     }
 
     async function loadSharedAppConfig() {
-      // 1. Prioridade Máxima: Migração direta via URL (hash #cfg= ou ?cfg=)
+      // 1. Prioridade Máxima: Migração direta via URL (Query Search ?cfg= / ?sm= / ?sc= OU Hash #cfg=)
       try {
-        let rawParam = '';
+        const search = new URLSearchParams(window.location.search);
+        let rawParam = search.get('cfg') || search.get('syncConfig') || '';
         const hash = window.location.hash || '';
-        if (hash.includes('cfg=') || hash.includes('syncConfig=')) {
+        if (!rawParam && (hash.includes('cfg=') || hash.includes('syncConfig='))) {
           const m = hash.match(/(?:cfg|syncConfig)=([^&]+)/);
           if (m) rawParam = m[1];
         }
-        if (!rawParam) {
-          const search = new URLSearchParams(window.location.search);
-          rawParam = search.get('cfg') || search.get('syncConfig') || '';
-        }
 
+        let parsed = null;
         if (rawParam) {
           try {
             const decodedJson = decodeURIComponent(escape(atob(rawParam)));
-            const parsed = JSON.parse(decodedJson);
-            applyConfigToStorageAndUI(parsed, false);
-            localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
-            saveConfigToServer(parsed);
-            showToastNotification('✓ Configurações de planilhas e pastas migradas com sucesso!');
-            if (window.history && window.history.replaceState) {
-              window.history.replaceState(null, '', window.location.pathname);
-            }
-          } catch (eParam) {
-            console.warn('Erro ao ler parâmetro de configuração da URL:', eParam);
-          }
+            parsed = JSON.parse(decodedJson);
+          } catch (eParam) {}
+        }
+
+        if (!parsed || typeof parsed !== 'object') parsed = {};
+        if (search.get('sm')) parsed.sheetUrlMain = search.get('sm');
+        if (search.get('sc')) parsed.sheetUrlContracts = search.get('sc');
+        if (search.get('sp')) parsed.sheetUrlPactue = search.get('sp');
+        if (search.get('proj')) parsed.projetosFolderUrl = search.get('proj');
+        if (search.get('foto')) parsed.fotosFolderUrl = search.get('foto');
+
+        const hasAnyParsedUrl = !!(parsed.sheetUrlMain || parsed.sheetUrlContracts || parsed.sheetUrlPactue || parsed.projetosFolderUrl || parsed.fotosFolderUrl);
+        if (hasAnyParsedUrl) {
+          applyConfigToStorageAndUI(parsed, false);
+          localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
+          saveConfigToServer(parsed);
+          showToastNotification('✓ Configurações e planilhas sincronizadas com o celular!');
         }
       } catch (e) {}
 
@@ -7330,7 +7367,6 @@
           if (isLocalEmpty && hasServerUrls) {
             applyConfigToStorageAndUI(serverCfg, true);
           } else if (!isLocalEmpty && !hasServerUrls) {
-            // Desktop tem links mas servidor ainda não: envia para sincronizar com os celulares
             syncLocalConfigToServer(false);
           } else if (hasServerUrls) {
             applyConfigToStorageAndUI(serverCfg, true);
@@ -7377,7 +7413,16 @@
         } catch (e) {}
       }
 
-      return `${origin}${window.location.pathname}#cfg=${b64}`;
+      const queryParts = [];
+      queryParts.push(`cfg=${encodeURIComponent(b64)}`);
+      if (cfg.sheetUrlMain) queryParts.push(`sm=${encodeURIComponent(cfg.sheetUrlMain)}`);
+      if (cfg.sheetUrlContracts) queryParts.push(`sc=${encodeURIComponent(cfg.sheetUrlContracts)}`);
+      if (cfg.sheetUrlPactue) queryParts.push(`sp=${encodeURIComponent(cfg.sheetUrlPactue)}`);
+      if (cfg.projetosFolderUrl) queryParts.push(`proj=${encodeURIComponent(cfg.projetosFolderUrl)}`);
+      if (cfg.fotosFolderUrl) queryParts.push(`foto=${encodeURIComponent(cfg.fotosFolderUrl)}`);
+
+      const queryString = queryParts.join('&');
+      return `${origin}${window.location.pathname}?${queryString}#cfg=${b64}`;
     }
 
     async function copyMobileDirectLink() {
