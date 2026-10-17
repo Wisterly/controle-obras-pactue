@@ -706,7 +706,7 @@
           </div>
 
           <!-- Grade de balõezinhos de subpastas/categorias (Ilhas) -->
-          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-2">
+          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2">
             <!-- Injected via JS -->
           </div>
         </div>
@@ -1761,6 +1761,17 @@
         status: "EM EXECUÇÃO",
         situacao: "PARADA",
         termino: "22/11/2026"
+      },
+      {
+        id: "ct-jf-pedro-freitas",
+        gre: "18ª GRE – TERESINA",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        construtora: "CONSTRUTORA CAPITAL LTDA",
+        status: "EXECUÇÃO",
+        situacao: "EM ANDAMENTO",
+        termino: "30/12/2026"
       }
     ];
 
@@ -1944,6 +1955,30 @@
         versao: "R01",
         data: "05/10/2026",
         url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-jf-1",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        titulo: "Planta Baixa de Reforma e Ampliação - Bloco de Aulas e Laboratórios",
+        disciplina: "Arquitetura",
+        status: "Aprovado",
+        versao: "R02",
+        data: "14/10/2026",
+        url: "https://drive.google.com/"
+      },
+      {
+        id: "proj-jf-2",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        titulo: "Projeto de Instalações Elétricas e Subestação Abrigada",
+        disciplina: "Elétrico",
+        status: "Aprovado",
+        versao: "R01",
+        data: "10/10/2026",
+        url: "https://drive.google.com/"
       }
     ];
 
@@ -1951,7 +1986,6 @@
     // CATEGORIAS / SUBPASTAS PADRÃO DE FOTOS (BALÕEZINHOS)
     // =========================================================================
     const FOTOS_DEFAULT_CATEGORIES = [
-      { key: "TODAS", icon: "🗂️", color: "indigo", label: "Todas / Misturadas", subtitle: "Ver todas & Organizar", badge: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30" },
       { key: "Fachadas", icon: "🏛️", color: "blue", label: "Fachadas", subtitle: "Acessos & Fachada", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
       { key: "Laboratórios", icon: "🔬", color: "emerald", label: "Laboratórios", subtitle: "Ciências & Robótica", badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
       { key: "Salas de Aula", icon: "📚", color: "amber", label: "Salas de Aula", subtitle: "Blocos Pedagógicos", badge: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
@@ -2088,6 +2122,40 @@
         titulo: "Montagem da Cobertura Metálica",
         data: "05/10/2026",
         descricao: "Içamento das tesouras metálicas do vão de armazenagem."
+      },
+      // CETI GOV PEDRO FREITAS - 18ª GRE (JOSÉ DE FREITAS)
+      {
+        id: "foto-jf-1",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        pasta: "Fachadas",
+        url: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Fachada Principal e Entrada dos Alunos",
+        data: "15/10/2026",
+        descricao: "Pórtico frontal e acesso seguro no CETI Gov Pedro Freitas em José de Freitas."
+      },
+      {
+        id: "foto-jf-2",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        pasta: "Salas de Aula",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Salas de Aula Climatizadas Bloco 1",
+        data: "14/10/2026",
+        descricao: "Novas carteiras, forro e condicionadores de ar instalados."
+      },
+      {
+        id: "foto-jf-3",
+        greKey: "18ª GRE",
+        escola: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS",
+        municipio: "JOSÉ DE FREITAS",
+        pasta: "Laboratórios",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+        titulo: "Laboratório de Ciências e Robótica",
+        data: "12/10/2026",
+        descricao: "Bancadas em granito e estações de informática preparadas."
       }
     ];
 
@@ -2183,7 +2251,7 @@
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) {
             // Garante que qualquer registro antigo com "EM EXECUÇÃO" seja unificado para "EXECUÇÃO"
-            return parsed.map(item => {
+            const mapped = parsed.map(item => {
               if (item.status) {
                 item.status = normalizeWorkStatus(item.status);
               }
@@ -2194,6 +2262,13 @@
               }
               return true;
             });
+
+            // Se for acervo padrão e faltar o CETI Gov Pedro Freitas, agrega da base padrão
+            if (Array.isArray(fallback) && !mapped.some(x => String(x.escola || '').includes('PEDRO FREITAS'))) {
+              const extra = fallback.filter(x => String(x.escola || '').includes('PEDRO FREITAS'));
+              return [...mapped, ...extra];
+            }
+            return mapped;
           }
         }
       } catch (e) {
@@ -2376,16 +2451,47 @@
     let projetosActiveSchool = 'CETI MARIA MELO';
     let currentPdfProject = null;
 
+    // =========================================================================
+    // PADRONIZADOR OFICIAL DE PASTAS E ESCOLAS (INEP - MUNICÍPIO - ESCOLA)
+    // Exemplo do print: 22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS
+    // =========================================================================
+    function parseSchoolFolderInfo(rawStr, fallbackCity = '') {
+      if (!rawStr) return { inep: '', municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: '' };
+      const trimmed = String(rawStr).trim();
+
+      // Padrão Oficial: "22020810 - JOSÉ DE FREITAS - CETI GOV PEDRO FREITAS"
+      // 1º números: Código INEP da escola
+      // 2º nome: Cidade / Município
+      // 3º nome: Nome da Escola
+      const parts = trimmed.split(/\s*[-–—]\s*/);
+      
+      if (parts.length >= 3 && /^\d+$/.test(parts[0])) {
+        const inep = parts[0].trim();
+        const municipio = parts[1].trim().toUpperCase();
+        const nome = parts.slice(2).join(' - ').trim().toUpperCase();
+        return { inep, municipio, nome };
+      }
+
+      // Se tiver 2 partes e a 1ª for números: "012345 - CETI MARIA MELO"
+      if (parts.length === 2 && /^\d+$/.test(parts[0])) {
+        const inep = parts[0].trim();
+        const nome = parts[1].trim().toUpperCase();
+        return { inep, municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome };
+      }
+
+      // Se começar com números mas sem traço: "22020810 CETI GOV PEDRO FREITAS"
+      const numMatch = trimmed.match(/^(\d+)\s+[-–—]?\s*(.+)$/);
+      if (numMatch) {
+        return { inep: numMatch[1], municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: numMatch[2].trim().toUpperCase() };
+      }
+
+      return { inep: '', municipio: (fallbackCity || 'MUNICÍPIO').toUpperCase(), nome: trimmed.toUpperCase() };
+    }
+
     function extractCleanSchoolName(raw) {
       if (!raw) return '';
-      const trimmed = String(raw).trim();
-      // Remove sequência numérica inicial seguida de separador (traço, ponto, espaço, underline, etc.)
-      // Exemplo: "012345 - CETI MARIA MELO" -> "CETI MARIA MELO"
-      // "220192 CETI PRESIDENTE KENNEDY" -> "CETI PRESIDENTE KENNEDY"
-      // "01_ESCOLA MODELO" -> "ESCOLA MODELO"
-      // "1. CETI TAL" -> "CETI TAL"
-      const cleaned = trimmed.replace(/^[\d\s\-_.–—:]+/, '').trim();
-      return cleaned || trimmed;
+      const parsed = parseSchoolFolderInfo(raw);
+      return parsed.nome || String(raw).trim().toUpperCase();
     }
 
     function initProjetosModule() {
@@ -2409,13 +2515,18 @@
       // 1. Extrai das obras de Contratos e PACTUE
       [...contractsData, ...pactueData].forEach(w => {
         if (greKey === 'TODAS' || normalizeGreKey(w.greKey) === normGre || normalizeGreKey(w.gre) === normGre) {
-          const rawName = (w.escola || '').trim().toUpperCase();
-          const cleanName = extractCleanSchoolName(rawName);
+          const rawName = (w.escola || '').trim();
+          const parsed = parseSchoolFolderInfo(rawName, w.municipio);
+          const cleanName = parsed.nome || extractCleanSchoolName(rawName);
+          const cleanCity = parsed.municipio || (w.municipio || 'MUNICÍPIO').toUpperCase();
+
           if (cleanName && !map.has(cleanName)) {
             map.set(cleanName, {
               nome: cleanName,
-              municipio: (w.municipio || 'MUNICÍPIO').toUpperCase(),
-              greKey: w.greKey || greKey
+              municipio: cleanCity,
+              inep: parsed.inep,
+              greKey: w.greKey || greKey,
+              rawName: rawName
             });
           }
         }
@@ -2424,13 +2535,18 @@
       // 2. Extrai dos projetos cadastrados
       projetosData.forEach(p => {
         if (greKey === 'TODAS' || normalizeGreKey(p.greKey) === normGre) {
-          const rawName = (p.escola || '').trim().toUpperCase();
-          const cleanName = extractCleanSchoolName(rawName);
+          const rawName = (p.escola || '').trim();
+          const parsed = parseSchoolFolderInfo(rawName, p.municipio);
+          const cleanName = parsed.nome || extractCleanSchoolName(rawName);
+          const cleanCity = parsed.municipio || (p.municipio || 'MUNICÍPIO').toUpperCase();
+
           if (cleanName && !map.has(cleanName)) {
             map.set(cleanName, {
               nome: cleanName,
-              municipio: (p.municipio || 'MUNICÍPIO').toUpperCase(),
-              greKey: p.greKey || greKey
+              municipio: cleanCity,
+              inep: parsed.inep,
+              greKey: p.greKey || greKey,
+              rawName: rawName
             });
           }
         }
@@ -2439,13 +2555,18 @@
       // 3. Extrai do acervo de fotos cadastradas
       fotosData.forEach(f => {
         if (greKey === 'TODAS' || normalizeGreKey(f.greKey) === normGre) {
-          const rawName = (f.escola || '').trim().toUpperCase();
-          const cleanName = extractCleanSchoolName(rawName);
+          const rawName = (f.escola || '').trim();
+          const parsed = parseSchoolFolderInfo(rawName, f.municipio);
+          const cleanName = parsed.nome || extractCleanSchoolName(rawName);
+          const cleanCity = parsed.municipio || (f.municipio || 'MUNICÍPIO').toUpperCase();
+
           if (cleanName && !map.has(cleanName)) {
             map.set(cleanName, {
               nome: cleanName,
-              municipio: (f.municipio || 'MUNICÍPIO').toUpperCase(),
-              greKey: f.greKey || greKey
+              municipio: cleanCity,
+              inep: parsed.inep,
+              greKey: f.greKey || greKey,
+              rawName: rawName
             });
           }
         }
@@ -2618,7 +2739,7 @@
                   ${s.nome}
                 </span>
                 <span class="text-[10px] text-slate-400 truncate leading-tight mt-0.5">
-                  ${s.municipio}
+                  📍 ${s.municipio}${s.inep ? ` • INEP: ${s.inep}` : ''}
                 </span>
               </div>
             </div>
@@ -3353,7 +3474,7 @@
                 ${s.nome}
               </span>
               <span class="text-[9px] truncate leading-tight mt-0.5 ${isSelected ? 'text-white/80' : 'text-slate-400'}">
-                📍 ${s.municipio}
+                📍 ${s.municipio}${s.inep ? ` • INEP: ${s.inep}` : ''}
               </span>
             </div>
             ${badgeHtml}
@@ -3445,7 +3566,6 @@
               </span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
-              ${cameraBtn}
               <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
                 isSelected ? 'bg-black/25 text-inherit font-black' : cat.badge
               }">
