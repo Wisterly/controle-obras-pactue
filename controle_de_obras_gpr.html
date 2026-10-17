@@ -1113,6 +1113,7 @@
             <input 
               type="url" 
               id="sheetUrlMainInput" 
+              oninput="handleSettingInputImmediate('sheetUrlMain', this.value)"
               placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing"
               class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
             />
@@ -1141,6 +1142,7 @@
           <input 
             type="url" 
             id="sheetUrlContractsInput" 
+            oninput="handleSettingInputImmediate('sheetUrlContracts', this.value)"
             placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=0"
             class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
@@ -1159,6 +1161,7 @@
           <input 
             type="url" 
             id="sheetUrlPactueInput" 
+            oninput="handleSettingInputImmediate('sheetUrlPactue', this.value)"
             placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=18492049"
             class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
@@ -1172,7 +1175,7 @@
             </label>
             <select 
               id="autoSyncIntervalSelect" 
-              onchange="updateAutoSyncSetting(this.value)"
+              onchange="handleSettingInputImmediate('autoSyncInterval', this.value); updateAutoSyncSetting(this.value);"
               class="w-full bg-brand-panel border border-brand-cardBorder rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
             >
               <option value="0">Desativada (manual)</option>
@@ -1255,6 +1258,7 @@
           <input 
             type="url" 
             id="sheetUrlProjetosInput" 
+            oninput="handleSettingInputImmediate('projetosFolderUrl', this.value)"
             placeholder="Ex: https://drive.google.com/drive/folders/1aBcDeFgHiJkLmNoP... (Link compartilhado)"
             class="w-full bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
@@ -1335,6 +1339,7 @@
           <input 
             type="url" 
             id="sheetUrlFotosInput" 
+            oninput="handleSettingInputImmediate('fotosFolderUrl', this.value)"
             placeholder="Ex: https://drive.google.com/drive/folders/1xYzAbCdEfGhIjKlMn... (Link compartilhado)"
             class="w-full bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
@@ -3032,12 +3037,18 @@
         return;
       }
       const raw = inputMain.value.trim();
-      localStorage.setItem(SHEET_URL_MAIN_KEY, raw);
+      handleSettingInputImmediate('sheetUrlMain', raw);
       
       // Se não tiver gid específico, define o link geral como base para as duas abas
-      if (inputCt && !inputCt.value.trim()) inputCt.value = raw;
-      if (inputPac && !inputPac.value.trim()) inputPac.value = raw;
-      showToastNotification('✓ Link principal aplicado aos campos das abas!');
+      if (inputCt && !inputCt.value.trim()) {
+        inputCt.value = raw;
+        handleSettingInputImmediate('sheetUrlContracts', raw);
+      }
+      if (inputPac && !inputPac.value.trim()) {
+        inputPac.value = raw;
+        handleSettingInputImmediate('sheetUrlPactue', raw);
+      }
+      showToastNotification('✓ Link principal aplicado às abas e salvo com sucesso!');
     }
 
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
@@ -6070,70 +6081,7 @@
   
     function openSheetModal() {
       const modal = document.getElementById('sheetModal');
-      const inputMain = document.getElementById('sheetUrlMainInput');
-      const inputCt = document.getElementById('sheetUrlContractsInput');
-      const inputPac = document.getElementById('sheetUrlPactueInput');
-      const inputProj = document.getElementById('sheetUrlProjetosInput');
-      const inputFot = document.getElementById('sheetUrlFotosInput');
-      const select = document.getElementById('autoSyncIntervalSelect');
-      const lastSync = document.getElementById('modalLastSyncText');
-      const linkCt = document.getElementById('modalOpenContractsTab');
-      const linkPac = document.getElementById('modalOpenPactueTab');
-      const linkProj = document.getElementById('modalOpenProjetosTab');
-      const linkFot = document.getElementById('modalOpenFotosTab');
-
-      const savedUrlMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
-      const savedUrlCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
-      const savedUrlPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
-      const savedUrlProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
-      const savedUrlFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
-      const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
-      const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY);
-
-      if (inputMain) inputMain.value = savedUrlMain;
-      if (inputCt) inputCt.value = savedUrlCt;
-      if (inputPac) inputPac.value = savedUrlPac;
-      if (inputProj) inputProj.value = savedUrlProj;
-      if (inputFot) inputFot.value = savedUrlFot;
-      if (select) select.value = savedInterval;
-      if (lastSync && lastSyncTime) lastSync.textContent = `Última sincronização às ${lastSyncTime}`;
-
-      if (linkCt) {
-        if (savedUrlCt) {
-          linkCt.href = savedUrlCt;
-          linkCt.classList.remove('hidden');
-        } else {
-          linkCt.classList.add('hidden');
-        }
-      }
-
-      if (linkPac) {
-        if (savedUrlPac) {
-          linkPac.href = savedUrlPac;
-          linkPac.classList.remove('hidden');
-        } else {
-          linkPac.classList.add('hidden');
-        }
-      }
-
-      if (linkProj) {
-        if (savedUrlProj) {
-          linkProj.href = savedUrlProj;
-          linkProj.classList.remove('hidden');
-        } else {
-          linkProj.classList.add('hidden');
-        }
-      }
-
-      if (linkFot) {
-        if (savedUrlFot) {
-          linkFot.href = savedUrlFot;
-          linkFot.classList.remove('hidden');
-        } else {
-          linkFot.classList.add('hidden');
-        }
-      }
-
+      initSettingsInputsFromStorage();
       if (modal) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
@@ -7124,17 +7072,17 @@
     // =========================================================================
     // SUÍTE DE SINCRONIZAÇÃO E MIGRAÇÃO DE CONFIGURAÇÕES (DESKTOP <-> CELULAR)
     // =========================================================================
-    function applyConfigToStorageAndUI(cfg) {
-      if (!cfg || typeof cfg !== 'object') return;
-      if (cfg.sheetUrlMain) localStorage.setItem(SHEET_URL_MAIN_KEY, cfg.sheetUrlMain);
-      if (cfg.sheetUrlContracts) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, cfg.sheetUrlContracts);
-      if (cfg.sheetUrlPactue) localStorage.setItem(SHEET_URL_PACTUE_KEY, cfg.sheetUrlPactue);
-      if (cfg.projetosFolderUrl) localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, cfg.projetosFolderUrl);
-      if (cfg.fotosFolderUrl) localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, cfg.fotosFolderUrl);
-      if (cfg.autoSyncInterval) localStorage.setItem(AUTO_SYNC_KEY, String(cfg.autoSyncInterval));
-      if (cfg.lastSyncTime) localStorage.setItem(LAST_SYNC_KEY, cfg.lastSyncTime);
 
-      // Atualiza campos do DOM
+    // Inicializa instantaneamente todos os inputs da tela com base no localStorage
+    function initSettingsInputsFromStorage() {
+      const savedMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
+      const savedCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
+      const savedPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
+      const savedProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
+      const savedFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
+      const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
+      const lastSyncTime = localStorage.getItem(LAST_SYNC_KEY) || '';
+
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
@@ -7142,14 +7090,137 @@
       const inputFot = document.getElementById('sheetUrlFotosInput');
       const projShared = document.getElementById('projetosSharedFolderInput');
       const fotShared = document.getElementById('fotosSharedFolderInput');
+      const select = document.getElementById('autoSyncIntervalSelect');
+      const lastSync = document.getElementById('modalLastSyncText');
+      const linkCt = document.getElementById('modalOpenContractsTab');
+      const linkPac = document.getElementById('modalOpenPactueTab');
+      const linkProj = document.getElementById('modalOpenProjetosTab');
+      const linkFot = document.getElementById('modalOpenFotosTab');
 
-      if (inputMain && cfg.sheetUrlMain) inputMain.value = cfg.sheetUrlMain;
-      if (inputCt && cfg.sheetUrlContracts) inputCt.value = cfg.sheetUrlContracts;
-      if (inputPac && cfg.sheetUrlPactue) inputPac.value = cfg.sheetUrlPactue;
-      if (inputProj && cfg.projetosFolderUrl) inputProj.value = cfg.projetosFolderUrl;
-      if (inputFot && cfg.fotosFolderUrl) inputFot.value = cfg.fotosFolderUrl;
-      if (projShared && cfg.projetosFolderUrl) projShared.value = cfg.projetosFolderUrl;
-      if (fotShared && cfg.fotosFolderUrl) fotShared.value = cfg.fotosFolderUrl;
+      if (inputMain && savedMain) inputMain.value = savedMain;
+      if (inputCt && savedCt) inputCt.value = savedCt;
+      if (inputPac && savedPac) inputPac.value = savedPac;
+      if (inputProj && savedProj) inputProj.value = savedProj;
+      if (inputFot && savedFot) inputFot.value = savedFot;
+      if (projShared && savedProj) projShared.value = savedProj;
+      if (fotShared && savedFot) fotShared.value = savedFot;
+      if (select && savedInterval) select.value = savedInterval;
+      if (lastSync && lastSyncTime) lastSync.textContent = `Última sincronização às ${lastSyncTime}`;
+
+      if (linkCt) {
+        if (savedCt) { linkCt.href = savedCt; linkCt.classList.remove('hidden'); }
+        else { linkCt.classList.add('hidden'); }
+      }
+      if (linkPac) {
+        if (savedPac) { linkPac.href = savedPac; linkPac.classList.remove('hidden'); }
+        else { linkPac.classList.add('hidden'); }
+      }
+      if (linkProj) {
+        if (savedProj) { linkProj.href = savedProj; linkProj.classList.remove('hidden'); }
+        else { linkProj.classList.add('hidden'); }
+      }
+      if (linkFot) {
+        if (savedFot) { linkFot.href = savedFot; linkFot.classList.remove('hidden'); }
+        else { linkFot.classList.add('hidden'); }
+      }
+    }
+
+    // Salva instantaneamente a cada tecla ou colagem (oninput) para NUNCA resetar em F5
+    let _configSaveDebounceTimer = null;
+    function handleSettingInputImmediate(field, value) {
+      if (typeof value !== 'string') return;
+      const trimmed = value.trim();
+      const nowIso = new Date().toISOString();
+      localStorage.setItem('seduc_config_last_saved_time', nowIso);
+
+      if (field === 'sheetUrlMain') {
+        localStorage.setItem(SHEET_URL_MAIN_KEY, trimmed);
+      } else if (field === 'sheetUrlContracts') {
+        localStorage.setItem(SHEET_URL_CONTRACTS_KEY, trimmed);
+        const linkCt = document.getElementById('modalOpenContractsTab');
+        if (linkCt) {
+          if (trimmed) { linkCt.href = trimmed; linkCt.classList.remove('hidden'); }
+          else { linkCt.classList.add('hidden'); }
+        }
+      } else if (field === 'sheetUrlPactue') {
+        localStorage.setItem(SHEET_URL_PACTUE_KEY, trimmed);
+        const linkPac = document.getElementById('modalOpenPactueTab');
+        if (linkPac) {
+          if (trimmed) { linkPac.href = trimmed; linkPac.classList.remove('hidden'); }
+          else { linkPac.classList.add('hidden'); }
+        }
+      } else if (field === 'projetosFolderUrl') {
+        const finalUrl = trimmed || DEFAULT_GOOGLE_DRIVE_BASE_URL;
+        localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, finalUrl);
+        const linkProj = document.getElementById('modalOpenProjetosTab');
+        if (linkProj) { linkProj.href = finalUrl; linkProj.classList.remove('hidden'); }
+        const tabInp = document.getElementById('projetosSharedFolderInput');
+        if (tabInp && tabInp.value !== finalUrl) tabInp.value = finalUrl;
+        const modalInp = document.getElementById('sheetUrlProjetosInput');
+        if (modalInp && modalInp.value !== finalUrl) modalInp.value = finalUrl;
+      } else if (field === 'fotosFolderUrl') {
+        const finalUrl = trimmed || DEFAULT_GOOGLE_DRIVE_BASE_URL;
+        localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, finalUrl);
+        const linkFot = document.getElementById('modalOpenFotosTab');
+        if (linkFot) { linkFot.href = finalUrl; linkFot.classList.remove('hidden'); }
+        const tabInp = document.getElementById('fotosSharedFolderInput');
+        if (tabInp && tabInp.value !== finalUrl) tabInp.value = finalUrl;
+        const modalInp = document.getElementById('sheetUrlFotosInput');
+        if (modalInp && modalInp.value !== finalUrl) modalInp.value = finalUrl;
+      } else if (field === 'autoSyncInterval') {
+        localStorage.setItem(AUTO_SYNC_KEY, trimmed || '5');
+      }
+
+      // Envia em segundo plano para o servidor e app_config.json com debounce suave
+      if (_configSaveDebounceTimer) clearTimeout(_configSaveDebounceTimer);
+      _configSaveDebounceTimer = setTimeout(() => {
+        syncLocalConfigToServer(false);
+      }, 350);
+    }
+
+    function applyConfigToStorageAndUI(cfg, isFromServer = false) {
+      if (!cfg || typeof cfg !== 'object') return;
+
+      const localLastSaved = localStorage.getItem('seduc_config_last_saved_time') || '';
+      // Se vem do servidor e temos uma alteração local mais recente, NÃO sobrescrever os dados locais!
+      if (isFromServer && cfg.updatedAt && localLastSaved) {
+        try {
+          if (new Date(cfg.updatedAt).getTime() < new Date(localLastSaved).getTime()) {
+            // Os dados locais são mais novos: atualizamos o servidor com nossos dados locais
+            syncLocalConfigToServer(false);
+            return;
+          }
+        } catch (eTime) {}
+      }
+
+      // NUNCA sobrescreve valores válidos existentes por valores em branco!
+      if (cfg.sheetUrlMain && typeof cfg.sheetUrlMain === 'string' && cfg.sheetUrlMain.trim()) {
+        localStorage.setItem(SHEET_URL_MAIN_KEY, cfg.sheetUrlMain.trim());
+      }
+      if (cfg.sheetUrlContracts && typeof cfg.sheetUrlContracts === 'string' && cfg.sheetUrlContracts.trim()) {
+        localStorage.setItem(SHEET_URL_CONTRACTS_KEY, cfg.sheetUrlContracts.trim());
+      }
+      if (cfg.sheetUrlPactue && typeof cfg.sheetUrlPactue === 'string' && cfg.sheetUrlPactue.trim()) {
+        localStorage.setItem(SHEET_URL_PACTUE_KEY, cfg.sheetUrlPactue.trim());
+      }
+      if (cfg.projetosFolderUrl && typeof cfg.projetosFolderUrl === 'string' && cfg.projetosFolderUrl.trim()) {
+        localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, cfg.projetosFolderUrl.trim());
+      }
+      if (cfg.fotosFolderUrl && typeof cfg.fotosFolderUrl === 'string' && cfg.fotosFolderUrl.trim()) {
+        localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, cfg.fotosFolderUrl.trim());
+      }
+      if (cfg.autoSyncInterval) {
+        localStorage.setItem(AUTO_SYNC_KEY, String(cfg.autoSyncInterval));
+      }
+      if (cfg.lastSyncTime && typeof cfg.lastSyncTime === 'string' && cfg.lastSyncTime.trim()) {
+        localStorage.setItem(LAST_SYNC_KEY, cfg.lastSyncTime.trim());
+      }
+      if (cfg.updatedAt) {
+        localStorage.setItem('seduc_config_last_saved_time', cfg.updatedAt);
+      }
+
+      // Atualiza os campos do DOM imediatamente
+      initSettingsInputsFromStorage();
     }
 
     async function saveConfigToServer(customCfg = null) {
@@ -7160,7 +7231,8 @@
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
-        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || ''
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || '',
+        updatedAt: localStorage.getItem('seduc_config_last_saved_time') || new Date().toISOString()
       };
 
       try {
@@ -7182,7 +7254,8 @@
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
-        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || ''
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || '',
+        updatedAt: localStorage.getItem('seduc_config_last_saved_time') || new Date().toISOString()
       };
 
       if (force || cfg.sheetUrlMain || cfg.sheetUrlContracts || cfg.sheetUrlPactue) {
@@ -7219,9 +7292,10 @@
           try {
             const decodedJson = decodeURIComponent(escape(atob(rawParam)));
             const parsed = JSON.parse(decodedJson);
-            applyConfigToStorageAndUI(parsed);
+            applyConfigToStorageAndUI(parsed, false);
+            localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
             saveConfigToServer(parsed);
-            showToastNotification('✓ Configurações de planilhas e pastas migradas para o celular!');
+            showToastNotification('✓ Configurações de planilhas e pastas migradas com sucesso!');
             if (window.history && window.history.replaceState) {
               window.history.replaceState(null, '', window.location.pathname);
             }
@@ -7254,12 +7328,12 @@
           const isLocalEmpty = !localCt && !localPac && !localMain;
 
           if (isLocalEmpty && hasServerUrls) {
-            applyConfigToStorageAndUI(serverCfg);
+            applyConfigToStorageAndUI(serverCfg, true);
           } else if (!isLocalEmpty && !hasServerUrls) {
             // Desktop tem links mas servidor ainda não: envia para sincronizar com os celulares
             syncLocalConfigToServer(false);
-          } else if (hasServerUrls && serverCfg.updatedAt) {
-            applyConfigToStorageAndUI(serverCfg);
+          } else if (hasServerUrls) {
+            applyConfigToStorageAndUI(serverCfg, true);
           }
         }
       } catch (err) {
@@ -7273,6 +7347,8 @@
       if (!localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER)) {
         localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, DEFAULT_GOOGLE_DRIVE_BASE_URL);
       }
+
+      initSettingsInputsFromStorage();
     }
 
     async function getMobileSyncLink() {
@@ -7372,8 +7448,34 @@
       }
     }
 
+    // Inicializa campos imediatamente quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', () => {
+      initSettingsInputsFromStorage();
+    });
+
+    // Salva qualquer alteração pendente antes de fechar ou recarregar (F5)
+    window.addEventListener('beforeunload', () => {
+      const cfg = {
+        sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
+        sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
+        sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
+        autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
+        lastSyncTime: localStorage.getItem(LAST_SYNC_KEY) || '',
+        updatedAt: localStorage.getItem('seduc_config_last_saved_time') || new Date().toISOString()
+      };
+      try {
+        const blob = new Blob([JSON.stringify(cfg)], { type: 'application/json' });
+        navigator.sendBeacon('/api/config', blob);
+      } catch (e) {}
+    });
+
     // Inicialização da Página: Abre com dados e configurações sincronizados automaticamente
     window.onload = async function() {
+      // 0. Popula imediatamente os campos visuais da interface para nunca piscar em branco
+      initSettingsInputsFromStorage();
+
       switchModule(currentModule);
 
       // 1. Carrega configurações compartilhadas entre Desktop e Celular

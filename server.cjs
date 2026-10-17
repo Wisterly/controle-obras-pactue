@@ -93,7 +93,13 @@ const server = http.createServer((req, res) => {
           if (fs.existsSync(CONFIG_FILE)) {
             try { current = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8')); } catch (e) {}
           }
-          const merged = { ...current, ...parsed, updatedAt: new Date().toISOString() };
+          const merged = { ...current };
+          for (const [k, v] of Object.entries(parsed)) {
+            if (v !== undefined && v !== null && (typeof v !== 'string' || v.trim() !== '')) {
+              merged[k] = v;
+            }
+          }
+          merged.updatedAt = new Date().toISOString();
           fs.writeFileSync(CONFIG_FILE, JSON.stringify(merged, null, 2), 'utf8');
           res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
           res.end(JSON.stringify({ success: true, config: merged }));
