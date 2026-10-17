@@ -676,20 +676,44 @@
 
         <!-- NÍVEL 3: BALÕEZINHOS DAS SUBPASTAS (FACHADAS, LABORATÓRIOS, SALAS, ETC.) -->
         <div class="flex flex-col gap-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-xs uppercase font-extrabold text-slate-300 flex items-center gap-1.5">
-              <span>🗂️</span> Pastas / Ambientes desta Escola (Clique no balãozinho):
-            </span>
-            <span id="fotosActiveFolderCountBadge" class="text-xs text-emerald-400 font-semibold">
-              Mostrando Fachadas (0 fotos)
-            </span>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-xs uppercase font-extrabold text-slate-300 flex items-center gap-1.5">
+                <span>🗂️</span> Pastas / Ambientes desta Escola:
+              </span>
+              <span id="fotosActiveFolderCountBadge" class="text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                Mostrando Fachadas (0 fotos)
+              </span>
+            </div>
+
+            <!-- Balõezinhos de Ação Rápida: Tirar Foto e Anexar Foto para a pasta selecionada -->
+            <div class="flex items-center gap-2">
+              <button 
+                onclick="triggerDirectCameraCapture()"
+                class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-md shadow-emerald-700/30 flex items-center gap-1.5 transition-all active:scale-95 border border-emerald-400/40"
+                title="Tirar foto diretamente da câmera do celular/computador para esta pasta selecionada"
+              >
+                <span class="text-sm">📸</span> <span>Tirar Foto</span>
+              </button>
+              <button 
+                onclick="triggerDirectFileAttach()"
+                class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder hover:border-slate-500 text-xs font-bold shadow flex items-center gap-1.5 transition-all active:scale-95"
+                title="Anexar foto(s) do dispositivo para esta pasta"
+              >
+                <span class="text-sm">📁</span> <span>Anexar Foto</span>
+              </button>
+            </div>
           </div>
 
-          <!-- Grade de balõezinhos de subpastas/categorias -->
-          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
+          <!-- Grade de balõezinhos de subpastas/categorias (Ilhas) -->
+          <div id="fotosCategoriesBar" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-2">
             <!-- Injected via JS -->
           </div>
         </div>
+
+        <!-- Inputs ocultos para captura direta de câmera e anexos -->
+        <input type="file" id="directCameraCaptureInput" accept="image/*" capture="environment" class="hidden" onchange="handleDirectCameraCapture(event)">
+        <input type="file" id="directFileAttachInput" accept="image/*" multiple class="hidden" onchange="handleDirectFileAttach(event)">
 
         <!-- NÍVEL 4: GRADE DE FOTOS DA PASTA SELECIONADA -->
         <div class="flex flex-col gap-3 pt-2">
@@ -1134,11 +1158,27 @@
         </button>
       </div>
 
-      <!-- Bottom Info -->
-      <div class="w-full flex items-center justify-between text-xs text-slate-400 bg-black/40 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-        <span id="lightboxIndexIndicator">Foto 1 de 1</span>
-        <span id="lightboxDateIndicator">📅 15/10/2026</span>
+      <!-- Bottom Info & Mover para Pasta -->
+      <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs text-slate-400 bg-black/70 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10">
+        <div class="flex items-center gap-3">
+          <span id="lightboxIndexIndicator">Foto 1 de 1</span>
+          <span>•</span>
+          <span id="lightboxDateIndicator">📅 15/10/2026</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-slate-300 font-bold text-xs">🏷️ Mover para pasta:</span>
+          <select 
+            id="lightboxFolderMoveSelect" 
+            onchange="moveCurrentLightboxPhoto(this.value)" 
+            class="bg-slate-900 hover:bg-slate-800 text-emerald-300 border border-emerald-500/40 rounded-lg px-2.5 py-1 text-xs font-bold outline-none cursor-pointer"
+          >
+          </select>
+        </div>
       </div>
+
+    </div>
+  </div>
 
   <!-- ============================================================== -->
   <!-- MODAL: VISUALIZADOR DE DOCUMENTOS PDF & PLANTAS BAIXAS        -->
@@ -1911,6 +1951,7 @@
     // CATEGORIAS / SUBPASTAS PADRÃO DE FOTOS (BALÕEZINHOS)
     // =========================================================================
     const FOTOS_DEFAULT_CATEGORIES = [
+      { key: "TODAS", icon: "🗂️", color: "indigo", label: "Todas / Misturadas", subtitle: "Ver todas & Organizar", badge: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30" },
       { key: "Fachadas", icon: "🏛️", color: "blue", label: "Fachadas", subtitle: "Acessos & Fachada", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
       { key: "Laboratórios", icon: "🔬", color: "emerald", label: "Laboratórios", subtitle: "Ciências & Robótica", badge: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" },
       { key: "Salas de Aula", icon: "📚", color: "amber", label: "Salas de Aula", subtitle: "Blocos Pedagógicos", badge: "bg-amber-500/20 text-amber-300 border-amber-500/30" },
@@ -1919,6 +1960,17 @@
       { key: "Banheiros", icon: "🚻", color: "cyan", label: "Banheiros / PCD", subtitle: "Sanitários & Metais", badge: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30" },
       { key: "Obras e Estrutura", icon: "🏗️", color: "rose", label: "Obras e Estrutura", subtitle: "Fundações & Cobertura", badge: "bg-rose-500/20 text-rose-300 border-rose-500/30" },
       { key: "Área Externa", icon: "🌿", color: "lime", label: "Área Externa / Pátio", subtitle: "Pátio & Urbanização", badge: "bg-lime-500/20 text-lime-300 border-lime-500/30" }
+    ];
+
+    const FOTOS_MOVABLE_CATEGORIES = [
+      { key: "Fachadas", label: "Fachadas", icon: "🏛️" },
+      { key: "Laboratórios", label: "Laboratórios", icon: "🔬" },
+      { key: "Salas de Aula", label: "Salas de Aula", icon: "📚" },
+      { key: "Quadra Poliesportiva", label: "Quadra Poliesportiva", icon: "🏀" },
+      { key: "Refeitório", label: "Refeitório", icon: "🍽️" },
+      { key: "Banheiros", label: "Banheiros", icon: "🚻" },
+      { key: "Obras e Estrutura", label: "Obras e Estrutura", icon: "🏗️" },
+      { key: "Área Externa", label: "Área Externa", icon: "🌿" }
     ];
 
     // =========================================================================
@@ -3246,7 +3298,7 @@
       return fotosData.filter(f => {
         const matchG = (greKey === 'TODAS') || normalizeGreKey(f.greKey) === normGre;
         const matchS = extractCleanSchoolName(f.escola).toUpperCase() === cleanSchool;
-        const matchC = !category || f.pasta === category;
+        const matchC = !category || category === 'TODAS' || f.pasta === category;
         const isPdf = (f.url && f.url.toLowerCase().endsWith('.pdf')) || 
                       (f.formato && f.formato.toLowerCase() === 'pdf') || 
                       (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
@@ -3352,6 +3404,7 @@
         const isSelected = (fotosActiveCategory === cat.key);
 
         let activeTheme = 'bg-emerald-600 text-white border-emerald-400 shadow-md shadow-emerald-600/30 ring-2 ring-emerald-400 font-extrabold';
+        if (cat.color === 'indigo') activeTheme = 'bg-indigo-600 text-white border-indigo-400 shadow-md shadow-indigo-600/30 ring-2 ring-indigo-400 font-extrabold';
         if (cat.color === 'blue') activeTheme = 'bg-blue-600 text-white border-blue-400 shadow-md shadow-blue-600/30 ring-2 ring-blue-400 font-extrabold';
         if (cat.color === 'amber') activeTheme = 'bg-amber-500 text-brand-dark border-amber-300 shadow-md shadow-amber-500/30 ring-2 ring-amber-300 font-extrabold';
         if (cat.color === 'orange') activeTheme = 'bg-orange-600 text-white border-orange-400 shadow-md shadow-orange-600/30 ring-2 ring-orange-400 font-extrabold';
@@ -3359,6 +3412,16 @@
         if (cat.color === 'cyan') activeTheme = 'bg-cyan-600 text-white border-cyan-400 shadow-md shadow-cyan-600/30 ring-2 ring-cyan-400 font-extrabold';
         if (cat.color === 'rose') activeTheme = 'bg-rose-600 text-white border-rose-400 shadow-md shadow-rose-600/30 ring-2 ring-rose-400 font-extrabold';
         if (cat.color === 'lime') activeTheme = 'bg-lime-600 text-white border-lime-400 shadow-md shadow-lime-600/30 ring-2 ring-lime-400 font-extrabold';
+
+        const cameraBtn = (cat.key !== 'TODAS')
+          ? `<button 
+              onclick="event.stopPropagation(); triggerDirectCameraCapture('${cat.key}')" 
+              class="p-1 rounded-md ${isSelected ? 'bg-black/25 hover:bg-black/40 text-white' : 'hover:bg-slate-700 text-slate-400 hover:text-white'} transition-colors shrink-0" 
+              title="Tirar foto diretamente com a câmera para #${cat.label}"
+            >
+              📸
+            </button>`
+          : '';
 
         return `
           <button 
@@ -3381,11 +3444,14 @@
                 ${cat.subtitle}
               </span>
             </div>
-            <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
-              isSelected ? 'bg-black/25 text-inherit font-black' : cat.badge
-            }">
-              ${count}
-            </span>
+            <div class="flex items-center gap-1 shrink-0">
+              ${cameraBtn}
+              <span class="text-[9px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+                isSelected ? 'bg-black/25 text-inherit font-black' : cat.badge
+              }">
+                ${count}
+              </span>
+            </div>
           </button>
         `;
       }).join('');
@@ -3409,12 +3475,16 @@
       if (folderTitle) folderTitle.textContent = catObj.label;
 
       const normGre = normalizeGreKey(fotosActiveGre);
-      const normSchool = (fotosActiveSchool || '').trim().toUpperCase();
+      const cleanSchool = extractCleanSchoolName(fotosActiveSchool).toUpperCase();
 
       currentLightboxPhotos = fotosData.filter(f => {
-        return normalizeGreKey(f.greKey) === normGre &&
-               (f.escola || '').trim().toUpperCase() === normSchool &&
-               f.pasta === fotosActiveCategory;
+        const matchG = (fotosActiveGre === 'TODAS') || normalizeGreKey(f.greKey) === normGre;
+        const matchS = extractCleanSchoolName(f.escola).toUpperCase() === cleanSchool;
+        const matchC = (fotosActiveCategory === 'TODAS') || f.pasta === fotosActiveCategory;
+        const isPdf = (f.url && f.url.toLowerCase().endsWith('.pdf')) || 
+                      (f.formato && f.formato.toLowerCase() === 'pdf') || 
+                      (f.titulo && f.titulo.toLowerCase().endsWith('.pdf'));
+        return matchG && matchS && matchC && !isPdf;
       });
 
       if (badgeCount) {
@@ -3429,10 +3499,15 @@
               <h4 class="text-base font-extrabold text-white">Sem fotos existentes</h4>
               <p class="text-xs text-amber-400 font-semibold">Sem fotos existentes em "${catObj.label}" para ${fotosActiveSchool || 'esta escola'}</p>
             </div>
-            <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui fotos ou imagens registradas (PNG, JPEG, etc.). Documentos em PDF são direcionados automaticamente para a aba de Projetos.</p>
-            <button onclick="openAddFotoModal()" class="mt-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/30 flex items-center gap-2">
-              <span>➕</span> Adicionar Primeira Foto
-            </button>
+            <p class="text-xs text-slate-400 max-w-md">Esta pasta escolar não possui fotos ou imagens registradas (PNG, JPEG, etc.). Use os botões abaixo para tirar uma foto ou anexar imagens para esta pasta.</p>
+            <div class="flex flex-wrap items-center justify-center gap-2 mt-2">
+              <button onclick="triggerDirectCameraCapture('${fotosActiveCategory}')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-700/30 flex items-center gap-1.5">
+                <span>📸</span> Tirar Foto Agora
+              </button>
+              <button onclick="triggerDirectFileAttach('${fotosActiveCategory}')" class="px-3.5 py-2 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-bold transition-all shadow flex items-center gap-1.5">
+                <span>📁</span> Anexar Foto
+              </button>
+            </div>
           </div>
         `;
         return;
@@ -3441,11 +3516,14 @@
       grid.innerHTML = currentLightboxPhotos.map((photo, index) => {
         return `
           <div 
-            class="bg-brand-panel border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg group transition-all cursor-pointer flex flex-col"
-            onclick="openPhotoLightboxByIndex(${index})"
+            class="bg-brand-panel border border-brand-cardBorder hover:border-emerald-500/50 rounded-2xl overflow-hidden shadow-lg group transition-all flex flex-col justify-between"
           >
             <!-- Imagem Thumbnail -->
-            <div class="relative h-44 w-full bg-brand-dark overflow-hidden">
+            <div 
+              class="relative h-44 w-full bg-brand-dark overflow-hidden cursor-pointer"
+              onclick="openPhotoLightboxByIndex(${index})"
+              title="Clique para ampliar esta foto"
+            >
               <img 
                 src="${photo.url}" 
                 alt="${photo.titulo}"
@@ -3458,31 +3536,57 @@
                   <span>🔍</span> Clique para Ampliar
                 </span>
               </div>
+
+              <!-- Hashtag da Categoria Atual da Foto -->
+              <span class="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-emerald-950/85 backdrop-blur-md text-[10px] font-black text-emerald-300 border border-emerald-500/40 shadow flex items-center gap-1">
+                <span>#${photo.pasta || 'SemPasta'}</span>
+              </span>
+
               <span class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[10px] font-bold text-white border border-white/20">
                 ${photo.data || '2026'}
               </span>
             </div>
 
-            <!-- Legenda -->
-            <div class="p-3 flex flex-col justify-between flex-1 gap-2">
-              <h5 class="text-xs font-bold text-white line-clamp-2 leading-snug group-hover:text-emerald-300 transition-colors">
-                ${photo.titulo}
-              </h5>
-              <div class="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-brand-cardBorder/60">
-                <span class="truncate">${photo.pasta}</span>
+            <!-- Legenda e Mover para Pasta com Hashtag -->
+            <div class="p-3 flex flex-col justify-between flex-1 gap-2.5">
+              <div>
+                <h5 class="text-xs font-bold text-white line-clamp-2 leading-snug group-hover:text-emerald-300 transition-colors">
+                  ${photo.titulo}
+                </h5>
+              </div>
+
+              <!-- Controle Mover para Categoria Específica -->
+              <div class="pt-2 border-t border-brand-cardBorder/60 flex items-center justify-between gap-1.5" onclick="event.stopPropagation()">
+                <div class="flex items-center gap-1.5 min-w-0 flex-1">
+                  <span class="text-[10px] text-slate-400 font-bold shrink-0">Mover:</span>
+                  <select 
+                    onchange="movePhotoToCategory('${photo.id}', this.value)" 
+                    class="bg-brand-dark hover:bg-slate-800 text-emerald-300 border border-emerald-500/30 hover:border-emerald-400 rounded-lg px-2 py-1 text-[10px] font-bold outline-none cursor-pointer w-full transition-colors truncate"
+                    title="Mover esta foto para outra pasta/ilha"
+                  >
+                    ${FOTOS_MOVABLE_CATEGORIES.map(c => `
+                      <option value="${c.key}" ${photo.pasta === c.key ? 'selected' : ''}>
+                        ${c.icon} #${c.label}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+
                 <button 
                   onclick="event.stopPropagation(); deleteFoto('${photo.id}')"
-                  class="text-slate-500 hover:text-rose-400 transition-colors"
+                  class="text-slate-500 hover:text-rose-400 p-1 transition-colors shrink-0"
                   title="Excluir foto"
                 >
                   🗑️
                 </button>
               </div>
+
             </div>
 
           </div>
         `;
       }).join('');
+    }
     }
 
     // =========================================================================
@@ -3551,6 +3655,139 @@
       if (indexInd) indexInd.textContent = `Foto ${currentLightboxIndex + 1} de ${currentLightboxPhotos.length}`;
       if (dateInd) dateInd.textContent = `📅 ${photo.data || '2026'}`;
       if (downloadBtn) downloadBtn.href = photo.url;
+
+      const moveSelect = document.getElementById('lightboxFolderMoveSelect');
+      if (moveSelect) {
+        moveSelect.innerHTML = FOTOS_MOVABLE_CATEGORIES.map(c => `
+          <option value="${c.key}" ${photo.pasta === c.key ? 'selected' : ''}>
+            ${c.icon} #${c.label}
+          </option>
+        `).join('');
+      }
+    }
+
+    let pendingFotoCategory = null;
+
+    function triggerDirectCameraCapture(targetCategory) {
+      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
+      if (pendingFotoCategory === 'TODAS') pendingFotoCategory = 'Fachadas';
+      const input = document.getElementById('directCameraCaptureInput');
+      if (input) input.click();
+    }
+
+    function triggerDirectFileAttach(targetCategory) {
+      pendingFotoCategory = targetCategory || fotosActiveCategory || 'Fachadas';
+      if (pendingFotoCategory === 'TODAS') pendingFotoCategory = 'Fachadas';
+      const input = document.getElementById('directFileAttachInput');
+      if (input) input.click();
+    }
+
+    function handleDirectCameraCapture(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
+      const actualCategory = (targetCategory === 'TODAS') ? 'Fachadas' : targetCategory;
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const photoUrl = e.target.result;
+        const now = new Date();
+        const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+        const hora = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+        const schools = getSchoolsForGre(fotosActiveGre);
+        const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+        const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+
+        const newPhoto = {
+          id: `foto-${Date.now()}`,
+          greKey: fotosActiveGre,
+          escola: fotosActiveSchool,
+          municipio: city,
+          pasta: actualCategory,
+          url: photoUrl,
+          titulo: `Foto Câmera #${actualCategory} (${hora})`,
+          data: dma,
+          descricao: `Foto capturada diretamente via câmera em ${dma} às ${hora}.`
+        };
+
+        fotosData.unshift(newPhoto);
+        saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+        updateModuleBadges();
+        fotosActiveCategory = actualCategory;
+        renderFotosCategories();
+        renderFotosGallery();
+        showToastNotification(`📸 Foto tirada e anexada com sucesso em #${actualCategory}!`);
+      };
+
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+
+    function handleDirectFileAttach(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      const targetCategory = pendingFotoCategory || fotosActiveCategory || 'Fachadas';
+      const actualCategory = (targetCategory === 'TODAS') ? 'Fachadas' : targetCategory;
+      const schools = getSchoolsForGre(fotosActiveGre);
+      const currSchool = schools.find(s => s.nome === fotosActiveSchool);
+      const city = currSchool ? currSchool.municipio : 'MUNICÍPIO';
+      const now = new Date();
+      const dma = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+
+      let loadedCount = 0;
+      Array.from(files).forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const newPhoto = {
+            id: `foto-${Date.now()}-${index}`,
+            greKey: fotosActiveGre,
+            escola: fotosActiveSchool,
+            municipio: city,
+            pasta: actualCategory,
+            url: e.target.result,
+            titulo: file.name.replace(/\.[^/.]+$/, "") || `Foto #${actualCategory}`,
+            data: dma,
+            descricao: `Foto anexada do dispositivo em ${dma}.`
+          };
+          fotosData.unshift(newPhoto);
+          loadedCount++;
+          if (loadedCount === files.length) {
+            saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+            updateModuleBadges();
+            fotosActiveCategory = actualCategory;
+            renderFotosCategories();
+            renderFotosGallery();
+            showToastNotification(`✓ ${files.length} foto(s) anexada(s) em #${actualCategory}!`);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+      event.target.value = '';
+    }
+
+    function movePhotoToCategory(photoId, newCategory) {
+      const photo = fotosData.find(f => f.id === photoId);
+      if (!photo) return;
+
+      const oldCategory = photo.pasta;
+      photo.pasta = newCategory;
+      saveStoredData(STORAGE_KEY_FOTOS_DATA, fotosData);
+      updateModuleBadges();
+      renderFotosCategories();
+      renderFotosGallery();
+
+      showToastNotification(`🏷️ Foto movida de #${oldCategory} para #${newCategory}!`);
+    }
+
+    function moveCurrentLightboxPhoto(newCategory) {
+      const photo = currentLightboxPhotos[currentLightboxIndex];
+      if (!photo) return;
+      movePhotoToCategory(photo.id, newCategory);
+      const catBadge = document.getElementById('lightboxCategoryBadge');
+      if (catBadge) catBadge.textContent = newCategory;
     }
 
     function openAddFotoModal() {
