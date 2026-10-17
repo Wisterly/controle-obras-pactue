@@ -220,8 +220,8 @@
   <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
       
-      <!-- Seletor em Segmented Control Chamativo (4 Abas) -->
-      <div class="grid grid-cols-2 sm:flex sm:flex-row items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
+      <!-- Seletor em Segmented Control Chamativo (5 Abas) -->
+      <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
         <button 
           id="moduleBtnContracts"
           onclick="switchModule('CONTRATOS')" 
@@ -242,6 +242,18 @@
           <span>🤝</span>
           <span>Obras PACTUE</span>
           <span id="pactueBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
+            0
+          </span>
+        </button>
+
+        <button 
+          id="moduleBtnMedicoes"
+          onclick="switchModule('MEDICOES')" 
+          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+        >
+          <span>📊</span>
+          <span>Medições</span>
+          <span id="medicoesBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
             0
           </span>
         </button>
@@ -1189,6 +1201,25 @@
             oninput="handleSettingInputImmediate('sheetUrlPactue', this.value)"
             placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=18492049"
             class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+        </div>
+
+        <!-- Campo Aba 3: Medições (Ciano) -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
+          <label class="text-xs font-bold text-cyan-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>📊</span> Link da Aba: Medições
+            </span>
+            <a id="modalOpenMedicoesTab" href="#" target="_blank" class="hidden text-[10px] text-cyan-400 underline">
+              Abrir aba no Google ↗
+            </a>
+          </label>
+          <input 
+            type="url" 
+            id="sheetUrlMedicoesInput" 
+            oninput="handleSettingInputImmediate('sheetUrlMedicoes', this.value)"
+            placeholder="Ex: https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing"
+            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-cyan-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
         </div>
 
@@ -3282,9 +3313,12 @@
     const STORAGE_KEY_MODULE = 'seduc_obras_active_module';
     const STORAGE_KEY_CONTRACTS = 'seduc_obras_contracts_data';
     const STORAGE_KEY_PACTUE = 'seduc_obras_pactue_data';
+    const STORAGE_KEY_MEDICOES = 'seduc_obras_medicoes_data';
     const SHEET_URL_MAIN_KEY = 'seduc_sheet_url_main';
     const SHEET_URL_CONTRACTS_KEY = 'seduc_sheet_url_contracts';
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
+    const SHEET_URL_MEDICOES_KEY = 'seduc_sheet_url_medicoes';
+    const DEFAULT_MEDICOES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing';
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
 
@@ -3298,6 +3332,7 @@
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputMed = document.getElementById('sheetUrlMedicoesInput');
       if (!inputMain || !inputMain.value.trim()) {
         showToastNotification('Por favor, cole primeiro o link geral da planilha.');
         return;
@@ -3305,7 +3340,7 @@
       const raw = inputMain.value.trim();
       handleSettingInputImmediate('sheetUrlMain', raw);
       
-      // Se não tiver gid específico, define o link geral como base para as duas abas
+      // Se não tiver gid específico, define o link geral como base para as abas
       if (inputCt && !inputCt.value.trim()) {
         inputCt.value = raw;
         handleSettingInputImmediate('sheetUrlContracts', raw);
@@ -3314,12 +3349,17 @@
         inputPac.value = raw;
         handleSettingInputImmediate('sheetUrlPactue', raw);
       }
+      if (inputMed && !inputMed.value.trim()) {
+        inputMed.value = raw;
+        handleSettingInputImmediate('sheetUrlMedicoes', raw);
+      }
       showToastNotification('✓ Link principal aplicado às abas e salvo com sucesso!');
     }
 
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
+    let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, []);
     
     let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, null);
     if (!projetosData || projetosData.length < 50) {
@@ -3361,16 +3401,22 @@
     let currentLightboxIndex = 0;
 
     function getActiveDataset() {
-      return (currentModule === 'CONTRATOS') ? contractsData : pactueData;
+      if (currentModule === 'CONTRATOS') return contractsData;
+      if (currentModule === 'PACTUE') return pactueData;
+      if (currentModule === 'MEDICOES') return medicoesData;
+      return [];
     }
 
     function setActiveDataset(newData) {
       if (currentModule === 'CONTRATOS') {
         contractsData = newData;
         saveStoredData(STORAGE_KEY_CONTRACTS, contractsData);
-      } else {
+      } else if (currentModule === 'PACTUE') {
         pactueData = newData;
         saveStoredData(STORAGE_KEY_PACTUE, pactueData);
+      } else if (currentModule === 'MEDICOES') {
+        medicoesData = newData;
+        saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
       }
     }
 
@@ -3474,6 +3520,7 @@
 
       const btnContracts = document.getElementById('moduleBtnContracts');
       const btnPactue = document.getElementById('moduleBtnPactue');
+      const btnMedicoes = document.getElementById('moduleBtnMedicoes');
       const btnProjetos = document.getElementById('moduleBtnProjetos');
       const btnFotos = document.getElementById('moduleBtnFotos');
 
@@ -3490,6 +3537,7 @@
       // Classes base de botões
       const activeCt = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]';
       const activePac = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.02]';
+      const activeMed = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-cyan-500/25 scale-[1.02]';
       const activeProj = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25 scale-[1.02]';
       const activeFot = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/25 scale-[1.02]';
       const inactiveBtn = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
@@ -3497,6 +3545,7 @@
       // Reseta classes de todos
       if (btnContracts) btnContracts.className = inactiveBtn;
       if (btnPactue) btnPactue.className = inactiveBtn;
+      if (btnMedicoes) btnMedicoes.className = inactiveBtn;
       if (btnProjetos) btnProjetos.className = inactiveBtn;
       if (btnFotos) btnFotos.className = inactiveBtn;
 
@@ -3569,6 +3618,38 @@
         renderStatusFilters();
         renderCards();
 
+      } else if (currentModule === 'MEDICOES') {
+        if (btnMedicoes) btnMedicoes.className = activeMed;
+        if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
+        if (activeTabName) activeTabName.textContent = 'Aba Medições';
+        if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50';
+        if (openExtLabel) openExtLabel.textContent = '🔗 Abrir Aba no Google';
+        if (greDemandTag) {
+          greDemandTag.textContent = '(Medições de Obras)';
+          greDemandTag.className = 'text-xs font-semibold text-cyan-400';
+        }
+        if (whatsappModuleScope) {
+          whatsappModuleScope.textContent = 'DEMANDA: MEDIÇÕES';
+          whatsappModuleScope.className = 'font-extrabold text-cyan-400';
+        }
+
+        // Atualiza temas visuais do container da GRE para Ciano (Medições)
+        const worksGreBox = document.getElementById('worksGreContainer');
+        const worksGreIcon = document.getElementById('worksGreIconBox');
+        const worksGreStep = document.getElementById('worksGreStepLabel');
+        const worksGreGlow1 = document.getElementById('worksGreGlow1');
+        const worksGreGlow2 = document.getElementById('worksGreGlow2');
+        if (worksGreBox) worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
+        if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-lg font-black shadow-inner';
+        if (worksGreStep) worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-cyan-400';
+        if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none';
+        if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none';
+        
+        activeStatusFilter = 'TODOS';
+        renderGreSelector();
+        renderStatusFilters();
+        renderCards();
+
       } else if (currentModule === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = activeProj;
         if (projetosContainer) { projetosContainer.classList.remove('hidden'); projetosContainer.classList.add('flex'); }
@@ -3593,11 +3674,11 @@
     }
 
     // VISIBILIDADE DO BOTÃO FLUTUANTE (FAB) DO WHATSAPP NO CELULAR
-    // Aparece somente nas abas "Obras de Contratos" e "Obras PACTUE". Oculto em "Projetos" e "Fotos".
+    // Aparece nas abas "Obras de Contratos", "Obras PACTUE" e "Medições". Oculto em "Projetos" e "Fotos".
     function updateWhatsAppFabVisibility() {
       const whatsappFab = document.getElementById('whatsappFab');
       if (!whatsappFab) return;
-      if (currentModule === 'CONTRATOS' || currentModule === 'PACTUE') {
+      if (currentModule === 'CONTRATOS' || currentModule === 'PACTUE' || currentModule === 'MEDICOES') {
         whatsappFab.classList.remove('hidden');
         whatsappFab.style.display = '';
       } else {
@@ -3612,11 +3693,13 @@
     function updateModuleBadges() {
       const bCt = document.getElementById('contractsBadgeCount');
       const bPac = document.getElementById('pactueBadgeCount');
+      const bMed = document.getElementById('medicoesBadgeCount');
       const bProj = document.getElementById('projetosBadgeCount');
       const bFot = document.getElementById('fotosBadgeCount');
 
       if (bCt) bCt.textContent = contractsData.length;
       if (bPac) bPac.textContent = pactueData.length;
+      if (bMed) bMed.textContent = medicoesData.length;
       if (bProj) bProj.textContent = projetosData.length;
       if (bFot) bFot.textContent = fotosData.length;
     }
@@ -3627,6 +3710,9 @@
         if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'PACTUE') {
         const url = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
+      } else if (currentModule === 'MEDICOES') {
+        const url = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY) || DEFAULT_MEDICOES_SHEET_URL;
         if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'PROJETOS') {
         openProjetosFolderDrive();
@@ -7005,18 +7091,25 @@
         return;
       }
 
-      // Módulo CONTRATOS ou PACTUE
-      const key = (currentModule === 'CONTRATOS') ? SHEET_URL_CONTRACTS_KEY : SHEET_URL_PACTUE_KEY;
-      let url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+      // Módulo CONTRATOS, PACTUE ou MEDICOES
+      let key = SHEET_URL_CONTRACTS_KEY;
+      let prefix = 'ct';
+      if (currentModule === 'PACTUE') {
+        key = SHEET_URL_PACTUE_KEY;
+        prefix = 'pac';
+      } else if (currentModule === 'MEDICOES') {
+        key = SHEET_URL_MEDICOES_KEY;
+        prefix = 'med';
+      }
+      let url = localStorage.getItem(key) || (currentModule === 'MEDICOES' ? DEFAULT_MEDICOES_SHEET_URL : localStorage.getItem(SHEET_URL_MAIN_KEY));
       if (!url) {
         await loadSharedAppConfig();
-        url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        url = localStorage.getItem(key) || (currentModule === 'MEDICOES' ? DEFAULT_MEDICOES_SHEET_URL : localStorage.getItem(SHEET_URL_MAIN_KEY));
       }
 
       let syncedOnline = false;
       if (url && (url.includes('spreadsheets') || url.includes('export') || url.includes('pub') || url.includes('csv'))) {
         try {
-          const prefix = (currentModule === 'CONTRATOS') ? 'ct' : 'pac';
           const parsed = await fetchSingleTab(url, prefix);
 
           if (parsed && parsed.length > 0) {
@@ -7057,6 +7150,7 @@
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputMed = document.getElementById('sheetUrlMedicoesInput');
       const inputProj = document.getElementById('sheetUrlProjetosInput');
       const inputFot = document.getElementById('sheetUrlFotosInput');
       const feedbackBox = document.getElementById('syncFeedbackBox');
@@ -7064,6 +7158,7 @@
       const urlMain = inputMain ? inputMain.value.trim() : '';
       let urlCt = inputCt ? inputCt.value.trim() : '';
       let urlPac = inputPac ? inputPac.value.trim() : '';
+      let urlMed = inputMed ? inputMed.value.trim() : (localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL);
       const urlProj = inputProj ? inputProj.value.trim() : '';
       const urlFot = inputFot ? inputFot.value.trim() : '';
 
@@ -7085,13 +7180,14 @@
         if (!urlPac) { urlPac = urlMain; if (inputPac) inputPac.value = urlMain; }
       }
 
-      if (!urlCt && !urlPac && !urlMain && !urlProj && !urlFot) {
+      if (!urlCt && !urlPac && !urlMed && !urlMain && !urlProj && !urlFot) {
         showFeedback('Por favor, informe pelo menos um link compartilhado (Planilha, Projetos ou Fotos).', 'error');
         return;
       }
 
       if (urlCt) localStorage.setItem(SHEET_URL_CONTRACTS_KEY, urlCt);
       if (urlPac) localStorage.setItem(SHEET_URL_PACTUE_KEY, urlPac);
+      if (urlMed) localStorage.setItem(SHEET_URL_MEDICOES_KEY, urlMed);
 
       showFeedback('⏳ Sincronizando dados e salvando links...', 'loading');
 
@@ -7128,6 +7224,21 @@
         }
       }
 
+      // 3. Sincronizar Medições
+      if (urlMed) {
+        try {
+          const resMed = await fetchSingleTab(urlMed, 'med');
+          if (resMed && resMed.length > 0) {
+            medicoesData = resMed;
+            saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+            summaryMsgs.push(`✓ Obras de Medições: ${resMed.length} registros carregados.`);
+          }
+        } catch (e) {
+          hasError = true;
+          summaryMsgs.push(`❌ Erro na aba Medições: Verifique se está pública no Google Sheets ("Qualquer pessoa com link").`);
+        }
+      }
+
       if (urlProj) summaryMsgs.push('✓ Link da Pasta de Projetos salvo.');
       if (urlFot) summaryMsgs.push('✓ Link da Pasta de Fotos salvo.');
 
@@ -7150,6 +7261,7 @@
         sheetUrlMain: urlMain,
         sheetUrlContracts: urlCt,
         sheetUrlPactue: urlPac,
+        sheetUrlMedicoes: urlMed,
         projetosFolderUrl: urlProj || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: urlFot || localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -7400,10 +7512,31 @@
       const isAllSelected = (activeFilter === 'TODAS');
 
       // Atualiza o Label Principal do Seletor
+      let themeLabelClass = 'text-xs text-blue-400 font-semibold truncate';
+      let activeBtnClass = 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400';
+      let activeBadgeClass = 'bg-black/25 text-white font-black';
+      let inactiveAllBadgeClass = 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+      let activeText = 'text-white font-black';
+      let activeSubText = 'text-blue-100 font-bold';
+
+      if (currentModule === 'PACTUE') {
+        themeLabelClass = 'text-xs text-amber-400 font-semibold truncate';
+        activeBtnClass = 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
+        activeBadgeClass = 'bg-black/25 text-brand-dark font-black';
+        inactiveAllBadgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        activeText = 'text-brand-dark font-black';
+        activeSubText = 'text-black/80 font-bold';
+      } else if (currentModule === 'MEDICOES') {
+        themeLabelClass = 'text-xs text-cyan-400 font-semibold truncate';
+        activeBtnClass = 'bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-md shadow-cyan-500/30 scale-[1.02] border-cyan-300 font-extrabold ring-1 ring-cyan-300';
+        activeBadgeClass = 'bg-black/25 text-brand-dark font-black';
+        inactiveAllBadgeClass = 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30';
+        activeText = 'text-brand-dark font-black';
+        activeSubText = 'text-black/80 font-bold';
+      }
+
       if (greSelectLabel) {
-        greSelectLabel.className = isContratos
-          ? 'text-xs text-blue-400 font-semibold truncate'
-          : 'text-xs text-amber-400 font-semibold truncate';
+        greSelectLabel.className = themeLabelClass;
 
         if (isAllSelected) {
           greSelectLabel.textContent = `Todas as GREs (${totalCount})`;
@@ -7414,19 +7547,6 @@
           greSelectLabel.textContent = `${activeFilter} – ${poloName} (${count} obras)`;
         }
       }
-
-      // Estilos temáticos para balões ativos e emblemas
-      const activeBtnClass = isContratos
-        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400'
-        : 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
-
-      const activeBadgeClass = isContratos
-        ? 'bg-black/25 text-white font-black'
-        : 'bg-black/25 text-brand-dark font-black';
-
-      const inactiveAllBadgeClass = isContratos
-        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-        : 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
 
       // Grade de Balões: Compacto, ajustável e completo no Desktop; Rolagem fluida no Mobile
       if (allGrid) {
@@ -7441,10 +7561,10 @@
             title="Ver todas as obras de todas as GREs (${totalCount} obras)"
           >
             <div class="flex flex-col min-w-0 pr-0.5">
-              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-slate-100'}">
+              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
                 TODAS AS GRES
               </span>
-              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
+              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeSubText : 'text-slate-400 font-medium'}">
                 Geral Piauí
               </span>
             </div>
@@ -7459,7 +7579,7 @@
           const isSelected = (activeFilter === g.key);
 
           const inactiveBadgeClass = count > 0 
-            ? (isContratos ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30')
+            ? (currentModule === 'CONTRATOS' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : (currentModule === 'MEDICOES' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'))
             : 'bg-slate-800 text-slate-500 border border-slate-700/50';
 
           html += `
@@ -7473,10 +7593,10 @@
               title="${g.key} – ${g.polo} (${count} obras)"
             >
               <div class="flex flex-col min-w-0 pr-0.5">
-                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-white'}">
+                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? activeText : 'text-white'}">
                   ${g.key}
                 </span>
-                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
+                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? activeSubText : 'text-slate-400 font-medium'}">
                   ${g.polo}
                 </span>
               </div>
@@ -7632,20 +7752,30 @@
         return (statusCounts.get(b) || 0) - (statusCounts.get(a) || 0);
       });
 
-      const isContratos = (currentModule === 'CONTRATOS');
       const isAllSelected = (activeStatusFilter === 'TODOS');
 
-      const activeTodosBtnClass = isContratos
-        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400'
-        : 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
+      let activeTodosBtnClass = 'bg-blue-600 text-white shadow-md shadow-blue-600/30 scale-[1.02] border-blue-400 font-extrabold ring-1 ring-blue-400';
+      let activeTodosBadgeClass = 'bg-black/25 text-white font-black';
+      let inactiveTodosBadgeClass = 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+      let activeCountClass = 'text-xs text-blue-400 font-semibold';
+      let activeTodosText = 'text-white font-black';
+      let activeTodosSubText = 'text-blue-100 font-bold';
 
-      const activeTodosBadgeClass = isContratos
-        ? 'bg-black/25 text-white font-black'
-        : 'bg-black/25 text-brand-dark font-black';
-
-      const inactiveTodosBadgeClass = isContratos
-        ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-        : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      if (currentModule === 'PACTUE') {
+        activeTodosBtnClass = 'bg-amber-500 text-brand-dark shadow-md shadow-amber-500/30 scale-[1.02] border-amber-400 font-extrabold ring-1 ring-amber-400';
+        activeTodosBadgeClass = 'bg-black/25 text-brand-dark font-black';
+        inactiveTodosBadgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        activeCountClass = 'text-xs text-amber-400 font-semibold';
+        activeTodosText = 'text-brand-dark font-black';
+        activeTodosSubText = 'text-black/80 font-bold';
+      } else if (currentModule === 'MEDICOES') {
+        activeTodosBtnClass = 'bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-md shadow-cyan-500/30 scale-[1.02] border-cyan-300 font-extrabold ring-1 ring-cyan-300';
+        activeTodosBadgeClass = 'bg-black/25 text-brand-dark font-black';
+        inactiveTodosBadgeClass = 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30';
+        activeCountClass = 'text-xs text-cyan-400 font-semibold';
+        activeTodosText = 'text-brand-dark font-black';
+        activeTodosSubText = 'text-black/80 font-bold';
+      }
 
       let html = `
         <button 
@@ -7658,10 +7788,10 @@
           title="Todos os Status (${greSubset.length} obras)"
         >
           <div class="flex flex-col min-w-0">
-            <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? (isContratos ? 'text-white font-black' : 'text-brand-dark font-black') : 'text-white'}">
+            <span class="text-[11px] font-extrabold whitespace-nowrap leading-tight ${isAllSelected ? activeTodosText : 'text-white'}">
               🌟 TODOS STATUS
             </span>
-            <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? (isContratos ? 'text-blue-100 font-bold' : 'text-black/80 font-bold') : 'text-slate-400 font-medium'}">
+            <span class="text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeTodosSubText : 'text-slate-400 font-medium'}">
               Visão Geral
             </span>
           </div>
@@ -7716,9 +7846,7 @@
 
       const activeCountLabel = document.getElementById('statusFilterActiveCount');
       if (activeCountLabel) {
-        activeCountLabel.className = isContratos 
-          ? 'text-xs text-blue-400 font-semibold' 
-          : 'text-xs text-amber-400 font-semibold';
+        activeCountLabel.className = activeCountClass;
 
         if (activeStatusFilter === 'TODOS') {
           activeCountLabel.textContent = `Mostrando todos (${greSubset.length} obras)`;
@@ -7747,7 +7875,6 @@
       const stBadge = document.getElementById('statusSummaryBadge');
       const count = document.getElementById('greSummaryCount');
       const whatsAppScope = document.getElementById('whatsappGreScope');
-      const isContratos = (currentModule === 'CONTRATOS');
 
       const dataset = getActiveDataset();
       const filtered = dataset.filter(item => {
@@ -7758,16 +7885,20 @@
 
       if (badge) {
         badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
-        if (isContratos) {
+        if (currentModule === 'CONTRATOS') {
           badge.className = 'px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 font-bold text-xs flex items-center gap-1.5 shadow-sm';
+        } else if (currentModule === 'MEDICOES') {
+          badge.className = 'px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold text-xs flex items-center gap-1.5 shadow-sm';
         } else {
           badge.className = 'px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center gap-1.5 shadow-sm';
         }
       }
       if (stBadge) {
         stBadge.textContent = (activeStatusFilter === 'TODOS') ? 'TODOS OS STATUS' : activeStatusFilter;
-        if (isContratos) {
+        if (currentModule === 'CONTRATOS') {
           stBadge.className = 'px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 font-bold text-xs flex items-center gap-1.5';
+        } else if (currentModule === 'MEDICOES') {
+          stBadge.className = 'px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 font-bold text-xs flex items-center gap-1.5';
         } else {
           stBadge.className = 'px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center gap-1.5';
         }
@@ -7901,15 +8032,38 @@
       }
     }
 
-    function renderWorkCardHtml(item, isContratos) {
+    function renderWorkCardHtml(item) {
       const ymd = dmaToYmd(item.termino);
+      let themeColor = 'text-blue-400';
+      let themeColor90 = 'text-blue-400/90';
+      let focusBorder = 'focus:border-blue-400';
+      let borderGlow = 'border-blue-500/40 focus-within:border-blue-400';
+      let dateColor = 'text-blue-300';
+      let hoverColor = 'hover:text-blue-400';
+
+      if (currentModule === 'PACTUE') {
+        themeColor = 'text-amber-400';
+        themeColor90 = 'text-amber-400/90';
+        focusBorder = 'focus:border-amber-400';
+        borderGlow = 'border-amber-500/40 focus-within:border-amber-400';
+        dateColor = 'text-amber-300';
+        hoverColor = 'hover:text-amber-400';
+      } else if (currentModule === 'MEDICOES') {
+        themeColor = 'text-cyan-400';
+        themeColor90 = 'text-cyan-400/90';
+        focusBorder = 'focus:border-cyan-400';
+        borderGlow = 'border-cyan-500/40 focus-within:border-cyan-400';
+        dateColor = 'text-cyan-300';
+        hoverColor = 'hover:text-cyan-400';
+      }
+
       return `
         <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-lg transition-all hover:border-slate-500/50">
           
           <!-- Header do Card -->
           <div class="flex items-start justify-between gap-3">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider ${isContratos ? 'text-blue-400/90' : 'text-amber-400/90'}">${item.gre}</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider ${themeColor90}">${item.gre}</span>
               <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
               <p class="text-xs text-slate-400 flex flex-wrap items-center gap-1.5 mt-0.5">
                 <span class="text-slate-300 font-medium">📍 ${item.municipio}</span>
@@ -7927,13 +8081,13 @@
             <div class="bg-brand-dark/90 border border-brand-cardBorder rounded-xl p-3 flex flex-col gap-2 text-xs">
               ${item.objeto ? `
                 <div class="flex items-start gap-1.5">
-                  <span class="${isContratos ? 'text-blue-400' : 'text-amber-400'} font-bold shrink-0">📦 Objeto:</span>
+                  <span class="${themeColor} font-bold shrink-0">📦 Objeto:</span>
                   <span class="text-slate-100 font-medium">${item.objeto}</span>
                 </div>
               ` : ''}
               ${item.descritivo ? `
                 <div class="flex flex-col gap-0.5 pt-1.5 border-t border-brand-cardBorder/60 text-[11px]">
-                  <span class="text-blue-400 font-semibold">📝 Descritivo dos Serviços:</span>
+                  <span class="${themeColor} font-semibold">📝 Descritivo dos Serviços:</span>
                   <span class="text-slate-300 leading-relaxed">${item.descritivo}</span>
                 </div>
               ` : ''}
@@ -7948,7 +8102,7 @@
               <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Status da Demanda</label>
               <select 
                 onchange="updateField('${item.id}', 'status', this.value); renderCards();"
-                class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${isContratos ? 'focus:border-blue-400' : 'focus:border-amber-400'} transition-colors"
+                class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${focusBorder} transition-colors"
               >
                 <option value="EM EXECUÇÃO" ${item.status === 'EM EXECUÇÃO' ? 'selected' : ''}>EM EXECUÇÃO</option>
                 <option value="CONCLUÍDO" ${(item.status === 'CONCLUÍDO' || item.status === 'CONCLUIDA' || item.status === 'CONCLUÍDA') ? 'selected' : ''}>CONCLUÍDO</option>
@@ -7965,7 +8119,7 @@
               <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Situação Diária</label>
               <select 
                 onchange="updateField('${item.id}', 'situacao', this.value); renderCards();"
-                class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${isContratos ? 'focus:border-blue-400' : 'focus:border-amber-400'} transition-colors"
+                class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-2.5 py-1.5 text-xs text-slate-200 focus:outline-none ${focusBorder} transition-colors"
               >
                 <option value="EM ANDAMENTO" ${item.situacao === 'EM ANDAMENTO' ? 'selected' : ''}>EM ANDAMENTO</option>
                 <option value="PARADA" ${item.situacao === 'PARADA' ? 'selected' : ''}>PARADA</option>
@@ -7978,17 +8132,17 @@
             <!-- Seletor de Data Interativo -->
             <div>
               <div class="flex items-center justify-between mb-1">
-                <label class="block text-[10px] uppercase font-bold ${isContratos ? 'text-blue-400' : 'text-amber-400'}">📅 Previsão / Término</label>
+                <label class="block text-[10px] uppercase font-bold ${themeColor}">📅 Previsão / Término</label>
                 <button 
                   onclick="setDateIndefinida('${item.id}')"
-                  class="text-[10px] text-slate-400 ${isContratos ? 'hover:text-blue-400' : 'hover:text-amber-400'} underline transition-colors"
+                  class="text-[10px] text-slate-400 ${hoverColor} underline transition-colors"
                   title="Definir data como A DEFINIR"
                 >
                   Indefinir
                 </button>
               </div>
-              <div class="flex items-center gap-2 bg-brand-dark border ${isContratos ? 'border-blue-500/40 focus-within:border-blue-400' : 'border-amber-500/40 focus-within:border-amber-400'} rounded-xl px-2 py-1">
-                <span class="text-xs font-mono font-bold ${isContratos ? 'text-blue-300' : 'text-amber-300'} min-w-[76px]">
+              <div class="flex items-center gap-2 bg-brand-dark border ${borderGlow} rounded-xl px-2 py-1">
+                <span class="text-xs font-mono font-bold ${dateColor} min-w-[76px]">
                   ${item.termino}
                 </span>
                 <input 
@@ -8050,15 +8204,17 @@
 
       cardsRenderIndex = 0;
       const initialChunk = filtered.slice(0, CARDS_CHUNK_SIZE);
-      list.innerHTML = initialChunk.map(item => renderWorkCardHtml(item, isContratos)).join('');
+      list.innerHTML = initialChunk.map(item => renderWorkCardHtml(item)).join('');
       cardsRenderIndex = initialChunk.length;
+
+      const pingColor = (currentModule === 'CONTRATOS') ? 'bg-blue-500' : (currentModule === 'MEDICOES' ? 'bg-cyan-500' : 'bg-amber-500');
 
       // Se houver mais obras para exibir além do primeiro lote, ativa scroll infinito suave
       if (cardsRenderIndex < filtered.length) {
         const sentinel = document.createElement('div');
         sentinel.id = 'cardsInfiniteSentinel';
         sentinel.className = 'py-4 text-center text-xs text-slate-500 font-semibold flex items-center justify-center gap-2';
-        sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${isContratos ? 'bg-blue-500' : 'bg-amber-500'} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
+        sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
         list.appendChild(sentinel);
 
         if ('IntersectionObserver' in window) {
@@ -8067,7 +8223,7 @@
               const nextChunk = filtered.slice(cardsRenderIndex, cardsRenderIndex + CARDS_CHUNK_SIZE);
               if (nextChunk.length > 0) {
                 const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = nextChunk.map(item => renderWorkCardHtml(item, isContratos)).join('');
+                tempDiv.innerHTML = nextChunk.map(item => renderWorkCardHtml(item)).join('');
                 while (tempDiv.firstChild) {
                   list.insertBefore(tempDiv.firstChild, sentinel);
                 }
@@ -8077,7 +8233,7 @@
                   currentCardsObserver.disconnect();
                   currentCardsObserver = null;
                 } else {
-                  sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${isContratos ? 'bg-blue-500' : 'bg-amber-500'} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
+                  sentinel.innerHTML = `<span class="w-2 h-2 rounded-full ${pingColor} animate-ping"></span> Carregando mais obras (${cardsRenderIndex} de ${filtered.length})...`;
                 }
               } else {
                 sentinel.remove();
@@ -8378,6 +8534,7 @@
       const savedMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
       const savedCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
       const savedPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
+      const savedMed = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL;
       const savedProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       const savedFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       const savedInterval = localStorage.getItem(AUTO_SYNC_KEY) || '5';
@@ -8386,6 +8543,7 @@
       const inputMain = document.getElementById('sheetUrlMainInput');
       const inputCt = document.getElementById('sheetUrlContractsInput');
       const inputPac = document.getElementById('sheetUrlPactueInput');
+      const inputMed = document.getElementById('sheetUrlMedicoesInput');
       const inputProj = document.getElementById('sheetUrlProjetosInput');
       const inputFot = document.getElementById('sheetUrlFotosInput');
       const projShared = document.getElementById('projetosSharedFolderInput');
@@ -8394,12 +8552,14 @@
       const lastSync = document.getElementById('modalLastSyncText');
       const linkCt = document.getElementById('modalOpenContractsTab');
       const linkPac = document.getElementById('modalOpenPactueTab');
+      const linkMed = document.getElementById('modalOpenMedicoesTab');
       const linkProj = document.getElementById('modalOpenProjetosTab');
       const linkFot = document.getElementById('modalOpenFotosTab');
 
       if (inputMain && savedMain) inputMain.value = savedMain;
       if (inputCt && savedCt) inputCt.value = savedCt;
       if (inputPac && savedPac) inputPac.value = savedPac;
+      if (inputMed && savedMed) inputMed.value = savedMed;
       if (inputProj && savedProj) inputProj.value = savedProj;
       if (inputFot && savedFot) inputFot.value = savedFot;
       if (projShared && savedProj) projShared.value = savedProj;
@@ -8414,6 +8574,10 @@
       if (linkPac) {
         if (savedPac) { linkPac.href = savedPac; linkPac.classList.remove('hidden'); }
         else { linkPac.classList.add('hidden'); }
+      }
+      if (linkMed) {
+        if (savedMed) { linkMed.href = savedMed; linkMed.classList.remove('hidden'); }
+        else { linkMed.classList.add('hidden'); }
       }
       if (linkProj) {
         if (savedProj) { linkProj.href = savedProj; linkProj.classList.remove('hidden'); }
@@ -8448,6 +8612,13 @@
         if (linkPac) {
           if (trimmed) { linkPac.href = trimmed; linkPac.classList.remove('hidden'); }
           else { linkPac.classList.add('hidden'); }
+        }
+      } else if (field === 'sheetUrlMedicoes') {
+        localStorage.setItem(SHEET_URL_MEDICOES_KEY, trimmed);
+        const linkMed = document.getElementById('modalOpenMedicoesTab');
+        if (linkMed) {
+          if (trimmed) { linkMed.href = trimmed; linkMed.classList.remove('hidden'); }
+          else { linkMed.classList.add('hidden'); }
         }
       } else if (field === 'projetosFolderUrl') {
         const finalUrl = trimmed || DEFAULT_GOOGLE_DRIVE_BASE_URL;
@@ -8503,6 +8674,9 @@
       if (cfg.sheetUrlPactue && typeof cfg.sheetUrlPactue === 'string' && cfg.sheetUrlPactue.trim()) {
         localStorage.setItem(SHEET_URL_PACTUE_KEY, cfg.sheetUrlPactue.trim());
       }
+      if (cfg.sheetUrlMedicoes && typeof cfg.sheetUrlMedicoes === 'string' && cfg.sheetUrlMedicoes.trim()) {
+        localStorage.setItem(SHEET_URL_MEDICOES_KEY, cfg.sheetUrlMedicoes.trim());
+      }
       if (cfg.projetosFolderUrl && typeof cfg.projetosFolderUrl === 'string' && cfg.projetosFolderUrl.trim()) {
         localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, cfg.projetosFolderUrl.trim());
       }
@@ -8528,6 +8702,7 @@
         sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -8551,6 +8726,7 @@
         sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -8558,7 +8734,7 @@
         updatedAt: localStorage.getItem('seduc_config_last_saved_time') || new Date().toISOString()
       };
 
-      if (force || cfg.sheetUrlMain || cfg.sheetUrlContracts || cfg.sheetUrlPactue) {
+      if (force || cfg.sheetUrlMain || cfg.sheetUrlContracts || cfg.sheetUrlPactue || cfg.sheetUrlMedicoes) {
         try {
           const res = await fetch('/api/config', {
             method: 'POST',
@@ -8597,10 +8773,11 @@
         if (search.get('sm')) parsed.sheetUrlMain = search.get('sm');
         if (search.get('sc')) parsed.sheetUrlContracts = search.get('sc');
         if (search.get('sp')) parsed.sheetUrlPactue = search.get('sp');
+        if (search.get('smed')) parsed.sheetUrlMedicoes = search.get('smed');
         if (search.get('proj')) parsed.projetosFolderUrl = search.get('proj');
         if (search.get('foto')) parsed.fotosFolderUrl = search.get('foto');
 
-        const hasAnyParsedUrl = !!(parsed.sheetUrlMain || parsed.sheetUrlContracts || parsed.sheetUrlPactue || parsed.projetosFolderUrl || parsed.fotosFolderUrl);
+        const hasAnyParsedUrl = !!(parsed.sheetUrlMain || parsed.sheetUrlContracts || parsed.sheetUrlPactue || parsed.sheetUrlMedicoes || parsed.projetosFolderUrl || parsed.fotosFolderUrl);
         if (hasAnyParsedUrl) {
           applyConfigToStorageAndUI(parsed, false);
           localStorage.setItem('seduc_config_last_saved_time', new Date().toISOString());
@@ -8625,11 +8802,12 @@
         }
 
         if (serverCfg && typeof serverCfg === 'object') {
-          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue);
+          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue || serverCfg.sheetUrlMedicoes);
           const localCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
           const localPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
+          const localMed = localStorage.getItem(SHEET_URL_MEDICOES_KEY);
           const localMain = localStorage.getItem(SHEET_URL_MAIN_KEY);
-          const isLocalEmpty = !localCt && !localPac && !localMain;
+          const isLocalEmpty = !localCt && !localPac && !localMed && !localMain;
 
           if (isLocalEmpty && hasServerUrls) {
             applyConfigToStorageAndUI(serverCfg, true);
@@ -8659,6 +8837,7 @@
         sheetUrlMain: localStorage.getItem(SHEET_URL_MAIN_KEY) || '',
         sheetUrlContracts: localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '',
         sheetUrlPactue: localStorage.getItem(SHEET_URL_PACTUE_KEY) || '',
+        sheetUrlMedicoes: localStorage.getItem(SHEET_URL_MEDICOES_KEY) || '',
         projetosFolderUrl: localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         fotosFolderUrl: localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL,
         autoSyncInterval: localStorage.getItem(AUTO_SYNC_KEY) || '5',
@@ -8685,6 +8864,7 @@
       if (cfg.sheetUrlMain) queryParts.push(`sm=${encodeURIComponent(cfg.sheetUrlMain)}`);
       if (cfg.sheetUrlContracts) queryParts.push(`sc=${encodeURIComponent(cfg.sheetUrlContracts)}`);
       if (cfg.sheetUrlPactue) queryParts.push(`sp=${encodeURIComponent(cfg.sheetUrlPactue)}`);
+      if (cfg.sheetUrlMedicoes) queryParts.push(`smed=${encodeURIComponent(cfg.sheetUrlMedicoes)}`);
       if (cfg.projetosFolderUrl) queryParts.push(`proj=${encodeURIComponent(cfg.projetosFolderUrl)}`);
       if (cfg.fotosFolderUrl) queryParts.push(`foto=${encodeURIComponent(cfg.fotosFolderUrl)}`);
 
