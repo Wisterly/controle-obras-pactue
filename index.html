@@ -104,15 +104,15 @@
           <span id="syncStatusText" class="text-emerald-400 font-medium">Dados carregados</span>
         </div>
 
-        <!-- Botão Conectar Planilhas & Abas -->
+        <!-- Botão Ajustes (Planilha, Projetos e Fotos) -->
         <button 
-          onclick="openSheetModal()" 
+          onclick="openSettingsModal()" 
           id="sheetModalBtn"
-          class="flex items-center gap-2 px-3.5 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 hover:text-white border border-brand-cardBorder hover:border-brand-accent/50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95"
-          title="Configurar links e abas da planilha Google Sheets"
+          class="flex items-center gap-2 px-3.5 py-2 bg-brand-card hover:bg-slate-800 text-slate-200 hover:text-white border border-brand-cardBorder hover:border-amber-400/50 rounded-xl text-xs sm:text-sm font-semibold transition-all shadow-sm active:scale-95"
+          title="Ajustes de conexões: Planilhas, Projetos e Fotos"
         >
-          <span class="text-emerald-400 font-bold">📊</span>
-          <span>Abas da Planilha</span>
+          <span class="text-amber-400 font-bold">⚙️</span>
+          <span>Ajustes</span>
           <span id="sheetBadge" class="hidden px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-bold border border-emerald-500/30">ONLINE</span>
         </button>
 
@@ -418,43 +418,7 @@
     <!-- ============================================== -->
     <div id="projetosModuleContainer" class="hidden flex-col gap-6 w-full">
       
-      <!-- Barra Superior: Link da Pasta Compartilhada de Projetos -->
-      <div class="bg-brand-panel border border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/40 flex items-center justify-center text-xl shrink-0">
-            📁
-          </div>
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              Pasta Compartilhada de Projetos
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">Google Drive</span>
-            </h3>
-            <p class="text-xs text-slate-400">Projetos de engenharia e arquitetura organizados por GRE e Escola</p>
-          </div>
-        </div>
 
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
-          <input 
-            type="url" 
-            id="projetosSharedFolderInput" 
-            placeholder="Cole o link da pasta compartilhada de Projetos do Google Drive..."
-            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-          />
-          <button 
-            onclick="saveProjetosFolderUrl()"
-            class="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-all shadow-md shadow-purple-600/25 shrink-0"
-          >
-            💾 Salvar Link
-          </button>
-          <button 
-            onclick="openProjetosFolderDrive()"
-            class="px-3 py-2 rounded-xl bg-brand-dark hover:bg-brand-card border border-purple-500/40 text-purple-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 shrink-0"
-            title="Abrir pasta de projetos no Google Drive"
-          >
-            <span>📂 Abrir no Drive</span>
-          </button>
-        </div>
-      </div>
 
       <!-- Seletor de GRE para Projetos -->
       <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-purple-500/30 rounded-2xl p-4 sm:p-5 shadow-xl">
@@ -539,44 +503,6 @@
     <!-- MÓDULO 4: ABA DE FOTOS POR GRE E ESCOLA       -->
     <!-- ============================================== -->
     <div id="fotosModuleContainer" class="hidden flex-col gap-6 w-full">
-      
-      <!-- Barra Superior: Link da Pasta Compartilhada de Fotos -->
-      <div class="bg-brand-panel border border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center text-xl shrink-0">
-            📸
-          </div>
-          <div>
-            <h3 class="text-sm sm:text-base font-bold text-white flex items-center gap-2">
-              Pasta Compartilhada de Fotos
-              <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">Google Drive</span>
-            </h3>
-            <p class="text-xs text-slate-400">Fotos separadas por GRE, Escola e Ambientes (Fachadas, Laboratórios, etc.)</p>
-          </div>
-        </div>
-
-        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 flex-1 max-w-xl">
-          <input 
-            type="url" 
-            id="fotosSharedFolderInput" 
-            placeholder="Cole o link da pasta compartilhada de Fotos do Google Drive..."
-            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-          />
-          <button 
-            onclick="saveFotosFolderUrl()"
-            class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-md shadow-emerald-600/25 shrink-0"
-          >
-            💾 Salvar Link
-          </button>
-          <button 
-            onclick="openFotosFolderDrive()"
-            class="px-3 py-2 rounded-xl bg-brand-dark hover:bg-brand-card border border-emerald-500/40 text-emerald-300 hover:text-white text-xs font-semibold transition-colors flex items-center justify-center gap-1 shrink-0"
-            title="Abrir pasta geral de fotos no Google Drive"
-          >
-            <span>📂 Abrir no Drive</span>
-          </button>
-        </div>
-      </div>
 
       <!-- NÍVEL 1: SELETOR DE GRE COM BALÕES UNIFORMES -->
       <div class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-emerald-500/30 rounded-2xl p-4 sm:p-5 shadow-xl">
@@ -727,192 +653,329 @@
   </main>
 
   <!-- ============================================================== -->
-  <!-- MODAL: CONECTAR PLANILHA ONLINE & ABAS (CONTRATOS & PACTUE)    -->
+  <!-- MODAL: AJUSTES & CONEXÕES (PLANILHAS, PROJETOS E FOTOS)        -->
   <!-- ============================================================== -->
   <div id="sheetModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-brand-panel border border-brand-cardBorder rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl flex flex-col gap-4 max-h-[90vh] overflow-y-auto">
       
+      <!-- Cabeçalho do Modal -->
       <div class="flex items-start justify-between gap-3 border-b border-brand-cardBorder pb-3">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30">
-            📊
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold border border-amber-500/30">
+            ⚙️
           </div>
           <div>
-            <h3 class="text-base font-bold text-white">Configurar Planilha &amp; Abas Online</h3>
-            <p class="text-xs text-slate-400">Vincule as abas de Contratos e PACTUE do Google Sheets</p>
+            <h3 class="text-base font-bold text-white">Ajustes &amp; Conexões</h3>
+            <p class="text-xs text-slate-400">Configure as planilhas online e os links das pastas de Projetos e Fotos do Google Drive</p>
           </div>
         </div>
-        <button onclick="closeSheetModal()" class="text-slate-400 hover:text-white p-1 text-lg">✕</button>
+        <button onclick="closeSheetModal()" class="text-slate-400 hover:text-white p-1 text-lg" title="Fechar modal">✕</button>
       </div>
 
-      <!-- Instrução Amigável e Destaque de Compartilhamento -->
-      <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">PASSO OBRIGATÓRIO NO GOOGLE DRIVE</span>
+      <!-- Abas Internas de Navegação do Modal de Ajustes -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1.5 p-1 bg-brand-dark/90 border border-brand-cardBorder rounded-xl text-xs font-bold">
+        <button 
+          id="modalTabBtnPlanilha"
+          type="button"
+          onclick="switchSettingsModalTab('PLANILHA')"
+          class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center"
+        >
+          <span>📊</span>
+          <span class="truncate">Configurar Planilha e Abas Online</span>
+        </button>
+        <button 
+          id="modalTabBtnProjetos"
+          type="button"
+          onclick="switchSettingsModalTab('PROJETOS')"
+          class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 border border-transparent text-center"
+        >
+          <span>📁</span>
+          <span>Projetos</span>
+        </button>
+        <button 
+          id="modalTabBtnFotos"
+          type="button"
+          onclick="switchSettingsModalTab('FOTOS')"
+          class="py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 border border-transparent text-center"
+        >
+          <span>📸</span>
+          <span>Fotos</span>
+        </button>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- ABA 1: CONFIGURAR PLANILHA E ABAS ONLINE                       -->
+      <!-- ============================================================== -->
+      <div id="settingsTabContentPlanilha" class="flex flex-col gap-4">
+
+        <!-- Instrução Amigável e Destaque de Compartilhamento -->
+        <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">PASSO OBRIGATÓRIO NO GOOGLE DRIVE</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed">
+            1. Na sua planilha do Google Drive, clique no botão azul <strong>Compartilhar</strong> (canto superior direito).<br/>
+            2. Em <strong>Acesso geral</strong>, mude para: <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>.<br/>
+            3. Copie o link e cole no campo abaixo. O sistema lerá e sincronizará automaticamente!
+          </p>
         </div>
-        <p class="text-slate-300 leading-relaxed">
-          1. Na sua planilha do Google Drive, clique no botão azul <strong>Compartilhar</strong> (canto superior direito).<br/>
-          2. Em <strong>Acesso geral</strong>, mude para: <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>.<br/>
-          3. Copie o link e cole no campo abaixo. O sistema lerá e sincronizará automaticamente!
-        </p>
-      </div>
 
-      <!-- Campo Link Geral da Planilha (Compartilhamento Principal) -->
-      <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-brand-accent/40 p-3.5 rounded-xl">
-        <label class="text-xs font-extrabold text-brand-accent uppercase tracking-wide flex items-center justify-between">
-          <span class="flex items-center gap-1.5">
-            <span>🌐</span> Link Geral da Planilha Compartilhada (Qualquer pessoa com o link)
-          </span>
-          <span class="text-[10px] text-slate-400 font-normal">Base para todas as abas</span>
-        </label>
-        <div class="flex gap-2">
+        <!-- Campo Link Geral da Planilha (Compartilhamento Principal) -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-brand-accent/40 p-3.5 rounded-xl">
+          <label class="text-xs font-extrabold text-brand-accent uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🌐</span> Link Geral da Planilha Compartilhada (Qualquer pessoa com o link)
+            </span>
+            <span class="text-[10px] text-slate-400 font-normal">Base para todas as abas</span>
+          </label>
+          <div class="flex gap-2">
+            <input 
+              type="url" 
+              id="sheetUrlMainInput" 
+              placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing"
+              class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+            />
+            <button 
+              type="button"
+              onclick="applyMainSheetUrlToBothTabs()"
+              class="px-3 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 text-xs font-bold whitespace-nowrap transition-colors"
+              title="Aplica este link principal nas duas abas"
+            >
+              Aplicar nas Abas
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400">Cole aqui o link direto gerado pelo botão <strong>Compartilhar</strong> do Google Drive.</p>
+        </div>
+
+        <!-- Campo Aba 1: Obras de Contratos -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
+          <label class="text-xs font-bold text-blue-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🏗️</span> Link da Aba: Obras de Contratos
+            </span>
+            <a id="modalOpenContractsTab" href="#" target="_blank" class="hidden text-[10px] text-brand-accent underline">
+              Abrir aba no Google ↗
+            </a>
+          </label>
           <input 
             type="url" 
-            id="sheetUrlMainInput" 
-            placeholder="Ex: https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit?usp=sharing"
-            class="flex-1 bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+            id="sheetUrlContractsInput" 
+            placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=0"
+            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
           />
+        </div>
+
+        <!-- Campo Aba 2: Obras PACTUE -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
+          <label class="text-xs font-bold text-amber-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>🤝</span> Link da Aba: Obras PACTUE
+            </span>
+            <a id="modalOpenPactueTab" href="#" target="_blank" class="hidden text-[10px] text-amber-400 underline">
+              Abrir aba no Google ↗
+            </a>
+          </label>
+          <input 
+            type="url" 
+            id="sheetUrlPactueInput" 
+            placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=18492049"
+            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+        </div>
+
+        <!-- Configurações de Auto-Sincronização -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3">
+            <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+              ⏱️ Atualização Automática
+            </label>
+            <select 
+              id="autoSyncIntervalSelect" 
+              onchange="updateAutoSyncSetting(this.value)"
+              class="w-full bg-brand-panel border border-brand-cardBorder rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
+            >
+              <option value="0">Desativada (manual)</option>
+              <option value="2">A cada 2 minutos</option>
+              <option value="5" selected>A cada 5 minutos (Recomendado)</option>
+              <option value="15">A cada 15 minutos</option>
+              <option value="30">A cada 30 minutos</option>
+            </select>
+          </div>
+
+          <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3 flex flex-col justify-center">
+            <span class="text-[10px] uppercase font-bold text-slate-400">Última Sincronização</span>
+            <span id="modalLastSyncText" class="text-xs text-emerald-400 font-semibold mt-0.5">
+              Nenhuma sincronização recente
+            </span>
+          </div>
+        </div>
+
+        <!-- Feedback de Importação -->
+        <div id="syncFeedbackBox" class="hidden p-3 rounded-xl border text-xs"></div>
+
+        <!-- Botões de Ação da Planilha -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
+          <div class="flex items-center gap-2">
+            <!-- Baixar Modelo CSV -->
+            <button 
+              onclick="downloadCsvTemplate()" 
+              class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
+            >
+              📥 <span>Baixar Modelo CSV</span>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button 
+              onclick="closeSheetModal()" 
+              class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+            >
+              Fechar
+            </button>
+
+            <button 
+              onclick="saveAndSyncAllModal()" 
+              class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
+            >
+              <span>Salvar &amp; Sincronizar Tudo</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- ABA 2: PROJETOS (CONFIGURAÇÃO DA PASTA BASE DO GOOGLE DRIVE)   -->
+      <!-- ============================================================== -->
+      <div id="settingsTabContentProjetos" class="hidden flex-col gap-4">
+        
+        <!-- Instruções de Compartilhamento da Pasta de Projetos -->
+        <div class="bg-gradient-to-r from-purple-950/60 to-brand-dark border border-purple-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-bold text-[10px] border border-purple-500/30">PASTA RAIZ DE PROJETOS</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed">
+            1. No seu Google Drive, localize a pasta compartilhada que contém todos os <strong>Projetos</strong> separados por GRE e Escola.<br/>
+            2. Clique com botão direito na pasta &gt; <strong>Compartilhar</strong> &gt; em Acesso Geral selecione: <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>.<br/>
+            3. Cole o link no campo abaixo e clique em <strong>Salvar Link de Projetos</strong>.
+          </p>
+        </div>
+
+        <!-- Campo Link da Pasta de Projetos -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-purple-500/40 p-3.5 rounded-xl">
+          <label class="text-xs font-extrabold text-purple-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>📐</span> Link da Pasta Base de Projetos (Google Drive)
+            </span>
+            <a id="modalOpenProjetosTab" href="#" target="_blank" class="hidden text-[10px] text-purple-400 underline font-normal">
+              Abrir pasta no Drive ↗
+            </a>
+          </label>
+          <input 
+            type="url" 
+            id="sheetUrlProjetosInput" 
+            placeholder="Ex: https://drive.google.com/drive/folders/1aBcDeFgHiJkLmNoP... (Link compartilhado)"
+            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+          <p class="text-[10px] text-slate-400">Este link serve como a pasta base para a visualização dos projetos de arquitetura e engenharia.</p>
+        </div>
+
+        <!-- Botões de Ação de Projetos -->
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
           <button 
             type="button"
-            onclick="applyMainSheetUrlToBothTabs()"
-            class="px-3 py-2 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 text-brand-accent border border-brand-accent/40 text-xs font-bold whitespace-nowrap transition-colors"
-            title="Aplica este link principal nas duas abas"
+            onclick="openProjetosFolderDrive()" 
+            class="px-3.5 py-1.5 rounded-xl border border-purple-500/40 bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-purple-300 hover:text-white transition-colors flex items-center gap-1.5"
           >
-            Aplicar nas Abas
+            <span>📂</span>
+            <span>Abrir no Google Drive ↗</span>
           </button>
-        </div>
-        <p class="text-[10px] text-slate-400">Cole aqui o link direto gerado pelo botão <strong>Compartilhar</strong> do Google Drive.</p>
-      </div>
 
-      <!-- Campo Aba 1: Obras de Contratos -->
-      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
-        <label class="text-xs font-bold text-blue-300 uppercase tracking-wide flex items-center justify-between">
-          <span class="flex items-center gap-1.5">
-            <span>🏗️</span> Link da Aba: Obras de Contratos
-          </span>
-          <a id="modalOpenContractsTab" href="#" target="_blank" class="hidden text-[10px] text-brand-accent underline">
-            Abrir aba no Google ↗
-          </a>
-        </label>
-        <input 
-          type="url" 
-          id="sheetUrlContractsInput" 
-          placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=0"
-          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-        />
-      </div>
+          <div class="flex items-center gap-2">
+            <button 
+              type="button"
+              onclick="closeSheetModal()" 
+              class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+            >
+              Fechar
+            </button>
 
-      <!-- Campo Aba 2: Obras PACTUE -->
-      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-brand-cardBorder p-3.5 rounded-xl">
-        <label class="text-xs font-bold text-amber-300 uppercase tracking-wide flex items-center justify-between">
-          <span class="flex items-center gap-1.5">
-            <span>🤝</span> Link da Aba: Obras PACTUE
-          </span>
-          <a id="modalOpenPactueTab" href="#" target="_blank" class="hidden text-[10px] text-amber-400 underline">
-            Abrir aba no Google ↗
-          </a>
-        </label>
-        <input 
-          type="url" 
-          id="sheetUrlPactueInput" 
-          placeholder="Ex: https://docs.google.com/spreadsheets/d/.../edit#gid=18492049"
-          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-brand-accent rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-        />
-      </div>
-
-      <!-- Campo Aba 3: Pasta de Projetos -->
-      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-purple-500/30 p-3.5 rounded-xl">
-        <label class="text-xs font-bold text-purple-300 uppercase tracking-wide flex items-center justify-between">
-          <span class="flex items-center gap-1.5">
-            <span>📐</span> Link da Pasta de Projetos (Google Drive)
-          </span>
-          <a id="modalOpenProjetosTab" href="#" target="_blank" class="hidden text-[10px] text-purple-400 underline">
-            Abrir pasta no Drive ↗
-          </a>
-        </label>
-        <input 
-          type="url" 
-          id="sheetUrlProjetosInput" 
-          placeholder="Ex: https://drive.google.com/drive/folders/... (link da pasta compartilhada)"
-          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-purple-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-        />
-      </div>
-
-      <!-- Campo Aba 4: Pasta de Fotos -->
-      <div class="flex flex-col gap-1.5 bg-brand-dark/50 border border-emerald-500/30 p-3.5 rounded-xl">
-        <label class="text-xs font-bold text-emerald-300 uppercase tracking-wide flex items-center justify-between">
-          <span class="flex items-center gap-1.5">
-            <span>📸</span> Link da Pasta de Fotos (Google Drive)
-          </span>
-          <a id="modalOpenFotosTab" href="#" target="_blank" class="hidden text-[10px] text-emerald-400 underline">
-            Abrir pasta no Drive ↗
-          </a>
-        </label>
-        <input 
-          type="url" 
-          id="sheetUrlFotosInput" 
-          placeholder="Ex: https://drive.google.com/drive/folders/... (link da pasta compartilhada)"
-          class="w-full bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
-        />
-      </div>
-
-      <!-- Configurações de Auto-Sincronização -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3">
-          <label class="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-            ⏱️ Atualização Automática
-          </label>
-          <select 
-            id="autoSyncIntervalSelect" 
-            onchange="updateAutoSyncSetting(this.value)"
-            class="w-full bg-brand-panel border border-brand-cardBorder rounded-lg px-2.5 py-1.5 text-xs text-slate-200 outline-none"
-          >
-            <option value="0">Desativada (manual)</option>
-            <option value="2">A cada 2 minutos</option>
-            <option value="5" selected>A cada 5 minutos (Recomendado)</option>
-            <option value="15">A cada 15 minutos</option>
-            <option value="30">A cada 30 minutos</option>
-          </select>
+            <button 
+              type="button"
+              onclick="saveProjetosFolderFromModal()" 
+              class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white shadow-md shadow-purple-900/30 flex items-center gap-1.5"
+            >
+              <span>💾 Salvar Link de Projetos</span>
+            </button>
+          </div>
         </div>
 
-        <div class="bg-brand-dark/80 border border-brand-cardBorder rounded-xl p-3 flex flex-col justify-center">
-          <span class="text-[10px] uppercase font-bold text-slate-400">Última Sincronização</span>
-          <span id="modalLastSyncText" class="text-xs text-emerald-400 font-semibold mt-0.5">
-            Nenhuma sincronização recente
-          </span>
-        </div>
       </div>
 
-      <!-- Feedback de Importação -->
-      <div id="syncFeedbackBox" class="hidden p-3 rounded-xl border text-xs"></div>
-
-      <!-- Botões de Ação da Planilha -->
-      <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
+      <!-- ============================================================== -->
+      <!-- ABA 3: FOTOS (CONFIGURAÇÃO DA PASTA BASE DO GOOGLE DRIVE)       -->
+      <!-- ============================================================== -->
+      <div id="settingsTabContentFotos" class="hidden flex-col gap-4">
         
-        <div class="flex items-center gap-2">
-          <!-- Baixar Modelo CSV -->
-          <button 
-            onclick="downloadCsvTemplate()" 
-            class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-slate-300 hover:text-white transition-colors"
-          >
-            📥 <span>Baixar Modelo CSV</span>
-          </button>
+        <!-- Instruções de Compartilhamento da Pasta de Fotos -->
+        <div class="bg-gradient-to-r from-emerald-950/60 to-brand-dark border border-emerald-500/40 rounded-xl p-3.5 text-xs text-slate-200 flex flex-col gap-2 shadow-sm">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[10px] border border-emerald-500/30">PASTA RAIZ DE FOTOS</span>
+          </div>
+          <p class="text-slate-300 leading-relaxed">
+            1. No seu Google Drive, localize a pasta compartilhada que contém todas as <strong>Fotos</strong> separadas por GRE, Escola e Ambientes (Fachadas, Laboratórios, etc.).<br/>
+            2. Clique com botão direito na pasta &gt; <strong>Compartilhar</strong> &gt; em Acesso Geral selecione: <strong>"Qualquer pessoa com o link"</strong> como <strong>Leitor</strong>.<br/>
+            3. Cole o link no campo abaixo e clique em <strong>Salvar Link de Fotos</strong>.
+          </p>
         </div>
 
-        <div class="flex items-center gap-2">
+        <!-- Campo Link da Pasta de Fotos -->
+        <div class="flex flex-col gap-1.5 bg-brand-dark/70 border border-emerald-500/40 p-3.5 rounded-xl">
+          <label class="text-xs font-extrabold text-emerald-300 uppercase tracking-wide flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span>📸</span> Link da Pasta Base de Fotos (Google Drive)
+            </span>
+            <a id="modalOpenFotosTab" href="#" target="_blank" class="hidden text-[10px] text-emerald-400 underline font-normal">
+              Abrir pasta no Drive ↗
+            </a>
+          </label>
+          <input 
+            type="url" 
+            id="sheetUrlFotosInput" 
+            placeholder="Ex: https://drive.google.com/drive/folders/1xYzAbCdEfGhIjKlMn... (Link compartilhado)"
+            class="w-full bg-brand-dark border border-brand-cardBorder focus:border-emerald-400 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 outline-none"
+          />
+          <p class="text-[10px] text-slate-400">Este link serve como a pasta base para a visualização das fotos de todas as escolas e GREs.</p>
+        </div>
+
+        <!-- Botões de Ação de Fotos -->
+        <div class="flex items-center justify-between gap-2 pt-2 border-t border-brand-cardBorder">
           <button 
-            onclick="closeSheetModal()" 
-            class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+            type="button"
+            onclick="openFotosFolderDrive()" 
+            class="px-3.5 py-1.5 rounded-xl border border-emerald-500/40 bg-brand-dark hover:bg-slate-800 text-xs font-semibold text-emerald-300 hover:text-white transition-colors flex items-center gap-1.5"
           >
-            Fechar
+            <span>📂</span>
+            <span>Abrir no Google Drive ↗</span>
           </button>
 
-          <button 
-            onclick="saveAndSyncAllModal()" 
-            class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
-          >
-            <span>Salvar &amp; Sincronizar Tudo</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button 
+              type="button"
+              onclick="closeSheetModal()" 
+              class="px-3 py-1.5 rounded-xl border border-brand-cardBorder bg-brand-dark text-xs font-semibold text-slate-300 hover:text-white"
+            >
+              Fechar
+            </button>
+
+            <button 
+              type="button"
+              onclick="saveFotosFolderFromModal()" 
+              class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-md shadow-emerald-900/30 flex items-center gap-1.5"
+            >
+              <span>💾 Salvar Link de Fotos</span>
+            </button>
+          </div>
         </div>
 
       </div>
@@ -2017,10 +2080,10 @@
     function openActiveExternalResourceDirect() {
       if (currentModule === 'CONTRATOS') {
         const url = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-        if (url) window.open(url, '_blank'); else openSheetModal();
+        if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'PACTUE') {
         const url = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
-        if (url) window.open(url, '_blank'); else openSheetModal();
+        if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'PROJETOS') {
         openProjetosFolderDrive();
       } else if (currentModule === 'FOTOS') {
@@ -2036,26 +2099,31 @@
     // MÓDULO 3: PROJETOS DE ENGENHARIA & ARQUITETURA
     // =========================================================================
     function saveProjetosFolderUrl() {
-      const input = document.getElementById('projetosSharedFolderInput');
+      const input = document.getElementById('sheetUrlProjetosInput') || document.getElementById('projetosSharedFolderInput');
       if (!input) return;
       const url = input.value.trim();
       localStorage.setItem(STORAGE_KEY_PROJETOS_FOLDER, url);
+      const linkProj = document.getElementById('modalOpenProjetosTab');
+      if (linkProj) {
+        if (url) { linkProj.href = url; linkProj.classList.remove('hidden'); }
+        else { linkProj.classList.add('hidden'); }
+      }
       showToastNotification('✓ Link da pasta de projetos salvo com sucesso!');
     }
 
+    function saveProjetosFolderFromModal() {
+      saveProjetosFolderUrl();
+    }
+
     function openProjetosFolderDrive() {
-      const saved = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER);
+      const modalInp = document.getElementById('sheetUrlProjetosInput') || document.getElementById('projetosSharedFolderInput');
+      const modalVal = modalInp ? modalInp.value.trim() : '';
+      const saved = modalVal || localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER);
       if (saved) {
         window.open(saved, '_blank');
       } else {
-        const input = document.getElementById('projetosSharedFolderInput');
-        if (input && input.value.trim()) {
-          saveProjetosFolderUrl();
-          window.open(input.value.trim(), '_blank');
-        } else {
-          showToastNotification('Por favor, informe primeiro o link da pasta de projetos do Google Drive.');
-          if (input) input.focus();
-        }
+        showToastNotification('Por favor, informe primeiro o link da pasta de projetos do Google Drive.');
+        if (modalInp) modalInp.focus();
       }
     }
 
@@ -2399,26 +2467,31 @@
     // MÓDULO 4: FOTOS POR GRE, ESCOLA E SUBPASTAS (FACHADAS, LABORATÓRIOS, ETC.)
     // =========================================================================
     function saveFotosFolderUrl() {
-      const input = document.getElementById('fotosSharedFolderInput');
+      const input = document.getElementById('sheetUrlFotosInput') || document.getElementById('fotosSharedFolderInput');
       if (!input) return;
       const url = input.value.trim();
       localStorage.setItem(STORAGE_KEY_FOTOS_FOLDER, url);
+      const linkFot = document.getElementById('modalOpenFotosTab');
+      if (linkFot) {
+        if (url) { linkFot.href = url; linkFot.classList.remove('hidden'); }
+        else { linkFot.classList.add('hidden'); }
+      }
       showToastNotification('✓ Link da pasta de fotos salvo com sucesso!');
     }
 
+    function saveFotosFolderFromModal() {
+      saveFotosFolderUrl();
+    }
+
     function openFotosFolderDrive() {
-      const saved = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
+      const modalInp = document.getElementById('sheetUrlFotosInput') || document.getElementById('fotosSharedFolderInput');
+      const modalVal = modalInp ? modalInp.value.trim() : '';
+      const saved = modalVal || localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER);
       if (saved) {
         window.open(saved, '_blank');
       } else {
-        const input = document.getElementById('fotosSharedFolderInput');
-        if (input && input.value.trim()) {
-          saveFotosFolderUrl();
-          window.open(input.value.trim(), '_blank');
-        } else {
-          showToastNotification('Por favor, informe primeiro o link da pasta de fotos do Google Drive.');
-          if (input) input.focus();
-        }
+        showToastNotification('Por favor, informe primeiro o link da pasta de fotos do Google Drive.');
+        if (modalInp) modalInp.focus();
       }
     }
 
@@ -2428,7 +2501,7 @@
         window.open(general, '_blank');
       } else {
         showToastNotification('Configure o link da pasta geral de Fotos para abrir diretamente.');
-        openSheetModal();
+        openSettingsModal('FOTOS');
       }
     }
 
@@ -3450,6 +3523,42 @@
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
+    }
+
+    function switchSettingsModalTab(tabKey) {
+      const btnPlanilha = document.getElementById('modalTabBtnPlanilha');
+      const btnProjetos = document.getElementById('modalTabBtnProjetos');
+      const btnFotos = document.getElementById('modalTabBtnFotos');
+
+      const secPlanilha = document.getElementById('settingsTabContentPlanilha');
+      const secProjetos = document.getElementById('settingsTabContentProjetos');
+      const secFotos = document.getElementById('settingsTabContentFotos');
+
+      const inactiveClass = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 text-slate-400 hover:text-slate-200 border border-transparent text-center';
+
+      if (btnPlanilha) btnPlanilha.className = inactiveClass;
+      if (btnProjetos) btnProjetos.className = inactiveClass;
+      if (btnFotos) btnFotos.className = inactiveClass;
+
+      if (secPlanilha) { secPlanilha.classList.add('hidden'); secPlanilha.classList.remove('flex'); }
+      if (secProjetos) { secProjetos.classList.add('hidden'); secProjetos.classList.remove('flex'); }
+      if (secFotos) { secFotos.classList.add('hidden'); secFotos.classList.remove('flex'); }
+
+      if (tabKey === 'PROJETOS') {
+        if (btnProjetos) btnProjetos.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-purple-400 border border-purple-500/40 shadow text-center';
+        if (secProjetos) { secProjetos.classList.remove('hidden'); secProjetos.classList.add('flex'); }
+      } else if (tabKey === 'FOTOS') {
+        if (btnFotos) btnFotos.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center';
+        if (secFotos) { secFotos.classList.remove('hidden'); secFotos.classList.add('flex'); }
+      } else {
+        if (btnPlanilha) btnPlanilha.className = 'py-2 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 bg-brand-card text-emerald-400 border border-emerald-500/40 shadow text-center';
+        if (secPlanilha) { secPlanilha.classList.remove('hidden'); secPlanilha.classList.add('flex'); }
+      }
+    }
+
+    function openSettingsModal(initialTab = 'PLANILHA') {
+      openSheetModal();
+      switchSettingsModalTab(initialTab);
     }
 
     function closeSheetModal() {
