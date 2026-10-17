@@ -7006,12 +7006,62 @@
       }
     }
 
-    function sendWhatsAppDirect() {
+    async function sendWhatsAppDirect() {
       const text = generateWhatsAppMessage();
       if (!text || !text.trim()) {
         showToastNotification("Nenhum dado para o relatório.");
         return;
       }
+
+      // 1. Copia o relatório completo imediatamente para a área de transferência
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          fallbackCopyText(text);
+        }
+      } catch (e) {
+        fallbackCopyText(text);
+      }
+
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (window.innerWidth <= 768);
+
+      // 2. No Celular: Otimização nativa e ultra-rápida (sem travamentos nem sobrecarga de URL)
+      if (isMobile) {
+        // Se o navegador suportar compartilhamento nativo do sistema (Web Share API)
+        // Isso funciona exatamente como "Encaminhar Mensagem": abre a lista de contatos do WhatsApp
+        // de forma instantânea, sem travar o celular e sem limites de tamanho de URL!
+        if (navigator.share) {
+          try {
+            await navigator.share({
+              title: 'Relatório WhatsApp',
+              text: text
+            });
+            showToastNotification("✓ Mensagem encaminhada com sucesso!");
+            return;
+          } catch (err) {
+            // Se o usuário apenas cancelou o diálogo de compartilhamento, encerra sem erro
+            if (err.name === 'AbortError') return;
+            console.warn('Fallback Web Share:', err);
+          }
+        }
+
+        // Caso o Web Share não esteja ativo (ex: conexão local HTTP por IP),
+        // abre o WhatsApp diretamente pelo esquema nativo whatsapp:// sem abrir aba pesada do navegador
+        showToastNotification("✓ Relatório pronto! Abrindo WhatsApp...");
+
+        // Evita travar o WhatsApp móvel se a mensagem for gigante (mais de 2.000 caracteres)
+        let safeText = text;
+        if (safeText.length > 2000) {
+          safeText = safeText.substring(0, 1950) + "\n\n[...] (Relatório completo já copiado para colar no chat)";
+        }
+
+        const deepLink = "whatsapp://send?text=" + encodeURIComponent(safeText);
+        window.location.href = deepLink;
+        return;
+      }
+
+      // 3. No Desktop: mantém o comportamento original sem alterar nada
       const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
       window.open(url, "_blank");
     }
