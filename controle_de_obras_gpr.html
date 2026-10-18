@@ -361,8 +361,17 @@
                 </div>
               </div>
 
-              <!-- Botão para abrir a aba do contrato no Google Sheets -->
+              <!-- Botão para abrir a aba do contrato no Google Sheets e Botão de Conexão com Robô Google -->
               <div class="flex items-center gap-2">
+                <button 
+                  id="btnGoogleOAuthConnect" 
+                  onclick="triggerGoogleOAuthConnect()" 
+                  type="button"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-bold transition-all shadow-sm"
+                  title="Conectar sua conta Google para autorizar o robô do servidor a ler a planilha em tempo real"
+                >
+                  <span id="googleOAuthIcon">🤖</span> <span id="googleOAuthLabel">Autorizar Robô Google</span>
+                </button>
                 <a 
                   id="medicoesOpenSheetBtn" 
                   href="#" 
@@ -8291,6 +8300,46 @@
       }
     }
   
+    // =========================================================================
+    // INTEGRAÇÃO ROBÔ GOOGLE OAUTH (AUTORIZAÇÃO GMAIL COM PERMISSÃO DE LEITURA)
+    // =========================================================================
+    async function checkGoogleOAuthStatus() {
+      try {
+        const res = await fetch('/api/auth/google/status');
+        if (res.ok) {
+          const data = await res.json();
+          const btn = document.getElementById('btnGoogleOAuthConnect');
+          const icon = document.getElementById('googleOAuthIcon');
+          const label = document.getElementById('googleOAuthLabel');
+          if (data.connected && btn && label) {
+            btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
+            if (icon) icon.textContent = '🟢';
+            label.textContent = 'Robô Google Conectado';
+            btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
+          }
+        }
+      } catch (e) {}
+    }
+
+    async function triggerGoogleOAuthConnect() {
+      try {
+        const res = await fetch('/api/auth/google/url');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.authUrl) {
+            window.location.href = data.authUrl;
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao obter URL de autenticação:', err);
+      }
+      showToastNotification('⚠️ Conexão com Google em andamento...');
+    }
+
+    // Verifica status da conexão Google ao carregar a página
+    setTimeout(checkGoogleOAuthStatus, 1000);
+
     function openSheetModal() {
       const modal = document.getElementById('sheetModal');
       initSettingsInputsFromStorage();
