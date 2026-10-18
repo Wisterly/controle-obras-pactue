@@ -4,9 +4,26 @@ Este documento registra cronologicamente todos os pontos de restauração do pro
 
 ---
 
+## 🔒 REGRA DE OURO DAS RESTAURAÇÕES (ISOLAMENTO TOTAL DE DADOS)
+
+Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.015`, etc.) segue estritamente esta diretriz:
+
+1. **O que é restaurado:**
+   - Apenas o **código-fonte**, **layout**, **disposição de cards**, **balões**, **ordem de elementos**, **estilização CSS** e **comportamento das abas**.
+2. **O que NUNCA é apagado ou revertido:**
+   - **Fotos de escolas** enviadas ou movidas;
+   - **Arquivos e projetos** anexados;
+   - **Links e URLs de planilhas** preenchidos na aba de ajustes;
+   - **Configurações e autorizações do robô Google**;
+   - Quaisquer dados do usuário armazenados em `app_config.json`, `uploads/`, `localStorage` ou `IndexedDB`.
+3. **Mecanismo de proteção:**
+   - Durante a restauração para um ponto anterior, os dados persistidos pelo usuário são mantidos intactos, garantindo que adições feitas em sessões posteriores (como fotos novas ou novos links) permaneçam preservadas.
+
+---
+
 ### [PR.001]
 - **Data/Hora:** 18/10/2026 01:54 (Horário Local)
-- **Commit Git:** `9b08d50`
+- **Commit Git:** `ab999e0`
 - **Tag Git:** `PR.001` (local e remota no GitHub)
 - **Status:** Ativo / Em Produção
 - **Links:**
