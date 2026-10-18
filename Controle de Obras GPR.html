@@ -110,6 +110,18 @@
         right: 16px !important;
       }
     }
+
+    /* Adaptação da primeira coluna (TODAS AS GRES) nas abas Obras Contratos e Obras PACTUE */
+    @media (min-width: 1280px) {
+      #allGresGrid.custom-todas-gres-grid {
+        grid-template-columns: minmax(148px, 1.25fr) repeat(4, minmax(0, 1fr)) !important;
+      }
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      #allGresGrid.custom-todas-gres-grid {
+        grid-template-columns: minmax(148px, 1.25fr) repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
@@ -8962,29 +8974,58 @@
 
       // Grade de Balões: Compacto, ajustável e completo no Desktop; Rolagem fluida no Mobile
       if (allGrid) {
-        let html = `
-          <button 
-            onclick="setFilter('TODAS')"
-            class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
-              isAllSelected 
-                ? activeBtnClass 
-                : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
-            }"
-            title="Ver todas as obras de todas as GREs (${totalCount} obras)"
-          >
-            <div class="flex flex-col min-w-0 pr-0.5">
-              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
+        const isContratosOrPactue = (currentModule === 'CONTRATOS' || currentModule === 'PACTUE');
+        if (isContratosOrPactue) {
+          allGrid.classList.add('custom-todas-gres-grid');
+        } else {
+          allGrid.classList.remove('custom-todas-gres-grid');
+        }
+
+        let html = '';
+        if (isContratosOrPactue) {
+          html = `
+            <button 
+              onclick="setFilter('TODAS')"
+              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-2 h-full min-h-[42px] ${
+                isAllSelected 
+                  ? activeBtnClass 
+                  : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+              }"
+              title="Ver todas as obras de todas as GREs (${totalCount} obras)"
+            >
+              <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight tracking-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
                 TODAS AS GRES
               </span>
-              <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeSubText : 'text-slate-400 font-medium'}">
-                Geral Piauí
+              <span class="text-[8.5px] sm:text-[9.5px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ml-auto ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
+                ${totalCount}
               </span>
-            </div>
-            <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
-              ${totalCount}
-            </span>
-          </button>
-        `;
+            </button>
+          `;
+        } else {
+          html = `
+            <button 
+              onclick="setFilter('TODAS')"
+              class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
+                isAllSelected 
+                  ? activeBtnClass 
+                  : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
+              }"
+              title="Ver todas as medições de todas as GREs (${totalCount} medições)"
+            >
+              <div class="flex flex-col min-w-0 pr-0.5">
+                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
+                  TODAS AS GRES
+                </span>
+                <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeSubText : 'text-slate-400 font-medium'}">
+                  Geral Piauí
+                </span>
+              </div>
+              <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
+                ${totalCount}
+              </span>
+            </button>
+          `;
+        }
 
         SEDUC_PI_GRES.forEach(g => {
           const count = greCounts.get(g.key) || 0;
