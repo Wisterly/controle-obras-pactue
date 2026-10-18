@@ -7,7 +7,16 @@ export default async function handler(req, res) {
     return res.status(204).end();
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
+  let clientId = process.env.GOOGLE_CLIENT_ID || '';
+  try {
+    const fs = await import('fs');
+    const path = await import('path');
+    const credPath = path.join(process.cwd(), 'google_credentials.json');
+    if (fs.existsSync(credPath)) {
+      const creds = JSON.parse(fs.readFileSync(credPath, 'utf8'));
+      if (!clientId) clientId = creds.client_id;
+    }
+  } catch (e) {}
   const host = req.headers['x-forwarded-host'] || req.headers.host || 'controle-obras-pactue.vercel.app';
   const proto = req.headers['x-forwarded-proto'] || 'https';
   const redirectUri = `${proto}://${host}/api/auth/google/callback`;

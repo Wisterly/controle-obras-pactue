@@ -12,10 +12,21 @@ export default async function handler(req, res) {
     return res.status(400).send('Parâmetro url ausente');
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  let clientId = process.env.GOOGLE_CLIENT_ID || '';
+  let clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
 
-  // Identifica tokens (via variável de ambiente na Vercel)
+  try {
+    const fs = await import('fs');
+    const path = await import('path');
+    const credPath = path.join(process.cwd(), 'google_credentials.json');
+    if (fs.existsSync(credPath)) {
+      const creds = JSON.parse(fs.readFileSync(credPath, 'utf8'));
+      if (!clientId) clientId = creds.client_id;
+      if (!clientSecret) clientSecret = creds.client_secret;
+    }
+  } catch (e) {}
+
+  // Identifica tokens (via variável de ambiente na Vercel ou fallback local)
   let accessToken = null;
   let envTokens = null;
   try {
@@ -23,6 +34,17 @@ export default async function handler(req, res) {
       envTokens = JSON.parse(process.env.GOOGLE_AUTH_TOKENS);
     }
   } catch (e) {}
+
+  if (!envTokens) {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const p = path.join(process.cwd(), 'google_auth_token.json');
+      if (fs.existsSync(p)) {
+        envTokens = JSON.parse(fs.readFileSync(p, 'utf8'));
+      }
+    } catch (e) {}
+  }
 
   if (envTokens && envTokens.refresh_token && clientId && clientSecret) {
     try {

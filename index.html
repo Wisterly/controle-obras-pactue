@@ -3995,15 +3995,15 @@
     const DEFAULT_MEDICOES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing';
     const STORAGE_KEY_MEDICOES_CONTRATOS = 'seduc_medicoes_contratos_list';
     const DEFAULT_MEDICOES_CONTRATOS = [
-      { id: 'ct-rmelo', name: 'RMELO', url: '' },
-      { id: 'ct-rodrigues-e-rodrigues', name: 'RODRIGUES E RODRIGUES', url: '' },
-      { id: 'ct-cp-engenharia', name: 'CP ENGENHARIA', url: '' },
-      { id: 'ct-fel-engemax', name: 'F E L / ENGEMAX', url: '' },
-      { id: 'ct-pavcon', name: 'PAVCON', url: '' },
-      { id: 'ct-desenvolva', name: 'DESENVOLVA', url: '' },
-      { id: 'ct-oasis', name: 'OASIS', url: '' },
-      { id: 'ct-assertiva', name: 'ASSERTIVA', url: '' },
-      { id: 'ct-monte-claro', name: 'MONTE CLARO', url: '' }
+      { id: 'ct-rmelo', name: 'RMELO', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1656782521#gid=1656782521' },
+      { id: 'ct-rodrigues-e-rodrigues', name: 'RODRIGUES E RODRIGUES', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1686909159#gid=1686909159' },
+      { id: 'ct-cp-engenharia', name: 'CP ENGENHARIA', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=670888626#gid=670888626' },
+      { id: 'ct-fel-engemax', name: 'F E L / ENGEMAX', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1912665049#gid=1912665049' },
+      { id: 'ct-pavcon', name: 'PAVCON', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=701250826#gid=701250826' },
+      { id: 'ct-desenvolva', name: 'DESENVOLVA', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1776695116#gid=1776695116' },
+      { id: 'ct-oasis', name: 'OASIS', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=956198080#gid=956198080' },
+      { id: 'ct-assertiva', name: 'ASSERTIVA', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=770821676#gid=770821676' },
+      { id: 'ct-monte-claro', name: 'MONTE CLARO', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1113761868#gid=1113761868' }
     ];
     const AUTO_SYNC_KEY = 'seduc_auto_sync_interval';
     const LAST_SYNC_KEY = 'seduc_last_sync_time';
@@ -4050,7 +4050,7 @@
     let activeContratoFilter = 'TODOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
-    const CURRENT_MEDICOES_CACHE_VERSION = 'v6_todos_contratos';
+    const CURRENT_MEDICOES_CACHE_VERSION = 'v10_sincronizacao_total_534';
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
     if (!medicoesData || !Array.isArray(medicoesData) || localStorage.getItem('seduc_medicoes_cache_ver') !== CURRENT_MEDICOES_CACHE_VERSION) {
       medicoesData = INITIAL_MEDICOES_DATA;
@@ -4364,6 +4364,13 @@
         renderGreSelector();
         renderStatusFilters();
         renderCards();
+
+        if (typeof checkGoogleOAuthStatus === 'function') {
+          checkGoogleOAuthStatus();
+        }
+        if (medicoesData && medicoesData.length <= 22) {
+          syncActiveModuleSheet();
+        }
 
       } else if (currentModule === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = activeProj;
@@ -7632,13 +7639,13 @@
     // =========================================================================
     const CONTRATOS_CONFIG = {
       'RMELO': {
-        startRow: 324,     // Linha inicial da planilha (324)
-        colEntrada: 0,     // 6 = Coluna A (Data da Entrada)
-        colMedicao: 2,     // 2 = Coluna C (Descrição da Medição / Ref)
-        colGre: 3,         // 1 = Coluna D (Número / Nome da GRE)
-        colProcesso: 4,    // 3 = Coluna E (Número do Processo)
-        colValor: 5,       // 4 = Coluna F (Valor Medido R$)
-        colSetor: 6,       // 5 = Coluna G (Setor do Processo)
+        startRow: 4,       // Linha inicial dos dados na planilha (linha 4)
+        colEntrada: 0,     // Coluna A (Data da Entrada / Contrato)
+        colMedicao: 2,     // Coluna C (Descrição da Medição / Ref)
+        colGre: 3,         // Coluna D (Número / Nome da GRE)
+        colProcesso: 4,    // Coluna E (Número do Processo)
+        colValor: 6,       // Coluna G (Valor Medido R$)
+        colSetor: 8,       // Coluna I (Setor do Processo)
         colEscola: -1,
         colMunicipio: -1
       },
@@ -8415,18 +8422,31 @@
     // INTEGRAÇÃO ROBÔ GOOGLE OAUTH (AUTORIZAÇÃO GMAIL COM PERMISSÃO DE LEITURA)
     // =========================================================================
     async function checkGoogleOAuthStatus() {
+      const btn = document.getElementById('btnGoogleOAuthConnect');
+      const icon = document.getElementById('googleOAuthIcon');
+      const label = document.getElementById('googleOAuthLabel');
+
+      if (localStorage.getItem('seduc_google_oauth_connected') === '1' && btn && label) {
+        btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
+        if (icon) icon.textContent = '🟢';
+        label.textContent = 'Robô Google Conectado';
+        btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
+      }
+
       try {
         const res = await fetch('/api/auth/google/status');
         if (res.ok) {
           const data = await res.json();
-          const btn = document.getElementById('btnGoogleOAuthConnect');
-          const icon = document.getElementById('googleOAuthIcon');
-          const label = document.getElementById('googleOAuthLabel');
-          if (data.connected && btn && label) {
-            btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
-            if (icon) icon.textContent = '🟢';
-            label.textContent = 'Robô Google Conectado';
-            btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
+          if (data.connected) {
+            localStorage.setItem('seduc_google_oauth_connected', '1');
+            if (btn && label) {
+              btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
+              if (icon) icon.textContent = '🟢';
+              label.textContent = 'Robô Google Conectado';
+              btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
+            }
+          } else {
+            localStorage.removeItem('seduc_google_oauth_connected');
           }
         }
       } catch (e) {}
@@ -8468,8 +8488,16 @@
         const raw = localStorage.getItem(STORAGE_KEY_MEDICOES_CONTRATOS);
         if (raw) {
           const parsed = JSON.parse(raw);
-          // Se já possui os 9 contratos (ou mais), retorna a lista
-          if (Array.isArray(parsed) && parsed.length >= 9) return parsed;
+          // Se já possui os 9 contratos (ou mais), valida que não tenham URLs em branco
+          if (Array.isArray(parsed) && parsed.length >= 9) {
+            return parsed.map(p => {
+              const def = DEFAULT_MEDICOES_CONTRATOS.find(d => d.id === p.id || d.name.toUpperCase() === (p.name || '').toUpperCase());
+              if ((!p.url || !p.url.trim()) && def && def.url) {
+                return { ...p, url: def.url };
+              }
+              return p;
+            });
+          }
           // Se for uma lista anterior com menos itens, migra para os 9 contratos oficiais preservando links existentes
           if (Array.isArray(parsed) && parsed.length > 0) {
             const merged = DEFAULT_MEDICOES_CONTRATOS.map(def => {
@@ -8479,7 +8507,7 @@
                 const defNorm = def.name.toUpperCase().replace(/CONTRATO\s*/i, '').trim();
                 return pNorm === defNorm || (p.id && p.id === def.id);
               });
-              return found && found.url ? { ...def, url: found.url } : def;
+              return (found && found.url && found.url.trim()) ? { ...def, url: found.url.trim() } : def;
             });
             localStorage.setItem(STORAGE_KEY_MEDICOES_CONTRATOS, JSON.stringify(merged));
             return merged;

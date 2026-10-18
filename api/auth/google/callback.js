@@ -8,8 +8,19 @@ export default async function handler(req, res) {
     return res.status(400).send('Código de autorização ausente');
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  let clientId = process.env.GOOGLE_CLIENT_ID || '';
+  let clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
+
+  try {
+    const fs = await import('fs');
+    const path = await import('path');
+    const credPath = path.join(process.cwd(), 'google_credentials.json');
+    if (fs.existsSync(credPath)) {
+      const creds = JSON.parse(fs.readFileSync(credPath, 'utf8'));
+      if (!clientId) clientId = creds.client_id;
+      if (!clientSecret) clientSecret = creds.client_secret;
+    }
+  } catch (e) {}
 
   if (!clientId || !clientSecret) {
     return res.status(500).send('GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET não configurados no ambiente.');

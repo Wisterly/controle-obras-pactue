@@ -18,6 +18,18 @@ export default async function handler(req, res) {
         email = tokens.email || null;
       }
     }
+    if (!isConnected) {
+      const fs = await import('fs');
+      const path = await import('path');
+      const p = path.join(process.cwd(), 'google_auth_token.json');
+      if (fs.existsSync(p)) {
+        const tokens = JSON.parse(fs.readFileSync(p, 'utf8'));
+        if (tokens && (tokens.refresh_token || tokens.access_token)) {
+          isConnected = true;
+          email = tokens.email || null;
+        }
+      }
+    }
   } catch (e) {}
 
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
