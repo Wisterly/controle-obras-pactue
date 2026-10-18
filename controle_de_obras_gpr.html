@@ -371,6 +371,64 @@
           </div>
         </div>
 
+        <!-- ============================================== -->
+        <!-- SELETOR DE GRE POR ROLAGEM (LOGO ABAIXO DO SELETOR DE CONTRATOS) -->
+        <!-- ============================================== -->
+        <div id="worksGreContainer" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
+          
+          <!-- Glow decorativo -->
+          <div id="worksGreGlow1" class="absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div id="worksGreGlow2" class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="flex flex-col gap-3 relative z-10">
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-1">
+              <div class="flex items-center gap-2.5">
+                <span id="worksGreIconBox" class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg font-black shadow-inner">
+                  📍
+                </span>
+                <div>
+                  <span id="worksGreStepLabel" class="text-[11px] uppercase font-extrabold tracking-wider text-blue-400">
+                    1º Passo: Escolha a GRE
+                  </span>
+                  <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
+                    Filtrar Obras por GRE: <span id="greSelectLabel" class="text-xs text-blue-400 font-semibold">Todas as GREs</span>
+                    <span id="greDemandTag" class="text-xs font-semibold text-blue-400">(Obras de Contratos)</span>
+                  </h2>
+                </div>
+              </div>
+
+              <!-- Pesquisa de GRE e Ver Todas -->
+              <div class="flex items-center gap-2 w-full sm:w-auto">
+                <div class="relative flex-1 sm:w-64">
+                  <input 
+                    type="text" 
+                    id="greSearchInput" 
+                    placeholder="Pesquisar GRE (ex: 1ª GRE, Barras, Oeiras)..." 
+                    oninput="filterGreDrawer(this.value)"
+                    class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent"
+                  />
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <button 
+                  onclick="setFilter('TODAS')" 
+                  class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
+                >
+                  Ver Todas
+                </button>
+              </div>
+            </div>
+
+            <!-- Grade de balões de GREs: Mobile com rolagem de 2 colunas; Desktop compacto com todas as GREs completas sem precisar rolar -->
+            <div id="allGresGrid" class="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto lg:max-h-none lg:overflow-visible lg:grid-cols-4 xl:grid-cols-5 lg:gap-1.5 p-1">
+              <!-- Injetado via JS -->
+            </div>
+
+          </div>
+        </div>
+
         <!-- Painel Didático de Indicadores / Cards Informativos (Largura Proporcional, Altura Baixa, Legíveis sem Abreviação) -->
         <div class="flex flex-wrap items-stretch gap-2 sm:gap-2.5">
           
@@ -496,63 +554,7 @@
 
       </div>
 
-      <!-- ============================================== -->
-      <!-- SELETOR DE GRE POR ROLAGEM (PADRÃO PROJETOS/FOTOS) -->
-      <!-- ============================================== -->
-      <div id="worksGreContainer" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
-        
-        <!-- Glow decorativo -->
-        <div id="worksGreGlow1" class="absolute -right-8 -top-8 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
-        <div id="worksGreGlow2" class="absolute -left-8 -bottom-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-        <div class="flex flex-col gap-3 relative z-10">
-          
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-1">
-            <div class="flex items-center gap-2.5">
-              <span id="worksGreIconBox" class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg font-black shadow-inner">
-                📍
-              </span>
-              <div>
-                <span id="worksGreStepLabel" class="text-[11px] uppercase font-extrabold tracking-wider text-blue-400">
-                  1º Passo: Escolha a GRE
-                </span>
-                <h2 class="text-sm sm:text-base font-bold text-white tracking-tight flex items-center gap-2 flex-wrap">
-                  Filtrar Obras por GRE: <span id="greSelectLabel" class="text-xs text-blue-400 font-semibold">Todas as GREs</span>
-                  <span id="greDemandTag" class="text-xs font-semibold text-blue-400">(Obras de Contratos)</span>
-                </h2>
-              </div>
-            </div>
-
-            <!-- Pesquisa de GRE e Ver Todas -->
-            <div class="flex items-center gap-2 w-full sm:w-auto">
-              <div class="relative flex-1 sm:w-64">
-                <input 
-                  type="text" 
-                  id="greSearchInput" 
-                  placeholder="Pesquisar GRE (ex: 1ª GRE, Barras, Oeiras)..." 
-                  oninput="filterGreDrawer(this.value)"
-                  class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent"
-                />
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 absolute left-2.5 top-2.5 text-slate-400 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <button 
-                onclick="setFilter('TODAS')" 
-                class="px-3 py-1.5 rounded-xl bg-brand-card hover:bg-slate-700 text-slate-200 border border-brand-cardBorder text-xs font-semibold shrink-0 transition-colors"
-              >
-                Ver Todas
-              </button>
-            </div>
-          </div>
-
-          <!-- Grade de balões de GREs: Mobile com rolagem de 2 colunas; Desktop compacto com todas as GREs completas sem precisar rolar -->
-          <div id="allGresGrid" class="grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto lg:max-h-none lg:overflow-visible lg:grid-cols-4 xl:grid-cols-5 lg:gap-1.5 p-1">
-            <!-- Injetado via JS -->
-          </div>
-
-        </div>
-      </div>
 
       <!-- ============================================== -->
       <!-- FILTRO MULTI-STATUS DAS OBRAS (CHAMATIVO)     -->
