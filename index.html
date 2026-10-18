@@ -218,14 +218,14 @@
 
   <!-- Sub-Header: SELETOR DE MÓDULO / ABA DA DEMANDA (CONTRATOS vs PACTUE) -->
   <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <div class="max-w-7xl mx-auto flex items-center w-full">
       
       <!-- Seletor em Segmented Control Chamativo (5 Abas) -->
-      <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full sm:w-auto shadow-inner">
+      <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-2 bg-brand-dark/90 p-1.5 rounded-2xl border border-brand-cardBorder w-full shadow-inner">
         <button 
           id="moduleBtnContracts"
           onclick="switchModule('CONTRATOS')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]"
+          class="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]"
         >
           <span>🏗️</span>
           <span>Obras de Contratos</span>
@@ -237,7 +237,7 @@
         <button 
           id="moduleBtnPactue"
           onclick="switchModule('PACTUE')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+          class="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
         >
           <span>🤝</span>
           <span>Obras PACTUE</span>
@@ -249,7 +249,7 @@
         <button 
           id="moduleBtnMedicoes"
           onclick="switchModule('MEDICOES')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+          class="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
         >
           <span>📊</span>
           <span>Medições</span>
@@ -261,7 +261,7 @@
         <button 
           id="moduleBtnProjetos"
           onclick="switchModule('PROJETOS')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+          class="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
         >
           <span>📐</span>
           <span>Projetos</span>
@@ -273,29 +273,13 @@
         <button 
           id="moduleBtnFotos"
           onclick="switchModule('FOTOS')" 
-          class="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
+          class="flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70"
         >
           <span>📸</span>
           <span>Fotos</span>
           <span id="fotosBadgeCount" class="text-[11px] px-2 py-0.5 rounded-full bg-brand-dark text-slate-400 font-bold border border-brand-cardBorder">
             0
           </span>
-        </button>
-      </div>
-
-      <!-- Informação da Aba e Atalho Direto -->
-      <div class="flex items-center gap-2 text-xs text-slate-400 w-full sm:w-auto justify-between sm:justify-end">
-        <span class="flex items-center gap-1.5">
-          <span id="activeTabColorDot" class="w-2 h-2 rounded-full bg-brand-accent"></span>
-          <span>Aba ativa: <strong id="activeTabNameDisplay" class="text-slate-200">Aba Contratos</strong></span>
-        </span>
-        <button 
-          onclick="openActiveExternalResourceDirect()" 
-          id="openActiveTabExternalBtn"
-          class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-brand-card hover:bg-slate-800 text-brand-accent hover:text-blue-300 border border-brand-cardBorder text-xs font-semibold transition-colors"
-          title="Abrir diretamente no Google Sheets / Drive"
-        >
-          <span id="openActiveTabExternalLabel">🔗 Abrir no Google</span>
         </button>
       </div>
 
@@ -4214,12 +4198,12 @@
       const whatsappModuleScope = document.getElementById('whatsappModuleScope');
 
       // Classes base de botões
-      const activeCt = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.02]';
-      const activePac = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.02]';
-      const activeMed = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-cyan-500/25 scale-[1.02]';
-      const activeProj = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25 scale-[1.02]';
-      const activeFot = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/25 scale-[1.02]';
-      const inactiveBtn = 'flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
+      const activeCt = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-blue-500/25 scale-[1.01]';
+      const activePac = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-amber-500 to-amber-600 text-brand-dark shadow-amber-500/25 scale-[1.01]';
+      const activeMed = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-cyan-500 to-teal-500 text-brand-dark shadow-cyan-500/25 scale-[1.01]';
+      const activeProj = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-purple-500/25 scale-[1.01]';
+      const activeFot = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-extrabold text-xs sm:text-sm transition-all shadow-md bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-emerald-500/25 scale-[1.01]';
+      const inactiveBtn = 'flex-1 flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-300 hover:text-white transition-all hover:bg-brand-card/70';
 
       // Reseta classes de todos
       if (btnContracts) btnContracts.className = inactiveBtn;
