@@ -31,7 +31,8 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 - **Tag Git:** `PR.001` (local e remota no GitHub)
 - **Status:** Ativo / Em Produção
 - **Links:**
-  - Produção: https://controle-obras-pactue.vercel.app
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
   - Localhost: http://localhost:3000
 - **Resumo das Alterações Estruturais Contidas:**
   1. Remoção do indicador `Aba ativa: Aba Medições` do canto superior direito, garantindo largura total e sem sobreposição para as 5 abas de navegação.
