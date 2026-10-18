@@ -14,9 +14,16 @@ export default async function handler(req, res) {
 
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  let accessToken = null;
 
-  const envTokens = process.env.GOOGLE_AUTH_TOKENS ? JSON.parse(process.env.GOOGLE_AUTH_TOKENS) : null;
+  // Identifica tokens (via variável de ambiente na Vercel)
+  let accessToken = null;
+  let envTokens = null;
+  try {
+    if (process.env.GOOGLE_AUTH_TOKENS) {
+      envTokens = JSON.parse(process.env.GOOGLE_AUTH_TOKENS);
+    }
+  } catch (e) {}
+
   if (envTokens && envTokens.refresh_token && clientId && clientSecret) {
     try {
       const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
@@ -38,6 +45,48 @@ export default async function handler(req, res) {
     }
   }
 
+  // Se for Google Sheets e temos Access Token, usa a Google Sheets API v4 direta
+  const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (accessToken && idMatch && idMatch[1]) {
+    const sheetId = idMatch[1];
+    const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+    const gid = gidMatch ? gidMatch[1] : null;
+
+    try {
+      const metaRes = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets(properties(sheetId,title))`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      const meta = await metaRes.json();
+      let sheetTitle = '';
+      if (meta.sheets && meta.sheets.length > 0) {
+        if (gid) {
+          const targetSheet = meta.sheets.find(s => String(s.properties.sheetId) === String(gid));
+          if (targetSheet) sheetTitle = targetSheet.properties.title;
+        }
+        if (!sheetTitle) sheetTitle = meta.sheets[0].properties.title;
+      }
+
+      if (sheetTitle) {
+        const range = encodeURIComponent(`'${sheetTitle}'!A1:Z1000`);
+        const valRes = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}`, {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        });
+        const valJson = await valRes.json();
+        const rows = valJson.values || [];
+        const csvLines = rows.map(r => r.map(cell => {
+          const str = cell === null || cell === undefined ? '' : String(cell);
+          return `"${str.replace(/"/g, '""')}"`;
+        }).join(','));
+        const csvOutput = csvLines.join('\n');
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        return res.status(200).send(csvOutput);
+      }
+    } catch (errApi) {
+      console.warn('Fallback da API Google na Vercel:', errApi);
+    }
+  }
+
+  // Fallback para fetch direto
   try {
     const headers = {
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
