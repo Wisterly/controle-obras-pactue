@@ -4050,7 +4050,7 @@
     let activeContratoFilter = 'TODOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
-    const CURRENT_MEDICOES_CACHE_VERSION = 'v5_rmelo_refresh';
+    const CURRENT_MEDICOES_CACHE_VERSION = 'v6_todos_contratos';
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
     if (!medicoesData || !Array.isArray(medicoesData) || localStorage.getItem('seduc_medicoes_cache_ver') !== CURRENT_MEDICOES_CACHE_VERSION) {
       medicoesData = INITIAL_MEDICOES_DATA;
@@ -7628,6 +7628,7 @@
 
     // =========================================================================
     // MAPEAMENTO EXATO DE COLUNAS POR CONTRATO (CONFIGURADO CONFORME AS ABAS)
+    // 1=D (Gre), 2=C (Medição), 3=E (Processo), 4=F (Valor), 5=G (Setor), 6=A (Data Entrada)
     // =========================================================================
     const CONTRATOS_CONFIG = {
       'RMELO': {
@@ -7638,8 +7639,118 @@
         colProcesso: 4,    // 3 = Coluna E (Número do Processo)
         colValor: 5,       // 4 = Coluna F (Valor Medido R$)
         colSetor: 6,       // 5 = Coluna G (Setor do Processo)
-        colEscola: -1,     // 7 = DESCONSIDERAR
-        colMunicipio: -1   // 7 = DESCONSIDERAR
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'RODRIGUES E RODRIGUES': {
+        startRow: 4,       // Linha inicial da planilha (4)
+        colEntrada: 0,     // Coluna A
+        colMedicao: 2,     // Coluna C
+        colGre: 3,         // Coluna D
+        colProcesso: 4,    // Coluna E
+        colValor: 5,       // Coluna F
+        colSetor: 6,       // Coluna G
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'RODRIGUES RODRIGUES': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'CP ENGENHARIA': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'F E L / ENGEMAX': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'FEL ENGEMAX': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'PAVCON': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'DESENVOLVA': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'OASIS': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'ASSERTIVA': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
+      },
+      'MONTE CLARO': {
+        startRow: 4,
+        colEntrada: 0,
+        colMedicao: 2,
+        colGre: 3,
+        colProcesso: 4,
+        colValor: 5,
+        colSetor: 6,
+        colEscola: -1,
+        colMunicipio: -1
       }
     };
 
@@ -7684,8 +7795,8 @@
               colSetor = cfg.colSetor;
               colEscola = cfg.colEscola;
               colMunicipio = cfg.colMunicipio;
-              if (cfg.startRow && rawRows.length >= cfg.startRow) {
-                startRowIdx = cfg.startRow - 1; // Linha 324 é index 323
+              if (cfg.startRow) {
+                startRowIdx = Math.max(0, cfg.startRow - 1); // Linha 4 é index 3, Linha 324 é index 323
               } else {
                 startRowIdx = 1;
               }
