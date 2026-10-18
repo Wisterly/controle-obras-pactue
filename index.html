@@ -297,8 +297,13 @@
       <!-- Left Column: GRE Selector, Status Filters, Cards -->
       <section class="lg:col-span-7 flex flex-col gap-4">
       
-        <!-- Bloco de Seletor de Contratos / Abas da Planilha (Visível em Medições) -->
-        <div id="medicoesContratosBlock" class="hidden bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
+      <!-- ============================================== -->
+      <!-- PAINEL DIDÁTICO DE MEDIÇÕES (EXCLUSIVO MEDIÇÕES) -->
+      <!-- ============================================== -->
+      <div id="medicoesDashboardSection" class="hidden flex-col gap-4">
+        
+        <!-- Bloco de Seletor de Contratos / Abas da Planilha -->
+        <div id="medicoesContratosBlock" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
           
           <!-- Glow decorativo ciano -->
           <div class="absolute -right-8 -top-8 w-36 h-36 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -351,7 +356,7 @@
         </div>
 
         <!-- ============================================== -->
-        <!-- SELETOR DE GRE POR ROLAGEM (COMUM A CONTRATOS, PACTUE E MEDIÇÕES) -->
+        <!-- SELETOR DE GRE POR ROLAGEM (LOGO ABAIXO DO SELETOR DE CONTRATOS) -->
         <!-- ============================================== -->
         <div id="worksGreContainer" class="bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-blue-500/30 hover:border-blue-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden">
           
@@ -407,11 +412,6 @@
 
           </div>
         </div>
-
-        <!-- ============================================== -->
-        <!-- PAINEL DIDÁTICO DE MEDIÇÕES (INDICADORES - EXCLUSIVO MEDIÇÕES) -->
-        <!-- ============================================== -->
-        <div id="medicoesDashboardSection" class="hidden flex-col gap-4">
 
         <!-- Painel Didático de Indicadores / Cards Informativos (Largura Proporcional, Altura Baixa, Legíveis sem Abreviação) -->
         <div class="flex flex-wrap items-stretch gap-2 sm:gap-2.5">
@@ -4219,8 +4219,6 @@
 
       const medDash = document.getElementById('medicoesDashboardSection');
       if (medDash) { medDash.classList.add('hidden'); medDash.classList.remove('flex'); }
-      const ctBlock = document.getElementById('medicoesContratosBlock');
-      if (ctBlock) ctBlock.classList.add('hidden');
       const searchInp = document.getElementById('searchInput');
 
       if (currentModule === 'CONTRATOS') {
@@ -4301,7 +4299,6 @@
         if (btnMedicoes) btnMedicoes.className = activeMed;
         if (worksContainer) { worksContainer.classList.remove('hidden'); worksContainer.classList.add('grid'); }
         if (medDash) { medDash.classList.remove('hidden'); medDash.classList.add('flex'); }
-        if (ctBlock) ctBlock.classList.remove('hidden');
         if (searchInp) searchInp.placeholder = "Buscar por número do processo, medição, contrato ou GRE...";
         if (activeTabName) activeTabName.textContent = 'Aba Medições';
         if (activeColorDot) activeColorDot.className = 'w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400/50';
@@ -8389,23 +8386,14 @@
     // INTEGRAÇÃO ROBÔ GOOGLE OAUTH (AUTORIZAÇÃO GMAIL COM PERMISSÃO DE LEITURA)
     // =========================================================================
     async function checkGoogleOAuthStatus() {
-      const btn = document.getElementById('btnGoogleOAuthConnect');
-      const icon = document.getElementById('googleOAuthIcon');
-      const label = document.getElementById('googleOAuthLabel');
-
-      if (localStorage.getItem('seduc_google_oauth_connected') === '1' && btn && label) {
-        btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
-        if (icon) icon.textContent = '🟢';
-        label.textContent = 'Robô Google Conectado';
-        btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
-      }
-
       try {
         const res = await fetch('/api/auth/google/status');
         if (res.ok) {
           const data = await res.json();
+          const btn = document.getElementById('btnGoogleOAuthConnect');
+          const icon = document.getElementById('googleOAuthIcon');
+          const label = document.getElementById('googleOAuthLabel');
           if (data.connected && btn && label) {
-            localStorage.setItem('seduc_google_oauth_connected', '1');
             btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
             if (icon) icon.textContent = '🟢';
             label.textContent = 'Robô Google Conectado';
