@@ -170,7 +170,119 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API Proxy para contornar qualquer bloqueio de CORS no celular e desktop
+  // API de Autenticação Google OAuth2
+  if (reqPath === '/api/auth/google/url' && req.method === 'GET') {
+    const googleAuth = require('./google-auth-service.cjs');
+    const host = req.headers.host || `localhost:${PORT}`;
+    const proto = req.headers['x-forwarded-proto'] || (req.connection.encrypted ? 'https' : 'http');
+    const redirectUri = `${proto}://${host}/api/auth/google/callback`;
+    const scopes = encodeURIComponent('https://www.googleapis.com/auth/spreadsheets.readonly');
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleAuth.CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${scopes}&access_type=offline&prompt=consent`;
+
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ authUrl, redirectUri }));
+    return;
+  }
+
+  if (reqPath === '/api/auth/google/status' && req.method === 'GET') {
+    const googleAuth = require('./google-auth-service.cjs');
+    const tokens = googleAuth.getStoredTokens();
+    const isConnected = !!(tokens && (tokens.access_token || tokens.refresh_token));
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({ connected: isConnected, email: tokens ? tokens.email : null }));
+    return;
+  }
+
+  if (reqPath === '/api/auth/google/callback' && req.method === 'GET') {
+    const googleAuth = require('./google-auth-service.cjs');
+    const parsedReq = new URL(req.url, `http://${req.headers.host}`);
+    const code = parsedReq.searchParams.get('code');
+    const host = req.headers.host || `localhost:${PORT}`;
+    const proto = req.headers['x-forwarded-proto'] || (req.connection.encrypted ? 'https' : 'http');
+    const redirectUri = `${proto}://${host}/api/auth/google/callback`;
+
+    if (!code) {
+      res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end('<h3>Erro: Código de autorização não recebido do Google.</h3><p><a href="/">Voltar ao painel</a></p>');
+      return;
+    }
+
+    const postData = new URLSearchParams({
+      code,
+      client_id: googleAuth.CLIENT_ID,
+      client_secret: googleAuth.CLIENT_SECRET,
+      redirect_uri: redirectUri,
+      grant_type: 'authorization_code'
+    }).toString();
+
+    const https = require('https');
+    const tokenReq = https.request('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }, (tokenRes) => {
+      let data = '';
+      tokenRes.on('data', chunk => data += chunk);
+      tokenRes.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.access_token) {
+            const currentTokens = googleAuth.getStoredTokens() || {};
+            const savedTokens = {
+              access_token: parsed.access_token,
+              refresh_token: parsed.refresh_token || currentTokens.refresh_token || '',
+              expires_at: Date.now() + ((parsed.expires_in || 3600) * 1000),
+              scope: parsed.scope
+            };
+            googleAuth.saveStoredTokens(savedTokens);
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(`
+              <!DOCTYPE html>
+              <html>
+              <head><meta charset="utf-8"><title>Autorizado com Sucesso!</title>
+              <style>
+                body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #0f172a; color: #fff; }
+                .box { background: #1e293b; padding: 32px; border-radius: 12px; text-align: center; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); max-width: 450px; }
+                h2 { color: #10b981; margin-top: 0; }
+                p { color: #cbd5e1; line-height: 1.5; }
+                .btn { display: inline-block; background: #0284c7; color: white; padding: 10px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+              </style>
+              </head>
+              <body>
+                <div class="box">
+                  <h2>✅ Robô do Servidor Conectado!</h2>
+                  <p>Sua conta do Gmail foi autorizada com sucesso. Agora o servidor consegue ler a planilha de medições automaticamente e em tempo real para qualquer pessoa e em qualquer celular!</p>
+                  <a href="/" class="btn">Voltar para o Sistema</a>
+                  <script>
+                    setTimeout(() => { window.location.href = '/'; }, 3000);
+                  </script>
+                </div>
+              </body>
+              </html>
+            `);
+            return;
+          } else {
+            res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(`<h3>Erro na autorização: ${parsed.error_description || parsed.error}</h3><p><a href="/">Voltar</a></p>`);
+          }
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
+          res.end(`<h3>Erro ao processar tokens: ${err.message}</h3><p><a href="/">Voltar</a></p>`);
+        }
+      });
+    });
+    tokenReq.on('error', (err) => {
+      res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
+      res.end(`<h3>Erro de rede: ${err.message}</h3><p><a href="/">Voltar</a></p>`);
+    });
+    tokenReq.write(postData);
+    tokenReq.end();
+    return;
+  }
+
+  // API Proxy para contornar qualquer bloqueio de CORS no celular e desktop (com suporte a Google OAuth)
   if (reqPath === '/api/proxy' && req.method === 'GET') {
     const rawTarget = new URL(req.url, 'http://localhost').searchParams.get('url');
     if (!rawTarget) {
@@ -179,42 +291,52 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    const fetchWithRedirects = (targetUrl, redirectCount = 0) => {
-      if (redirectCount > 5) {
-        res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('Muitos redirecionamentos');
-        return;
-      }
-      try {
-        const parsedUrl = new URL(targetUrl);
-        const client = parsedUrl.protocol === 'http:' ? require('http') : require('https');
-        client.get(targetUrl, {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          }
-        }, (proxyRes) => {
-          if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
-            let nextLoc = proxyRes.headers.location;
-            if (nextLoc.startsWith('/')) {
-              nextLoc = `${parsedUrl.origin}${nextLoc}`;
-            }
-            return fetchWithRedirects(nextLoc, redirectCount + 1);
-          }
-          res.writeHead(proxyRes.statusCode, {
-            'Content-Type': proxyRes.headers['content-type'] || 'text/plain; charset=utf-8'
-          });
-          proxyRes.pipe(res);
-        }).on('error', err => {
+    const googleAuth = require('./google-auth-service.cjs');
+    googleAuth.getValidAccessToken().then(accessToken => {
+      const fetchWithRedirects = (targetUrl, redirectCount = 0) => {
+        if (redirectCount > 5) {
           res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-          res.end(`Erro no proxy: ${err.message}`);
-        });
-      } catch (err) {
-        res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end(`URL inválida: ${err.message}`);
-      }
-    };
+          res.end('Muitos redirecionamentos');
+          return;
+        }
+        try {
+          const parsedUrl = new URL(targetUrl);
+          const client = parsedUrl.protocol === 'http:' ? require('http') : require('https');
+          const reqHeaders = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+          };
+          if (accessToken && parsedUrl.hostname.includes('google')) {
+            reqHeaders['Authorization'] = `Bearer ${accessToken}`;
+          }
 
-    fetchWithRedirects(rawTarget);
+          client.get(targetUrl, { headers: reqHeaders }, (proxyRes) => {
+            if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
+              let nextLoc = proxyRes.headers.location;
+              if (nextLoc.startsWith('/')) {
+                nextLoc = `${parsedUrl.origin}${nextLoc}`;
+              }
+              return fetchWithRedirects(nextLoc, redirectCount + 1);
+            }
+            res.writeHead(proxyRes.statusCode, {
+              'Content-Type': proxyRes.headers['content-type'] || 'text/plain; charset=utf-8'
+            });
+            proxyRes.pipe(res);
+          }).on('error', err => {
+            res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+            res.end(`Erro no proxy: ${err.message}`);
+          });
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+          res.end(`URL inválida: ${err.message}`);
+        }
+      };
+
+      fetchWithRedirects(rawTarget);
+    }).catch(err => {
+      console.error('Erro ao obter token do Google:', err);
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end(`Erro de autenticação Google: ${err.message}`);
+    });
     return;
   }
 

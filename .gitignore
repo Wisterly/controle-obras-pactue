@@ -3,3 +3,6 @@ node_modules
 .DS_Store
 Thumbs.db
 uploads/
+.env*
+google_auth_token.json
+google_credentials.json
