@@ -4016,7 +4016,7 @@
     let activeContratoFilter = 'TODOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
-    const CURRENT_MEDICOES_CACHE_VERSION = 'v6_todos_contratos';
+    const CURRENT_MEDICOES_CACHE_VERSION = 'v7_9contratos_corrigidos';
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
     if (!medicoesData || !Array.isArray(medicoesData) || localStorage.getItem('seduc_medicoes_cache_ver') !== CURRENT_MEDICOES_CACHE_VERSION) {
       medicoesData = INITIAL_MEDICOES_DATA;
@@ -4335,6 +4335,7 @@
         renderGreSelector();
         renderStatusFilters();
         renderCards();
+        checkGoogleOAuthStatus();
 
       } else if (currentModule === 'PROJETOS') {
         if (btnProjetos) btnProjetos.className = activeProj;
@@ -7603,13 +7604,13 @@
     // =========================================================================
     const CONTRATOS_CONFIG = {
       'RMELO': {
-        startRow: 324,     // Linha inicial da planilha (324)
-        colEntrada: 0,     // 6 = Coluna A (Data da Entrada)
-        colMedicao: 2,     // 2 = Coluna C (Descrição da Medição / Ref)
-        colGre: 3,         // 1 = Coluna D (Número / Nome da GRE)
-        colProcesso: 4,    // 3 = Coluna E (Número do Processo)
-        colValor: 5,       // 4 = Coluna F (Valor Medido R$)
-        colSetor: 6,       // 5 = Coluna G (Setor do Processo)
+        startRow: 4,       // Linha inicial com dados no CSV de RMELO
+        colEntrada: 0,     // Coluna A
+        colMedicao: 2,     // Coluna C (Descrição da Medição / Ref)
+        colGre: 3,         // Coluna D (Número / Nome da GRE)
+        colProcesso: 4,    // Coluna E (Número do Processo)
+        colValor: 6,       // Coluna G (Valor Medido R$)
+        colSetor: 8,       // Coluna I (Setor do Processo)
         colEscola: -1,
         colMunicipio: -1
       },
@@ -8386,14 +8387,23 @@
     // INTEGRAÇÃO ROBÔ GOOGLE OAUTH (AUTORIZAÇÃO GMAIL COM PERMISSÃO DE LEITURA)
     // =========================================================================
     async function checkGoogleOAuthStatus() {
+      const btn = document.getElementById('btnGoogleOAuthConnect');
+      const icon = document.getElementById('googleOAuthIcon');
+      const label = document.getElementById('googleOAuthLabel');
+
+      if (localStorage.getItem('seduc_google_oauth_connected') === '1' && btn && label) {
+        btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
+        if (icon) icon.textContent = '🟢';
+        label.textContent = 'Robô Google Conectado';
+        btn.title = 'Robô autorizado com sua conta Google! Sincronização automática ativa.';
+      }
+
       try {
         const res = await fetch('/api/auth/google/status');
         if (res.ok) {
           const data = await res.json();
-          const btn = document.getElementById('btnGoogleOAuthConnect');
-          const icon = document.getElementById('googleOAuthIcon');
-          const label = document.getElementById('googleOAuthLabel');
           if (data.connected && btn && label) {
+            localStorage.setItem('seduc_google_oauth_connected', '1');
             btn.className = 'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shadow-sm';
             if (icon) icon.textContent = '🟢';
             label.textContent = 'Robô Google Conectado';
