@@ -282,7 +282,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API Proxy para contornar qualquer bloqueio de CORS no celular e desktop (com suporte a Google OAuth)
+  // API Proxy para contornar qualquer bloqueio de CORS no celular e desktop (com suporte a Google Sheets API v4)
   if (reqPath === '/api/proxy' && req.method === 'GET') {
     const rawTarget = new URL(req.url, 'http://localhost').searchParams.get('url');
     if (!rawTarget) {
@@ -293,45 +293,112 @@ const server = http.createServer((req, res) => {
 
     const googleAuth = require('./google-auth-service.cjs');
     googleAuth.getValidAccessToken().then(accessToken => {
-      const fetchWithRedirects = (targetUrl, redirectCount = 0) => {
-        if (redirectCount > 5) {
-          res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-          res.end('Muitos redirecionamentos');
-          return;
-        }
-        try {
-          const parsedUrl = new URL(targetUrl);
-          const client = parsedUrl.protocol === 'http:' ? require('http') : require('https');
-          const reqHeaders = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-          };
-          if (accessToken && parsedUrl.hostname.includes('google')) {
-            reqHeaders['Authorization'] = `Bearer ${accessToken}`;
-          }
+      // Se for URL do Google Sheets e temos Access Token, consultamos direto a API Sheets v4
+      const idMatch = rawTarget.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+      if (accessToken && idMatch && idMatch[1]) {
+        const sheetId = idMatch[1];
+        const gidMatch = rawTarget.match(/[#&?]gid=([0-9]+)/);
+        const gid = gidMatch ? gidMatch[1] : null;
 
-          client.get(targetUrl, { headers: reqHeaders }, (proxyRes) => {
-            if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
-              let nextLoc = proxyRes.headers.location;
-              if (nextLoc.startsWith('/')) {
-                nextLoc = `${parsedUrl.origin}${nextLoc}`;
+        const https = require('https');
+        // Busca metadados da planilha para saber o nome da aba pelo GID
+        const metaReq = https.get(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}?fields=sheets(properties(sheetId,title))`, {
+          headers: { 'Authorization': `Bearer ${accessToken}` }
+        }, (metaRes) => {
+          let metaData = '';
+          metaRes.on('data', chunk => metaData += chunk);
+          metaRes.on('end', () => {
+            try {
+              const meta = JSON.parse(metaData);
+              let sheetTitle = '';
+              if (meta.sheets && meta.sheets.length > 0) {
+                if (gid) {
+                  const targetSheet = meta.sheets.find(s => String(s.properties.sheetId) === String(gid));
+                  if (targetSheet) sheetTitle = targetSheet.properties.title;
+                }
+                if (!sheetTitle) sheetTitle = meta.sheets[0].properties.title;
               }
-              return fetchWithRedirects(nextLoc, redirectCount + 1);
-            }
-            res.writeHead(proxyRes.statusCode, {
-              'Content-Type': proxyRes.headers['content-type'] || 'text/plain; charset=utf-8'
-            });
-            proxyRes.pipe(res);
-          }).on('error', err => {
-            res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
-            res.end(`Erro no proxy: ${err.message}`);
-          });
-        } catch (err) {
-          res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
-          res.end(`URL inválida: ${err.message}`);
-        }
-      };
 
-      fetchWithRedirects(rawTarget);
+              if (sheetTitle) {
+                const range = encodeURIComponent(`'${sheetTitle}'!A1:Z1000`);
+                https.get(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}`, {
+                  headers: { 'Authorization': `Bearer ${accessToken}` }
+                }, (valRes) => {
+                  let valData = '';
+                  valRes.on('data', chunk => valData += chunk);
+                  valRes.on('end', () => {
+                    try {
+                      const valJson = JSON.parse(valData);
+                      const rows = valJson.values || [];
+                      // Converte os valores da API em formato CSV padrão RFC 4180
+                      const csvLines = rows.map(r => r.map(cell => {
+                        const str = cell === null || cell === undefined ? '' : String(cell);
+                        return `"${str.replace(/"/g, '""')}"`;
+                      }).join(','));
+                      const csvOutput = csvLines.join('\n');
+                      res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8' });
+                      res.end(csvOutput);
+                      return;
+                    } catch (eCsv) {
+                      fallbackFetch();
+                    }
+                  });
+                }).on('error', fallbackFetch);
+                return;
+              }
+              fallbackFetch();
+            } catch (eMeta) {
+              fallbackFetch();
+            }
+          });
+        });
+        metaReq.on('error', fallbackFetch);
+        return;
+      }
+
+      fallbackFetch();
+
+      function fallbackFetch() {
+        const fetchWithRedirects = (targetUrl, redirectCount = 0) => {
+          if (redirectCount > 5) {
+            res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+            res.end('Muitos redirecionamentos');
+            return;
+          }
+          try {
+            const parsedUrl = new URL(targetUrl);
+            const client = parsedUrl.protocol === 'http:' ? require('http') : require('https');
+            const reqHeaders = {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            };
+            if (accessToken && parsedUrl.hostname.includes('google')) {
+              reqHeaders['Authorization'] = `Bearer ${accessToken}`;
+            }
+
+            client.get(targetUrl, { headers: reqHeaders }, (proxyRes) => {
+              if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
+                let nextLoc = proxyRes.headers.location;
+                if (nextLoc.startsWith('/')) {
+                  nextLoc = `${parsedUrl.origin}${nextLoc}`;
+                }
+                return fetchWithRedirects(nextLoc, redirectCount + 1);
+              }
+              res.writeHead(proxyRes.statusCode, {
+                'Content-Type': proxyRes.headers['content-type'] || 'text/plain; charset=utf-8'
+              });
+              proxyRes.pipe(res);
+            }).on('error', err => {
+              res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+              res.end(`Erro no proxy: ${err.message}`);
+            });
+          } catch (err) {
+            res.writeHead(400, { 'Content-Type': 'text/plain; charset=utf-8' });
+            res.end(`URL inválida: ${err.message}`);
+          }
+        };
+
+        fetchWithRedirects(rawTarget);
+      }
     }).catch(err => {
       console.error('Erro ao obter token do Google:', err);
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
