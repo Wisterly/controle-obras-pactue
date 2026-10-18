@@ -8929,14 +8929,14 @@
         let html = `
           <button 
             onclick="setFilter('TODAS')"
-            class="col-span-2 px-3 py-1.5 sm:px-3 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-2 h-full min-h-[42px] ${
+            class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
               isAllSelected 
                 ? activeBtnClass 
                 : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
             }"
             title="Ver todas as obras de todas as GREs (${totalCount} obras)"
           >
-            <div class="flex flex-col min-w-0 pr-1">
+            <div class="flex flex-col min-w-0 pr-0.5">
               <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
                 TODAS AS GRES
               </span>
@@ -8944,7 +8944,7 @@
                 Geral Piauí
               </span>
             </div>
-            <span class="text-[8.5px] sm:text-[9.5px] px-2 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
+            <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${isAllSelected ? activeBadgeClass : inactiveAllBadgeClass}">
               ${totalCount}
             </span>
           </button>
