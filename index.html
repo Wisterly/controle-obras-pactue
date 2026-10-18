@@ -3653,7 +3653,7 @@
       {
         id: "med-rmelo-1",
         contrato: "RMELO",
-        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1656782521",
         medicao: "Ref. 30ª Med.",
         gre: "4ª GRE – TERESINA",
         greKey: "4ª GRE",
@@ -3661,29 +3661,25 @@
         valor: "R$ 145.820,00",
         valorNumerico: 145820.00,
         setor: "GPR",
-        dataEntrada: "02/10/2026",
-        escola: "CETI ZACK PAIXÃO",
-        municipio: "TERESINA"
+        dataEntrada: "02/10/2026"
       },
       {
         id: "med-rmelo-2",
         contrato: "RMELO",
-        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1656782521",
         medicao: "Ref. 29ª Med.",
         gre: "1ª GRE – PARNAÍBA",
         greKey: "1ª GRE",
         processo: "00025.007832/2024-14",
         valor: "R$ 98.400,00",
         valorNumerico: 98400.00,
-        setor: "UFIM",
-        dataEntrada: "20/09/2026",
-        escola: "CETI MARIA MELO",
-        municipio: "BATALHA"
+        setor: "FIM",
+        dataEntrada: "20/09/2026"
       },
       {
         id: "med-rmelo-3",
         contrato: "RMELO",
-        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1656782521",
         medicao: "Ref. 28ª Med.",
         gre: "10ª GRE – FLORIANO",
         greKey: "10ª GRE",
@@ -3691,14 +3687,12 @@
         valor: "R$ 210.500,00",
         valorNumerico: 210500.00,
         setor: "PAGO",
-        dataEntrada: "15/08/2026",
-        escola: "COLÉGIO AGRÍCOLA",
-        municipio: "FLORIANO"
+        dataEntrada: "15/08/2026"
       },
       {
         id: "med-rmelo-4",
         contrato: "RMELO",
-        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1656782521",
         medicao: "Ref. 31ª Med.",
         gre: "4ª GRE – TERESINA",
         greKey: "4ª GRE",
@@ -3706,14 +3700,12 @@
         valor: "R$ 88.000,00",
         valorNumerico: 88000.00,
         setor: "FIM",
-        dataEntrada: "08/10/2026",
-        escola: "CETI LÍDIA MAGALHÃES",
-        municipio: "TERESINA"
+        dataEntrada: "08/10/2026"
       },
       {
         id: "med-rmelo-5",
         contrato: "RMELO",
-        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=0",
+        contratoLink: "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit#gid=1656782521",
         medicao: "Ref. 32ª Med.",
         gre: "4ª GRE – TERESINA",
         greKey: "4ª GRE",
@@ -3721,9 +3713,7 @@
         valor: "R$ 120.000,00",
         valorNumerico: 120000.00,
         setor: "PAGO PARCIAL",
-        dataEntrada: "25/09/2026",
-        escola: "CETI RALDIR CAVALCANTE",
-        municipio: "TERESINA"
+        dataEntrada: "25/09/2026"
       },
       {
         id: "med-rodrigues-1",
@@ -7625,6 +7615,23 @@
       });
     }
 
+    // =========================================================================
+    // MAPEAMENTO EXATO DE COLUNAS POR CONTRATO (CONFIGURADO CONFORME AS ABAS)
+    // =========================================================================
+    const CONTRATOS_CONFIG = {
+      'RMELO': {
+        startRow: 324,     // Linha inicial da planilha (324)
+        colEntrada: 0,     // 6 = Coluna A (Data da Entrada)
+        colMedicao: 2,     // 2 = Coluna C (Descrição da Medição / Ref)
+        colGre: 3,         // 1 = Coluna D (Número / Nome da GRE)
+        colProcesso: 4,    // 3 = Coluna E (Número do Processo)
+        colValor: 5,       // 4 = Coluna F (Valor Medido R$)
+        colSetor: 6,       // 5 = Coluna G (Setor do Processo)
+        colEscola: -1,     // 7 = DESCONSIDERAR
+        colMunicipio: -1   // 7 = DESCONSIDERAR
+      }
+    };
+
     function parseCsvToMedicoes(csvText, prefix, sheetUrl, explicitContractName = '') {
       return new Promise((resolve, reject) => {
         Papa.parse(csvText, {
@@ -7637,7 +7644,13 @@
               return;
             }
 
-            const headerRow = rawRows[0] || [];
+            let defaultContrato = explicitContractName || 'RMELO';
+            if (!explicitContractName && sheetUrl && sheetUrl.includes('sheet=')) {
+              const m = sheetUrl.match(/sheet=([^&]+)/);
+              if (m) defaultContrato = decodeURIComponent(m[1]);
+            }
+            const contractKey = (defaultContrato || '').trim().toUpperCase();
+
             let colContrato = -1;
             let colMedicao = -1;
             let colGre = -1;
@@ -7647,79 +7660,93 @@
             let colEntrada = -1;
             let colEscola = -1;
             let colMunicipio = -1;
+            let startRowIdx = 1;
 
-            headerRow.forEach((val, idx) => {
-              const norm = normalizeHeaderName(val);
-              if (colContrato === -1 && (norm.includes('contrato') || norm.includes('instrumento') || norm.includes('termo') || norm === 'ct' || norm.includes('aba'))) {
-                colContrato = idx;
+            // Se existir configuração específica para este contrato, usa o mapeamento exato!
+            if (CONTRATOS_CONFIG[contractKey]) {
+              const cfg = CONTRATOS_CONFIG[contractKey];
+              colEntrada = cfg.colEntrada;
+              colMedicao = cfg.colMedicao;
+              colGre = cfg.colGre;
+              colProcesso = cfg.colProcesso;
+              colValor = cfg.colValor;
+              colSetor = cfg.colSetor;
+              colEscola = cfg.colEscola;
+              colMunicipio = cfg.colMunicipio;
+              if (cfg.startRow && rawRows.length >= cfg.startRow) {
+                startRowIdx = cfg.startRow - 1; // Linha 324 é index 323
+              } else {
+                startRowIdx = 1;
               }
-              if (colMedicao === -1 && (norm.includes('medicao') || norm.includes('med') || norm.includes('descricao') || norm.includes('desc') || norm.includes('ref') || norm.includes('parcela') || norm.includes('objeto'))) {
-                colMedicao = idx;
-              }
-              if (colGre === -1 && (norm === 'gre' || norm.startsWith('gre') || norm.includes('regional') || norm.includes('gerencia'))) {
-                colGre = idx;
-              }
-              if (colProcesso === -1 && (norm.includes('processo') || norm.includes('sei') || norm.includes('protocolo') || norm.includes('proc'))) {
-                colProcesso = idx;
-              }
-              if (colValor === -1 && (norm.includes('valor medido') || norm.includes('valor') || norm.includes('r$') || norm.includes('medido') || norm.includes('total'))) {
-                colValor = idx;
-              }
-              if (colSetor === -1 && (
-                norm.includes('setor de processo') ||
-                norm.includes('setor do processo') ||
-                norm.includes('setor processo') ||
-                norm.includes('setor') ||
-                norm.includes('localizacao') ||
-                norm.includes('status') ||
-                norm.includes('situacao') ||
-                norm.includes('pagamento') ||
-                norm.includes('fim') ||
-                norm.includes('gpr') ||
-                norm.includes('ugf') ||
-                norm.includes('ugerf')
-              )) {
-                colSetor = idx;
-              }
-              if (colEntrada === -1 && (
-                norm.includes('data da entrada') ||
-                norm.includes('data de entrada') ||
-                norm.includes('data entrada') ||
-                norm.includes('entrada') ||
-                norm.includes('data') ||
-                norm.includes('recebimento') ||
-                norm.includes('inicio')
-              )) {
-                colEntrada = idx;
-              }
-              if (colEscola === -1 && (norm.includes('escola') || norm.includes('entidade') || norm.includes('unidade'))) {
-                colEscola = idx;
-              }
-              if (colMunicipio === -1 && (norm.includes('municipio') || norm.includes('cidade'))) {
-                colMunicipio = idx;
-              }
-            });
+              console.log(`[Importação MEDIÇÕES] Aplicando mapeamento dedicado para ${contractKey} (Início linha ${startRowIdx + 1})`);
+            } else {
+              // Detecção dinâmica de cabeçalhos por nome nas primeiras linhas
+              const headerRow = rawRows[0] || [];
+              headerRow.forEach((val, idx) => {
+                const norm = normalizeHeaderName(val);
+                if (colContrato === -1 && (norm.includes('contrato') || norm.includes('instrumento') || norm.includes('termo') || norm === 'ct' || norm.includes('aba'))) {
+                  colContrato = idx;
+                }
+                if (colMedicao === -1 && (norm.includes('medicao') || norm.includes('med') || norm.includes('descricao') || norm.includes('desc') || norm.includes('ref') || norm.includes('parcela') || norm.includes('objeto'))) {
+                  colMedicao = idx;
+                }
+                if (colGre === -1 && (norm === 'gre' || norm.startsWith('gre') || norm.includes('regional') || norm.includes('gerencia'))) {
+                  colGre = idx;
+                }
+                if (colProcesso === -1 && (norm.includes('processo') || norm.includes('sei') || norm.includes('protocolo') || norm.includes('proc'))) {
+                  colProcesso = idx;
+                }
+                if (colValor === -1 && (norm.includes('valor medido') || norm.includes('valor') || norm.includes('r$') || norm.includes('medido') || norm.includes('total'))) {
+                  colValor = idx;
+                }
+                if (colSetor === -1 && (
+                  norm.includes('setor de processo') ||
+                  norm.includes('setor do processo') ||
+                  norm.includes('setor processo') ||
+                  norm.includes('setor') ||
+                  norm.includes('localizacao') ||
+                  norm.includes('status') ||
+                  norm.includes('situacao') ||
+                  norm.includes('pagamento') ||
+                  norm.includes('fim') ||
+                  norm.includes('gpr') ||
+                  norm.includes('ugerf')
+                )) {
+                  colSetor = idx;
+                }
+                if (colEntrada === -1 && (
+                  norm.includes('data da entrada') ||
+                  norm.includes('data de entrada') ||
+                  norm.includes('data entrada') ||
+                  norm.includes('entrada') ||
+                  norm.includes('data') ||
+                  norm.includes('recebimento') ||
+                  norm.includes('inicio')
+                )) {
+                  colEntrada = idx;
+                }
+                if (colEscola === -1 && (norm.includes('escola') || norm.includes('entidade') || norm.includes('unidade'))) {
+                  colEscola = idx;
+                }
+                if (colMunicipio === -1 && (norm.includes('municipio') || norm.includes('cidade'))) {
+                  colMunicipio = idx;
+                }
+              });
 
-            // Fallback se cabeçalho não foi detectado
-            if (colMedicao === -1) colMedicao = 0;
-            if (colGre === -1) colGre = 1;
-            if (colProcesso === -1) colProcesso = 2;
-            if (colValor === -1) colValor = 3;
-            if (colSetor === -1) colSetor = 4;
-            if (colEntrada === -1) colEntrada = 5;
-
-            // Extrai o nome do contrato a partir da URL se houver parâmetro
-            let defaultContrato = explicitContractName || 'RMELO';
-            if (!explicitContractName && sheetUrl && sheetUrl.includes('sheet=')) {
-              const m = sheetUrl.match(/sheet=([^&]+)/);
-              if (m) defaultContrato = decodeURIComponent(m[1]);
+              // Fallback se cabeçalho não foi detectado
+              if (colMedicao === -1) colMedicao = 0;
+              if (colGre === -1) colGre = 1;
+              if (colProcesso === -1) colProcesso = 2;
+              if (colValor === -1) colValor = 3;
+              if (colSetor === -1) colSetor = 4;
+              if (colEntrada === -1) colEntrada = 5;
             }
 
             const parsed = [];
-            rawRows.slice(1).forEach((r, rowIdx) => {
+            rawRows.slice(startRowIdx).forEach((r, rowIdx) => {
               if (!Array.isArray(r) || r.length === 0) return;
 
-              const rawMed = getCell(r, colMedicao);
+              const rawMed = colMedicao !== -1 ? getCell(r, colMedicao) : '';
               const rawGre = colGre !== -1 ? getCell(r, colGre) : '';
               const rawProc = colProcesso !== -1 ? getCell(r, colProcesso) : '';
               const rawVal = colValor !== -1 ? getCell(r, colValor) : '';
@@ -7739,10 +7766,10 @@
               const contratoFinal = explicitContractName ? explicitContractName.trim() : (rawContrato ? rawContrato.trim() : defaultContrato);
 
               parsed.push({
-                id: `med-${rowIdx}-${Date.now().toString(36)}`,
+                id: `med-${rowIdx + startRowIdx}-${Date.now().toString(36)}`,
                 contrato: contratoFinal,
                 contratoLink: sheetUrl || '',
-                medicao: rawMed ? rawMed.trim() : `Medição ${rowIdx + 1}`,
+                medicao: rawMed ? rawMed.trim() : `Medição ${rowIdx + startRowIdx + 1}`,
                 gre: (rawGre || greKey).trim().toUpperCase(),
                 greKey: greKey,
                 processo: rawProc ? rawProc.trim() : 'Não informado',
@@ -7755,7 +7782,7 @@
               });
             });
 
-            console.log(`[Importação MEDIÇÕES]`, `${parsed.length} medições processadas.`);
+            console.log(`[Importação MEDIÇÕES - ${contractKey}]`, `${parsed.length} medições processadas a partir da linha ${startRowIdx + 1}.`);
             resolve(parsed);
           },
           error: function(err) {
