@@ -4,20 +4,24 @@ Este documento registra cronologicamente todos os pontos de restauração do pro
 
 ---
 
-## 🔒 REGRA DE OURO DAS RESTAURAÇÕES (ISOLAMENTO TOTAL DE DADOS)
+## 🔒 REGRA DE OURO DAS RESTAURAÇÕES (ISOLAMENTO DE DADOS vs ESTRUTURA DO SITE)
 
-Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.015`, etc.) segue estritamente esta diretriz:
+Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.015`, etc.) segue rigorosamente estes dois pilares:
 
-1. **O que é restaurado:**
-   - Apenas o **código-fonte**, **layout**, **disposição de cards**, **balões**, **ordem de elementos**, **estilização CSS** e **comportamento das abas**.
-2. **O que NUNCA é apagado ou revertido:**
-   - **Fotos de escolas** enviadas ou movidas;
-   - **Arquivos e projetos** anexados;
-   - **Links e URLs de planilhas** preenchidos na aba de ajustes;
-   - **Configurações e autorizações do robô Google**;
-   - Quaisquer dados do usuário armazenados em `app_config.json`, `uploads/`, `localStorage` ou `IndexedDB`.
-3. **Mecanismo de proteção:**
-   - Durante a restauração para um ponto anterior, os dados persistidos pelo usuário são mantidos intactos, garantindo que adições feitas em sessões posteriores (como fotos novas ou novos links) permaneçam preservadas.
+### 1. O que ENTRA no Ponto de Restauração (É Restaurado):
+- **Toda a parte estrutural do site**: HTML, Javascript, CSS e arquivos de código;
+- **Layout e disposição visual**: balõezinhos, cards, barras de navegação, sub-cabeçalhos, containers e seções;
+- **Comportamento e lógica das abas**: criação, remoção, alternância, filtros e regras de exibição;
+- **Quaisquer modificações estruturais futuras** que possam surgir no desenvolvimento do site.
+
+### 2. O que NÃO ENTRA no Ponto de Restauração (É Mantido e Preservado Intacto):
+- **Arquivos base e dados do sistema**;
+- **Anexos adicionados pelo usuário** (arquivos de projetos, plantas, memoriais, etc.);
+- **Fotos de escolas** anexadas ou movidas;
+- **Modificações de ambientes nas fotos**;
+- **Planilhas e links das planilhas** preenchidos na aba de ajustes;
+- **Configurações de sincronização e autorização do robô**;
+- Dados armazenados em `app_config.json`, `uploads/`, `localStorage` e `IndexedDB`.
 
 ---
 
@@ -29,7 +33,7 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 - **Links:**
   - Produção: https://controle-obras-pactue.vercel.app
   - Localhost: http://localhost:3000
-- **Resumo das Alterações Contidas:**
+- **Resumo das Alterações Estruturais Contidas:**
   1. Remoção do indicador `Aba ativa: Aba Medições` do canto superior direito, garantindo largura total e sem sobreposição para as 5 abas de navegação.
   2. Disposição vertical exclusiva da aba **Medições**: 1º Contratos, 2º GREs, 3º Indicadores/Métricas financeiras (Total Geral Medido, Na GPR, No FIM, Pago Parcial, Quitado), 4º Filtros e Cards de Medição.
   3. Adaptação do card **TODAS AS GRES** nas abas **Obras de Contrato**, **Obras PACTUE** e **Medições**:
