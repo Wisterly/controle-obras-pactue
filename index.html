@@ -4041,10 +4041,12 @@
     let activeContratoFilter = 'TODOS';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
+    const CURRENT_MEDICOES_CACHE_VERSION = 'v5_rmelo_refresh';
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
-    if (!medicoesData || !Array.isArray(medicoesData) || medicoesData.length < 15 || !medicoesData.some(m => String(m.medicao).includes('30ª'))) {
+    if (!medicoesData || !Array.isArray(medicoesData) || localStorage.getItem('seduc_medicoes_cache_ver') !== CURRENT_MEDICOES_CACHE_VERSION) {
       medicoesData = INITIAL_MEDICOES_DATA;
       saveStoredData(STORAGE_KEY_MEDICOES, medicoesData);
+      localStorage.setItem('seduc_medicoes_cache_ver', CURRENT_MEDICOES_CACHE_VERSION);
     }
     
     let projetosData = loadStoredData(STORAGE_KEY_PROJETOS_DATA, null);
@@ -8164,7 +8166,10 @@
               allParsedMedicoes = allParsedMedicoes.concat(rows);
               medSuccessCount++;
             }
-          } catch (eErr) {}
+          } catch (eErr) {
+            hasError = true;
+            summaryMsgs.push(`❌ Contrato ${ct.name}: Acesso restrito no Google Sheets (Erro 401). Mude o compartilhamento para "Qualquer pessoa com o link"!`);
+          }
         }
       }
 
@@ -9189,7 +9194,8 @@
         if (isMed) {
           const matchesContrato = (activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
           const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-          const matchesStatus = (activeStatusFilter === 'TODOS' || (item.setor || '').toUpperCase() === activeStatusFilter);
+          const itemStatus = normalizeSetorMedicao(item.setor);
+          const matchesStatus = (activeStatusFilter === 'TODOS' || itemStatus === activeStatusFilter);
           return matchesContrato && matchesGre && matchesStatus;
         } else {
           const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
@@ -9374,6 +9380,7 @@
     function normalizeSetorMedicao(rawSetor) {
       if (!rawSetor) return 'GPR';
       const s = String(rawSetor).trim().toUpperCase();
+      if (s === 'NI' || s === 'N.I.' || s === 'NÃO INFORMADO' || s === 'NAO INFORMADO' || s === 'N/I' || s === '-') return 'GPR';
       if (s.includes('PARCIAL')) return 'PAGO PARCIAL';
       if (s.includes('PAGO') || s.includes('PAGA') || s.includes('QUITAD') || s.includes('LIQUIDAD')) return 'PAGO';
       if (s.includes('UGERF') || s.includes('GPR')) return 'GPR';
@@ -9974,7 +9981,7 @@
         const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
         const matchesContrato = (!isMed || activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
         
-        let itemStatus = isMed ? (item.setor || 'GPR') : normalizeWorkStatus(item.status);
+        let itemStatus = isMed ? normalizeSetorMedicao(item.setor) : normalizeWorkStatus(item.status);
         const matchesStatus = (activeStatusFilter === 'TODOS' || (itemStatus === activeStatusFilter));
         
         const q = searchQuery.toLowerCase().trim();
