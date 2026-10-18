@@ -4326,13 +4326,27 @@
           whatsappModuleScope.className = 'font-extrabold text-cyan-400';
         }
 
-        // No módulo de Medições, oculta a escolha por GRE para ir direto para as medições
+        // Exibe o painel de seleção das GRE logo abaixo do seletor de contratos no tema Ciano
         const worksGreBox = document.getElementById('worksGreContainer');
-        if (worksGreBox) worksGreBox.classList.add('hidden');
+        if (worksGreBox) {
+          worksGreBox.classList.remove('hidden');
+          worksGreBox.className = 'bg-gradient-to-r from-brand-card via-brand-panel to-brand-card border-2 border-cyan-500/30 hover:border-cyan-500/60 rounded-2xl p-4 sm:p-5 shadow-xl transition-all relative overflow-hidden';
+        }
+        const worksGreIcon = document.getElementById('worksGreIconBox');
+        if (worksGreIcon) worksGreIcon.className = 'w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-lg font-black shadow-inner';
+        const worksGreStep = document.getElementById('worksGreStepLabel');
+        if (worksGreStep) {
+          worksGreStep.className = 'text-[11px] uppercase font-extrabold tracking-wider text-cyan-400';
+          worksGreStep.textContent = 'Escolha a GRE da Medição';
+        }
+        const worksGreGlow1 = document.getElementById('worksGreGlow1');
+        const worksGreGlow2 = document.getElementById('worksGreGlow2');
+        if (worksGreGlow1) worksGreGlow1.className = 'absolute -right-8 -top-8 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none';
+        if (worksGreGlow2) worksGreGlow2.className = 'absolute -left-8 -bottom-8 w-32 h-32 bg-teal-500/10 rounded-full blur-2xl pointer-events-none';
         
-        activeFilter = 'TODAS';
         activeStatusFilter = 'TODOS';
         renderMedicoesDashboard();
+        renderGreSelector();
         renderStatusFilters();
         renderCards();
 
