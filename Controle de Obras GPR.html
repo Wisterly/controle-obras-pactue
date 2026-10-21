@@ -3980,7 +3980,22 @@
     const SHEET_URL_CONTRACTS_KEY = 'seduc_sheet_url_contracts';
     const SHEET_URL_PACTUE_KEY = 'seduc_sheet_url_pactue';
     const SHEET_URL_MEDICOES_KEY = 'seduc_sheet_url_medicoes';
+    const DEFAULT_CONTRACTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=671056752#gid=671056752';
+    const DEFAULT_PACTUE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=1717732222#gid=1717732222';
     const DEFAULT_MEDICOES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing';
+
+    // Auto-carrega os links oficiais se qualquer dispositivo (celular, tablet, novo PC) abrir pela primeira vez
+    try {
+      if (!localStorage.getItem(SHEET_URL_CONTRACTS_KEY)) {
+        localStorage.setItem(SHEET_URL_CONTRACTS_KEY, DEFAULT_CONTRACTS_SHEET_URL);
+      }
+      if (!localStorage.getItem(SHEET_URL_PACTUE_KEY)) {
+        localStorage.setItem(SHEET_URL_PACTUE_KEY, DEFAULT_PACTUE_SHEET_URL);
+      }
+      if (!localStorage.getItem(SHEET_URL_MEDICOES_KEY)) {
+        localStorage.setItem(SHEET_URL_MEDICOES_KEY, DEFAULT_MEDICOES_SHEET_URL);
+      }
+    } catch (e) {}
     const STORAGE_KEY_MEDICOES_CONTRATOS = 'seduc_medicoes_contratos_list';
     const DEFAULT_MEDICOES_CONTRATOS = [
       { id: 'ct-rmelo', name: 'RMELO', url: 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?gid=1656782521#gid=1656782521' },
@@ -4419,10 +4434,10 @@
 
     function openActiveExternalResourceDirect() {
       if (currentModule === 'CONTRATOS') {
-        const url = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        const url = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY) || DEFAULT_CONTRACTS_SHEET_URL;
         if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'PACTUE') {
-        const url = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY);
+        const url = localStorage.getItem(SHEET_URL_PACTUE_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY) || DEFAULT_PACTUE_SHEET_URL;
         if (url) window.open(url, '_blank'); else openSettingsModal('PLANILHA');
       } else if (currentModule === 'MEDICOES') {
         const url = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || localStorage.getItem(SHEET_URL_MAIN_KEY) || DEFAULT_MEDICOES_SHEET_URL;
@@ -8100,17 +8115,20 @@
       // Módulo CONTRATOS, PACTUE ou MEDICOES
       let key = SHEET_URL_CONTRACTS_KEY;
       let prefix = 'ct';
+      let defaultModuleUrl = DEFAULT_CONTRACTS_SHEET_URL;
       if (currentModule === 'PACTUE') {
         key = SHEET_URL_PACTUE_KEY;
         prefix = 'pac';
+        defaultModuleUrl = DEFAULT_PACTUE_SHEET_URL;
       } else if (currentModule === 'MEDICOES') {
         key = SHEET_URL_MEDICOES_KEY;
         prefix = 'med';
+        defaultModuleUrl = DEFAULT_MEDICOES_SHEET_URL;
       }
-      let url = localStorage.getItem(key) || (currentModule === 'MEDICOES' ? DEFAULT_MEDICOES_SHEET_URL : localStorage.getItem(SHEET_URL_MAIN_KEY));
+      let url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY) || defaultModuleUrl;
       if (!url) {
         await loadSharedAppConfig();
-        url = localStorage.getItem(key) || (currentModule === 'MEDICOES' ? DEFAULT_MEDICOES_SHEET_URL : localStorage.getItem(SHEET_URL_MAIN_KEY));
+        url = localStorage.getItem(key) || localStorage.getItem(SHEET_URL_MAIN_KEY) || defaultModuleUrl;
       }
 
       let syncedOnline = false;
@@ -10646,8 +10664,8 @@
     // Inicializa instantaneamente todos os inputs da tela com base no localStorage
     function initSettingsInputsFromStorage() {
       const savedMain = localStorage.getItem(SHEET_URL_MAIN_KEY) || '';
-      const savedCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || '';
-      const savedPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || '';
+      const savedCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY) || DEFAULT_CONTRACTS_SHEET_URL;
+      const savedPac = localStorage.getItem(SHEET_URL_PACTUE_KEY) || DEFAULT_PACTUE_SHEET_URL;
       const savedMed = localStorage.getItem(SHEET_URL_MEDICOES_KEY) || DEFAULT_MEDICOES_SHEET_URL;
       const savedProj = localStorage.getItem(STORAGE_KEY_PROJETOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
       const savedFot = localStorage.getItem(STORAGE_KEY_FOTOS_FOLDER) || DEFAULT_GOOGLE_DRIVE_BASE_URL;
@@ -10927,31 +10945,28 @@
         let serverCfg = null;
         try {
           const res = await fetch('/api/config');
-          if (res.ok) serverCfg = await res.json();
+          if (res.ok) {
+            const data = await res.json();
+            if (data && (data.sheetUrlContracts || data.sheetUrlPactue || data.sheetUrlMedicoes)) {
+              serverCfg = data;
+            }
+          }
         } catch (e) {}
 
-        if (!serverCfg || Object.keys(serverCfg).length === 0) {
+        if (!serverCfg) {
           try {
-            const resStatic = await fetch('app_config.json');
-            if (resStatic.ok) serverCfg = await resStatic.json();
+            const resStatic = await fetch('/app_config.json');
+            if (resStatic.ok) {
+              const dataStatic = await resStatic.json();
+              if (dataStatic && (dataStatic.sheetUrlContracts || dataStatic.sheetUrlPactue || dataStatic.sheetUrlMedicoes)) {
+                serverCfg = dataStatic;
+              }
+            }
           } catch (e) {}
         }
 
         if (serverCfg && typeof serverCfg === 'object') {
-          const hasServerUrls = !!(serverCfg.sheetUrlMain || serverCfg.sheetUrlContracts || serverCfg.sheetUrlPactue || serverCfg.sheetUrlMedicoes || serverCfg.medicoesContratos);
-          const localCt = localStorage.getItem(SHEET_URL_CONTRACTS_KEY);
-          const localPac = localStorage.getItem(SHEET_URL_PACTUE_KEY);
-          const localMed = localStorage.getItem(SHEET_URL_MEDICOES_KEY);
-          const localMain = localStorage.getItem(SHEET_URL_MAIN_KEY);
-          const isLocalEmpty = !localCt && !localPac && !localMed && !localMain;
-
-          if (isLocalEmpty && hasServerUrls) {
-            applyConfigToStorageAndUI(serverCfg, true);
-          } else if (!isLocalEmpty && !hasServerUrls) {
-            syncLocalConfigToServer(false);
-          } else if (hasServerUrls) {
-            applyConfigToStorageAndUI(serverCfg, true);
-          }
+          applyConfigToStorageAndUI(serverCfg, true);
         }
       } catch (err) {
         console.warn('Falha na sincronização de configurações:', err);

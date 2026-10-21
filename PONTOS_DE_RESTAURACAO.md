@@ -25,11 +25,27 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.002]
+- **Data/Hora:** 20/10/2026 22:36 (Horário Local)
+- **Tag Git:** `PR.002` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3000
+- **Resumo das Alterações Contidas:**
+  1. **Persistência Universal das Planilhas**: Inclusão de `DEFAULT_CONTRACTS_SHEET_URL`, `DEFAULT_PACTUE_SHEET_URL` e `DEFAULT_MEDICOES_SHEET_URL` no código cliente e na API serverless do Vercel.
+  2. **Auto-inicialização no Celular/Novo Navegador**: Qualquer dispositivo, celular ou navegador que abrir o site pela primeira vez já carrega automaticamente com as planilhas de Contratos, PACTUE e Medições pré-configuradas e sincronizadas, sem exigir inserção manual.
+  3. **Correção de `api/config.js`**: A API do Vercel agora entrega a configuração completa do `app_config.json` para todos os clientes conectados.
+  4. Preservação integral das configurações, planilhas e autorização do robô.
+
+---
+
 ### [PR.001]
 - **Data/Hora:** 18/10/2026 01:54 (Horário Local)
 - **Commit Git:** `ab999e0`
 - **Tag Git:** `PR.001` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
