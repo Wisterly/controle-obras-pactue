@@ -171,6 +171,28 @@
       #quickCopyBtn {
         display: none !important;
       }
+
+      /* Painel de Escolha das GREs no Mobile: Todas as GREs cabem dentro do painel sem rolagem */
+      #allGresGrid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 3px !important;
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding: 2px !important;
+      }
+      /* Card 'Todas as GREs' no Mobile: Mais largo e mais comprido que os outros para caber o nome e o número 2750 */
+      #allGresGrid > button:first-child {
+        grid-column: 1 / -1 !important;
+        min-height: 35px !important;
+        padding: 3px 10px !important;
+      }
+      /* Demais botões (1ª a 21ª GRE): Reduzidos proporcionalmente para caberem todos no painel sem scroll */
+      #allGresGrid > button:not(:first-child) {
+        min-height: 28px !important;
+        padding: 2px 4px !important;
+        border-radius: 8px !important;
+      }
     }
 
     /* Animação pulsante para o botão flutuante oficial do WhatsApp */
@@ -265,11 +287,11 @@
 
         <!-- Lado direito do mapa do Piauí: Controle de Obras GPR -->
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">
+          <div class="flex items-center gap-1.5 sm:gap-2 flex-nowrap">
+            <h1 class="text-sm sm:text-lg font-bold text-white tracking-tight shrink-0 whitespace-nowrap">
               Controle de Obras GPR
             </h1>
-            <span class="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30">SEDUC-PI</span>
+            <span class="inline-flex items-center justify-center h-[18px] text-[8.5px] sm:text-[10px] uppercase font-bold px-3 py-[1.5px] rounded-full bg-brand-accent/20 text-brand-accent border border-brand-accent/30 whitespace-nowrap shrink-0 tracking-wider leading-none">SEDUC-PI</span>
           </div>
           <p class="text-xs text-slate-400">Monitoramento por GRE, abas online e gerador WhatsApp</p>
         </div>
@@ -9255,7 +9277,7 @@
           html = `
             <button 
               onclick="setFilter('TODAS')"
-              class="px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-2 h-full min-h-[42px] ${
+              class="px-2 py-1 sm:px-3 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 sm:gap-2 h-full min-h-[35px] sm:min-h-[42px] ${
                 isAllSelected 
                   ? activeBtnClass 
                   : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
@@ -9274,7 +9296,7 @@
           html = `
             <button 
               onclick="setFilter('TODAS')"
-              class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
+              class="px-2 py-1 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[35px] sm:min-h-[42px] ${
                 isAllSelected 
                   ? activeBtnClass 
                   : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
@@ -9285,7 +9307,7 @@
                 <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isAllSelected ? activeText : 'text-slate-100'}">
                   TODAS AS GRES
                 </span>
-                <span class="text-[8.5px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeSubText : 'text-slate-400 font-medium'}">
+                <span class="text-[8px] sm:text-[9px] whitespace-nowrap leading-tight mt-0.5 ${isAllSelected ? activeSubText : 'text-slate-400 font-medium'}">
                   Geral Piauí
                 </span>
               </div>
@@ -9307,7 +9329,7 @@
           html += `
             <button 
               onclick="setFilter('${g.key}')"
-              class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-xl text-left border transition-all flex items-center justify-between gap-1.5 h-full min-h-[42px] ${
+              class="px-1.5 py-0.5 sm:px-2.5 sm:py-2 rounded-lg sm:rounded-xl text-left border transition-all flex items-center justify-between gap-1 sm:gap-1.5 h-full min-h-[28px] sm:min-h-[42px] ${
                 isSelected 
                   ? activeBtnClass 
                   : 'bg-brand-dark/95 border-brand-cardBorder hover:border-slate-500 text-slate-200 hover:bg-brand-card'
@@ -9315,14 +9337,14 @@
               title="${g.key} – ${g.polo} (${count} obras)"
             >
               <div class="flex flex-col min-w-0 pr-0.5">
-                <span class="text-[10px] sm:text-[11px] font-black whitespace-nowrap leading-tight shrink-0 ${isSelected ? activeText : 'text-white'}">
+                <span class="text-[9px] sm:text-[11px] font-black whitespace-nowrap leading-none shrink-0 ${isSelected ? activeText : 'text-white'}">
                   ${g.key}
                 </span>
-                <span class="text-[8.5px] sm:text-[9px] truncate leading-tight mt-0.5 ${isSelected ? activeSubText : 'text-slate-400 font-medium'}">
+                <span class="text-[7px] sm:text-[9px] truncate leading-none mt-0.5 ${isSelected ? activeSubText : 'text-slate-400 font-medium'}">
                   ${g.polo}
                 </span>
               </div>
-              <span class="text-[8.5px] sm:text-[9.5px] px-1.5 py-0.5 rounded-full shrink-0 font-extrabold ${
+              <span class="text-[7.5px] sm:text-[9.5px] px-1 py-0.2 sm:px-1.5 sm:py-0.5 rounded-full shrink-0 font-extrabold ${
                 isSelected 
                   ? activeBadgeClass 
                   : inactiveBadgeClass

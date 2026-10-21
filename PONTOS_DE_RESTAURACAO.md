@@ -54,6 +54,11 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
      - **Remoção do Botão "Copiar WhatsApp" do Cabeçalho no Mobile:** O botão que ficava abaixo dos Ajustes no topo direito (circulado em vermelho no print) foi ocultado no mobile para desobstruir o topo e evitar redundância com o botão flutuante, mantendo-o normalmente no Desktop.
      - **Ícone Oficial na Modal:** Na modal de envio ("Pronto para envio"), o ícone de cabeçalho e o botão de ação utilizam o ícone oficial do WhatsApp.
 
+   7. **Alinhamento Uniforme do Badge SEDUC-PI e Painel de GREs sem Rolagem (Mobile):**
+      - **Correção da quebra do SEDUC-PI:** Badge ajustado com menor altura (18px), maior comprimento/largura (px-3) e whitespace-nowrap, eliminando a quebra em duas linhas e mantendo o nome uniforme alinhado com Controle de Obras GPR.
+      - **Grade de GREs sem Rolagem:** No mobile, as GREs da 1ª à 21ª foram reduzidas proporcionalmente em grade de 3 colunas compactas, cabendo todas as 21 GREs visíveis dentro do painel simultaneamente sem precisar de rolagem (overflow-y: visible).
+      - **Card "Todas as GREs" em Destaque:** Permanece mais largo (ocupando a linha inteira de 3 colunas no topo) e mais comprido que os outros cards, acomodando com folga o nome e o número de 2750 obras.
+
 ---
 
 ### [PR.004]
