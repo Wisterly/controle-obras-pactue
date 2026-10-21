@@ -25,96 +25,37 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
-### [PR.007.2]
-- **Data/Hora:** 21/10/2026 01:55 (Horário Local)
-- **Tag Git:** `PR.007.2` (local e remota no GitHub)
-- **Status:** Arquivado (Disponível sob demanda)
-- **Links:**
-  - Produção Oficial: https://controle-obras-gpr.vercel.app
-  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
-  - Localhost: http://localhost:3005
-- **Resumo das Alterações Contidas:**
-  1. **Numeração das Pastas como Expoente ($x^2$):**
-     - Redesenho completo dos contadores de obras na barra inferior móvel (`#mobileBottomNav`).
-     - O ícone da pasta atua como a base ($x$) e o contador de obras atua como o expoente ($2$).
-     - O número é posicionado de forma absoluta e ultracompacta exclusivamente no **canto superior direito do ícone** (`top: -5px; right: -8px`).
-     - Tipografia reduzida e nítida (`font-size: 7.5px; font-weight: 800`), sem invadir os limites da aba vizinha e sem sobrepor o desenho dos ícones.
-  2. **Isolamento Responsivo 100% Confirmado:**
-     - Computador (PC / Desktop): Mantém 100% a experiência do `PR.004` (fundo azul original, cabeçalho clássico com abas no topo, sem barra inferior).
-     - Celular (Mobile): Fundo preto com reflexos de laranja suave (`PR.007.1`), barra inferior em laranja translúcido e números sobrescritos ($x^2$).
-  3. **Auditoria Headless Chrome Validada:**
-     - `navBg`: `"rgba(36, 20, 12, 0.82)"`
-     - `badgeFontSize`: `"7.5px"`
-     - Captura visual arquivada em `mobile_audit_pr007.png`.
-
----
-
-### [PR.007.1]
-- **Data/Hora:** 21/10/2026 01:50 (Horário Local)
-- **Tag Git:** `PR.007.1` (local e remota no GitHub)
-- **Status:** Arquivado
-- **Links:**
-  - Produção Oficial: https://controle-obras-gpr.vercel.app
-  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
-  - Localhost: http://localhost:3005
-- **Resumo das Alterações Contidas:**
-  1. **Separação Responsiva Inteligente (PC vs Celular):**
-     - **Computador (PC / Desktop):** Permanece **100% idêntico ao `PR.004`** clássico (fundo azul escuro `#0b111e`, cabeçalho original com abas no topo, sem barra inferior, sem alterações nos cards e layout).
-     - **Celular (Mobile):** Aplica o novo tema exclusivo de preto profundo e laranja suave, isolado via `@media (max-width: 768px)`.
-  2. **Tema Mobile Preto com Laranja Suave (Substituição do Azul no Celular):**
-     - Onde era o fundo azulado escuro, foi aplicado preto profundo sofisticado (`#07090e`).
-     - Onde havia reflexos ou tons de azul mais claro, foram aplicadas auras sutis em degradê radial de laranja suave e não chamativo (`rgba(234, 88, 12, 0.14)` e `rgba(249, 115, 22, 0.08)`).
-     - Cabeçalho mobile com tom preto e borda inferior âmbar/laranja suave.
-  3. **Barra Inferior Móvel em Laranja Translúcido:**
-     - O plano de fundo de `#mobileBottomNav` foi calibrado para um laranja escuro translúcido com efeito fumê e desfoque (*glassmorphism* `rgba(36, 20, 12, 0.82)` com `blur(18px)`), permitindo visualizar o fundo por trás com extrema elegância e alto contraste nos ícones e rótulos.
-  4. **Preservação Total dos Cards e Abas:** Bordas, cartões, formulários e identidades de cada aba (Contratos, PACTUE, Medições, Projetos, Fotos) foram mantidos estritamente intactos.
-
----
-
-### [PR.006]
-- **Data/Hora:** 21/10/2026 01:30 (Horário Local)
-- **Tag Git:** `PR.006` (local e remota no GitHub)
-- **Status:** Arquivado
-- **Links:**
-  - Produção Oficial: https://controle-obras-gpr.vercel.app
-  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
-  - Localhost: http://localhost:3005
-- **Resumo das Alterações Contidas:**
-  1. **Barra Inferior Móvel Refinada (Glassmorphism & Borda Âmbar/Laranja):** 
-     - Altura reduzida e compacta (50px) para maximizar o campo de visualização vertical em qualquer celular.
-     - Fundo translúcido escuro refinado (`rgba(15, 23, 42, 0.88)` com desfoque de vidro `backdrop-filter: blur(16px)`).
-     - Borda superior detalhada e sofisticada em tom âmbar/laranja (`1px solid rgba(245, 158, 11, 0.4)` e brilho sutil).
-     - Ícones reduzidos proporcionalmente (`15px`) e tipografia nítida (`9px`), mantendo legibilidade total dos nomes das 5 abas (**Contratos, PACTUE, Medições, Projetos e Fotos**) e contadores discretos.
-  2. **Isolamento Rígido de Rolagem (Sem Conteúdo sob a Barra):**
-     - O limite visível de toda a aplicação foi ajustado para que todo o conteúdo (cards, botões, modais) termine estritamente acima do topo da barra inferior.
-     - Ao rolar até o final da página, `padding-bottom: 74px` e espaçador dedicado garantem folga de ~13px entre o último card e a barra, sem sobrepor nenhuma informação.
-  3. **Botão Flutuante (FAB) do WhatsApp Reposicionado:** Ajustado para `bottom: 58px`, flutuando elegantemente logo acima da borda âmbar da barra inferior.
-  4. **Auditoria Mobile com Headless Chrome (iPhone 14/15 - 390x844):** 
-     - Validação matemática de desobstrução de tela (`cardRect.bottom <= navRect.top` = `true`).
-     - Teste de troca e reatividade das 5 abas e captura de evidência visual (`mobile_audit_refined.png`).
-
----
-
 ### [PR.005]
-- **Data/Hora:** 21/10/2026 00:50 (Horário Local)
+- **Data/Hora:** 21/10/2026 02:10 (Horário Local)
 - **Tag Git:** `PR.005` (local e remota no GitHub)
-- **Status:** Arquivado
+- **Status:** Ativo / Em Produção
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
-  - Localhost: http://localhost:3000
+  - Localhost: http://localhost:3005
 - **Resumo das Alterações Contidas:**
-  1. **Barra de Navegação na Base da Tela (Mobile Bottom Navigation):** Barra permanente no rodapé da tela em celulares (estilo app móvel nativo), permitindo alternar instantaneamente entre as 5 abas (**Contratos, PACTUE, Medições, Projetos e Fotos**) com ícones destacados, badges de contagem em tempo real e iluminação temática, eliminando o corte de abas no topo.
-  2. **Botão Flutuante (FAB) do WhatsApp Otimizado:** Posicionado a 74px da base para flutuar perfeitamente acima da barra de navegação, com acesso rápido ao relatório formatado de qualquer tela com 1 único toque de polegar.
-  3. **Responsividade Aprimorada nos Cards:** Badges de Status, Situação Diária, Ordem de Serviço e Valor agora quebram harmoniosamente em telas estreitas (360px a 414px), sem espremer ou cortar os nomes das escolas e empresas.
-  4. **Auditoria Mobile com Headless Chrome (390x844):** Bateria de testes automatizados com emulador móvel validando o posicionamento fixo `bottom: 0`, a troca de abas e a geração de relatório com 100% de sucesso.
+  1. **Navegação do Computador (Desktop) 100% Preservada (Padrão PR.004):**
+     - O computador permanece rigorosamente idêntico ao `PR.004` (meia-noite e 25 de 21/10/2026).
+     - Subheader superior com as 5 abas visível exclusivamente no computador (`display: block`).
+     - Fundo azul escuro clássico (`#0b111e`), sem qualquer barra inferior ou elemento móvel no Desktop.
+  2. **Navegação Mobile Exclusiva na Base da Tela (Mobile Bottom Nav):**
+     - Barra de navegação móvel compacta (50px) para alternar entre as 5 pastas com 1 toque de polegar: **Contratos, PACTUE, Medições, Projetos e Fotos**.
+     - **Plano de fundo em laranja escuro translúcido com efeito vidro fumê (*glassmorphism* — `rgba(36, 20, 12, 0.82)` e `blur(18px)`)**, com borda superior fina em tom âmbar/laranja (`1px solid rgba(249, 115, 22, 0.5)`).
+  3. **Numeração das Pastas como Expoente ($x^2$):**
+     - O ícone da pasta atua como a base ($x$) e o contador de obras como o expoente ($2$).
+     - O número fica ultracompacto (`7.5px` em negrito) no **canto superior direito do ícone** (`top: -5px; right: -8px`), sem cobrir o ícone e sem invadir o espaço da aba vizinha.
+  4. **Tema Mobile Preto com Auras de Laranja Suave:**
+     - Fundo do celular atualizado para preto profundo (`#07090e`) com reflexos sutis de laranja suave e moderado.
+  5. **Isolamento de Rolagem e Botão WhatsApp:**
+     - `padding-bottom: 74px` e espaçador final garantem que o último card pare com folga visível acima da barra inferior.
+     - Botão flutuante do WhatsApp posicionado a 58px da base, flutuando sobre a barra no celular e oculto no desktop.
 
 ---
 
 ### [PR.004]
 - **Data/Hora:** 21/10/2026 00:25 (Horário Local)
 - **Tag Git:** `PR.004` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção (Restaurado com Sucesso a pedido do usuário)
+- **Status:** Arquivado (Base de referência Desktop)
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
