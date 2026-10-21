@@ -25,6 +25,45 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.007]
+- **Data/Hora:** 21/10/2026 04:25 (Horário Local)
+- **Tag Git:** `PR.007` (Tags específicas: `PR.007.1` para Desktop e `PR.007.2` para Mobile)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3005
+
+#### 🖥️ PR.007.1 — Versão Computador (Desktop):
+- **Origem / Base:** 100% Preservado e inalterado em relação ao PR.006.1.
+- **Estrutura e Linhas de Código Desktop:**
+  - Fundo clássico azul escuro institucional (`#0b111e`).
+  - Sub-cabeçalho superior tradicional horizontal com as 5 abas (`#desktopSubHeader` com `display: block`).
+  - Botão de ação rápida "Copiar WhatsApp" visível no canto superior direito abaixo do menu de Ajustes (`#quickCopyBtn` com `display: flex`).
+  - Painel de GREs amplo em grade horizontal tradicional sem compressão móvel.
+  - Zero interferência das animações e regras exclusivas do mobile.
+
+#### 📱 PR.007.2 — Versão Celular (Mobile):
+- **Origem / Base:** Evolução das melhorias de layout e usabilidade no celular solicitadas pelo usuário.
+- **Estrutura e Linhas de Código Mobile:**
+  - **Cabeçalho SEDUC-PI com Tamanho Compacto Original Deslocado à Esquerda:** O badge `SEDUC-PI` manteve estritamente o seu tamanho natural e compacto original (`px-2 py-0.5 rounded-full`), sem ser inflado. Para corrigir a quebra e o corte pela borda da tela, todo o conjunto superior (`UGERF / GPR`, mapa estilizado do Piauí e título `Controle de Obras GPR`) foi compactado com espaçamento reduzido e deslocado para a esquerda, garantindo uma folga de segurança superior a 65px na margem direita da tela sem nenhum corte.
+  - **Botão "TODAS AS GRES" Centralizado com Animação Fluida:**
+    - Botão ligeiramente mais alto (`min-height: 38px`) e conteúdo 100% centralizado horizontalmente (`justify-center gap-2.5`).
+    - Animação em gradiente contínuo e suave (`@keyframes gradient-wave`), respeitando rigorosamente a paleta de cores de cada aba:
+      - **Aba Contratos:** ondas em gradiente dinâmico com variações de azul (`.todas-gres-anim-contratos`).
+      - **Aba PACTUE:** ondas em gradiente dinâmico com variações de âmbar/laranja (`.todas-gres-anim-pactue`).
+      - **Aba Medições:** ondas em gradiente dinâmico com variações de ciano/turquesa (`.todas-gres-anim-medicoes`).
+  - **Painéis das Abas Projetos e Fotos Exclusivos com 21 GREs:**
+    - Nas abas de Projetos e Fotos, a grade exibe estritamente os cards das 21 GREs (7 linhas × 3 colunas), sem o botão de "Todas as GREs" e sem animação de gradiente.
+  - **Cards das 21 GREs (1ª até 21ª) com Tipografia Proporcional:**
+    - O número da GRE (`1ª GRE`, `2ª GRE`, etc.) foi destacado com peso e tamanho visualmente superiores aos nomes dos municípios (`.gre-card-key`).
+    - Os nomes dos municípios/polos (`Parnaíba`, `Teresina Sul`, `São Raimundo Nonato`, etc.) receberam proporção harmoniosa e completa (`.gre-card-polo`), cabendo perfeitamente nos cards sem quebras ou reticências.
+    - Contadores numéricos proporcionais em pílulas compactas à direita (`.gre-card-count`).
+    - Todas as 21 GREs mantêm visibilidade total simultânea no painel sem necessidade de rolagem vertical.
+  - **Botão Flutuante do WhatsApp:** Mantido com ícone oficial pulsante no canto inferior direito exclusivo para celular.
+
+---
+
 ### [PR.006]
 - **Data/Hora:** 21/10/2026 03:05 (Horário Local)
 - **Tag Git:** `PR.006` (Tags específicas: `PR.006.1` para Desktop e `PR.006.2` para Mobile)
