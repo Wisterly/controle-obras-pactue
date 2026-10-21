@@ -3,6 +3,7 @@
   "sheetUrlContracts": "https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=671056752#gid=671056752",
   "sheetUrlPactue": "https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=1717732222#gid=1717732222",
   "sheetUrlMedicoes": "https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing",
+  "googleAppsScriptUrl": "https://script.google.com/macros/s/AKfycby_uj9BL3Pcezc7BxJJ0v-DjqWdHHvGmxt2_-givBvv8Ek54C9GCAK-6J5Jj62IdSVd/exec",
   "medicoesContratos": [
     {
       "id": "ct-rmelo",
@@ -54,5 +55,5 @@
   "fotosFolderUrl": "https://drive.google.com/drive/folders/1yBJ5EFkqekhkY0-_Yit0K05qGoGBE8je?usp=drive_link",
   "autoSyncInterval": "5",
   "lastSyncTime": "20:05",
-  "updatedAt": "2026-10-18T01:32:41.531Z"
+  "updatedAt": "2026-10-20T23:35:00.000Z"
 }

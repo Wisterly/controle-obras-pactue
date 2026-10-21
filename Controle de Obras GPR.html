@@ -3983,6 +3983,8 @@
     const DEFAULT_CONTRACTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=671056752#gid=671056752';
     const DEFAULT_PACTUE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1SHZdGIlPEgu_M9U0IRak9hyGbc7lsZLXuhNz7pJfNdc/edit?gid=1717732222#gid=1717732222';
     const DEFAULT_MEDICOES_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1H9fEk7FOtUVhyV5rmoisvspvwtlSeRWQ6vTZMEc7LiQ/edit?usp=sharing';
+    const DEFAULT_GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_uj9BL3Pcezc7BxJJ0v-DjqWdHHvGmxt2_-givBvv8Ek54C9GCAK-6J5Jj62IdSVd/exec';
+    const STORAGE_KEY_WEBHOOK_URL = 'seduc_google_apps_script_url';
 
     // Auto-carrega os links oficiais se qualquer dispositivo (celular, tablet, novo PC) abrir pela primeira vez
     try {
@@ -9616,7 +9618,63 @@
         renderStatusFilters();
         updateWhatsAppOutput();
         updateSummaryBanner();
+
+        // Sincronização em Mão Dupla para a Planilha do Google
+        syncFieldChangeToGoogleSheet(item, field, value);
       }
+    }
+
+    let syncDebounceTimers = {};
+    async function syncFieldChangeToGoogleSheet(item, field, value) {
+      if (!item || !item.escola) return;
+      const key = `${item.id}-${field}`;
+      if (syncDebounceTimers[key]) clearTimeout(syncDebounceTimers[key]);
+
+      syncDebounceTimers[key] = setTimeout(async () => {
+        const webhookUrl = localStorage.getItem(STORAGE_KEY_WEBHOOK_URL) || DEFAULT_GOOGLE_APPS_SCRIPT_URL;
+        if (!webhookUrl) return;
+
+        showToastNotification(`⏳ Sincronizando com a Planilha do Google...`);
+
+        const payload = {
+          webhookUrl: webhookUrl,
+          sheetName: (currentModule === 'PACTUE') ? 'PACTUE GDI' : 'OBRAS DE CONTRATO',
+          escola: item.escola,
+          status: item.status,
+          situacao: item.situacao,
+          termino: item.termino
+        };
+
+        try {
+          let ok = false;
+          try {
+            const resp = await fetch('/api/sync-sheet', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (resp.ok) {
+              const resJson = await resp.json();
+              if (resJson && resJson.success) {
+                ok = true;
+                showToastNotification(`✓ ${item.escola}: Gravado na Planilha do Google com sucesso!`);
+              }
+            }
+          } catch (eLocal) {}
+
+          if (!ok) {
+            await fetch(webhookUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            showToastNotification(`✓ ${item.escola}: Alteração enviada para o Google Sheets!`);
+          }
+        } catch (err) {
+          console.warn('Falha na sincronização bidirecional:', err);
+        }
+      }, 400);
     }
 
     // =========================================================================

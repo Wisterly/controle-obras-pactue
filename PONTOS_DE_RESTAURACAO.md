@@ -6,7 +6,7 @@ Este documento registra cronologicamente todos os pontos de restauração do pro
 
 ## 🔒 REGRA DE OURO DAS RESTAURAÇÕES (ISOLAMENTO DE DADOS vs ESTRUTURA DO SITE)
 
-Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.003`, etc.) segue rigorosamente estes dois pilares:
+Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.003`, `PR.004`, etc.) segue rigorosamente estes dois pilares:
 
 ### 1. O que ENTRA no Ponto de Restauração (É Restaurado):
 - **Toda a parte estrutural do site**: HTML, Javascript, CSS e arquivos de código;
@@ -25,10 +25,25 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.004]
+- **Data/Hora:** 20/10/2026 23:40 (Horário Local)
+- **Tag Git:** `PR.004` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3000
+- **Resumo das Alterações Contidas:**
+  1. **Sincronização em Mão Dupla Ativada (Bidirecional):** Integração com o Webhook Google Apps Script (`https://script.google.com/macros/s/AKfycby_uj9BL3Pcezc7BxJJ0v-DjqWdHHvGmxt2_-givBvv8Ek54C9GCAK-6J5Jj62IdSVd/exec`).
+  2. **Gravação Instantânea na Planilha Google:** Ao alterar Status da Demanda, Situação Diária ou Data de Previsão/Término em qualquer card, o sistema atualiza localmente e envia a alteração em tempo real para a planilha oficial.
+  3. **Backend Proxy (/api/sync-sheet):** Implementado no servidor local (`server.cjs`) e no Vercel (`api/sync-sheet.js`) com tratamento de redirecionamento 302 do Google e notificações toast na interface.
+
+---
+
 ### [PR.003]
 - **Data/Hora:** 20/10/2026 23:00 (Horário Local)
 - **Tag Git:** `PR.003` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
@@ -50,11 +65,6 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
   - Localhost: http://localhost:3000
-- **Resumo das Alterações Contidas:**
-  1. **Persistência Universal das Planilhas**: Inclusão de `DEFAULT_CONTRACTS_SHEET_URL`, `DEFAULT_PACTUE_SHEET_URL` e `DEFAULT_MEDICOES_SHEET_URL` no código cliente e na API serverless do Vercel.
-  2. **Auto-inicialização no Celular/Novo Navegador**: Qualquer dispositivo, celular ou navegador que abrir o site pela primeira vez já carrega automaticamente com as planilhas de Contratos, PACTUE e Medições pré-configuradas e sincronizadas, sem exigir inserção manual.
-  3. **Correção de `api/config.js`**: A API do Vercel agora entrega a configuração completa do `app_config.json` para todos os clientes conectados.
-  4. Preservação integral das configurações, planilhas e autorização do robô.
 
 ---
 

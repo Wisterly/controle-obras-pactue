@@ -117,6 +117,70 @@ const server = http.createServer((req, res) => {
       return;
     }
   }
+
+  // API de Sincronização em Mão Dupla para Google Sheets (Webhook / Apps Script)
+  if (reqPath === '/api/sync-sheet' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', async () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const targetUrl = payload.webhookUrl || 'https://script.google.com/macros/s/AKfycby_uj9BL3Pcezc7BxJJ0v-DjqWdHHvGmxt2_-givBvv8Ek54C9GCAK-6J5Jj62IdSVd/exec';
+        const postData = JSON.stringify({
+          escola: payload.escola || '',
+          status: payload.status,
+          situacao: payload.situacao,
+          termino: payload.termino,
+          sheetName: payload.sheetName || ''
+        });
+
+        const sendRequest = (currentUrl) => {
+          return new Promise((resolve, reject) => {
+            const urlObj = new URL(currentUrl);
+            const options = {
+              hostname: urlObj.hostname,
+              path: urlObj.pathname + urlObj.search,
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Content-Length': Buffer.byteLength(postData)
+              }
+            };
+            const reqGoogle = https.request(options, (resp) => {
+              if (resp.statusCode >= 300 && resp.statusCode < 400 && resp.headers.location) {
+                https.get(resp.headers.location, (redirResp) => {
+                  let resBody = '';
+                  redirResp.on('data', chunk => resBody += chunk);
+                  redirResp.on('end', () => {
+                    try { resolve(JSON.parse(resBody)); }
+                    catch (e) { resolve({ success: true, raw: resBody }); }
+                  });
+                }).on('error', reject);
+                return;
+              }
+              let resBody = '';
+              resp.on('data', chunk => resBody += chunk);
+              resp.on('end', () => {
+                try { resolve(JSON.parse(resBody)); }
+                catch (e) { resolve({ success: true, raw: resBody }); }
+              });
+            });
+            reqGoogle.on('error', reject);
+            reqGoogle.write(postData);
+            reqGoogle.end();
+          });
+        };
+
+        const result = await sendRequest(targetUrl);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(result));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
   // API de Upload e Armazenamento de Fotos (Solução 1.B / Nuvem e Servidor)
   if (reqPath === '/api/upload-photo' && req.method === 'POST') {
     let body = '';
