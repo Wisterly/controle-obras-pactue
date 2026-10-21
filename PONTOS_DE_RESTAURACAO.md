@@ -46,9 +46,13 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
      - O número fica ultracompacto (`7.5px` em negrito) no **canto superior direito do ícone** (`top: -5px; right: -8px`), sem cobrir o ícone e sem invadir o espaço da aba vizinha.
   4. **Tema Mobile Preto com Auras de Laranja Suave:**
      - Fundo do celular atualizado para preto profundo (`#07090e`) com reflexos sutis de laranja suave e moderado.
-  5. **Isolamento de Rolagem e Botão WhatsApp:**
+  5. **Isolamento de Rolagem e Botão WhatsApp Flutuante:**
      - `padding-bottom: 74px` e espaçador final garantem que o último card pare com folga visível acima da barra inferior.
      - Botão flutuante do WhatsApp posicionado a 58px da base, flutuando sobre a barra no celular e oculto no desktop.
+  6. **Ícone Oficial do WhatsApp e Efeito Pulsante (Mobile):**
+     - O botão flutuante inferior no mobile agora possui o ícone oficial do WhatsApp idêntico ao modelo de referência e uma animação contínua e suave de pulsar (*pulse effect*).
+     - **Remoção do Botão "Copiar WhatsApp" do Cabeçalho no Mobile:** O botão que ficava abaixo dos Ajustes no topo direito (circulado em vermelho no print) foi ocultado no mobile para desobstruir o topo e evitar redundância com o botão flutuante, mantendo-o normalmente no Desktop.
+     - **Ícone Oficial na Modal:** Na modal de envio ("Pronto para envio"), o ícone de cabeçalho e o botão de ação utilizam o ícone oficial do WhatsApp.
 
 ---
 
