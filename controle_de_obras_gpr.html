@@ -78,6 +78,21 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      /* Tema Mobile Exclusivo (PR.007.1): Fundo preto com reflexos de laranja suave/não chamativo */
+      body {
+        background-color: #07090e !important;
+        background-image: 
+          radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.14) 0%, transparent 60%),
+          radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 0% 50%, rgba(217, 119, 6, 0.06) 0%, transparent 45%) !important;
+        background-attachment: fixed !important;
+      }
+
+      header {
+        background-color: rgba(10, 10, 14, 0.96) !important;
+        border-bottom: 1px solid rgba(234, 88, 12, 0.3) !important;
+      }
+
       /* Espaçamentos fluidos no celular */
       main {
         padding-left: 0.75rem !important;
@@ -117,7 +132,7 @@
         z-index: 9995 !important;
       }
 
-      /* Barra de Navegação na Base da tela (Mobile Bottom Navigation) - Glassmorphism cinza escuro translúcido com borda detalhada */
+      /* Barra de Navegação na Base da tela (Mobile Bottom Navigation) - Laranja translúcido sofisticado (PR.007.1) */
       #mobileBottomNav {
         position: fixed !important;
         bottom: 0 !important;
@@ -126,11 +141,11 @@
         z-index: 9990 !important;
         display: block !important;
         height: 50px !important;
-        background: rgba(15, 23, 42, 0.88) !important;
-        -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-        backdrop-filter: blur(16px) saturate(180%) !important;
-        border-top: 1px solid rgba(245, 158, 11, 0.4) !important;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6), 0 -1px 0 rgba(245, 158, 11, 0.25) !important;
+        background: rgba(36, 20, 12, 0.82) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+        backdrop-filter: blur(18px) saturate(190%) !important;
+        border-top: 1px solid rgba(249, 115, 22, 0.5) !important;
+        box-shadow: 0 -4px 22px rgba(234, 88, 12, 0.22), 0 -1px 0 rgba(251, 146, 60, 0.3) !important;
         padding-top: 2px !important;
         padding-bottom: env(safe-area-inset-bottom, 2px) !important;
       }

@@ -25,10 +25,32 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.007.1]
+- **Data/Hora:** 21/10/2026 01:50 (Horário Local)
+- **Tag Git:** `PR.007.1` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3005
+- **Resumo das Alterações Contidas:**
+  1. **Separação Responsiva Inteligente (PC vs Celular):**
+     - **Computador (PC / Desktop):** Permanece **100% idêntico ao `PR.004`** clássico (fundo azul escuro `#0b111e`, cabeçalho original com abas no topo, sem barra inferior, sem alterações nos cards e layout).
+     - **Celular (Mobile):** Aplica o novo tema exclusivo de preto profundo e laranja suave, isolado via `@media (max-width: 768px)`.
+  2. **Tema Mobile Preto com Laranja Suave (Substituição do Azul no Celular):**
+     - Onde era o fundo azulado escuro, foi aplicado preto profundo sofisticado (`#07090e`).
+     - Onde havia reflexos ou tons de azul mais claro, foram aplicadas auras sutis em degradê radial de laranja suave e não chamativo (`rgba(234, 88, 12, 0.14)` e `rgba(249, 115, 22, 0.08)`).
+     - Cabeçalho mobile com tom preto e borda inferior âmbar/laranja suave.
+  3. **Barra Inferior Móvel em Laranja Translúcido:**
+     - O plano de fundo de `#mobileBottomNav` foi calibrado para um laranja escuro translúcido com efeito fumê e desfoque (*glassmorphism* `rgba(36, 20, 12, 0.82)` com `blur(18px)`), permitindo visualizar o fundo por trás com extrema elegância e alto contraste nos ícones e rótulos.
+  4. **Preservação Total dos Cards e Abas:** Bordas, cartões, formulários e identidades de cada aba (Contratos, PACTUE, Medições, Projetos, Fotos) foram mantidos estritamente intactos.
+
+---
+
 ### [PR.006]
 - **Data/Hora:** 21/10/2026 01:30 (Horário Local)
 - **Tag Git:** `PR.006` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
