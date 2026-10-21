@@ -25,10 +25,43 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.006]
+- **Data/Hora:** 21/10/2026 03:05 (Horário Local)
+- **Tag Git:** `PR.006` (Tags específicas: `PR.006.1` para Desktop e `PR.006.2` para Mobile)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3005
+
+#### 🖥️ PR.006.1 — Versão Computador (Desktop):
+- **Origem / Base:** Replicado integralmente do padrão consolidado PR.004/PR.005.
+- **Estrutura e Linhas de Código Desktop:**
+  - Fundo clássico azul escuro institucional (`#0b111e`).
+  - Sub-cabeçalho superior tradicional horizontal com as 5 abas (`#desktopSubHeader` com `display: block`).
+  - Botão de ação rápida "Copiar WhatsApp" visível no canto superior direito abaixo do menu de Ajustes (`#quickCopyBtn` com `display: flex`).
+  - Painel de GREs amplo em grade de 4 a 5 colunas sem compressão móvel.
+  - Ausência total de elementos móveis (barra de base `#mobileBottomNav` oculta, botão flutuante `#whatsappFab` oculto).
+
+#### 📱 PR.006.2 — Versão Celular (Mobile):
+- **Origem / Base:** Evolução completa de otimização ergonômica móvel (Ponto de Restauração 006).
+- **Estrutura e Linhas de Código Mobile:**
+  - **Alinhamento do Cabeçalho SEDUC-PI:** Badge com altura reduzida (`18px`), largura expandida (`px-3`) e `whitespace-nowrap`, eliminando quebras de linha e perfeitamente alinhado com `Controle de Obras GPR`.
+  - **Grade de GREs Compacta sem Rolagem:** Disposição das 21 GREs em grade de 3 colunas compactas onde todas as 21 GREs ficam 100% visíveis simultaneamente dentro do painel sem necessidade de barra de rolagem vertical (`overflow-y: visible`).
+  - **Card "TODAS AS GRES" em Destaque:** Ocupa a largura total (3 colunas do topo) com altura de 35px, mantendo o título legível e a contagem de 2750 obras em destaque superior.
+  - **Botão Flutuante do WhatsApp:** Ícone oficial do WhatsApp posicionado a 58px da base no canto inferior direito com animação contínua de pulso suave (*fab-pulse*).
+  - **Desobstrução do Topo:** Botão "Copiar WhatsApp" ocultado no cabeçalho do celular para evitar redundância.
+  - **Barra de Navegação Inferior (Mobile Bottom Nav):** 50px de altura com efeito vidro fumê alaranjado translúcido (*glassmorphism* — `rgba(36, 20, 12, 0.82)`) e borda âmbar fina.
+  - **Pastas com Expoente ($x^2$):** Numeração de obras posicionada como expoente ultracompacto (`7.5px`) no canto superior direito de cada ícone de pasta.
+  - **Tema Escuro Mobile:** Fundo preto profundo (`#07090e`) com reflexos suaves de gradiente em laranja discreto.
+  - **Margem de Rolagem:** Respiro de 74px na base da página para que o conteúdo final nunca fique sob a barra móvel.
+
+---
+
 ### [PR.005]
 - **Data/Hora:** 21/10/2026 02:10 (Horário Local)
 - **Tag Git:** `PR.005` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado (Histórico)
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
