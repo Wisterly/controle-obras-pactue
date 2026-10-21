@@ -37,6 +37,7 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
   1. **Sincronização em Mão Dupla Ativada (Bidirecional):** Integração com o Webhook Google Apps Script (`https://script.google.com/macros/s/AKfycby_uj9BL3Pcezc7BxJJ0v-DjqWdHHvGmxt2_-givBvv8Ek54C9GCAK-6J5Jj62IdSVd/exec`).
   2. **Gravação Instantânea na Planilha Google:** Ao alterar Status da Demanda, Situação Diária ou Data de Previsão/Término em qualquer card, o sistema atualiza localmente e envia a alteração em tempo real para a planilha oficial.
   3. **Backend Proxy (/api/sync-sheet):** Implementado no servidor local (`server.cjs`) e no Vercel (`api/sync-sheet.js`) com tratamento de redirecionamento 302 do Google e notificações toast na interface.
+  4. **Filtro Unificado em Cascata para Relatório do WhatsApp:** O relatório gerado para o WhatsApp, o banner de contadores e a listagem de cards agora são 100% sincronizados via motor único `getFilteredDataset()`. Ao filtrar por GRE, por Status, ou digitando o nome da escola, OS, município ou valor na busca, o WhatsApp exporta apenas e exatamente as obras filtradas visíveis em tela, exibindo também Ordem de Serviço e Valor de cada contrato.
 
 ---
 

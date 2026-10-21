@@ -592,7 +592,7 @@
           <input 
             type="text" 
             id="searchInput" 
-            placeholder="Buscar por escola, município ou construtora..." 
+            placeholder="Buscar por escola, município, OS, valor ou construtora..." 
             oninput="handleSearch(this.value)"
             class="w-full bg-brand-dark border border-brand-cardBorder rounded-xl px-3 py-2 pl-8 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-brand-accent transition-colors"
           />
@@ -9142,6 +9142,8 @@
       renderGreSelector();
       renderStatusFilters();
       renderCards();
+      updateSummaryBanner();
+      updateWhatsAppOutput();
     }
 
     // =========================================================================
@@ -9433,11 +9435,49 @@
       activeStatusFilter = statusVal;
       renderStatusFilters();
       renderCards();
+      updateSummaryBanner();
+      updateWhatsAppOutput();
     }
 
     function handleSearch(val) {
       searchQuery = val;
       renderCards();
+      updateSummaryBanner();
+      updateWhatsAppOutput();
+    }
+
+    function getFilteredDataset() {
+      const dataset = getActiveDataset();
+      const isMed = (currentModule === 'MEDICOES');
+
+      return dataset.filter(item => {
+        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
+        const matchesContrato = (!isMed || activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
+        
+        let itemStatus = isMed ? normalizeSetorMedicao(item.setor) : normalizeWorkStatus(item.status);
+        const matchesStatus = (activeStatusFilter === 'TODOS' || (itemStatus === activeStatusFilter));
+        
+        const q = (searchQuery || '').toLowerCase().trim();
+        let matchesSearch = !q;
+        if (q) {
+          if (isMed) {
+            matchesSearch = (item.processo && item.processo.toLowerCase().includes(q)) ||
+                            (item.medicao && item.medicao.toLowerCase().includes(q)) ||
+                            (item.contrato && item.contrato.toLowerCase().includes(q)) ||
+                            (item.gre && item.gre.toLowerCase().includes(q)) ||
+                            (item.escola && item.escola.toLowerCase().includes(q)) ||
+                            (item.setor && item.setor.toLowerCase().includes(q)) ||
+                            (item.valor && String(item.valor).toLowerCase().includes(q));
+          } else {
+            matchesSearch = (item.escola && item.escola.toLowerCase().includes(q)) || 
+                            (item.municipio && item.municipio.toLowerCase().includes(q)) ||
+                            (item.construtora && item.construtora.toLowerCase().includes(q)) ||
+                            (item.ordemServico && item.ordemServico.toLowerCase().includes(q)) ||
+                            (item.valor && item.valor.toLowerCase().includes(q));
+          }
+        }
+        return matchesGre && matchesContrato && matchesStatus && matchesSearch;
+      });
     }
 
     function updateSummaryBanner() {
@@ -9446,22 +9486,8 @@
       const count = document.getElementById('greSummaryCount');
       const whatsAppScope = document.getElementById('whatsappGreScope');
 
-      const dataset = getActiveDataset();
       const isMed = (currentModule === 'MEDICOES');
-
-      const filtered = dataset.filter(item => {
-        if (isMed) {
-          const matchesContrato = (activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
-          const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-          const itemStatus = normalizeSetorMedicao(item.setor);
-          const matchesStatus = (activeStatusFilter === 'TODOS' || itemStatus === activeStatusFilter);
-          return matchesContrato && matchesGre && matchesStatus;
-        } else {
-          const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-          const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(item.status) === activeStatusFilter));
-          return matchesGre && matchesStatus;
-        }
-      });
+      const filtered = getFilteredDataset();
 
       if (badge) {
         badge.textContent = (activeFilter === 'TODAS') ? 'TODAS AS GRES' : activeFilter;
@@ -9491,10 +9517,11 @@
       }
 
       if (whatsAppScope) {
+        const qInfo = searchQuery.trim() ? ` | Busca: "${searchQuery.trim()}"` : '';
         if (isMed) {
-          whatsAppScope.textContent = `Contrato: ${activeContratoFilter} | GRE: ${activeFilter} | Setor: ${activeStatusFilter} (${filtered.length} medições)`;
+          whatsAppScope.textContent = `Contrato: ${activeContratoFilter} | GRE: ${activeFilter} | Setor: ${activeStatusFilter}${qInfo} (${filtered.length} medições)`;
         } else {
-          whatsAppScope.textContent = `Foco: ${activeFilter} | Status: ${activeStatusFilter} (${filtered.length} obras)`;
+          whatsAppScope.textContent = `Foco: ${activeFilter} | Status: ${activeStatusFilter}${qInfo} (${filtered.length} obras)`;
         }
       }
     }
@@ -10307,37 +10334,8 @@
       const list = document.getElementById('cardsList');
       if (!list) return;
 
-      const dataset = getActiveDataset();
       const isMed = (currentModule === 'MEDICOES');
-
-      const filtered = dataset.filter(item => {
-        const matchesGre = (activeFilter === 'TODAS' || item.greKey === activeFilter || normalizeGreKey(item.gre) === activeFilter);
-        const matchesContrato = (!isMed || activeContratoFilter === 'TODOS' || item.contrato === activeContratoFilter);
-        
-        let itemStatus = isMed ? normalizeSetorMedicao(item.setor) : normalizeWorkStatus(item.status);
-        const matchesStatus = (activeStatusFilter === 'TODOS' || (itemStatus === activeStatusFilter));
-        
-        const q = searchQuery.toLowerCase().trim();
-        let matchesSearch = !q;
-        if (q) {
-          if (isMed) {
-            matchesSearch = (item.processo && item.processo.toLowerCase().includes(q)) ||
-                            (item.medicao && item.medicao.toLowerCase().includes(q)) ||
-                            (item.contrato && item.contrato.toLowerCase().includes(q)) ||
-                            (item.gre && item.gre.toLowerCase().includes(q)) ||
-                            (item.escola && item.escola.toLowerCase().includes(q)) ||
-                            (item.setor && item.setor.toLowerCase().includes(q)) ||
-                            (item.valor && String(item.valor).toLowerCase().includes(q));
-          } else {
-            matchesSearch = (item.escola && item.escola.toLowerCase().includes(q)) || 
-                            (item.municipio && item.municipio.toLowerCase().includes(q)) ||
-                            (item.construtora && item.construtora.toLowerCase().includes(q)) ||
-                            (item.ordemServico && item.ordemServico.toLowerCase().includes(q)) ||
-                            (item.valor && item.valor.toLowerCase().includes(q));
-          }
-        }
-        return matchesGre && matchesContrato && matchesStatus && matchesSearch;
-      });
+      const filtered = getFilteredDataset();
 
       if (filtered.length === 0) {
         const noun = isMed ? 'medição encontrada' : 'obra encontrada';
@@ -10410,22 +10408,12 @@
     // GERADOR DE MENSAGEM DO WHATSAPP
     // =========================================================================
     function generateWhatsAppMessage() {
-      const dataset = getActiveDataset();
+      const filtered = getFilteredDataset();
 
       if (currentModule === 'MEDICOES') {
-        let items = dataset;
-        if (activeContratoFilter !== 'TODOS') {
-          items = items.filter(w => w.contrato === activeContratoFilter);
-        }
-        if (activeFilter !== 'TODAS') {
-          items = items.filter(w => (w.greKey === activeFilter || normalizeGreKey(w.gre) === activeFilter));
-        }
-        if (activeStatusFilter !== 'TODOS') {
-          items = items.filter(w => normalizeSetorMedicao(w.setor) === activeStatusFilter);
-        }
-
-        if (items.length === 0) {
-          return `Nenhuma medição encontrada para os filtros selecionados (${activeContratoFilter} / GRE: ${activeFilter} / Setor: ${activeStatusFilter}).`;
+        const qInfo = searchQuery.trim() ? ` / Busca: "${searchQuery.trim()}"` : '';
+        if (filtered.length === 0) {
+          return `Nenhuma medição encontrada para os filtros selecionados (${activeContratoFilter} / GRE: ${activeFilter} / Setor: ${activeStatusFilter}${qInfo}).`;
         }
 
         // Calcula totalizadores financeiros
@@ -10435,7 +10423,7 @@
         let totalParcial = 0;
         let totalPago = 0;
 
-        items.forEach(it => {
+        filtered.forEach(it => {
           const val = parseMoedaToNumber(it.valor);
           totalValor += val;
           const s = normalizeSetorMedicao(it.setor);
@@ -10447,7 +10435,7 @@
 
         // Agrupa por Contrato
         const contratosMap = new Map();
-        items.forEach(it => {
+        filtered.forEach(it => {
           const cName = it.contrato || 'CONTRATO NÃO IDENTIFICADO';
           if (!contratosMap.has(cName)) contratosMap.set(cName, []);
           contratosMap.get(cName).push(it);
@@ -10458,8 +10446,9 @@
         if (activeContratoFilter !== 'TODOS') msg += `📑 *Contrato:* ${activeContratoFilter}\n`;
         if (activeFilter !== 'TODAS') msg += `📍 *Filtro GRE:* ${activeFilter}\n`;
         if (activeStatusFilter !== 'TODOS') msg += `🏢 *Filtro Setor:* ${activeStatusFilter}\n`;
+        if (searchQuery.trim()) msg += `🔍 *Filtro Busca:* "${searchQuery.trim()}"\n`;
         msg += `\n💵 *RESUMO FINANCEIRO:*`;
-        msg += `\n• *Total Medido:* ${formatNumberToMoeda(totalValor)} (${items.length} medições)`;
+        msg += `\n• *Total Medido:* ${formatNumberToMoeda(totalValor)} (${filtered.length} medições)`;
         if (totalGpr > 0) msg += `\n• *Na GPR (UGERF):* ${formatNumberToMoeda(totalGpr)}`;
         if (totalFim > 0) msg += `\n• *No FIM:* ${formatNumberToMoeda(totalFim)}`;
         if (totalParcial > 0) msg += `\n• *Pago Parcial:* ${formatNumberToMoeda(totalParcial)}`;
@@ -10490,64 +10479,55 @@
         return msg.trim();
       }
 
-      // Identifica GREs únicas presentes
-      const uniqueGres = [];
-      const seen = new Set();
-
-      dataset.forEach(w => {
-        const k = w.greKey || normalizeGreKey(w.gre);
-        if (!seen.has(k)) {
-          seen.add(k);
-          uniqueGres.push({ key: k, header: `*${w.gre || k}*` });
-        }
-      });
-
-      uniqueGres.sort((a, b) => a.key.localeCompare(b.key, undefined, { numeric: true }));
-
-      const targetGres = (activeFilter === 'TODAS') 
-        ? uniqueGres 
-        : uniqueGres.filter(g => g.key === activeFilter);
-
-      let blocks = [];
-
-      targetGres.forEach(g => {
-        const schools = dataset.filter(w => {
-          const matchesGre = (w.greKey === g.key || normalizeGreKey(w.gre) === g.key);
-          const matchesStatus = (activeStatusFilter === 'TODOS' || (normalizeWorkStatus(w.status) === activeStatusFilter));
-          return matchesGre && matchesStatus;
-        });
-
-        if (schools.length > 0) {
-          let section = `${g.header}\n\n`;
-          const schoolEntries = schools.map(s => {
-            if (currentModule === 'PACTUE') {
-              return `* ESCOLA: _*${s.escola}*_\n` +
-                     `* MUNICÍPIO: ${s.municipio}\n` +
-                     (s.objeto ? `* OBJETO: ${s.objeto}\n` : '') +
-                     (s.descritivo ? `* DESCRITIVO DOS SERVIÇOS: ${s.descritivo}\n` : '') +
-                     `* EMPRESA: ${s.construtora}\n` +
-                     `🔹 STATUS: _*${s.status}*_\n` +
-                     (s.situacao ? `* SITUAÇÃO: _${s.situacao}_\n` : '') +
-                     `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
-            } else {
-              return `* ESCOLA: _*${s.escola}*_\n` +
-                     `* MUNICÍPIO: ${s.municipio}\n` +
-                     `* EMPRESA: ${s.construtora}\n` +
-                     `🔹 STATUS: _*${s.status}*_\n` +
-                     `* SITUAÇÃO: _${s.situacao}_\n` +
-                     `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
-            }
-          });
-          section += schoolEntries.join('\n\n');
-          blocks.push(section);
-        }
-      });
-
-      if (blocks.length === 0) {
-        return `Nenhuma obra encontrada para os filtros selecionados (${activeFilter} / Status: ${activeStatusFilter}).`;
+      // Módulos CONTRATOS e PACTUE
+      const qInfo = searchQuery.trim() ? ` / Busca: "${searchQuery.trim()}"` : '';
+      if (filtered.length === 0) {
+        return `Nenhuma obra encontrada para os filtros selecionados (${activeFilter} / Status: ${activeStatusFilter}${qInfo}).`;
       }
 
-      // Se for apenas uma GRE filtrada, não precisa de separador; se forem várias, separa com quebra de linha dupla
+      // Identifica e agrupa as GREs presentes exatamente nos itens filtrados
+      const gresMap = new Map();
+      filtered.forEach(w => {
+        const k = w.greKey || normalizeGreKey(w.gre);
+        const header = `*${w.gre || k}*`;
+        if (!gresMap.has(k)) {
+          gresMap.set(k, { header: header, items: [] });
+        }
+        gresMap.get(k).items.push(w);
+      });
+
+      // Ordena numericamente as GREs
+      const sortedKeys = Array.from(gresMap.keys()).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+
+      let blocks = [];
+      sortedKeys.forEach(k => {
+        const group = gresMap.get(k);
+        let section = `${group.header}\n\n`;
+        const schoolEntries = group.items.map(s => {
+          if (currentModule === 'PACTUE') {
+            return `* ESCOLA: _*${s.escola}*_\n` +
+                   `* MUNICÍPIO: ${s.municipio}\n` +
+                   (s.objeto ? `* OBJETO: ${s.objeto}\n` : '') +
+                   (s.descritivo ? `* DESCRITIVO DOS SERVIÇOS: ${s.descritivo}\n` : '') +
+                   `* EMPRESA: ${s.construtora}\n` +
+                   `🔹 STATUS: _*${s.status}*_\n` +
+                   (s.situacao ? `* SITUAÇÃO: _${s.situacao}_\n` : '') +
+                   `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
+          } else {
+            return `* ESCOLA: _*${s.escola}*_\n` +
+                   `* MUNICÍPIO: ${s.municipio}\n` +
+                   (s.ordemServico ? `* ORDEM DE SERVIÇO: ${s.ordemServico}\n` : '') +
+                   (s.valor ? `* VALOR DA OS: ${s.valor}\n` : '') +
+                   `* EMPRESA: ${s.construtora}\n` +
+                   `🔹 STATUS: _*${s.status}*_\n` +
+                   `* SITUAÇÃO: _${s.situacao}_\n` +
+                   `📅 TÉRMINO/PREVISÃO: *${s.termino}*`;
+          }
+        });
+        section += schoolEntries.join('\n\n');
+        blocks.push(section);
+      });
+
       return blocks.join('\n\n');
     }
 
@@ -10576,7 +10556,8 @@
         const greName = (activeFilter === 'TODAS') ? 'Todas as GREs' : activeFilter;
         const statusName = (activeStatusFilter === 'TODOS') ? 'Todos os status' : activeStatusFilter;
         const contratoName = (currentModule === 'MEDICOES' && activeContratoFilter !== 'TODOS') ? ` • ${activeContratoFilter}` : '';
-        scopeLabel.textContent = `${modName}${contratoName} • ${greName} • ${statusName}`;
+        const searchInfo = searchQuery.trim() ? ` • Busca: "${searchQuery.trim()}"` : '';
+        scopeLabel.textContent = `${modName}${contratoName} • ${greName} • ${statusName}${searchInfo}`;
       }
 
       if (modal) {
