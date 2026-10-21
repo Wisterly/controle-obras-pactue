@@ -25,10 +25,34 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.006]
+- **Data/Hora:** 21/10/2026 01:30 (Horário Local)
+- **Tag Git:** `PR.006` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3005
+- **Resumo das Alterações Contidas:**
+  1. **Barra Inferior Móvel Refinada (Glassmorphism & Borda Âmbar/Laranja):** 
+     - Altura reduzida e compacta (50px) para maximizar o campo de visualização vertical em qualquer celular.
+     - Fundo translúcido escuro refinado (`rgba(15, 23, 42, 0.88)` com desfoque de vidro `backdrop-filter: blur(16px)`).
+     - Borda superior detalhada e sofisticada em tom âmbar/laranja (`1px solid rgba(245, 158, 11, 0.4)` e brilho sutil).
+     - Ícones reduzidos proporcionalmente (`15px`) e tipografia nítida (`9px`), mantendo legibilidade total dos nomes das 5 abas (**Contratos, PACTUE, Medições, Projetos e Fotos**) e contadores discretos.
+  2. **Isolamento Rígido de Rolagem (Sem Conteúdo sob a Barra):**
+     - O limite visível de toda a aplicação foi ajustado para que todo o conteúdo (cards, botões, modais) termine estritamente acima do topo da barra inferior.
+     - Ao rolar até o final da página, `padding-bottom: 74px` e espaçador dedicado garantem folga de ~13px entre o último card e a barra, sem sobrepor nenhuma informação.
+  3. **Botão Flutuante (FAB) do WhatsApp Reposicionado:** Ajustado para `bottom: 58px`, flutuando elegantemente logo acima da borda âmbar da barra inferior.
+  4. **Auditoria Mobile com Headless Chrome (iPhone 14/15 - 390x844):** 
+     - Validação matemática de desobstrução de tela (`cardRect.bottom <= navRect.top` = `true`).
+     - Teste de troca e reatividade das 5 abas e captura de evidência visual (`mobile_audit_refined.png`).
+
+---
+
 ### [PR.005]
 - **Data/Hora:** 21/10/2026 00:50 (Horário Local)
 - **Tag Git:** `PR.005` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
