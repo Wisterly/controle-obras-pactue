@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       status: payload.status,
       situacao: payload.situacao,
       termino: payload.termino,
-      sheetName: payload.sheetName || ''
+      sheetName: payload.sheetName || 'ACOMPANHAMENTO ATA GERAL'
     });
 
     const result = await new Promise((resolve, reject) => {
