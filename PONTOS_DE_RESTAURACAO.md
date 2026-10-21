@@ -25,10 +25,26 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.005]
+- **Data/Hora:** 21/10/2026 00:50 (Horário Local)
+- **Tag Git:** `PR.005` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3000
+- **Resumo das Alterações Contidas:**
+  1. **Barra de Navegação na Base da Tela (Mobile Bottom Navigation):** Barra permanente no rodapé da tela em celulares (estilo app móvel nativo), permitindo alternar instantaneamente entre as 5 abas (**Contratos, PACTUE, Medições, Projetos e Fotos**) com ícones destacados, badges de contagem em tempo real e iluminação temática, eliminando o corte de abas no topo.
+  2. **Botão Flutuante (FAB) do WhatsApp Otimizado:** Posicionado a 74px da base para flutuar perfeitamente acima da barra de navegação, com acesso rápido ao relatório formatado de qualquer tela com 1 único toque de polegar.
+  3. **Responsividade Aprimorada nos Cards:** Badges de Status, Situação Diária, Ordem de Serviço e Valor agora quebram harmoniosamente em telas estreitas (360px a 414px), sem espremer ou cortar os nomes das escolas e empresas.
+  4. **Auditoria Mobile com Headless Chrome (390x844):** Bateria de testes automatizados com emulador móvel validando o posicionamento fixo `bottom: 0`, a troca de abas e a geração de relatório com 100% de sucesso.
+
+---
+
 ### [PR.004]
 - **Data/Hora:** 20/10/2026 23:40 (Horário Local)
 - **Tag Git:** `PR.004` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
