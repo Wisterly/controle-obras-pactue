@@ -4051,7 +4051,15 @@
 
     let currentModule = localStorage.getItem(STORAGE_KEY_MODULE) || 'CONTRATOS';
     let activeContratoFilter = 'TODOS';
+    const CURRENT_CONTRACTS_CACHE_VERSION = 'v2_os_valor_termino_correto';
     let contractsData = loadStoredData(STORAGE_KEY_CONTRACTS, INITIAL_CONTRACTS_DATA);
+    if (!contractsData || !Array.isArray(contractsData) || localStorage.getItem('seduc_contracts_cache_ver') !== CURRENT_CONTRACTS_CACHE_VERSION) {
+      contractsData = INITIAL_CONTRACTS_DATA;
+      try {
+        localStorage.removeItem(STORAGE_KEY_CONTRACTS);
+        localStorage.setItem('seduc_contracts_cache_ver', CURRENT_CONTRACTS_CACHE_VERSION);
+      } catch (e) {}
+    }
     let pactueData = loadStoredData(STORAGE_KEY_PACTUE, INITIAL_PACTUE_DATA);
     const CURRENT_MEDICOES_CACHE_VERSION = 'v10_sincronizacao_total_534';
     let medicoesData = loadStoredData(STORAGE_KEY_MEDICOES, INITIAL_MEDICOES_DATA);
@@ -7486,6 +7494,8 @@
             let colSituacaoIndex = -1;
             let colObjetoIndex = -1;
             let colDescritivoIndex = -1;
+            let colOrdemServicoIndex = -1;
+            let colValorIndex = -1;
 
             headerRow.forEach((val, idx) => {
               const norm = normalizeHeaderName(val);
@@ -7507,8 +7517,19 @@
               if (colSituacaoIndex === -1 && (norm === 'situacao' || norm === 'situacao diaria' || norm.includes('status diario') || norm.includes('andamento'))) {
                 colSituacaoIndex = idx;
               }
-              if (colTerminoIndex === -1 && (norm.includes('termino') || norm.includes('previsao') || norm.includes('conclusao') || norm.includes('data final') || norm.includes('prazo'))) {
+              // Data de Término / Previsão: Deve priorizar 'termino' ou 'conclusao', e NUNCA capturar a coluna de início!
+              if (norm.includes('termino') || norm.includes('conclusao')) {
                 colTerminoIndex = idx;
+              } else if (colTerminoIndex === -1 && norm.includes('previsao') && !norm.includes('inicio')) {
+                colTerminoIndex = idx;
+              }
+              // Ordem de Serviço
+              if (colOrdemServicoIndex === -1 && (norm.includes('ordem de servico') || norm === 'ordem de servico' || norm === 'os' || norm.includes('numero da os') || norm.includes('n da os'))) {
+                colOrdemServicoIndex = idx;
+              }
+              // Valor da Ordem de Serviço
+              if (colValorIndex === -1 && (norm === 'valor' || norm.includes('valor da os') || norm.includes('valor os') || norm === 'valor total' || (norm.includes('valor') && !norm.includes('medido')))) {
+                colValorIndex = idx;
               }
               if (colObjetoIndex === -1 && (norm.includes('objeto') || norm.includes('intervencao') || norm.includes('tipo'))) {
                 colObjetoIndex = idx;
@@ -7524,8 +7545,10 @@
             if (isContracts) {
               if (colEscolaIndex === -1) colEscolaIndex = 7;
               if (colMunicipioIndex === -1) colMunicipioIndex = 8;
+              if (colValorIndex === -1) colValorIndex = 9;
+              if (colOrdemServicoIndex === -1) colOrdemServicoIndex = 10;
               if (colEmpresaIndex === -1) colEmpresaIndex = 14;
-              if (colTerminoIndex === -1) colTerminoIndex = 16;
+              if (colTerminoIndex === -1) colTerminoIndex = 16; // Coluna 16 = TÉRMINO / PREVISÃO (Coluna 15 é INÍCIO / PREVISÃO)
               if (colStatusIndex === -1) colStatusIndex = 17;
               if (colSituacaoIndex === -1) colSituacaoIndex = 18;
             } else {
@@ -7554,6 +7577,8 @@
               let descritivo = '';
               let rawGre = '';
 
+              let ordemServico = '';
+              let valor = '';
               if (isContracts) {
                 // ==========================================
                 // MAPEAMENTO DINÂMICO E SEGURO: OBRAS DE CONTRATOS
@@ -7564,6 +7589,8 @@
                 termino = formatRawDateToDma(getCell(r, colTerminoIndex));
                 status = getCell(r, colStatusIndex);
                 situacao = colSituacaoIndex !== -1 ? getCell(r, colSituacaoIndex) : '';
+                ordemServico = colOrdemServicoIndex !== -1 ? getCell(r, colOrdemServicoIndex) : '';
+                valor = colValorIndex !== -1 ? getCell(r, colValorIndex) : '';
 
                 // Detecta se é a linha de cabeçalho
                 const normEscola = normalizeHeaderName(escola);
@@ -7621,6 +7648,8 @@
                 escola: escola.toUpperCase().trim(),
                 municipio: (municipio || 'MUNICÍPIO').toUpperCase().trim(),
                 construtora: (construtora || 'A DEFINIR').toUpperCase().trim(),
+                ordemServico: (ordemServico || '').trim(),
+                valor: (valor || '').trim(),
                 status: resolvedStatus,
                 situacao: (situacao || 'EM ANDAMENTO').toUpperCase().trim(),
                 termino: (termino || 'A DEFINIR').toUpperCase().trim(),
@@ -10096,7 +10125,7 @@
           
           <!-- Header do Card -->
           <div class="flex items-start justify-between gap-3">
-            <div>
+            <div class="flex-1 min-w-0">
               <span class="text-[10px] font-bold uppercase tracking-wider ${themeColor90}">${item.gre}</span>
               <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
               <p class="text-xs text-slate-400 flex flex-wrap items-center gap-1.5 mt-0.5">
@@ -10104,6 +10133,22 @@
                 <span class="text-slate-600">•</span>
                 <span class="text-slate-400">Empresa: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
               </p>
+              ${(item.ordemServico || item.valor) ? `
+                <div class="flex flex-wrap items-center gap-2 mt-2">
+                  ${item.ordemServico ? `
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/25 text-blue-300 text-xs font-medium">
+                      <span class="text-[10px] text-blue-400 font-bold uppercase">Ordem de Serviço:</span>
+                      <strong class="font-mono text-white font-bold">${item.ordemServico}</strong>
+                    </span>
+                  ` : ''}
+                  ${item.valor ? `
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-medium">
+                      <span class="text-[10px] text-emerald-400 font-bold uppercase">Valor da OS:</span>
+                      <strong class="font-mono text-emerald-200 font-bold">${item.valor}</strong>
+                    </span>
+                  ` : ''}
+                </div>
+              ` : ''}
             </div>
             <div class="flex flex-col items-end gap-1.5 shrink-0">
               ${getStatusBadge(item.status)}
@@ -10227,7 +10272,9 @@
           } else {
             matchesSearch = (item.escola && item.escola.toLowerCase().includes(q)) || 
                             (item.municipio && item.municipio.toLowerCase().includes(q)) ||
-                            (item.construtora && item.construtora.toLowerCase().includes(q));
+                            (item.construtora && item.construtora.toLowerCase().includes(q)) ||
+                            (item.ordemServico && item.ordemServico.toLowerCase().includes(q)) ||
+                            (item.valor && item.valor.toLowerCase().includes(q));
           }
         }
         return matchesGre && matchesContrato && matchesStatus && matchesSearch;
