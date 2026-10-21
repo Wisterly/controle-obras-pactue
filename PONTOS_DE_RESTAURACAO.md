@@ -28,7 +28,7 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 ### [PR.007.2]
 - **Data/Hora:** 21/10/2026 01:55 (Horário Local)
 - **Tag Git:** `PR.007.2` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado (Disponível sob demanda)
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
@@ -112,9 +112,9 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 ---
 
 ### [PR.004]
-- **Data/Hora:** 20/10/2026 23:40 (Horário Local)
+- **Data/Hora:** 21/10/2026 00:25 (Horário Local)
 - **Tag Git:** `PR.004` (local e remota no GitHub)
-- **Status:** Arquivado
+- **Status:** Ativo / Em Produção (Restaurado com Sucesso a pedido do usuário)
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app

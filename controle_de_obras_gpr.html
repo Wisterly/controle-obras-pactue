@@ -78,21 +78,6 @@
         -webkit-tap-highlight-color: transparent;
       }
 
-      /* Tema Mobile Exclusivo (PR.007.1): Fundo preto com reflexos de laranja suave/não chamativo */
-      body {
-        background-color: #07090e !important;
-        background-image: 
-          radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.14) 0%, transparent 60%),
-          radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.08) 0%, transparent 50%),
-          radial-gradient(circle at 0% 50%, rgba(217, 119, 6, 0.06) 0%, transparent 45%) !important;
-        background-attachment: fixed !important;
-      }
-
-      header {
-        background-color: rgba(10, 10, 14, 0.96) !important;
-        border-bottom: 1px solid rgba(234, 88, 12, 0.3) !important;
-      }
-
       /* Espaçamentos fluidos no celular */
       main {
         padding-left: 0.75rem !important;
@@ -119,60 +104,10 @@
         max-height: 92vh !important;
       }
 
-      /* Área de rolagem no celular: garante que o conteúdo termine com respiro acima da barra inferior */
-      main {
-        padding-bottom: 74px !important;
-      }
-
-      /* Botão flutuante WhatsApp com posição ergonômica acima do início da tarja */
+      /* Botão flutuante WhatsApp com posição ergonômica no celular */
       #whatsappFab {
-        position: fixed !important;
-        bottom: 58px !important;
-        right: 12px !important;
-        z-index: 9995 !important;
-      }
-
-      /* Barra de Navegação na Base da tela (Mobile Bottom Navigation) - Laranja translúcido sofisticado (PR.007.1) */
-      #mobileBottomNav {
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        z-index: 9990 !important;
-        display: block !important;
-        height: 50px !important;
-        background: rgba(36, 20, 12, 0.82) !important;
-        -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
-        backdrop-filter: blur(18px) saturate(190%) !important;
-        border-top: 1px solid rgba(249, 115, 22, 0.5) !important;
-        box-shadow: 0 -4px 22px rgba(234, 88, 12, 0.22), 0 -1px 0 rgba(251, 146, 60, 0.3) !important;
-        padding-top: 2px !important;
-        padding-bottom: env(safe-area-inset-bottom, 2px) !important;
-      }
-
-      /* Numeração das Pastas como Expoente (x²) no canto superior direito do ícone (PR.007.2) */
-      .nav-superscript-badge {
-        position: absolute !important;
-        top: -5px !important;
-        right: -8px !important;
-        font-size: 7.5px !important;
-        font-weight: 800 !important;
-        line-height: 1 !important;
-        padding: 1px 3px !important;
-        min-width: 10px !important;
-        border-radius: 9999px !important;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
-        pointer-events: none !important;
-        letter-spacing: -0.5px !important;
-      }
-    }
-
-    @media (min-width: 768px) {
-      #mobileBottomNav {
-        display: none !important;
-      }
-      #whatsappFab {
-        display: none !important;
+        bottom: 16px !important;
+        right: 16px !important;
       }
     }
 
@@ -293,8 +228,8 @@
     </div>
   </header>
 
-  <!-- Sub-Header: SELETOR DE MÓDULO / ABA DA DEMANDA (CONTRATOS vs PACTUE) - Visível no Desktop; no celular a navegação fica fixa na base da tela -->
-  <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8 hidden md:block">
+  <!-- Sub-Header: SELETOR DE MÓDULO / ABA DA DEMANDA (CONTRATOS vs PACTUE) -->
+  <section class="bg-brand-panel/60 border-b border-brand-cardBorder/80 px-4 py-3 sm:px-8">
     <div class="max-w-7xl mx-auto w-full">
       
       <!-- Seletor em Segmented Control Chamativo (5 Abas sem sobreposição) -->
@@ -371,7 +306,7 @@
   </section>
 
   <!-- Main Content Container -->
-  <main class="max-w-7xl mx-auto w-full px-3 sm:px-8 py-4 sm:py-6 flex flex-col gap-4 sm:gap-6 flex-1 pb-28 md:pb-8">
+  <main class="max-w-7xl mx-auto w-full px-4 sm:px-8 py-6 flex flex-col gap-6 flex-1">
     
     <!-- ============================================== -->
     <!-- MÓDULO 1 & 2: OBRAS DE CONTRATO E PACTUE      -->
@@ -1188,105 +1123,28 @@
 
     </div>
 
-    <!-- Espaçador móvel de final de página: garante que nenhum card ou botão fique sob a barra inferior -->
-    <div class="h-6 md:hidden w-full shrink-0" aria-hidden="true"></div>
-
   </main>
 
   <!-- ============================================================== -->
   <!-- BOTÃO FLUTUANTE (FAB) DO WHATSAPP (CANTO INFERIOR DIREITO)    -->
   <!-- ============================================================== -->
-  <div id="whatsappFab" class="md:hidden fixed bottom-[58px] right-3 z-[9995]">
+  <div id="whatsappFab" class="lg:hidden fixed bottom-5 right-5 z-[9999]">
     <button 
       onclick="openWhatsAppModal()" 
-      class="group relative flex items-center justify-center w-11 h-11 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-xl shadow-black/70 active:scale-90 transition-all duration-200 border border-white/40 cursor-pointer"
+      class="group relative flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-[#25D366] hover:bg-[#20ba59] text-white rounded-full shadow-2xl shadow-emerald-950/80 hover:scale-110 active:scale-95 transition-all duration-200 border-2 border-white/30 cursor-pointer"
       title="Abrir Relatório WhatsApp Formatado"
       aria-label="Relatório WhatsApp"
     >
       <!-- Ícone Oficial do WhatsApp SVG -->
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+      <svg class="w-6 h-6 sm:w-7 sm:h-7 fill-current" viewBox="0 0 24 24">
         <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.392-10.416c-5.522 0-10 4.478-10 10 0 1.772.463 3.437 1.272 4.887l-1.353 4.943 5.068-1.33c1.408.775 3.018 1.218 4.731 1.218 5.522 0 10-4.478 10-10s-4.478-10-10-10z"/>
       </svg>
-      <span class="absolute top-0 right-0 flex h-2 w-2">
+      <span class="absolute top-0 right-0 flex h-2.5 w-2.5">
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2 w-2 bg-white shadow-sm"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white shadow-sm"></span>
       </span>
     </button>
   </div>
-
-  <!-- ============================================================== -->
-  <!-- BARRA DE NAVEGAÇÃO FIXA NA BASE (MOBILE BOTTOM NAVIGATION)     -->
-  <!-- ============================================================== -->
-  <nav id="mobileBottomNav" class="fixed bottom-0 left-0 right-0 z-[9990] md:hidden px-1 safe-area-bottom">
-    <div class="flex items-center justify-around gap-1 max-w-md mx-auto h-[48px]">
-      
-      <!-- 1. Contratos -->
-      <button 
-        id="mobileNavBtnContracts"
-        onclick="switchModule('CONTRATOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
-      >
-        <span class="relative inline-flex items-center justify-center">
-          <span class="text-[15px] leading-none select-none">🏗️</span>
-          <span id="mobileBadgeContracts" class="nav-superscript-badge bg-blue-500 text-white">0</span>
-        </span>
-        <span class="text-[9px] font-bold mt-0.5 tracking-tight">Contratos</span>
-      </button>
-
-      <!-- 2. PACTUE -->
-      <button 
-        id="mobileNavBtnPactue"
-        onclick="switchModule('PACTUE')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
-      >
-        <span class="relative inline-flex items-center justify-center">
-          <span class="text-[15px] leading-none select-none">🤝</span>
-          <span id="mobileBadgePactue" class="nav-superscript-badge bg-amber-500 text-brand-dark">0</span>
-        </span>
-        <span class="text-[9px] font-bold mt-0.5 tracking-tight">PACTUE</span>
-      </button>
-
-      <!-- 3. Medições -->
-      <button 
-        id="mobileNavBtnMedicoes"
-        onclick="switchModule('MEDICOES')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
-      >
-        <span class="relative inline-flex items-center justify-center">
-          <span class="text-[15px] leading-none select-none">📊</span>
-          <span id="mobileBadgeMedicoes" class="nav-superscript-badge bg-cyan-500 text-brand-dark">0</span>
-        </span>
-        <span class="text-[9px] font-bold mt-0.5 tracking-tight">Medições</span>
-      </button>
-
-      <!-- 4. Projetos -->
-      <button 
-        id="mobileNavBtnProjetos"
-        onclick="switchModule('PROJETOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
-      >
-        <span class="relative inline-flex items-center justify-center">
-          <span class="text-[15px] leading-none select-none">📐</span>
-          <span id="mobileBadgeProjetos" class="nav-superscript-badge bg-purple-500 text-white">0</span>
-        </span>
-        <span class="text-[9px] font-bold mt-0.5 tracking-tight">Projetos</span>
-      </button>
-
-      <!-- 5. Fotos -->
-      <button 
-        id="mobileNavBtnFotos"
-        onclick="switchModule('FOTOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
-      >
-        <span class="relative inline-flex items-center justify-center">
-          <span class="text-[15px] leading-none select-none">📸</span>
-          <span id="mobileBadgeFotos" class="nav-superscript-badge bg-emerald-500 text-white">0</span>
-        </span>
-        <span class="text-[9px] font-bold mt-0.5 tracking-tight">Fotos</span>
-      </button>
-
-    </div>
-  </nav>
 
   <!-- ============================================================== -->
   <!-- MODAL / POPOVER: VISUALIZADOR DE RELATÓRIO DO WHATSAPP        -->
@@ -4549,38 +4407,6 @@
         initFotosModule();
       }
 
-      // Atualização dos botões da Barra de Navegação na Base (Mobile Bottom Nav)
-      const mBtnCt = document.getElementById('mobileNavBtnContracts');
-      const mBtnPac = document.getElementById('mobileNavBtnPactue');
-      const mBtnMed = document.getElementById('mobileNavBtnMedicoes');
-      const mBtnProj = document.getElementById('mobileNavBtnProjetos');
-      const mBtnFot = document.getElementById('mobileNavBtnFotos');
-
-      const mInactive = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white border border-transparent';
-      const mActiveCt = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative bg-blue-500/20 text-blue-300 border border-blue-400/40 font-bold shadow-sm';
-      const mActivePac = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative bg-amber-500/20 text-amber-300 border border-amber-400/40 font-bold shadow-sm';
-      const mActiveMed = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 font-bold shadow-sm';
-      const mActiveProj = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative bg-purple-500/20 text-purple-300 border border-purple-400/40 font-bold shadow-sm';
-      const mActiveFot = 'flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 font-bold shadow-sm';
-
-      if (mBtnCt) mBtnCt.className = mInactive;
-      if (mBtnPac) mBtnPac.className = mInactive;
-      if (mBtnMed) mBtnMed.className = mInactive;
-      if (mBtnProj) mBtnProj.className = mInactive;
-      if (mBtnFot) mBtnFot.className = mInactive;
-
-      if (currentModule === 'CONTRATOS') {
-        if (mBtnCt) mBtnCt.className = mActiveCt;
-      } else if (currentModule === 'PACTUE') {
-        if (mBtnPac) mBtnPac.className = mActivePac;
-      } else if (currentModule === 'MEDICOES') {
-        if (mBtnMed) mBtnMed.className = mActiveMed;
-      } else if (currentModule === 'PROJETOS') {
-        if (mBtnProj) mBtnProj.className = mActiveProj;
-      } else if (currentModule === 'FOTOS') {
-        if (mBtnFot) mBtnFot.className = mActiveFot;
-      }
-
       updateModuleBadges();
       updateWhatsAppFabVisibility();
     }
@@ -4609,23 +4435,11 @@
       const bProj = document.getElementById('projetosBadgeCount');
       const bFot = document.getElementById('fotosBadgeCount');
 
-      const mbCt = document.getElementById('mobileBadgeContracts');
-      const mbPac = document.getElementById('mobileBadgePactue');
-      const mbMed = document.getElementById('mobileBadgeMedicoes');
-      const mbProj = document.getElementById('mobileBadgeProjetos');
-      const mbFot = document.getElementById('mobileBadgeFotos');
-
       if (bCt) bCt.textContent = contractsData.length;
       if (bPac) bPac.textContent = pactueData.length;
       if (bMed) bMed.textContent = medicoesData.length;
       if (bProj) bProj.textContent = projetosData.length;
       if (bFot) bFot.textContent = fotosData.length;
-
-      if (mbCt) mbCt.textContent = contractsData.length;
-      if (mbPac) mbPac.textContent = pactueData.length;
-      if (mbMed) mbMed.textContent = medicoesData.length;
-      if (mbProj) mbProj.textContent = projetosData.length;
-      if (mbFot) mbFot.textContent = fotosData.length;
     }
 
     function openActiveExternalResourceDirect() {
@@ -10396,7 +10210,7 @@
         <div class="bg-brand-card border border-brand-cardBorder rounded-2xl p-4 sm:p-5 flex flex-col gap-3 shadow-lg transition-all hover:border-slate-500/50">
           
           <!-- Header do Card -->
-          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5 sm:gap-3">
+          <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
               <span class="text-[10px] font-bold uppercase tracking-wider ${themeColor90}">${item.gre}</span>
               <h3 class="text-sm sm:text-base font-bold text-white tracking-tight">${item.escola}</h3>
@@ -10406,23 +10220,23 @@
                 <span class="text-slate-400">Empresa: <strong class="text-slate-300 font-semibold">${item.construtora}</strong></span>
               </p>
               ${(item.ordemServico || item.valor) ? `
-                <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2">
+                <div class="flex flex-wrap items-center gap-2 mt-2">
                   ${item.ordemServico ? `
-                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/25 text-blue-300 text-xs font-medium">
-                      <span class="text-[10px] text-blue-400 font-bold uppercase">OS:</span>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/25 text-blue-300 text-xs font-medium">
+                      <span class="text-[10px] text-blue-400 font-bold uppercase">Ordem de Serviço:</span>
                       <strong class="font-mono text-white font-bold">${item.ordemServico}</strong>
                     </span>
                   ` : ''}
                   ${item.valor ? `
-                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-medium">
-                      <span class="text-[10px] text-emerald-400 font-bold uppercase">Valor:</span>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-300 text-xs font-medium">
+                      <span class="text-[10px] text-emerald-400 font-bold uppercase">Valor da OS:</span>
                       <strong class="font-mono text-emerald-200 font-bold">${item.valor}</strong>
                     </span>
                   ` : ''}
                 </div>
               ` : ''}
             </div>
-            <div class="flex flex-wrap sm:flex-col items-start sm:items-end gap-1.5 shrink-0">
+            <div class="flex flex-col items-end gap-1.5 shrink-0">
               ${getStatusBadge(item.status)}
               ${getSituacaoBadge(item.situacao)}
             </div>
