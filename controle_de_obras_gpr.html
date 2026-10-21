@@ -149,6 +149,22 @@
         padding-top: 2px !important;
         padding-bottom: env(safe-area-inset-bottom, 2px) !important;
       }
+
+      /* Numeração das Pastas como Expoente (x²) no canto superior direito do ícone (PR.007.2) */
+      .nav-superscript-badge {
+        position: absolute !important;
+        top: -5px !important;
+        right: -8px !important;
+        font-size: 7.5px !important;
+        font-weight: 800 !important;
+        line-height: 1 !important;
+        padding: 1px 3px !important;
+        min-width: 10px !important;
+        border-radius: 9999px !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7) !important;
+        pointer-events: none !important;
+        letter-spacing: -0.5px !important;
+      }
     }
 
     @media (min-width: 768px) {
@@ -1208,55 +1224,65 @@
       <button 
         id="mobileNavBtnContracts"
         onclick="switchModule('CONTRATOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white"
+        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
       >
-        <span class="text-[15px] leading-none">🏗️</span>
+        <span class="relative inline-flex items-center justify-center">
+          <span class="text-[15px] leading-none select-none">🏗️</span>
+          <span id="mobileBadgeContracts" class="nav-superscript-badge bg-blue-500 text-white">0</span>
+        </span>
         <span class="text-[9px] font-bold mt-0.5 tracking-tight">Contratos</span>
-        <span id="mobileBadgeContracts" class="absolute top-0.5 right-1 text-[8px] px-1 py-0 rounded-full bg-blue-500 text-white font-black shadow-sm">0</span>
       </button>
 
       <!-- 2. PACTUE -->
       <button 
         id="mobileNavBtnPactue"
         onclick="switchModule('PACTUE')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white"
+        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
       >
-        <span class="text-[15px] leading-none">🤝</span>
+        <span class="relative inline-flex items-center justify-center">
+          <span class="text-[15px] leading-none select-none">🤝</span>
+          <span id="mobileBadgePactue" class="nav-superscript-badge bg-amber-500 text-brand-dark">0</span>
+        </span>
         <span class="text-[9px] font-bold mt-0.5 tracking-tight">PACTUE</span>
-        <span id="mobileBadgePactue" class="absolute top-0.5 right-1 text-[8px] px-1 py-0 rounded-full bg-amber-500 text-brand-dark font-black shadow-sm">0</span>
       </button>
 
       <!-- 3. Medições -->
       <button 
         id="mobileNavBtnMedicoes"
         onclick="switchModule('MEDICOES')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white"
+        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
       >
-        <span class="text-[15px] leading-none">📊</span>
+        <span class="relative inline-flex items-center justify-center">
+          <span class="text-[15px] leading-none select-none">📊</span>
+          <span id="mobileBadgeMedicoes" class="nav-superscript-badge bg-cyan-500 text-brand-dark">0</span>
+        </span>
         <span class="text-[9px] font-bold mt-0.5 tracking-tight">Medições</span>
-        <span id="mobileBadgeMedicoes" class="absolute top-0.5 right-1 text-[8px] px-1 py-0 rounded-full bg-cyan-500 text-brand-dark font-black shadow-sm">0</span>
       </button>
 
       <!-- 4. Projetos -->
       <button 
         id="mobileNavBtnProjetos"
         onclick="switchModule('PROJETOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white"
+        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
       >
-        <span class="text-[15px] leading-none">📐</span>
+        <span class="relative inline-flex items-center justify-center">
+          <span class="text-[15px] leading-none select-none">📐</span>
+          <span id="mobileBadgeProjetos" class="nav-superscript-badge bg-purple-500 text-white">0</span>
+        </span>
         <span class="text-[9px] font-bold mt-0.5 tracking-tight">Projetos</span>
-        <span id="mobileBadgeProjetos" class="absolute top-0.5 right-1 text-[8px] px-1 py-0 rounded-full bg-purple-500 text-white font-black shadow-sm">0</span>
       </button>
 
       <!-- 5. Fotos -->
       <button 
         id="mobileNavBtnFotos"
         onclick="switchModule('FOTOS')"
-        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all relative text-slate-400 hover:text-white"
+        class="flex-1 flex flex-col items-center justify-center py-0.5 px-0.5 rounded-lg transition-all text-slate-400 hover:text-white"
       >
-        <span class="text-[15px] leading-none">📸</span>
+        <span class="relative inline-flex items-center justify-center">
+          <span class="text-[15px] leading-none select-none">📸</span>
+          <span id="mobileBadgeFotos" class="nav-superscript-badge bg-emerald-500 text-white">0</span>
+        </span>
         <span class="text-[9px] font-bold mt-0.5 tracking-tight">Fotos</span>
-        <span id="mobileBadgeFotos" class="absolute top-0.5 right-1 text-[8px] px-1 py-0 rounded-full bg-emerald-500 text-white font-black shadow-sm">0</span>
       </button>
 
     </div>

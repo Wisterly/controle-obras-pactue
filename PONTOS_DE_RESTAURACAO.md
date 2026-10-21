@@ -25,10 +25,34 @@ Toda e qualquer restauração solicitada por você (ex: `PR.001`, `PR.002`, `PR.
 
 ---
 
+### [PR.007.2]
+- **Data/Hora:** 21/10/2026 01:55 (Horário Local)
+- **Tag Git:** `PR.007.2` (local e remota no GitHub)
+- **Status:** Ativo / Em Produção
+- **Links:**
+  - Produção Oficial: https://controle-obras-gpr.vercel.app
+  - Produção (Alternativo): https://controle-obras-pactue.vercel.app
+  - Localhost: http://localhost:3005
+- **Resumo das Alterações Contidas:**
+  1. **Numeração das Pastas como Expoente ($x^2$):**
+     - Redesenho completo dos contadores de obras na barra inferior móvel (`#mobileBottomNav`).
+     - O ícone da pasta atua como a base ($x$) e o contador de obras atua como o expoente ($2$).
+     - O número é posicionado de forma absoluta e ultracompacta exclusivamente no **canto superior direito do ícone** (`top: -5px; right: -8px`).
+     - Tipografia reduzida e nítida (`font-size: 7.5px; font-weight: 800`), sem invadir os limites da aba vizinha e sem sobrepor o desenho dos ícones.
+  2. **Isolamento Responsivo 100% Confirmado:**
+     - Computador (PC / Desktop): Mantém 100% a experiência do `PR.004` (fundo azul original, cabeçalho clássico com abas no topo, sem barra inferior).
+     - Celular (Mobile): Fundo preto com reflexos de laranja suave (`PR.007.1`), barra inferior em laranja translúcido e números sobrescritos ($x^2$).
+  3. **Auditoria Headless Chrome Validada:**
+     - `navBg`: `"rgba(36, 20, 12, 0.82)"`
+     - `badgeFontSize`: `"7.5px"`
+     - Captura visual arquivada em `mobile_audit_pr007.png`.
+
+---
+
 ### [PR.007.1]
 - **Data/Hora:** 21/10/2026 01:50 (Horário Local)
 - **Tag Git:** `PR.007.1` (local e remota no GitHub)
-- **Status:** Ativo / Em Produção
+- **Status:** Arquivado
 - **Links:**
   - Produção Oficial: https://controle-obras-gpr.vercel.app
   - Produção (Alternativo): https://controle-obras-pactue.vercel.app
